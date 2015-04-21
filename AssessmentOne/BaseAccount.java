@@ -1,5 +1,5 @@
 /**
- * An abstract class to represent a basic Bank Account
+ * An abstracted class to represent a basic Bank Account
  * <br>- Modified by: Josh Kent -
  * <br>- Student #: 11500926 -
  * @author Ken Lodge
