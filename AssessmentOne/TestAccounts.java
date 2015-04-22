@@ -18,7 +18,7 @@ public class TestAccounts
 
         int i;
 
-        // In the following loops do NOT use your knowledge
+        // n the following loops do NOT use your knowledge
         // of which member of list[] is of which type
 
         for (i = 0; i < 5; i++) {
