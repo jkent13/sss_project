@@ -1,6 +1,6 @@
 /**
  * An abstract class to represent a basic bank account
- * <br>- Modified by: Josh Kent -
+ * <br>- Modified by: Joshua Kent -
  * <br>- Student #: 11500926 -
  * @author Ken Lodge
  * @version 3.0 21/11/05
