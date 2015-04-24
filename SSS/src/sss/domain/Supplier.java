@@ -1,3 +1,8 @@
+/* Supplier Class
+*  Represents a product supplier
+*  Original Author: Josh Kent
+*/
+
 package sss.domain;
 
 public class Supplier {
