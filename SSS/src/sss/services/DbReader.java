@@ -1,3 +1,8 @@
+/* DbReader Class
+*  Responsible for executing queries on the database and returning the results to calling classes
+*  Original Author: Josh Kent
+*/
+
 package sss.services;
 
 import java.sql.Connection;
@@ -8,36 +13,25 @@ import java.sql.PreparedStatement;
 
 public class DbReader {
 	
-	private Connection connection;
-	private Statement statement;
+	private static Connection connection = DbConnector.getConnection();
+	private static Statement statement;
 	private PreparedStatement productQuery;
 	
-	public DbReader() throws SQLException {
-		if (DbConnector.establishConnection()) {
-			connection = DbConnector.getConnection();
-			statement = connection.createStatement();
-		}
+	public DbReader() {
 	}
 	
-	private boolean createProductQuery() {
-		try {
-			productQuery = connection.prepareStatement("SELECT * FROM product WHERE prod_id = ?;");
-			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+	public static ResultSet lookUpProduct(String sqlQuery) throws SQLException {
+		if(statement == null) {
+			statement = connection.createStatement();
 		}
-	} 
-	
-	public ResultSet lookUpProduct(long prod_id) throws SQLException {
-		if (productQuery == null){
-			createProductQuery();
+		if(sqlQuery != null){
+			ResultSet productDetails = statement.executeQuery(sqlQuery);
+			return productDetails;
 		}
-		
-		productQuery.setLong(1, prod_id);
-		ResultSet productDetails = productQuery.executeQuery();
-		return productDetails;
+		else {
+			return null;
+		}
+
 	}
 	
 	public void closeConnection() throws SQLException {

@@ -1,3 +1,8 @@
+/* TestMain Class
+*  Contains a main method for quick testing of objects and methods
+*  Original Author: Josh Kent
+*/
+
 package test;
 
 import java.sql.SQLException;
