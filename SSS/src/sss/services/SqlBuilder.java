@@ -48,7 +48,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public String getSaleInsertStatement(Sale sale) {
+	public static String getSaleInsertStatement(Sale sale) {
 		
 		StringBuffer currentStatement = new StringBuffer();
 		
@@ -66,7 +66,7 @@ public class SqlBuilder {
 		
 	}
 	
-	public String[] getLineInsertStatements(Sale sale) {
+	public static String[] getLineInsertStatements(Sale sale) {
 		String[] statements = new String[sale.getNumberOfLines()];
 		StringBuffer currentStatement = new StringBuffer();
 		int i = 0;

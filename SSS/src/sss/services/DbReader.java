@@ -29,13 +29,14 @@ public class DbReader {
 		else {
 			return null;
 		}
-
 	}
 	
-	public void closeConnection() throws SQLException {
+	public static void closeConnection() throws SQLException {
+		if(statement != null) {
+			statement.close();
+		}
 		if (connection != null) {
 			connection.close();
-			DbConnector.closeConnection();
 		}
 	}
 }
