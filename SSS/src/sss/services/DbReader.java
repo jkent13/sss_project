@@ -9,13 +9,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 public class DbReader {
 	
 	private static Connection connection = DbConnector.getConnection();
 	private static Statement statement;
-	private PreparedStatement productQuery;
 	
 	public DbReader() {
 	}

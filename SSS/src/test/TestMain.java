@@ -31,6 +31,7 @@ public class TestMain {
 		System.out.println(idQuery);
 		System.out.println(nameQuery);
 		
+		System.out.println(6%3);
 		DbConnector.closeConnection();
 
 	}
