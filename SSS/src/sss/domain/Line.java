@@ -78,6 +78,9 @@ public class Line {
 		return prod_id;
 	}
 	
+	public String getProductName() {
+		return product.getName();
+	}
 	public int getLineUnits() {
 		return line_units;
 	}

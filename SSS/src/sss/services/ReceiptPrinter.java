@@ -4,57 +4,14 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileNotFoundException;
+import sss.domain.FormattedSale;
 
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
-import javax.print.PrintServiceLookup;
-import javax.print.PrintService;
-import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.MediaSize;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-
-import test.HelloWorldPrinter;
-
-public class ReceiptPrinter implements Printable, ActionListener {
+public class ReceiptPrinter implements Printable {
 	private boolean isBuilt = false;
-
-	private String[] receiptLines = {"STORE NAME",
-									"123 Fake St, Somewhere",
-									"Phone: (##) #### ####",
-									"                      ",
-									"TAX INVOICE - ABN ## ### ### ###",
-									"Receipt No: #######",
-									"DATE: ##/##/####      TIME: **.**AM",
-									"Door",
-									"    2 x $20.00        $40.00",
-									"Cat",
-									"    7 x $40.00        $280.00",
-									"______________________________",
-									"                      ",
-									"Total for 9 items     $320.00",
-									"Cash Tendered         $350.00",
-									"Change                 $30.00",
-									"GST INCLUDED IN TOTAL  $31.82",
-									" ",
-									"Please keep your receipt as proof-of-purchases.",
-									"No refunds can be given without a receipt."};
-
 	
 	private String[] receiptHeader;
 	private String[] saleHeader;
@@ -62,16 +19,16 @@ public class ReceiptPrinter implements Printable, ActionListener {
 	private String[] saleFooter;
 	private String[] receiptFooter;
 	
-	private String[] breakLine = {" ",
+	private final String[] breakLine = {" ",
 									"______________________________________",
 									" "};
 
-	public void buildReceipt(String[] receiptHeader, String[] saleHeader, String[] saleDetails, String[] saleFooter, String[] receiptFooter) {
-		this.receiptHeader = receiptHeader;
-		this.saleHeader = saleHeader;
-		this.saleDetails = saleDetails;
-		this.saleFooter = saleFooter;
-		this.receiptFooter = receiptFooter;
+	public ReceiptPrinter(FormattedSale fs) {
+		this.receiptHeader = fs.getReceiptHeader();
+		this.saleHeader = fs.getSaleHeader();
+		this.saleDetails = fs.getSaleDetails();
+		this.saleFooter = fs.getSaleFooter();
+		this.receiptFooter = fs.getReceiptFooter();
 		isBuilt = true;
 	}
 	
@@ -90,11 +47,11 @@ public class ReceiptPrinter implements Printable, ActionListener {
         Graphics2D g2d = (Graphics2D)g;
         g2d.translate(pf.getImageableX(), pf.getImageableY());
         
-        g2d.drawLine(5, 5, (int)pf.getImageableWidth() - 3, 5);
-        g2d.drawLine(5, 5, 5, (int)pf.getImageableHeight() - 3);
-        g2d.drawLine((int)pf.getImageableWidth() - 3, 5, (int)pf.getImageableWidth() - 3
-        		, (int)pf.getImageableHeight() - 3);
-        g2d.drawLine(5, (int)pf.getImageableHeight() - 3, (int)pf.getImageableWidth() - 3, (int)pf.getImageableHeight() - 3);
+        g2d.drawLine(5, 5, (int)pf.getImageableWidth() - 2, 5);
+        g2d.drawLine(5, 5, 5, (int)pf.getImageableHeight() - 2);
+        g2d.drawLine((int)pf.getImageableWidth() - 2, 5, (int)pf.getImageableWidth() - 2
+        		, (int)pf.getImageableHeight() - 2);
+        g2d.drawLine(5, (int)pf.getImageableHeight() - 2, (int)pf.getImageableWidth() - 2, (int)pf.getImageableHeight() - 2);
         
 //        g2d.drawLine(25, 5, 25, (int)pf.getImageableHeight() - 5);
 //        g2d.drawLine((int)pf.getImageableWidth() - 25, 5, (int)pf.getImageableWidth() - 25, (int)pf.getImageableHeight() - 5);
@@ -102,10 +59,9 @@ public class ReceiptPrinter implements Printable, ActionListener {
         FontMetrics fm = g2d.getFontMetrics();
         int x = 25;
         int y = 32;
-//
+        
 //        System.out.println("Height: " + pf.getImageableHeight());
 //        System.out.println("Width: " + pf.getImageableWidth());
-//
         
         // PRINTING RECEIPT HEADER
         for (int i = 0; i < receiptHeader.length; i++) {
@@ -142,7 +98,8 @@ public class ReceiptPrinter implements Printable, ActionListener {
         		y += 16;
         	}
         	else {
-        		g.drawString(saleDetails[i], x + 200, y - 16);
+        		java.awt.geom.Rectangle2D r = fm.getStringBounds(saleDetails[i], g2d);
+        		g.drawString(saleDetails[i], ((int)pf.getWidth() - (int)r.getWidth()) - 325, y - 16);
         		y += 4;
         	}
         }
@@ -160,7 +117,8 @@ public class ReceiptPrinter implements Printable, ActionListener {
             	y += 16;
         	}
         	else {
-        		g.drawString(saleFooter[i], x + 200, y - 16);
+        		java.awt.geom.Rectangle2D r = fm.getStringBounds(saleFooter[i], g2d);
+        		g.drawString(saleFooter[i], ((int)pf.getWidth() - (int)r.getWidth()) - 325, y - 16);
         	}
         }
         
@@ -204,12 +162,9 @@ public class ReceiptPrinter implements Printable, ActionListener {
     public void actionPerformed(ActionEvent e) {
          PrinterJob job = PrinterJob.getPrinterJob();
          job.setPrintable(this);
-         PrintFormatter pformat = new PrintFormatter(); 
          boolean ok = job.printDialog();
          if (ok) {
              try {
-            	 buildReceipt(pformat.getReceiptHeader(), pformat.getSaleHeader(), pformat.getSaleDetails(), pformat.getSaleFooter(),
-            			 pformat.getReceiptFooter());
                   job.print();
              } catch (PrinterException ex) {
               /* The job did not successfully complete */
@@ -217,17 +172,30 @@ public class ReceiptPrinter implements Printable, ActionListener {
          }
     }
 
-    public static void main(String args[]) {
- 
-        UIManager.put("swing.boldMetal", Boolean.FALSE);
-        JFrame f = new JFrame("Hello World Printer");
-        f.addWindowListener(new WindowAdapter() {
-           public void windowClosing(WindowEvent e) {System.exit(0);}
-        });
-        JButton printButton = new JButton("Print Hello World");
-        printButton.addActionListener(new ReceiptPrinter());
-        f.add("Center", printButton);
-        f.pack();
-        f.setVisible(true);
+    public void printReceipt() {
+    	PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(this);
+        boolean ok = job.printDialog();
+        if (ok) {
+            try {
+                 job.print();
+            } catch (PrinterException ex) {
+             /* The job did not successfully complete */
+            }
+        }
     }
+    
+//    public static void main(String args[]) {
+// 
+//        UIManager.put("swing.boldMetal", Boolean.FALSE);
+//        JFrame f = new JFrame("Hello World Printer");
+//        f.addWindowListener(new WindowAdapter() {
+//           public void windowClosing(WindowEvent e) {System.exit(0);}
+//        });
+//        JButton printButton = new JButton("Print Hello World");
+//        printButton.addActionListener(new ReceiptPrinter());
+//        f.add("Center", printButton);
+//        f.pack();
+//        f.setVisible(true);
+//    }
 }
