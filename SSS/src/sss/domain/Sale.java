@@ -20,11 +20,11 @@ public class Sale {
 	private long sale_id; // PK
 	
 	private String sale_date; // String representing a MySQL DateTime
-	private BigDecimal sale_subtotal; // Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst; // Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total; // Sale total (sum of line item totals)
-	private BigDecimal sale_amount_tendered; // Amount tendered for sale (must be > sale total)
-	private BigDecimal sale_balance; // Difference between amount tendered and sale total
+	private BigDecimal sale_subtotal = new BigDecimal("0");; // Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal("0");; // Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal("0"); // Sale total (sum of line item totals)
+	private BigDecimal sale_amount_tendered = new BigDecimal("0");; // Amount tendered for sale (must be > sale total)
+	private BigDecimal sale_balance = new BigDecimal("0");; // Difference between amount tendered and sale total
 	private String sale_type = "Purchase"; // Sale type: either 'Purchase' or 'Refund'
 
 	private ArrayList<Line> lineItems = new ArrayList<>(); // Collection of all lines within a Sale
@@ -36,7 +36,7 @@ public class Sale {
 	}
 	
 	public void setAmountTendered(BigDecimal sale_amount_tendered) {
-		this.sale_amount_tendered = sale_amount_tendered;
+		this.sale_amount_tendered = sale_amount_tendered.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 	
 	public int getNumberOfLines() {
@@ -91,24 +91,24 @@ public class Sale {
 	
 	public BigDecimal calculateTotal() {
 		for(Line l: lineItems) {
-			sale_total = sale_total.add(l.getLineAmount());
+			sale_total = sale_total.add(l.getLineAmount().setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		}
 		return sale_total;
 	}
 	
 	public BigDecimal calculateGST() { // MUST ADD BIGDECIMAL ROUNDING
 		moneyFormatter.setRoundingMode(RoundingMode.HALF_UP);
-		sale_gst = sale_total.divide(new BigDecimal(11));
+		sale_gst = sale_total.divide(new BigDecimal(11), 2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_gst;
 	}
 	
 	public BigDecimal calculateSubtotal() {
-		sale_subtotal = sale_total.subtract(sale_gst);
+		sale_subtotal = sale_total.subtract(sale_gst).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_subtotal;
 	}
 	
 	public BigDecimal calculateBalance() {
-		sale_balance = sale_amount_tendered.subtract(sale_total);
+		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_balance;
 	}
 	
@@ -122,7 +122,7 @@ public class Sale {
 	
 	@Override
 	public String toString() {
-		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + " Number of Items: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
+		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + " Number of Lines: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
 	}
 	
 }
