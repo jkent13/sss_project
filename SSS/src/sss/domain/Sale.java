@@ -35,8 +35,16 @@ public class Sale {
 		this.sale_type = sale_type;
 	}
 	
+	public Sale(long sale_id) {
+		this.sale_id = sale_id;
+	}
+	
 	public void setAmountTendered(BigDecimal sale_amount_tendered) {
 		this.sale_amount_tendered = sale_amount_tendered.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+	}
+	
+	public void setTimestamp(String timestamp) {
+		this.sale_date = timestamp;
 	}
 	
 	public int getNumberOfLines() {

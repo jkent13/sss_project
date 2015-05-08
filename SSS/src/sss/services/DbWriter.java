@@ -5,6 +5,17 @@
 
 package sss.services;
 
-public class DbWriter {
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+public class DbWriter {
+	private static Connection connection = DbConnector.getConnection();
+	private static Statement statement;
+	
+	public static void executeStatement(String sql) throws SQLException {
+		statement = connection.createStatement();
+		statement.execute(sql);
+		statement.close();
+	}
 }
