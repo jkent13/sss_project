@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Scanner;
 
 import sss.services.DbConnector;
-import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
@@ -25,7 +24,6 @@ public class Register {
 	private Product currentProduct;
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private Date timestamp;
 	
 	private File idFile;
 	private Scanner fileScanner;

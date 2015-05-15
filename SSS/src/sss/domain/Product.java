@@ -32,7 +32,7 @@ public class Product {
 	public Product(long prod_id) throws SQLException {
 		this.prod_id = prod_id;
 		 String lookUpQuery = SqlBuilder.getLookupQueryById(prod_id);
-		 productDetails = DbReader.lookUpProduct(lookUpQuery);
+		 productDetails = DbReader.executeQuery(lookUpQuery);
 		if (productDetails.next()){
 			prod_code = productDetails.getString("prod_code");
 			prod_name = productDetails.getString("prod_name");

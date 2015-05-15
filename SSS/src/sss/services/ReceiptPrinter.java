@@ -3,7 +3,6 @@ package sss.services;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -159,19 +158,6 @@ public class ReceiptPrinter implements Printable {
         return PAGE_EXISTS;
     }
 
-    public void actionPerformed(ActionEvent e) {
-         PrinterJob job = PrinterJob.getPrinterJob();
-         job.setPrintable(this);
-         boolean ok = job.printDialog();
-         if (ok) {
-             try {
-                  job.print();
-             } catch (PrinterException ex) {
-              /* The job did not successfully complete */
-             }
-         }
-    }
-
     public void printReceipt() {
     	PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
@@ -184,18 +170,4 @@ public class ReceiptPrinter implements Printable {
             }
         }
     }
-    
-//    public static void main(String args[]) {
-// 
-//        UIManager.put("swing.boldMetal", Boolean.FALSE);
-//        JFrame f = new JFrame("Hello World Printer");
-//        f.addWindowListener(new WindowAdapter() {
-//           public void windowClosing(WindowEvent e) {System.exit(0);}
-//        });
-//        JButton printButton = new JButton("Print Hello World");
-//        printButton.addActionListener(new ReceiptPrinter());
-//        f.add("Center", printButton);
-//        f.pack();
-//        f.setVisible(true);
-//    }
 }
