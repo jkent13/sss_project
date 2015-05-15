@@ -31,7 +31,7 @@ public class PrintFormatter {
 
 	private static DecimalFormat moneyFormatter = new DecimalFormat("#.##");
 	
-	public PrintFormatter () {};
+	private PrintFormatter () {};
 	
 	public static FormattedSale formatSale(Sale sale) {
 		

@@ -13,6 +13,10 @@ public class DbWriter {
 	private static Connection connection = DbConnector.getConnection();
 	private static Statement statement;
 	
+	private DbWriter() {
+		
+	}
+	
 	public static void executeStatement(String sql) throws SQLException {
 		statement = connection.createStatement();
 		statement.execute(sql);

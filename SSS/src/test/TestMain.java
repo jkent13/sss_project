@@ -76,7 +76,7 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 	  sale.calculateSubtotal();
 	  
 	  double amtTendered = 0;
-	  long saleAmt = sale.getTotal().longValue() + 1;
+	  long saleAmt = sale.getSaleTotal().longValue() + 1;
 	  
 	  if(saleAmt <= 10)
 		  amtTendered = 10;
@@ -91,10 +91,10 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 	  else if(saleAmt <= 200)
 		  amtTendered = 200;
 	  else if(saleAmt <= 250) {
-		  amtTendered = sale.getTotal().longValue() + 10;
+		  amtTendered = sale.getSaleTotal().longValue() + 10;
 	  }
 	  else
-		  amtTendered = sale.getTotal().longValue();
+		  amtTendered = sale.getSaleTotal().longValue();
 	  
 	  BigDecimal amtT = new BigDecimal(amtTendered);
 	  amtT = amtT.setScale(2, BigDecimal.ROUND_HALF_EVEN);

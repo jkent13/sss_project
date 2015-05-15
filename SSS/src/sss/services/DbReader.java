@@ -15,10 +15,10 @@ public class DbReader {
 	private static Connection connection = DbConnector.getConnection();
 	private static Statement statement;
 	
-	public DbReader() {
+	private DbReader() {
 	}
 	
-	public static ResultSet lookUpProduct(String sqlQuery) throws SQLException {
+	public static ResultSet executeQuery(String sqlQuery) throws SQLException {
 		if(statement == null) {
 			statement = connection.createStatement();
 		}

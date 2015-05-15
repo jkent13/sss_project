@@ -8,13 +8,10 @@
 package sss.domain;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Sale {
-	private DecimalFormat moneyFormatter = new DecimalFormat("#.##");
-
+	
 	private int number_of_lines = 0;
 	
 	private long sale_id; // PK
@@ -105,7 +102,6 @@ public class Sale {
 	}
 	
 	public BigDecimal calculateGST() { // MUST ADD BIGDECIMAL ROUNDING
-		moneyFormatter.setRoundingMode(RoundingMode.HALF_UP);
 		sale_gst = sale_total.divide(new BigDecimal(11), 2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_gst;
 	}
@@ -122,10 +118,6 @@ public class Sale {
 	
 	public boolean isValid() {
 		return (sale_subtotal.add(sale_gst).equals(sale_total) && (sale_type.equals("Purchase") || sale_type.equals("Refund")) && sale_amount_tendered.compareTo(sale_total) >= 0);
-	}
-	
-	public BigDecimal getTotal() {
-		return sale_total;
 	}
 	
 	@Override
