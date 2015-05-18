@@ -81,6 +81,14 @@ public class Register {
 			
 	}
 	
+	public void voidLineItem(int lineIndex) {
+		if(activeSale) {
+			Line lineItem = currentSale.getLineItems().get(lineIndex);
+			currentSale.removeLineItem(lineItem);
+			dataModel.removeRow(lineIndex);
+		}
+	}
+	
 	public void changeLineQuantity(int lineIndex, int quantity) {
 		String newQty;
 		if(activeSale) {
@@ -129,11 +137,23 @@ public class Register {
 	
 	public void makePayment(BigDecimal amt_tendered) {
 		if(amt_tendered.compareTo(currentSale.getSaleTotal()) >= 0) {
+			
 			currentSale.setAmountTendered(amt_tendered);
 			currentSale.calculateBalance();
 			currentSale.setTimestamp(sdf.format(new Date()));
+			currentSale.calculateGST();
+			currentSale.calculateSubtotal();
+
 			String saleInsertStatement = getSaleInsertStatement();
 			String[] lineInsertStatements = getLineInsertStatements();
+			
+			if(currentSale.isValid()) {
+				System.out.println("VALID SALE");
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: Sale Invalid. Remove from database.", "Invalid Sale", JOptionPane.ERROR_MESSAGE);
+			}
+			
 			try {
 				writeSale(saleInsertStatement, lineInsertStatements);
 			} catch (SQLException e) {
