@@ -103,17 +103,20 @@ public class Sale {
 		return sale_total;
 	}
 	
-	public BigDecimal calculateGST() { // MUST ADD BIGDECIMAL ROUNDING
+	public BigDecimal calculateGST() { 
+		sale_gst = new BigDecimal(0);
 		sale_gst = sale_total.divide(new BigDecimal(11), 2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_gst;
 	}
 	
 	public BigDecimal calculateSubtotal() {
+		sale_subtotal = new BigDecimal(0);
 		sale_subtotal = sale_total.subtract(sale_gst).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_subtotal;
 	}
 	
 	public BigDecimal calculateBalance() {
+		sale_balance = new BigDecimal(0);
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_balance;
 	}

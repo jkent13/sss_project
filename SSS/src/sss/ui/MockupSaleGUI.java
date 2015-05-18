@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -291,16 +290,6 @@ public class MockupSaleGUI {
 
 		});
 
-		voidButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
-
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
@@ -410,6 +399,20 @@ public class MockupSaleGUI {
 		// -- EVENT HANDLERS -------------------------------------
 		
 		// Shortcut BUTTON listeners
+		voidButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(lookUpTable.getSelectedRow() != -1) {
+					register.voidLineItem(lookUpTable.getSelectedRow());
+					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
 		quantityButton.addActionListener(new ActionListener()
 		{
 
@@ -460,15 +463,32 @@ public class MockupSaleGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, RoundingMode.HALF_EVEN);
-				register.makePayment(exactAmount);
-				saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
-				saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
+				if(register.getCurrentSaleTotal() != "0.00") { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+					register.makePayment(exactAmount);
+					saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+					saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
+				}
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 		
 		// Shortcut KEYBOARD listeners
+		// Void item Hotkey F1
+		barcodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F1) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						register.voidLineItem(lookUpTable.getSelectedRow());
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+
 		// Change line quantity Hotkey F3
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
@@ -512,21 +532,22 @@ public class MockupSaleGUI {
 		});
 		
 		// Lookup Table key listeners
+		// Hotkey F1
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						register.voidLineItem(lookUpTable.getSelectedRow());
 						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
-				barcodeEntryField.requestFocusInWindow();	
+				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 		
+		// Hotkey F3
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
@@ -539,6 +560,22 @@ public class MockupSaleGUI {
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		// Hotkey F5
+		lookUpTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F5) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
+						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
 			}
 		});
 		
@@ -559,7 +596,7 @@ public class MockupSaleGUI {
 						nfe.printStackTrace();
 					}
 					catch (SQLException se) {
-						System.out.println("An se exception occurred");
+						System.out.println("A SQL exception occurred");
 						se.printStackTrace();
 					}
 				}
