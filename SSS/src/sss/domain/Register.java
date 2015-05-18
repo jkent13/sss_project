@@ -23,6 +23,8 @@ public class Register {
 	private long nextSaleId;
 	private boolean activeSale = false;
 	
+	private BigDecimal lastSaleBalance;
+	
 	private Sale currentSale;
 	private Product currentProduct;
 	private LineItemTableModel dataModel = new LineItemTableModel();
@@ -47,15 +49,18 @@ public class Register {
 			return String.valueOf(currentSale.getSaleBalance());
 		}
 			
-		else
-			return null;
+		else if ((!activeSale) && (lastSaleBalance != null)) {
+			return String.valueOf(lastSaleBalance);
+		}
+		else 
+			return "0.00";
 	}
 	
 	public String getCurrentSaleTotal() {
 		if (activeSale)
 			return String.valueOf(currentSale.getSaleTotal());
 		else
-			return null;
+			return "0.00";
 	}
 	
 	public Object[] getNewLineData() {
@@ -76,6 +81,17 @@ public class Register {
 			
 	}
 	
+	public void changeLineQuantity(int lineIndex, int quantity) {
+		String newQty;
+		if(activeSale) {
+			Line lineItem = currentSale.getLineItems().get(lineIndex);
+			lineItem.setQuantity(quantity);
+			newQty = String.valueOf(lineItem.getLineUnits());
+			dataModel.setValueAt(newQty, lineIndex, 0);
+			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+		}
+	}
+	
 	public void applyLineDiscount(int lineIndex, double discountPercentage) {
 		String newDiscount;
 		if(activeSale) {
@@ -88,8 +104,10 @@ public class Register {
 	}
 	
 	public void beginSale() {
-		currentSale = new Sale(nextSaleId);
-		activeSale = true;
+		if (!activeSale) {
+			currentSale = new Sale(nextSaleId);
+			activeSale = true;
+		}
 	}
 	
 	public void enterItem(long prod_id) throws SQLException {
@@ -161,6 +179,8 @@ public class Register {
 		printer.printReceipt();
 		nextSaleId++;
 		saleMade = true;
+		lastSaleBalance = currentSale.getSaleBalance();
+		activeSale = false;
 	}
 	
 	public void initialise() {
