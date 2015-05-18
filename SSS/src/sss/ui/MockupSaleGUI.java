@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -30,8 +31,6 @@ import sss.domain.Register;
 
 
 public class MockupSaleGUI {
-
-
 
 	public static void main(String[] args) {
 		
@@ -66,63 +65,6 @@ public class MockupSaleGUI {
 		itemsPanel.setBorder(itemsPanelTitle);
 		itemsPanel.setLayout(new GridLayout(1,1,10,10));
 		//				leftPanel.add(itemsPanel);
-
-
-//		String[] colNames = {"Qty","Product id","Name","Discount","Amount"};
-//		Object[][] data = {
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"},
-//				{"DGKF353","4256985216","Cat","Pet","$40"}
-//		};
 		
 		LineItemTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
@@ -518,7 +460,8 @@ public class MockupSaleGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				register.makePayment(new BigDecimal(500.20));
+				BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, RoundingMode.HALF_EVEN);
+				register.makePayment(exactAmount);
 				saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
 				saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
 				barcodeEntryField.requestFocusInWindow();
@@ -568,6 +511,7 @@ public class MockupSaleGUI {
 			}
 		});
 		
+		// Lookup Table key listeners
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
