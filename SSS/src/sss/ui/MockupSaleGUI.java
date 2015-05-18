@@ -36,7 +36,7 @@ public class MockupSaleGUI {
 	public static void main(String[] args) {
 		
 		Register register = new Register();
-		register.beginSale();
+		
 		
 		JFrame myFrame = new JFrame();
 		myFrame.setTitle("Make Sale");
@@ -128,7 +128,7 @@ public class MockupSaleGUI {
 		JTable lookUpTable = new JTable(dataModel);
 		TableColumnModel columnModel =lookUpTable.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(100); // Sets preferred width of the Product ID wide enough to display barcode without resizing
-		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only one row of table able to be selected at a time
 		
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		itemsPanel.add(scrlPane);
@@ -137,9 +137,9 @@ public class MockupSaleGUI {
 
 		JPanel showAmount = new JPanel();
 		showAmount.setLayout(new GridLayout(2,1,10,10));
-		JLabel saleBalanceLabel = new JLabel("Balance: $" + "");
+		JLabel saleBalanceLabel = new JLabel("Change: $0.00");
 		saleBalanceLabel.setFont(myFont);
-		JLabel saleTotalLabel = new JLabel("TOTAL: $" + "");
+		JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 		saleTotalLabel.setFont(myFont);
 
 		JPanel showBalance = new JPanel();
@@ -474,7 +474,12 @@ public class MockupSaleGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+				if(lookUpTable.getSelectedRow() != -1) {
+					int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
+					register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+				}
+				
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
@@ -514,7 +519,8 @@ public class MockupSaleGUI {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				register.makePayment(new BigDecimal(500.20));
-				saleBalanceLabel.setText("Balance: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+				saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+				saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
@@ -525,9 +531,14 @@ public class MockupSaleGUI {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F3)
-					JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
-
+				if (e.getKeyCode() == KeyEvent.VK_F3) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
+						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 		
@@ -572,6 +583,21 @@ public class MockupSaleGUI {
 			}
 		});
 		
+		lookUpTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F3) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
+						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
 		// Enter item event handler
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
@@ -579,9 +605,9 @@ public class MockupSaleGUI {
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
+						register.beginSale();
 						register.enterItem(Long.valueOf(barcodeEntryField.getText()));
 						register.calculateTotal();
-						saleBalanceLabel.setText("Balance: $" + register.getCurrentSaleBalance()); // Updates sale balance label
 						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 					catch (NumberFormatException nfe) {

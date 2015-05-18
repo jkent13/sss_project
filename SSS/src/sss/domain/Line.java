@@ -48,7 +48,8 @@ public class Line {
 	}
 	
 	public void setDiscount(double discountPercentage) {
-		if (discountPercentage > 0.0) {
+		if (discountPercentage >= 0.0) {
+			line_discount = BigDecimal.ONE;
 			line_discount = line_discount.subtract(new BigDecimal(discountPercentage / 100.0)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);	
 		}
