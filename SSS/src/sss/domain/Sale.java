@@ -65,6 +65,7 @@ public class Sale {
 	}
 
 	public BigDecimal getSaleTotal() {
+		calculateTotal();
 		return sale_total;
 	}
 
@@ -95,6 +96,7 @@ public class Sale {
 	}
 	
 	public BigDecimal calculateTotal() {
+		sale_total = new BigDecimal(0);
 		for(Line l: lineItems) {
 			sale_total = sale_total.add(l.getLineAmount().setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		}

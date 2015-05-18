@@ -43,14 +43,14 @@ public class Line {
 		this.prod_id = product.getId();
 		line_price = product.getPrice();
 		line_cost_price = product.getCostPrice();
-		line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units));
-		line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount);	
+		line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);	
 	}
 	
 	public void setDiscount(double discountPercentage) {
 		if (discountPercentage > 0.0) {
-			line_discount = line_discount.subtract(new BigDecimal(discountPercentage / 100.0));
-			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount);	
+			line_discount = line_discount.subtract(new BigDecimal(discountPercentage / 100.0)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);	
 		}
 	}
 	
@@ -94,20 +94,20 @@ public class Line {
 	}
 	
 	public BigDecimal getDiscount() {
-		return line_discount;
+		return line_discount.multiply(new BigDecimal(100)).subtract(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 	
 	public void setQuantity(int quantity) {
 		if (quantity > 0) { // Refunds will use negative quantities?
 			line_units = quantity;
-			line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units));
-			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount);		
+			line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);		
 		}
 	}
 	
 	@Override
 	public String toString() {
 		return "Sale ID: " + sale_id + " Line Number: " + line_number + " Product ID: " + prod_id + " Line Price: " + line_price + " Line Units: "
-				+ line_units + " Line Discount Multiplier: " + line_discount + " Line Total: " + line_amount;
+				+ line_units + " Line Discount: " + getDiscount() + " Line Total: " + line_amount;
 	}
 }

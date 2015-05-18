@@ -21,8 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableColumnModel;
 
+import sss.domain.LineItemTableModel;
 import sss.domain.Register;
 
 
@@ -39,7 +42,7 @@ public class MockupSaleGUI {
 		myFrame.setTitle("Make Sale");
 		myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		myFrame.setLocationRelativeTo(null);
-
+		myFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 
 		//Full Screen Panel
@@ -65,63 +68,68 @@ public class MockupSaleGUI {
 		//				leftPanel.add(itemsPanel);
 
 
-		String[] colNames = {"Qty","Product id","Name","Discount","Sale Price"};
-		Object[][] data = {
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"}
-		};
-
-		JTable lookUpTable = new JTable(data, colNames);
+//		String[] colNames = {"Qty","Product id","Name","Discount","Amount"};
+//		Object[][] data = {
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"},
+//				{"DGKF353","4256985216","Cat","Pet","$40"}
+//		};
+		
+		LineItemTableModel dataModel = register.getDataModel();
+		JTable lookUpTable = new JTable(dataModel);
+		TableColumnModel columnModel =lookUpTable.getColumnModel();
+		columnModel.getColumn(1).setPreferredWidth(100); // Sets preferred width of the Product ID wide enough to display barcode without resizing
+		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		itemsPanel.add(scrlPane);
 
@@ -129,9 +137,9 @@ public class MockupSaleGUI {
 
 		JPanel showAmount = new JPanel();
 		showAmount.setLayout(new GridLayout(2,1,10,10));
-		JLabel saleBalanceLabel = new JLabel("Balance:$" + "");
+		JLabel saleBalanceLabel = new JLabel("Balance: $" + "");
 		saleBalanceLabel.setFont(myFont);
-		JLabel saleTotalLabel = new JLabel("TOTAL:$" + "");
+		JLabel saleTotalLabel = new JLabel("TOTAL: $" + "");
 		saleTotalLabel.setFont(myFont);
 
 		JPanel showBalance = new JPanel();
@@ -456,6 +464,10 @@ public class MockupSaleGUI {
 			}
 		});
 
+		
+		// -- EVENT HANDLERS -------------------------------------
+		
+		// Shortcut BUTTON listeners
 		quantityButton.addActionListener(new ActionListener()
 		{
 
@@ -464,16 +476,6 @@ public class MockupSaleGUI {
 			{
 				JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
 				barcodeEntryField.requestFocusInWindow();
-			}
-		});
-
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F3)
-					JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
-
 			}
 		});
 
@@ -488,6 +490,48 @@ public class MockupSaleGUI {
 			}
 		});
 
+		discountButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(lookUpTable.getSelectedRow() != -1) {
+					double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
+					register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+				}
+				
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		// Payment entry BUTTON listeners
+		exactCashButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				register.makePayment(new BigDecimal(500.20));
+				saleBalanceLabel.setText("Balance: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		// Shortcut KEYBOARD listeners
+		// Change line quantity Hotkey F3
+		barcodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F3)
+					JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+
+			}
+		});
+		
+		// Override Price Hotkey F4
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
@@ -496,28 +540,39 @@ public class MockupSaleGUI {
 					JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);	
 			}
 		});
-
-		discountButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
-
+		
+		// Discount Hotkey F5
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F5)
-					JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);	
+				if (e.getKeyCode() == KeyEvent.VK_F5) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
+						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
 			}
 		});
 		
+		lookUpTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F5) {
+					if(lookUpTable.getSelectedRow() != -1) {
+						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
+						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
 		
+		// Enter item event handler
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
@@ -526,6 +581,8 @@ public class MockupSaleGUI {
 					try {
 						register.enterItem(Long.valueOf(barcodeEntryField.getText()));
 						register.calculateTotal();
+						saleBalanceLabel.setText("Balance: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 					catch (NumberFormatException nfe) {
 						System.out.println("An NFE exception occurred");
@@ -536,35 +593,27 @@ public class MockupSaleGUI {
 						se.printStackTrace();
 					}
 				}
+				barcodeEntryField.setText("");
 				barcodeEntryField.requestFocusInWindow();
 				
 			}
 		});
 		
-		exactCashButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				register.makePayment(new BigDecimal(500.20));
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
-		
-		myFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		// Close window handler (shows confirm dialog)
 		myFrame.addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
 			{
-					register.shutdown();
+					
 					int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		                if (confirm == 0) {
+		                register.shutdown();
 		                   System.exit(0);
 		                }
 			}
 		});
-	}
-
-}
+		
+		
+	}// End main method
+}// End class
 

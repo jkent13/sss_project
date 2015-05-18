@@ -113,71 +113,71 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 		Line testLine = new Line(1L, barcode, 1);
 		Line testLine2 = new Line(1L, 9300062687246L, 2);
 		
-		testLine.setDiscount(50.0);
+		testLine.setDiscount(10);
 		testLine2.setQuantity(4);
 		
 		System.out.println(testLine);
 		System.out.println(testLine2);
 		
-		String idQuery = SqlBuilder.getLookupQueryById(barcode);
-		String nameQuery = SqlBuilder.getLookupQueryByName("cat");
-		
-		System.out.println(idQuery);
-		System.out.println(nameQuery);
-		String number = "20.5754";
-		BigDecimal bd = new BigDecimal(number);
-		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-		System.out.println(bd);
-
-		java.util.Date dt = new java.util.Date();
-
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //MySQL DateTime formatting
-
-		String currentTime = sdf.format(dt);
-		
-	    // Load JDBC Driver
-	    try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    System.out.println("Driver loaded");
-	    
-	    // Connect to existing DB
-	    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/sss_project" , "root" , "abc123");
-	    System.out.println("DB Connection Established\n");
-	    
-	    // Create a Statement to use for submitting SQL to database
-	    Statement statement = connection.createStatement();
-	    
-	    ResultSet results = statement.executeQuery("SELECT prod_id, prod_price FROM product");
-	    
-	    while(results.next()){
-	      Long code = results.getLong(1);
-	      Double price = results.getDouble(2);
-	      prodids.add(code);
-	      prices.add(price);
-	    }
-	    
-	    
-	    for(Long code: prodids) {
-	    	Product prod = new Product(code);
-	    	allProducts.add(prod);
-	    }
-	    
-	    generatedLineItems = createLineItems();
-	    createSale(generatedLineItems, currentTime);
-	    
-		System.out.println(generatedSales.get(0));
-		FormattedSale fs = PrintFormatter.formatSale(generatedSales.get(0));
-		ReceiptPrinter rp = new ReceiptPrinter(fs);
-		rp.printReceipt();
-		
-		statement.close();
-		connection.close();
-		DbConnector.closeConnection();
+//		String idQuery = SqlBuilder.getLookupQueryById(barcode);
+//		String nameQuery = SqlBuilder.getLookupQueryByName("cat");
+//		
+//		System.out.println(idQuery);
+//		System.out.println(nameQuery);
+//		String number = "20.5754";
+//		BigDecimal bd = new BigDecimal(number);
+//		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+//		System.out.println(bd);
+//
+//		java.util.Date dt = new java.util.Date();
+//
+//		java.text.SimpleDateFormat sdf
+//		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //MySQL DateTime formatting
+//
+//		String currentTime = sdf.format(dt);
+//		
+//	    // Load JDBC Driver
+//	    try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	    System.out.println("Driver loaded");
+//	    
+//	    // Connect to existing DB
+//	    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/sss_project" , "root" , "abc123");
+//	    System.out.println("DB Connection Established\n");
+//	    
+//	    // Create a Statement to use for submitting SQL to database
+//	    Statement statement = connection.createStatement();
+//	    
+//	    ResultSet results = statement.executeQuery("SELECT prod_id, prod_price FROM product");
+//	    
+//	    while(results.next()){
+//	      Long code = results.getLong(1);
+//	      Double price = results.getDouble(2);
+//	      prodids.add(code);
+//	      prices.add(price);
+//	    }
+//	    
+//	    
+//	    for(Long code: prodids) {
+//	    	Product prod = new Product(code);
+//	    	allProducts.add(prod);
+//	    }
+//	    
+//	    generatedLineItems = createLineItems();
+//	    createSale(generatedLineItems, currentTime);
+//	    
+//		System.out.println(generatedSales.get(0));
+//		FormattedSale fs = PrintFormatter.formatSale(generatedSales.get(0));
+//		ReceiptPrinter rp = new ReceiptPrinter(fs);
+//		rp.printReceipt();
+//		
+//		statement.close();
+//		connection.close();
+//		DbConnector.closeConnection();
 
 	}
 	
