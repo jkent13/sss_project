@@ -68,7 +68,9 @@ public class MockupSaleGUI {
 		LineItemTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
 		TableColumnModel columnModel =lookUpTable.getColumnModel();
+		columnModel.getColumn(0).setPreferredWidth(50);
 		columnModel.getColumn(1).setPreferredWidth(100); // Sets preferred width of the Product ID wide enough to display barcode without resizing
+		columnModel.getColumn(2).setPreferredWidth(200); // Sets preferred width of the Product Name 
 		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only one row of table able to be selected at a time
 		
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
@@ -582,14 +584,17 @@ public class MockupSaleGUI {
 		// Enter item event handler
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
-			public void keyPressed(KeyEvent e)
+			public void keyReleased(KeyEvent e) // keyPressed or keyReleased?
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
+						// ADD REGEX INPUT VALIDATION (13 DIGIT NUMBER)
 						register.beginSale();
 						register.enterItem(Long.valueOf(barcodeEntryField.getText()));
 						register.calculateTotal();
 						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+						barcodeEntryField.setText("");
+						barcodeEntryField.requestFocusInWindow();
 					}
 					catch (NumberFormatException nfe) {
 						System.out.println("An NFE exception occurred");
@@ -600,8 +605,7 @@ public class MockupSaleGUI {
 						se.printStackTrace();
 					}
 				}
-				barcodeEntryField.setText("");
-				barcodeEntryField.requestFocusInWindow();
+				
 				
 			}
 		});
