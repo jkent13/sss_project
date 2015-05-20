@@ -644,7 +644,7 @@ public class MockupMainMenu {
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						JFrame viewInventoryUi = new ViewInventoryFrame();
+						JFrame viewInventoryUI = new ViewInventoryFrame();
 //						JFrame viewStockFrame = new JFrame ();//Creating frame
 //						
 //						JPanel MAINPANEL = new JPanel (new GridLayout(1,2,2,2));//Creating the main panel 
@@ -982,7 +982,8 @@ public class MockupMainMenu {
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						JFrame addProductUi = new AddProductFrame();
+						JFrame addProductUI = new AddProductFrame();
+						
 //						JFrame addProductFRAME = new JFrame ();//Creating frame
 //						
 //						
@@ -1209,11 +1210,11 @@ public class MockupMainMenu {
 				fullScreenPanel.add(bottomPanel);
 
 
-				JButton salesReportButton = new JButton("Sales Report");
-				bottomPanel.add(salesReportButton);
+				JButton salesReportMenuButton = new JButton("Sales Report");
+				bottomPanel.add(salesReportMenuButton);
 
-				JButton refundReportButton = new JButton("Refund Report");
-				bottomPanel.add(refundReportButton);
+				JButton refundReportMenuButton = new JButton("Refund Report");
+				bottomPanel.add(refundReportMenuButton);
 
 				JButton slowSellersButton = new JButton("Slow Sellers Report");
 				bottomPanel.add(slowSellersButton);
@@ -1223,836 +1224,840 @@ public class MockupMainMenu {
 
 				reportsMenuFrame.setVisible(true);
 
-				salesReportButton.addActionListener(new ActionListener()
+				salesReportMenuButton.addActionListener(new ActionListener()
 				{
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						JFrame myFrame = new JFrame();
-						myFrame.setTitle("Sales Reports");
-						//			myFrame.setSize(900,500);
-						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-						//Parameters: numRows, numColumns, Hgap, Vgap
-						myFrame.setLocationRelativeTo(null);
-
-						//Full Screen Panel
-						JPanel fullScreenPanel = new JPanel();
-						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-						fullScreenPanel.setBorder(fullScreenTitle);
-						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-						myFrame.add(fullScreenPanel);
-
-
-						//SECTION PANELS
-
-						JPanel topPanel = new JPanel();
-						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-						topPanel.setBorder(topPanelTitle);
-						topPanel.setLayout(new GridLayout(3,2,10,10));
-						fullScreenPanel.add(topPanel);
-
-						JLabel salesReportsLabel = new JLabel("Sales Reports");
-						Font myFont = new Font("SansSerif", Font.BOLD, 42);
-						salesReportsLabel.setFont(myFont);
-						topPanel.add(salesReportsLabel);
-
-						JPanel bottomPanel = new JPanel();
-						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-						bottomPanel.setBorder(bottomPanelTitle);
-						bottomPanel.setLayout(new GridLayout(2,2,10,10));
-						fullScreenPanel.add(bottomPanel);
-
-
-						JButton singleDaySaleButton = new JButton("Single Day Report");
-						bottomPanel.add(singleDaySaleButton);
-
-						JButton timePeriodSaleButton = new JButton("Time-Period Report");
-						bottomPanel.add(timePeriodSaleButton);
-
-						myFrame.setVisible(true);
-
-						singleDaySaleButton.addActionListener(new ActionListener()
-						{
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) 
-							{
-								JFrame singleDaySaleReportUi = new SingleDaySaleFrame();
-								
-//								JFrame myFrame = new JFrame();
-//								myFrame.setTitle("Single Day Report");
-//								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-//								myFrame.setLocationRelativeTo(null);
-//
-//								//Full Screen Panel
-//								JPanel fullScreenPanel = new JPanel();
-//								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-//								fullScreenPanel.setBorder(fullScreenTitle);
-//								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-//								myFrame.add(fullScreenPanel);
-//
-//
-//								//SECTION PANELS
-//
-//								JPanel leftPanel = new JPanel();
-//								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-//								leftPanel.setBorder(leftPanelTitle);
-//								leftPanel.setLayout(new GridLayout(1,1,10,10));
-//								fullScreenPanel.add(leftPanel);
-//
-//								JPanel rightPanel = new JPanel();
-//								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//								rightPanel.setBorder(rightPanelTitle);
-//								rightPanel.setLayout(new GridLayout(4,1,10,10));
-//								fullScreenPanel.add(rightPanel);
-//
-//								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-//								Object[][] data = {
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"}
-//								};
-//
-//								JTable lookUpTable = new JTable(data, colNames);
-//								JScrollPane scrlPane = new JScrollPane(lookUpTable);
-//								leftPanel.add(scrlPane);
-//								
-//								
-//								JPanel datePanel = new JPanel();
-//								TitledBorder datePanelTitle = new TitledBorder("View Date:");
-//								datePanel.setBorder(datePanelTitle);
-//								datePanel.setLayout(new GridLayout(3,2,10,10));
-//								
-//								JTextField viewDate = new JTextField();
-//								JLabel viewDateLabel = new JLabel("View Date:");
-//								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
-//								datePanel.add(viewDateLabel);
-//								datePanel.add(viewDate);
-//								datePanel.add(viewDateExample);
-//
-//								
-//								rightPanel.add(datePanel);
-//
-//								
-//								rightPanel.add(datePanel);
-//								
-//								JPanel reportTypePanel = new JPanel();
-//								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
-//								reportTypePanel.setBorder(reportTypePanelTitle);
-//								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(reportTypePanel);
-//
-//								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
-//								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
-//								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
-//								ButtonGroup myGroup = new ButtonGroup();
-//
-//								myGroup.add(salesByDollar);
-//								myGroup.add(salesByVolume);
-//								myGroup.add(profitByDollar);
-//
-//								reportTypePanel.add(salesByDollar);
-//								reportTypePanel.add(salesByVolume);
-//								reportTypePanel.add(profitByDollar);
-//
-//								JPanel shownAsPanel = new JPanel();
-//								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
-//								shownAsPanel.setBorder(shownAsPanelTitle);
-//								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
-//								rightPanel.add(shownAsPanel);
-//
-//								JButton barGraph = new JButton("Bar Graph");
-//								shownAsPanel.add(barGraph);
-//								JButton lineGraph = new JButton("Line Graph");
-//								shownAsPanel.add(lineGraph);
-//
-//								JPanel resultsButtonPanel = new JPanel();
-//								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-//								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
-//								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(resultsButtonPanel);
-//
-//								JLabel blank = new JLabel();
-//								resultsButtonPanel.add(blank);
-//								JButton getResultsButton = new JButton("Get Results");
-//								resultsButtonPanel.add(getResultsButton);
-//
-//								getResultsButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
-////										myFrame.dispose();
-//									}
-//								});
-//
-//								JButton backButton = new JButton("Back");
-//								resultsButtonPanel.add(backButton);
-//
-//								backButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
-//										myFrame.dispose();
-//									}
-//								});
-//
-//
-//								myFrame.setVisible(true);
-							}
-						});
+						JFrame salesReportsMenuUI = new SalesReportsMenuFrame();
 						
-						timePeriodSaleButton.addActionListener(new ActionListener()
-						{
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) 
-							{
-								
-								JFrame timePeriodSaleReportUi = new TimePeriodSaleFrame();
-								
-//								JFrame myFrame = new JFrame();
-//								myFrame.setTitle("Time-Period Report");
-//								//			myFrame.setSize(900,500);
-//								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-//								//Parameters: numRows, numColumns, Hgap, Vgap
-//								myFrame.setLocationRelativeTo(null);
+//						JFrame myFrame = new JFrame();
+//						myFrame.setTitle("Sales Reports");
+//						//			myFrame.setSize(900,500);
+//						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+//						//Parameters: numRows, numColumns, Hgap, Vgap
+//						myFrame.setLocationRelativeTo(null);
 //
-//								//Full Screen Panel
-//								JPanel fullScreenPanel = new JPanel();
-//								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-//								fullScreenPanel.setBorder(fullScreenTitle);
-//								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-//								myFrame.add(fullScreenPanel);
+//						//Full Screen Panel
+//						JPanel fullScreenPanel = new JPanel();
+//						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+//						fullScreenPanel.setBorder(fullScreenTitle);
+//						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+//						myFrame.add(fullScreenPanel);
 //
 //
-//								//SECTION PANELS
+//						//SECTION PANELS
 //
-//								JPanel leftPanel = new JPanel();
-//								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-//								leftPanel.setBorder(leftPanelTitle);
-//								leftPanel.setLayout(new GridLayout(1,1,10,10));
-//								fullScreenPanel.add(leftPanel);
+//						JPanel topPanel = new JPanel();
+//						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+//						topPanel.setBorder(topPanelTitle);
+//						topPanel.setLayout(new GridLayout(3,2,10,10));
+//						fullScreenPanel.add(topPanel);
 //
-//								JPanel rightPanel = new JPanel();
-//								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//								rightPanel.setBorder(rightPanelTitle);
-//								rightPanel.setLayout(new GridLayout(5,1,10,10));
-//								fullScreenPanel.add(rightPanel);
+//						JLabel salesReportsLabel = new JLabel("Sales Reports");
+//						Font myFont = new Font("SansSerif", Font.BOLD, 42);
+//						salesReportsLabel.setFont(myFont);
+//						topPanel.add(salesReportsLabel);
 //
-//								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-//								Object[][] data = {
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"}
-//								};
+//						JPanel bottomPanel = new JPanel();
+//						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+//						bottomPanel.setBorder(bottomPanelTitle);
+//						bottomPanel.setLayout(new GridLayout(2,2,10,10));
+//						fullScreenPanel.add(bottomPanel);
 //
-//								JTable lookUpTable = new JTable(data, colNames);
-//								JScrollPane scrlPane = new JScrollPane(lookUpTable);
-//								leftPanel.add(scrlPane);
+//
+//						JButton singleDaySaleButton = new JButton("Single Day Report");
+//						bottomPanel.add(singleDaySaleButton);
+//
+//						JButton timePeriodSaleButton = new JButton("Time-Period Report");
+//						bottomPanel.add(timePeriodSaleButton);
+//
+//						myFrame.setVisible(true);
+//
+//						singleDaySaleButton.addActionListener(new ActionListener()
+//						{
+//
+//							@Override
+//							public void actionPerformed(ActionEvent arg0) 
+//							{
+//								JFrame singleDaySaleReportUi = new SingleDaySaleFrame();
 //								
-//								JPanel datePanel = new JPanel();
-//								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
-//								datePanel.setBorder(datePanelTitle);
-//								datePanel.setLayout(new GridLayout(1,2,10,10));
-//								
-//								
-//								JPanel rightDatePanel = new JPanel();
-//								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-//								rightDatePanel.setBorder(rightDatePanelTitle);
-//								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-//								
-//								JPanel leftDatePanel = new JPanel();
-//								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-//								leftDatePanel.setBorder(leftDatePanelTitle);
-//								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-//								
-//								JTextField viewStartDate = new JTextField();
-//								JLabel viewStartDateLabel = new JLabel("Start Date:");
-//								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
-//								rightDatePanel.add(viewStartDateLabel);
-//								rightDatePanel.add(viewStartDate);
-//								rightDatePanel.add(viewStartDateExample);
-//								
-//								JTextField viewEndDate = new JTextField();
-//								JLabel viewEndDateLabel = new JLabel("End Date:");
-//								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
-//								leftDatePanel.add(viewEndDateLabel);
-//								leftDatePanel.add(viewEndDate);
-//								leftDatePanel.add(viewEndDateExample);
-//
-//								datePanel.add(rightDatePanel);
-//								datePanel.add(leftDatePanel);
-//								rightPanel.add(datePanel);
-//								
-//								JPanel reportTypePanel = new JPanel();
-//								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
-//								reportTypePanel.setBorder(reportTypePanelTitle);
-//								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(reportTypePanel);
-//
-//								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
-//								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
-//								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
-//								ButtonGroup reportTypeGroup = new ButtonGroup();
-//
-//								reportTypeGroup.add(salesByDollar);
-//								reportTypeGroup.add(salesByVolume);
-//								reportTypeGroup.add(profitByDollar);
-//
-//								reportTypePanel.add(salesByDollar);
-//								reportTypePanel.add(salesByVolume);
-//								reportTypePanel.add(profitByDollar);
-//
-//								JPanel groupTypePanel = new JPanel();
-//								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
-//								groupTypePanel.setBorder(groupTypePanelTitle);
-//								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(groupTypePanel);
-//
-//								JRadioButton dayRadio = new JRadioButton("Day", true);
-//								JRadioButton weekRadio = new JRadioButton("Week", false);
-//								JRadioButton monthRadio = new JRadioButton("Month", false);
-//								ButtonGroup groupTypeGroup = new ButtonGroup();
-//
-//								groupTypeGroup.add(dayRadio);
-//								groupTypeGroup.add(weekRadio);
-//								groupTypeGroup.add(monthRadio);
-//
-//								groupTypePanel.add(dayRadio);
-//								groupTypePanel.add(weekRadio);
-//								groupTypePanel.add(monthRadio);
-//								
-//								JPanel shownAsPanel = new JPanel();
-//								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
-//								shownAsPanel.setBorder(shownAsPanelTitle);
-//								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
-//								rightPanel.add(shownAsPanel);
-//
-//								JButton barGraph = new JButton("Bar Graph");
-//								shownAsPanel.add(barGraph);
-//								JButton lineGraph = new JButton("Line Graph");
-//								shownAsPanel.add(lineGraph);
-//
-//								JPanel resultsButtonPanel = new JPanel();
-//								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-//								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
-//								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(resultsButtonPanel);
-//
-//								JLabel blank = new JLabel();
-//								resultsButtonPanel.add(blank);
-//								JButton getResultsButton = new JButton("Get Results");
-//								resultsButtonPanel.add(getResultsButton);
-//
-//								getResultsButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
+////								JFrame myFrame = new JFrame();
+////								myFrame.setTitle("Single Day Report");
+////								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+////								myFrame.setLocationRelativeTo(null);
+////
+////								//Full Screen Panel
+////								JPanel fullScreenPanel = new JPanel();
+////								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+////								fullScreenPanel.setBorder(fullScreenTitle);
+////								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+////								myFrame.add(fullScreenPanel);
+////
+////
+////								//SECTION PANELS
+////
+////								JPanel leftPanel = new JPanel();
+////								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+////								leftPanel.setBorder(leftPanelTitle);
+////								leftPanel.setLayout(new GridLayout(1,1,10,10));
+////								fullScreenPanel.add(leftPanel);
+////
+////								JPanel rightPanel = new JPanel();
+////								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+////								rightPanel.setBorder(rightPanelTitle);
+////								rightPanel.setLayout(new GridLayout(4,1,10,10));
+////								fullScreenPanel.add(rightPanel);
+////
+////								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+////								Object[][] data = {
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"}
+////								};
+////
+////								JTable lookUpTable = new JTable(data, colNames);
+////								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+////								leftPanel.add(scrlPane);
+////								
+////								
+////								JPanel datePanel = new JPanel();
+////								TitledBorder datePanelTitle = new TitledBorder("View Date:");
+////								datePanel.setBorder(datePanelTitle);
+////								datePanel.setLayout(new GridLayout(3,2,10,10));
+////								
+////								JTextField viewDate = new JTextField();
+////								JLabel viewDateLabel = new JLabel("View Date:");
+////								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
+////								datePanel.add(viewDateLabel);
+////								datePanel.add(viewDate);
+////								datePanel.add(viewDateExample);
+////
+////								
+////								rightPanel.add(datePanel);
+////
+////								
+////								rightPanel.add(datePanel);
+////								
+////								JPanel reportTypePanel = new JPanel();
+////								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+////								reportTypePanel.setBorder(reportTypePanelTitle);
+////								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(reportTypePanel);
+////
+////								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+////								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+////								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+////								ButtonGroup myGroup = new ButtonGroup();
+////
+////								myGroup.add(salesByDollar);
+////								myGroup.add(salesByVolume);
+////								myGroup.add(profitByDollar);
+////
+////								reportTypePanel.add(salesByDollar);
+////								reportTypePanel.add(salesByVolume);
+////								reportTypePanel.add(profitByDollar);
+////
+////								JPanel shownAsPanel = new JPanel();
+////								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+////								shownAsPanel.setBorder(shownAsPanelTitle);
+////								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+////								rightPanel.add(shownAsPanel);
+////
+////								JButton barGraph = new JButton("Bar Graph");
+////								shownAsPanel.add(barGraph);
+////								JButton lineGraph = new JButton("Line Graph");
+////								shownAsPanel.add(lineGraph);
+////
+////								JPanel resultsButtonPanel = new JPanel();
+////								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+////								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+////								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(resultsButtonPanel);
+////
+////								JLabel blank = new JLabel();
+////								resultsButtonPanel.add(blank);
+////								JButton getResultsButton = new JButton("Get Results");
+////								resultsButtonPanel.add(getResultsButton);
+////
+////								getResultsButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
+//////										myFrame.dispose();
+////									}
+////								});
+////
+////								JButton backButton = new JButton("Back");
+////								resultsButtonPanel.add(backButton);
+////
+////								backButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
 ////										myFrame.dispose();
-//									}
-//								});
+////									}
+////								});
+////
+////
+////								myFrame.setVisible(true);
+//							}
+//						});
+//						
+//						timePeriodSaleButton.addActionListener(new ActionListener()
+//						{
 //
-//								JButton backButton = new JButton("Back");
-//								resultsButtonPanel.add(backButton);
-//
-//								backButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
-//										myFrame.dispose();
-//									}
-//								});
-//
-//
-//								myFrame.setVisible(true);
-							}
-						});
+//							@Override
+//							public void actionPerformed(ActionEvent arg0) 
+//							{
+//								
+//								JFrame timePeriodSaleReportUi = new TimePeriodSaleFrame();
+//								
+////								JFrame myFrame = new JFrame();
+////								myFrame.setTitle("Time-Period Report");
+////								//			myFrame.setSize(900,500);
+////								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+////								//Parameters: numRows, numColumns, Hgap, Vgap
+////								myFrame.setLocationRelativeTo(null);
+////
+////								//Full Screen Panel
+////								JPanel fullScreenPanel = new JPanel();
+////								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+////								fullScreenPanel.setBorder(fullScreenTitle);
+////								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+////								myFrame.add(fullScreenPanel);
+////
+////
+////								//SECTION PANELS
+////
+////								JPanel leftPanel = new JPanel();
+////								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+////								leftPanel.setBorder(leftPanelTitle);
+////								leftPanel.setLayout(new GridLayout(1,1,10,10));
+////								fullScreenPanel.add(leftPanel);
+////
+////								JPanel rightPanel = new JPanel();
+////								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+////								rightPanel.setBorder(rightPanelTitle);
+////								rightPanel.setLayout(new GridLayout(5,1,10,10));
+////								fullScreenPanel.add(rightPanel);
+////
+////								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+////								Object[][] data = {
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"}
+////								};
+////
+////								JTable lookUpTable = new JTable(data, colNames);
+////								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+////								leftPanel.add(scrlPane);
+////								
+////								JPanel datePanel = new JPanel();
+////								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
+////								datePanel.setBorder(datePanelTitle);
+////								datePanel.setLayout(new GridLayout(1,2,10,10));
+////								
+////								
+////								JPanel rightDatePanel = new JPanel();
+////								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+////								rightDatePanel.setBorder(rightDatePanelTitle);
+////								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+////								
+////								JPanel leftDatePanel = new JPanel();
+////								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+////								leftDatePanel.setBorder(leftDatePanelTitle);
+////								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+////								
+////								JTextField viewStartDate = new JTextField();
+////								JLabel viewStartDateLabel = new JLabel("Start Date:");
+////								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+////								rightDatePanel.add(viewStartDateLabel);
+////								rightDatePanel.add(viewStartDate);
+////								rightDatePanel.add(viewStartDateExample);
+////								
+////								JTextField viewEndDate = new JTextField();
+////								JLabel viewEndDateLabel = new JLabel("End Date:");
+////								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+////								leftDatePanel.add(viewEndDateLabel);
+////								leftDatePanel.add(viewEndDate);
+////								leftDatePanel.add(viewEndDateExample);
+////
+////								datePanel.add(rightDatePanel);
+////								datePanel.add(leftDatePanel);
+////								rightPanel.add(datePanel);
+////								
+////								JPanel reportTypePanel = new JPanel();
+////								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+////								reportTypePanel.setBorder(reportTypePanelTitle);
+////								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(reportTypePanel);
+////
+////								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+////								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+////								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+////								ButtonGroup reportTypeGroup = new ButtonGroup();
+////
+////								reportTypeGroup.add(salesByDollar);
+////								reportTypeGroup.add(salesByVolume);
+////								reportTypeGroup.add(profitByDollar);
+////
+////								reportTypePanel.add(salesByDollar);
+////								reportTypePanel.add(salesByVolume);
+////								reportTypePanel.add(profitByDollar);
+////
+////								JPanel groupTypePanel = new JPanel();
+////								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
+////								groupTypePanel.setBorder(groupTypePanelTitle);
+////								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(groupTypePanel);
+////
+////								JRadioButton dayRadio = new JRadioButton("Day", true);
+////								JRadioButton weekRadio = new JRadioButton("Week", false);
+////								JRadioButton monthRadio = new JRadioButton("Month", false);
+////								ButtonGroup groupTypeGroup = new ButtonGroup();
+////
+////								groupTypeGroup.add(dayRadio);
+////								groupTypeGroup.add(weekRadio);
+////								groupTypeGroup.add(monthRadio);
+////
+////								groupTypePanel.add(dayRadio);
+////								groupTypePanel.add(weekRadio);
+////								groupTypePanel.add(monthRadio);
+////								
+////								JPanel shownAsPanel = new JPanel();
+////								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+////								shownAsPanel.setBorder(shownAsPanelTitle);
+////								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+////								rightPanel.add(shownAsPanel);
+////
+////								JButton barGraph = new JButton("Bar Graph");
+////								shownAsPanel.add(barGraph);
+////								JButton lineGraph = new JButton("Line Graph");
+////								shownAsPanel.add(lineGraph);
+////
+////								JPanel resultsButtonPanel = new JPanel();
+////								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+////								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+////								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(resultsButtonPanel);
+////
+////								JLabel blank = new JLabel();
+////								resultsButtonPanel.add(blank);
+////								JButton getResultsButton = new JButton("Get Results");
+////								resultsButtonPanel.add(getResultsButton);
+////
+////								getResultsButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
+//////										myFrame.dispose();
+////									}
+////								});
+////
+////								JButton backButton = new JButton("Back");
+////								resultsButtonPanel.add(backButton);
+////
+////								backButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
+////										myFrame.dispose();
+////									}
+////								});
+////
+////
+////								myFrame.setVisible(true);
+//							}
+//						});
 					}
 				});
 
 
-				refundReportButton.addActionListener(new ActionListener()
+				refundReportMenuButton.addActionListener(new ActionListener()
 				{
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						JFrame myFrame = new JFrame();
-						myFrame.setTitle("Refund Reports");
-						//			myFrame.setSize(900,500);
-						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-						//Parameters: numRows, numColumns, Hgap, Vgap
-						myFrame.setLocationRelativeTo(null);
-
-						//Full Screen Panel
-						JPanel fullScreenPanel = new JPanel();
-						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-						fullScreenPanel.setBorder(fullScreenTitle);
-						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-						myFrame.add(fullScreenPanel);
-
-
-						//SECTION PANELS
-
-						JPanel topPanel = new JPanel();
-						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-						topPanel.setBorder(topPanelTitle);
-						topPanel.setLayout(new GridLayout(3,2,10,10));
-						fullScreenPanel.add(topPanel);
-
-						JLabel inventoryLabel = new JLabel("Refund Reports");
-						Font myFont = new Font("SansSerif", Font.BOLD, 42);
-						inventoryLabel.setFont(myFont);
-						topPanel.add(inventoryLabel);
-
-						JPanel bottomPanel = new JPanel();
-						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-						bottomPanel.setBorder(bottomPanelTitle);
-						bottomPanel.setLayout(new GridLayout(2,2,10,10));
-						fullScreenPanel.add(bottomPanel);
-
-
-						JButton singleDayRefundButton = new JButton("Single Day Report");
-						bottomPanel.add(singleDayRefundButton);
-
-						JButton timePeriodRefundButton = new JButton("Time-Period Report");
-						bottomPanel.add(timePeriodRefundButton);
-
-						myFrame.setVisible(true);
+						JFrame refundReportsMenuUI = new RefundReportsMenuFrame();
 						
-						singleDayRefundButton.addActionListener(new ActionListener()
-						{
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) 
-							{
-								
-								JFrame singleDayRefundReportUi = new SingleDayRefundFrame();
-								
-//								JFrame myFrame = new JFrame();
-//								myFrame.setTitle("Single Day Report");
-//								//			myFrame.setSize(900,500);
-//								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-//								//Parameters: numRows, numColumns, Hgap, Vgap
-//								myFrame.setLocationRelativeTo(null);
+//						JFrame myFrame = new JFrame();
+//						myFrame.setTitle("Refund Reports");
+//						//			myFrame.setSize(900,500);
+//						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+//						//Parameters: numRows, numColumns, Hgap, Vgap
+//						myFrame.setLocationRelativeTo(null);
 //
-//								//Full Screen Panel
-//								JPanel fullScreenPanel = new JPanel();
-//								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-//								fullScreenPanel.setBorder(fullScreenTitle);
-//								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-//								myFrame.add(fullScreenPanel);
+//						//Full Screen Panel
+//						JPanel fullScreenPanel = new JPanel();
+//						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+//						fullScreenPanel.setBorder(fullScreenTitle);
+//						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+//						myFrame.add(fullScreenPanel);
 //
 //
-//								//SECTION PANELS
+//						//SECTION PANELS
 //
-//								JPanel leftPanel = new JPanel();
-//								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-//								leftPanel.setBorder(leftPanelTitle);
-//								leftPanel.setLayout(new GridLayout(1,1,10,10));
-//								fullScreenPanel.add(leftPanel);
+//						JPanel topPanel = new JPanel();
+//						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+//						topPanel.setBorder(topPanelTitle);
+//						topPanel.setLayout(new GridLayout(3,2,10,10));
+//						fullScreenPanel.add(topPanel);
 //
-//								JPanel rightPanel = new JPanel();
-//								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//								rightPanel.setBorder(rightPanelTitle);
-//								rightPanel.setLayout(new GridLayout(4,1,10,10));
-//								fullScreenPanel.add(rightPanel);
+//						JLabel inventoryLabel = new JLabel("Refund Reports");
+//						Font myFont = new Font("SansSerif", Font.BOLD, 42);
+//						inventoryLabel.setFont(myFont);
+//						topPanel.add(inventoryLabel);
 //
-//								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-//								Object[][] data = {
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"}
-//								};
+//						JPanel bottomPanel = new JPanel();
+//						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+//						bottomPanel.setBorder(bottomPanelTitle);
+//						bottomPanel.setLayout(new GridLayout(2,2,10,10));
+//						fullScreenPanel.add(bottomPanel);
 //
-//								JTable lookUpTable = new JTable(data, colNames);
-//								JScrollPane scrlPane = new JScrollPane(lookUpTable);
-//								leftPanel.add(scrlPane);
+//
+//						JButton singleDayRefundButton = new JButton("Single Day Report");
+//						bottomPanel.add(singleDayRefundButton);
+//
+//						JButton timePeriodRefundButton = new JButton("Time-Period Report");
+//						bottomPanel.add(timePeriodRefundButton);
+//
+//						myFrame.setVisible(true);
+//						
+//						singleDayRefundButton.addActionListener(new ActionListener()
+//						{
+//
+//							@Override
+//							public void actionPerformed(ActionEvent arg0) 
+//							{
 //								
-//								JPanel datePanel = new JPanel();
-//								TitledBorder datePanelTitle = new TitledBorder("Report Type:");
-//								datePanel.setBorder(datePanelTitle);
-//								datePanel.setLayout(new GridLayout(3,2,10,10));
+//								JFrame singleDayRefundReportUi = new SingleDayRefundFrame();
 //								
-//								JTextField viewDate = new JTextField();
-//								JLabel viewDateLabel = new JLabel("View Date:");
-//								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
-//								datePanel.add(viewDateLabel);
-//								datePanel.add(viewDate);
-//								datePanel.add(viewDateExample);
-//
-//								
-//								rightPanel.add(datePanel);
-//								
-//								JPanel reportTypePanel = new JPanel();
-//								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
-//								reportTypePanel.setBorder(reportTypePanelTitle);
-//								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(reportTypePanel);
-//
-//								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
-//								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
-//								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
-//								ButtonGroup myGroup = new ButtonGroup();
-//
-//								myGroup.add(salesByDollar);
-//								myGroup.add(salesByVolume);
-//								myGroup.add(profitByDollar);
-//
-//								reportTypePanel.add(salesByDollar);
-//								reportTypePanel.add(salesByVolume);
-//								reportTypePanel.add(profitByDollar);
-//
-//								JPanel shownAsPanel = new JPanel();
-//								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
-//								shownAsPanel.setBorder(shownAsPanelTitle);
-//								shownAsPanel.setLayout(new GridLayout(1,1,10,10));
-//								rightPanel.add(shownAsPanel);
-//
-//								JButton barGraph = new JButton("Bar Graph");
-//								shownAsPanel.add(barGraph);
-//
-//								JPanel resultsButtonPanel = new JPanel();
-//								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-//								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
-//								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(resultsButtonPanel);
-//
-//								JLabel blank = new JLabel();
-//								resultsButtonPanel.add(blank);
-//								JButton getResultsButton = new JButton("Get Results");
-//								resultsButtonPanel.add(getResultsButton);
-//
-//								getResultsButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
+////								JFrame myFrame = new JFrame();
+////								myFrame.setTitle("Single Day Report");
+////								//			myFrame.setSize(900,500);
+////								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+////								//Parameters: numRows, numColumns, Hgap, Vgap
+////								myFrame.setLocationRelativeTo(null);
+////
+////								//Full Screen Panel
+////								JPanel fullScreenPanel = new JPanel();
+////								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+////								fullScreenPanel.setBorder(fullScreenTitle);
+////								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+////								myFrame.add(fullScreenPanel);
+////
+////
+////								//SECTION PANELS
+////
+////								JPanel leftPanel = new JPanel();
+////								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+////								leftPanel.setBorder(leftPanelTitle);
+////								leftPanel.setLayout(new GridLayout(1,1,10,10));
+////								fullScreenPanel.add(leftPanel);
+////
+////								JPanel rightPanel = new JPanel();
+////								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+////								rightPanel.setBorder(rightPanelTitle);
+////								rightPanel.setLayout(new GridLayout(4,1,10,10));
+////								fullScreenPanel.add(rightPanel);
+////
+////								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+////								Object[][] data = {
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"}
+////								};
+////
+////								JTable lookUpTable = new JTable(data, colNames);
+////								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+////								leftPanel.add(scrlPane);
+////								
+////								JPanel datePanel = new JPanel();
+////								TitledBorder datePanelTitle = new TitledBorder("Report Type:");
+////								datePanel.setBorder(datePanelTitle);
+////								datePanel.setLayout(new GridLayout(3,2,10,10));
+////								
+////								JTextField viewDate = new JTextField();
+////								JLabel viewDateLabel = new JLabel("View Date:");
+////								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
+////								datePanel.add(viewDateLabel);
+////								datePanel.add(viewDate);
+////								datePanel.add(viewDateExample);
+////
+////								
+////								rightPanel.add(datePanel);
+////								
+////								JPanel reportTypePanel = new JPanel();
+////								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+////								reportTypePanel.setBorder(reportTypePanelTitle);
+////								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(reportTypePanel);
+////
+////								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+////								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+////								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+////								ButtonGroup myGroup = new ButtonGroup();
+////
+////								myGroup.add(salesByDollar);
+////								myGroup.add(salesByVolume);
+////								myGroup.add(profitByDollar);
+////
+////								reportTypePanel.add(salesByDollar);
+////								reportTypePanel.add(salesByVolume);
+////								reportTypePanel.add(profitByDollar);
+////
+////								JPanel shownAsPanel = new JPanel();
+////								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+////								shownAsPanel.setBorder(shownAsPanelTitle);
+////								shownAsPanel.setLayout(new GridLayout(1,1,10,10));
+////								rightPanel.add(shownAsPanel);
+////
+////								JButton barGraph = new JButton("Bar Graph");
+////								shownAsPanel.add(barGraph);
+////
+////								JPanel resultsButtonPanel = new JPanel();
+////								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+////								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+////								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(resultsButtonPanel);
+////
+////								JLabel blank = new JLabel();
+////								resultsButtonPanel.add(blank);
+////								JButton getResultsButton = new JButton("Get Results");
+////								resultsButtonPanel.add(getResultsButton);
+////
+////								getResultsButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
+//////										myFrame.dispose();
+////									}
+////								});
+////
+////								JButton backButton = new JButton("Back");
+////								resultsButtonPanel.add(backButton);
+////
+////								backButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
 ////										myFrame.dispose();
-//									}
-//								});
+////									}
+////								});
+////
+////
+////								myFrame.setVisible(true);
+//							}
+//						});
+//						
+//						timePeriodRefundButton.addActionListener(new ActionListener()
+//						{
 //
-//								JButton backButton = new JButton("Back");
-//								resultsButtonPanel.add(backButton);
-//
-//								backButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
-//										myFrame.dispose();
-//									}
-//								});
-//
-//
-//								myFrame.setVisible(true);
-							}
-						});
-						
-						timePeriodRefundButton.addActionListener(new ActionListener()
-						{
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) 
-							{
-								JFrame timePeriodRefundReportUi = new TimePeriodRefundFrame();
-								
-//								JFrame myFrame = new JFrame();
-//								myFrame.setTitle("Time-Period Report");
-//								//			myFrame.setSize(900,500);
-//								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-//								//Parameters: numRows, numColumns, Hgap, Vgap
-//								myFrame.setLocationRelativeTo(null);
-//
-//								//Full Screen Panel
-//								JPanel fullScreenPanel = new JPanel();
-//								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-//								fullScreenPanel.setBorder(fullScreenTitle);
-//								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-//								myFrame.add(fullScreenPanel);
-//
-//
-//								//SECTION PANELS
-//
-//								JPanel leftPanel = new JPanel();
-//								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-//								leftPanel.setBorder(leftPanelTitle);
-//								leftPanel.setLayout(new GridLayout(1,1,10,10));
-//								fullScreenPanel.add(leftPanel);
-//
-//								JPanel rightPanel = new JPanel();
-//								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//								rightPanel.setBorder(rightPanelTitle);
-//								rightPanel.setLayout(new GridLayout(5,1,10,10));
-//								fullScreenPanel.add(rightPanel);
-//
-//								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-//								Object[][] data = {
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"},
-//										{"DGKF353","4256985216","Cat","Pet","$40"}
-//								};
-//
-//								JTable lookUpTable = new JTable(data, colNames);
-//								JScrollPane scrlPane = new JScrollPane(lookUpTable);
-//								leftPanel.add(scrlPane);
+//							@Override
+//							public void actionPerformed(ActionEvent arg0) 
+//							{
+//								JFrame timePeriodRefundReportUi = new TimePeriodRefundFrame();
 //								
-//								JPanel datePanel = new JPanel();
-//								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
-//								datePanel.setBorder(datePanelTitle);
-//								datePanel.setLayout(new GridLayout(1,2,10,10));
-//								
-//								JPanel rightDatePanel = new JPanel();
-//								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-//								rightDatePanel.setBorder(rightDatePanelTitle);
-//								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-//								
-//								JPanel leftDatePanel = new JPanel();
-//								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-//								leftDatePanel.setBorder(leftDatePanelTitle);
-//								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-//								
-//
-//								
-//								JTextField viewStartDate = new JTextField();
-//								JLabel viewStartDateLabel = new JLabel("Start Date:");
-//								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
-//								rightDatePanel.add(viewStartDateLabel);
-//								rightDatePanel.add(viewStartDate);
-//								rightDatePanel.add(viewStartDateExample);
-//								
-//								JTextField viewEndDate = new JTextField();
-//								JLabel viewEndDateLabel = new JLabel("End Date:");
-//								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
-//								leftDatePanel.add(viewEndDateLabel);
-//								leftDatePanel.add(viewEndDate);
-//								leftDatePanel.add(viewEndDateExample);
-//
-//								datePanel.add(rightDatePanel);
-//								datePanel.add(leftDatePanel);
-//								rightPanel.add(datePanel);
-//								
-//								JPanel reportTypePanel = new JPanel();
-//								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
-//								reportTypePanel.setBorder(reportTypePanelTitle);
-//								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(reportTypePanel);
-//
-//								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
-//								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
-//								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
-//								ButtonGroup reportTypeGroup = new ButtonGroup();
-//
-//								reportTypeGroup.add(salesByDollar);
-//								reportTypeGroup.add(salesByVolume);
-//								reportTypeGroup.add(profitByDollar);
-//
-//								reportTypePanel.add(salesByDollar);
-//								reportTypePanel.add(salesByVolume);
-//								reportTypePanel.add(profitByDollar);
-//
-//								JPanel groupTypePanel = new JPanel();
-//								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
-//								groupTypePanel.setBorder(groupTypePanelTitle);
-//								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(groupTypePanel);
-//
-//								JRadioButton dayRadio = new JRadioButton("Day", true);
-//								JRadioButton weekRadio = new JRadioButton("Week", false);
-//								JRadioButton monthRadio = new JRadioButton("Month", false);
-//								ButtonGroup groupTypeGroup = new ButtonGroup();
-//
-//								groupTypeGroup.add(dayRadio);
-//								groupTypeGroup.add(weekRadio);
-//								groupTypeGroup.add(monthRadio);
-//
-//								groupTypePanel.add(dayRadio);
-//								groupTypePanel.add(weekRadio);
-//								groupTypePanel.add(monthRadio);
-//								
-//								JPanel shownAsPanel = new JPanel();
-//								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
-//								shownAsPanel.setBorder(shownAsPanelTitle);
-//								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
-//								rightPanel.add(shownAsPanel);
-//
-//								JButton barGraph = new JButton("Bar Graph");
-//								shownAsPanel.add(barGraph);
-//
-//								JPanel resultsButtonPanel = new JPanel();
-//								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-//								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
-//								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-//								rightPanel.add(resultsButtonPanel);
-//
-//								JLabel blank = new JLabel();
-//								resultsButtonPanel.add(blank);
-//								JButton getResultsButton = new JButton("Get Results");
-//								resultsButtonPanel.add(getResultsButton);
-//
-//								getResultsButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
+////								JFrame myFrame = new JFrame();
+////								myFrame.setTitle("Time-Period Report");
+////								//			myFrame.setSize(900,500);
+////								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+////								//Parameters: numRows, numColumns, Hgap, Vgap
+////								myFrame.setLocationRelativeTo(null);
+////
+////								//Full Screen Panel
+////								JPanel fullScreenPanel = new JPanel();
+////								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+////								fullScreenPanel.setBorder(fullScreenTitle);
+////								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+////								myFrame.add(fullScreenPanel);
+////
+////
+////								//SECTION PANELS
+////
+////								JPanel leftPanel = new JPanel();
+////								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+////								leftPanel.setBorder(leftPanelTitle);
+////								leftPanel.setLayout(new GridLayout(1,1,10,10));
+////								fullScreenPanel.add(leftPanel);
+////
+////								JPanel rightPanel = new JPanel();
+////								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+////								rightPanel.setBorder(rightPanelTitle);
+////								rightPanel.setLayout(new GridLayout(5,1,10,10));
+////								fullScreenPanel.add(rightPanel);
+////
+////								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+////								Object[][] data = {
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"},
+////										{"DGKF353","4256985216","Cat","Pet","$40"}
+////								};
+////
+////								JTable lookUpTable = new JTable(data, colNames);
+////								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+////								leftPanel.add(scrlPane);
+////								
+////								JPanel datePanel = new JPanel();
+////								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
+////								datePanel.setBorder(datePanelTitle);
+////								datePanel.setLayout(new GridLayout(1,2,10,10));
+////								
+////								JPanel rightDatePanel = new JPanel();
+////								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+////								rightDatePanel.setBorder(rightDatePanelTitle);
+////								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+////								
+////								JPanel leftDatePanel = new JPanel();
+////								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+////								leftDatePanel.setBorder(leftDatePanelTitle);
+////								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+////								
+////
+////								
+////								JTextField viewStartDate = new JTextField();
+////								JLabel viewStartDateLabel = new JLabel("Start Date:");
+////								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+////								rightDatePanel.add(viewStartDateLabel);
+////								rightDatePanel.add(viewStartDate);
+////								rightDatePanel.add(viewStartDateExample);
+////								
+////								JTextField viewEndDate = new JTextField();
+////								JLabel viewEndDateLabel = new JLabel("End Date:");
+////								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+////								leftDatePanel.add(viewEndDateLabel);
+////								leftDatePanel.add(viewEndDate);
+////								leftDatePanel.add(viewEndDateExample);
+////
+////								datePanel.add(rightDatePanel);
+////								datePanel.add(leftDatePanel);
+////								rightPanel.add(datePanel);
+////								
+////								JPanel reportTypePanel = new JPanel();
+////								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+////								reportTypePanel.setBorder(reportTypePanelTitle);
+////								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(reportTypePanel);
+////
+////								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+////								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+////								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+////								ButtonGroup reportTypeGroup = new ButtonGroup();
+////
+////								reportTypeGroup.add(salesByDollar);
+////								reportTypeGroup.add(salesByVolume);
+////								reportTypeGroup.add(profitByDollar);
+////
+////								reportTypePanel.add(salesByDollar);
+////								reportTypePanel.add(salesByVolume);
+////								reportTypePanel.add(profitByDollar);
+////
+////								JPanel groupTypePanel = new JPanel();
+////								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
+////								groupTypePanel.setBorder(groupTypePanelTitle);
+////								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(groupTypePanel);
+////
+////								JRadioButton dayRadio = new JRadioButton("Day", true);
+////								JRadioButton weekRadio = new JRadioButton("Week", false);
+////								JRadioButton monthRadio = new JRadioButton("Month", false);
+////								ButtonGroup groupTypeGroup = new ButtonGroup();
+////
+////								groupTypeGroup.add(dayRadio);
+////								groupTypeGroup.add(weekRadio);
+////								groupTypeGroup.add(monthRadio);
+////
+////								groupTypePanel.add(dayRadio);
+////								groupTypePanel.add(weekRadio);
+////								groupTypePanel.add(monthRadio);
+////								
+////								JPanel shownAsPanel = new JPanel();
+////								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+////								shownAsPanel.setBorder(shownAsPanelTitle);
+////								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+////								rightPanel.add(shownAsPanel);
+////
+////								JButton barGraph = new JButton("Bar Graph");
+////								shownAsPanel.add(barGraph);
+////
+////								JPanel resultsButtonPanel = new JPanel();
+////								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+////								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+////								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+////								rightPanel.add(resultsButtonPanel);
+////
+////								JLabel blank = new JLabel();
+////								resultsButtonPanel.add(blank);
+////								JButton getResultsButton = new JButton("Get Results");
+////								resultsButtonPanel.add(getResultsButton);
+////
+////								getResultsButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
+//////										myFrame.dispose();
+////									}
+////								});
+////
+////								JButton backButton = new JButton("Back");
+////								resultsButtonPanel.add(backButton);
+////
+////								backButton.addActionListener(new ActionListener()
+////								{
+////
+////									@Override
+////									public void actionPerformed(ActionEvent arg0) 
+////									{
 ////										myFrame.dispose();
-//									}
-//								});
-//
-//								JButton backButton = new JButton("Back");
-//								resultsButtonPanel.add(backButton);
-//
-//								backButton.addActionListener(new ActionListener()
-//								{
-//
-//									@Override
-//									public void actionPerformed(ActionEvent arg0) 
-//									{
-//										myFrame.dispose();
-//									}
-//								});
-//
-//
-//								myFrame.setVisible(true);
-							}
-						});
-						
+////									}
+////								});
+////
+////
+////								myFrame.setVisible(true);
+//							}
+//						});
+//						
 					}
 				});
 				
@@ -2063,158 +2068,160 @@ public class MockupMainMenu {
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-							JFrame myFrame = new JFrame();
-							myFrame.setTitle("Slow Sellers Report");
-							//			myFrame.setSize(900,500);
-							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-							//Parameters: numRows, numColumns, Hgap, Vgap
-							myFrame.setLocationRelativeTo(null);
-
-							//Full Screen Panel
-							JPanel fullScreenPanel = new JPanel();
-							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-							fullScreenPanel.setBorder(fullScreenTitle);
-							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-							myFrame.add(fullScreenPanel);
-
-
-							//SECTION PANELS
-
-							JPanel leftPanel = new JPanel();
-							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-							leftPanel.setBorder(leftPanelTitle);
-							leftPanel.setLayout(new GridLayout(1,1,10,10));
-							fullScreenPanel.add(leftPanel);
-
-							JPanel rightPanel = new JPanel();
-							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-							rightPanel.setBorder(rightPanelTitle);
-							rightPanel.setLayout(new GridLayout(4,1,10,10));
-							fullScreenPanel.add(rightPanel);
-
-							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-							Object[][] data = {
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"}
-							};
-
-							JTable lookUpTable = new JTable(data, colNames);
-							JScrollPane scrlPane = new JScrollPane(lookUpTable);
-							leftPanel.add(scrlPane);
-							
-							JPanel datePanel = new JPanel();
-							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
-							datePanel.setBorder(datePanelTitle);
-							datePanel.setLayout(new GridLayout(1,2,10,10));
-							
-							JPanel rightDatePanel = new JPanel();
-							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-							rightDatePanel.setBorder(rightDatePanelTitle);
-							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-							
-							JPanel leftDatePanel = new JPanel();
-							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-							leftDatePanel.setBorder(leftDatePanelTitle);
-							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-							
-							JTextField viewStartDate = new JTextField();
-							JLabel viewStartDateLabel = new JLabel("Start Date:");
-							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
-							rightDatePanel.add(viewStartDateLabel);
-							rightDatePanel.add(viewStartDate);
-							rightDatePanel.add(viewStartDateExample);
-							
-							JTextField viewEndDate = new JTextField();
-							JLabel viewEndDateLabel = new JLabel("End Date:");
-							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
-							leftDatePanel.add(viewEndDateLabel);
-							leftDatePanel.add(viewEndDate);
-							leftDatePanel.add(viewEndDateExample);
-
-							datePanel.add(rightDatePanel);
-							datePanel.add(leftDatePanel);
-							rightPanel.add(datePanel);
-
-							
-							JPanel labelPanel = new JPanel();
-							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
-							labelPanel.setBorder(labelPanelTitle);
-							labelPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(labelPanel);
-
-							JLabel soldUnitsLabel = new JLabel("Product units sold,");
-							JLabel soldUnitsLabel2 = new JLabel("less than or equal to:");
-							Font myFont = new Font("SansSerif", Font.BOLD, 42);
-							soldUnitsLabel.setFont(myFont);
-							soldUnitsLabel2.setFont(myFont);
-							labelPanel.add(soldUnitsLabel);
-							labelPanel.add(soldUnitsLabel2);
-
-							JPanel inputUnitsPanel = new JPanel();
-							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
-							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
-							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(inputUnitsPanel);
-
-							JLabel unitsInputLabel = new JLabel("Input:");
-							JTextField units = new JTextField("");
-							JLabel unitsInputExample = new JLabel("e.g. 10");
-							inputUnitsPanel.add(unitsInputLabel);
-							inputUnitsPanel.add(units);
-							inputUnitsPanel.add(unitsInputExample);
-
-							JPanel resultsButtonPanel = new JPanel();
-							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(resultsButtonPanel);
-
-							JLabel blank = new JLabel();
-							resultsButtonPanel.add(blank);
-							JButton getResultsButton = new JButton("Get Results");
-							resultsButtonPanel.add(getResultsButton);
-
-							getResultsButton.addActionListener(new ActionListener()
-							{
-
-								@Override
-								public void actionPerformed(ActionEvent arg0) 
-								{
+						JFrame slowSellersReportUI = new SlowSellersFrame();
+						
+//							JFrame myFrame = new JFrame();
+//							myFrame.setTitle("Slow Sellers Report");
+//							//			myFrame.setSize(900,500);
+//							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+//							//Parameters: numRows, numColumns, Hgap, Vgap
+//							myFrame.setLocationRelativeTo(null);
+//
+//							//Full Screen Panel
+//							JPanel fullScreenPanel = new JPanel();
+//							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+//							fullScreenPanel.setBorder(fullScreenTitle);
+//							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+//							myFrame.add(fullScreenPanel);
+//
+//
+//							//SECTION PANELS
+//
+//							JPanel leftPanel = new JPanel();
+//							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+//							leftPanel.setBorder(leftPanelTitle);
+//							leftPanel.setLayout(new GridLayout(1,1,10,10));
+//							fullScreenPanel.add(leftPanel);
+//
+//							JPanel rightPanel = new JPanel();
+//							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+//							rightPanel.setBorder(rightPanelTitle);
+//							rightPanel.setLayout(new GridLayout(4,1,10,10));
+//							fullScreenPanel.add(rightPanel);
+//
+//							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+//							Object[][] data = {
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"}
+//							};
+//
+//							JTable lookUpTable = new JTable(data, colNames);
+//							JScrollPane scrlPane = new JScrollPane(lookUpTable);
+//							leftPanel.add(scrlPane);
+//							
+//							JPanel datePanel = new JPanel();
+//							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+//							datePanel.setBorder(datePanelTitle);
+//							datePanel.setLayout(new GridLayout(1,2,10,10));
+//							
+//							JPanel rightDatePanel = new JPanel();
+//							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+//							rightDatePanel.setBorder(rightDatePanelTitle);
+//							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+//							
+//							JPanel leftDatePanel = new JPanel();
+//							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+//							leftDatePanel.setBorder(leftDatePanelTitle);
+//							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+//							
+//							JTextField viewStartDate = new JTextField();
+//							JLabel viewStartDateLabel = new JLabel("Start Date:");
+//							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+//							rightDatePanel.add(viewStartDateLabel);
+//							rightDatePanel.add(viewStartDate);
+//							rightDatePanel.add(viewStartDateExample);
+//							
+//							JTextField viewEndDate = new JTextField();
+//							JLabel viewEndDateLabel = new JLabel("End Date:");
+//							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+//							leftDatePanel.add(viewEndDateLabel);
+//							leftDatePanel.add(viewEndDate);
+//							leftDatePanel.add(viewEndDateExample);
+//
+//							datePanel.add(rightDatePanel);
+//							datePanel.add(leftDatePanel);
+//							rightPanel.add(datePanel);
+//
+//							
+//							JPanel labelPanel = new JPanel();
+//							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
+//							labelPanel.setBorder(labelPanelTitle);
+//							labelPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(labelPanel);
+//
+//							JLabel soldUnitsLabel = new JLabel("Product units sold,");
+//							JLabel soldUnitsLabel2 = new JLabel("less than or equal to:");
+//							Font myFont = new Font("SansSerif", Font.BOLD, 42);
+//							soldUnitsLabel.setFont(myFont);
+//							soldUnitsLabel2.setFont(myFont);
+//							labelPanel.add(soldUnitsLabel);
+//							labelPanel.add(soldUnitsLabel2);
+//
+//							JPanel inputUnitsPanel = new JPanel();
+//							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
+//							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
+//							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(inputUnitsPanel);
+//
+//							JLabel unitsInputLabel = new JLabel("Input:");
+//							JTextField units = new JTextField("");
+//							JLabel unitsInputExample = new JLabel("e.g. 10");
+//							inputUnitsPanel.add(unitsInputLabel);
+//							inputUnitsPanel.add(units);
+//							inputUnitsPanel.add(unitsInputExample);
+//
+//							JPanel resultsButtonPanel = new JPanel();
+//							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(resultsButtonPanel);
+//
+//							JLabel blank = new JLabel();
+//							resultsButtonPanel.add(blank);
+//							JButton getResultsButton = new JButton("Get Results");
+//							resultsButtonPanel.add(getResultsButton);
+//
+//							getResultsButton.addActionListener(new ActionListener()
+//							{
+//
+//								@Override
+//								public void actionPerformed(ActionEvent arg0) 
+//								{
+////									myFrame.dispose();
+//								}
+//							});
+//
+//							JButton backButton = new JButton("Back");
+//							resultsButtonPanel.add(backButton);
+//
+//							backButton.addActionListener(new ActionListener()
+//							{
+//
+//								@Override
+//								public void actionPerformed(ActionEvent arg0) 
+//								{
 //									myFrame.dispose();
-								}
-							});
-
-							JButton backButton = new JButton("Back");
-							resultsButtonPanel.add(backButton);
-
-							backButton.addActionListener(new ActionListener()
-							{
-
-								@Override
-								public void actionPerformed(ActionEvent arg0) 
-								{
-									myFrame.dispose();
-								}
-							});
-
-
-							myFrame.setVisible(true);
+//								}
+//							});
+//
+//
+//							myFrame.setVisible(true);
 						}
 					});
 					
@@ -2225,157 +2232,158 @@ public class MockupMainMenu {
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-							JFrame myFrame = new JFrame();
-							myFrame.setTitle("Top Sellers Report");
-							//			myFrame.setSize(900,500);
-							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-							//Parameters: numRows, numColumns, Hgap, Vgap
-							myFrame.setLocationRelativeTo(null);
-
-							//Full Screen Panel
-							JPanel fullScreenPanel = new JPanel();
-							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-							fullScreenPanel.setBorder(fullScreenTitle);
-							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-							myFrame.add(fullScreenPanel);
-
-
-							//SECTION PANELS
-
-							JPanel leftPanel = new JPanel();
-							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-							leftPanel.setBorder(leftPanelTitle);
-							leftPanel.setLayout(new GridLayout(1,1,10,10));
-							fullScreenPanel.add(leftPanel);
-
-							JPanel rightPanel = new JPanel();
-							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-							rightPanel.setBorder(rightPanelTitle);
-							rightPanel.setLayout(new GridLayout(4,1,10,10));
-							fullScreenPanel.add(rightPanel);
-
-							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-							Object[][] data = {
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"},
-									{"DGKF353","4256985216","Cat","Pet","$40"}
-							};
-
-							JTable lookUpTable = new JTable(data, colNames);
-							JScrollPane scrlPane = new JScrollPane(lookUpTable);
-							leftPanel.add(scrlPane);
-							
-							JPanel datePanel = new JPanel();
-							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
-							datePanel.setBorder(datePanelTitle);
-							datePanel.setLayout(new GridLayout(1,2,10,10));
-							
-							JPanel rightDatePanel = new JPanel();
-							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-							rightDatePanel.setBorder(rightDatePanelTitle);
-							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-							
-							JPanel leftDatePanel = new JPanel();
-							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-							leftDatePanel.setBorder(leftDatePanelTitle);
-							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-							
-							JTextField viewStartDate = new JTextField();
-							JLabel viewStartDateLabel = new JLabel("Start Date:");
-							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
-							rightDatePanel.add(viewStartDateLabel);
-							rightDatePanel.add(viewStartDate);
-							rightDatePanel.add(viewStartDateExample);
-							
-							JTextField viewEndDate = new JTextField();
-							JLabel viewEndDateLabel = new JLabel("End Date:");
-							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
-							leftDatePanel.add(viewEndDateLabel);
-							leftDatePanel.add(viewEndDate);
-							leftDatePanel.add(viewEndDateExample);
-
-							datePanel.add(rightDatePanel);
-							datePanel.add(leftDatePanel);
-							rightPanel.add(datePanel);
-							
-							JPanel labelPanel = new JPanel();
-							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
-							labelPanel.setBorder(labelPanelTitle);
-							labelPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(labelPanel);
-
-							JLabel soldUnitsLabel = new JLabel("Number of Top");
-							JLabel soldUnitsLabel2 = new JLabel("Products:");
-							Font myFont = new Font("SansSerif", Font.BOLD, 42);
-							soldUnitsLabel.setFont(myFont);
-							soldUnitsLabel2.setFont(myFont);
-							labelPanel.add(soldUnitsLabel);
-							labelPanel.add(soldUnitsLabel2);
-
-							JPanel inputUnitsPanel = new JPanel();
-							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
-							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
-							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(inputUnitsPanel);
-
-							JLabel unitsInputLabel = new JLabel("Input:");
-							JTextField units = new JTextField("");
-							JLabel unitsInputExample = new JLabel("e.g. 10");
-							inputUnitsPanel.add(unitsInputLabel);
-							inputUnitsPanel.add(units);
-							inputUnitsPanel.add(unitsInputExample);
-
-							JPanel resultsButtonPanel = new JPanel();
-							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
-							rightPanel.add(resultsButtonPanel);
-
-							JLabel blank = new JLabel();
-							resultsButtonPanel.add(blank);
-							JButton getResultsButton = new JButton("Get Results");
-							resultsButtonPanel.add(getResultsButton);
-
-							getResultsButton.addActionListener(new ActionListener()
-							{
-
-								@Override
-								public void actionPerformed(ActionEvent arg0) 
-								{
+						JFrame topSellersReportUI = new TopSellersFrame();
+//							JFrame myFrame = new JFrame();
+//							myFrame.setTitle("Top Sellers Report");
+//							//			myFrame.setSize(900,500);
+//							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+//							//Parameters: numRows, numColumns, Hgap, Vgap
+//							myFrame.setLocationRelativeTo(null);
+//
+//							//Full Screen Panel
+//							JPanel fullScreenPanel = new JPanel();
+//							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+//							fullScreenPanel.setBorder(fullScreenTitle);
+//							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+//							myFrame.add(fullScreenPanel);
+//
+//
+//							//SECTION PANELS
+//
+//							JPanel leftPanel = new JPanel();
+//							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+//							leftPanel.setBorder(leftPanelTitle);
+//							leftPanel.setLayout(new GridLayout(1,1,10,10));
+//							fullScreenPanel.add(leftPanel);
+//
+//							JPanel rightPanel = new JPanel();
+//							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+//							rightPanel.setBorder(rightPanelTitle);
+//							rightPanel.setLayout(new GridLayout(4,1,10,10));
+//							fullScreenPanel.add(rightPanel);
+//
+//							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+//							Object[][] data = {
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"},
+//									{"DGKF353","4256985216","Cat","Pet","$40"}
+//							};
+//
+//							JTable lookUpTable = new JTable(data, colNames);
+//							JScrollPane scrlPane = new JScrollPane(lookUpTable);
+//							leftPanel.add(scrlPane);
+//							
+//							JPanel datePanel = new JPanel();
+//							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+//							datePanel.setBorder(datePanelTitle);
+//							datePanel.setLayout(new GridLayout(1,2,10,10));
+//							
+//							JPanel rightDatePanel = new JPanel();
+//							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+//							rightDatePanel.setBorder(rightDatePanelTitle);
+//							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+//							
+//							JPanel leftDatePanel = new JPanel();
+//							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+//							leftDatePanel.setBorder(leftDatePanelTitle);
+//							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+//							
+//							JTextField viewStartDate = new JTextField();
+//							JLabel viewStartDateLabel = new JLabel("Start Date:");
+//							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+//							rightDatePanel.add(viewStartDateLabel);
+//							rightDatePanel.add(viewStartDate);
+//							rightDatePanel.add(viewStartDateExample);
+//							
+//							JTextField viewEndDate = new JTextField();
+//							JLabel viewEndDateLabel = new JLabel("End Date:");
+//							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+//							leftDatePanel.add(viewEndDateLabel);
+//							leftDatePanel.add(viewEndDate);
+//							leftDatePanel.add(viewEndDateExample);
+//
+//							datePanel.add(rightDatePanel);
+//							datePanel.add(leftDatePanel);
+//							rightPanel.add(datePanel);
+//							
+//							JPanel labelPanel = new JPanel();
+//							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
+//							labelPanel.setBorder(labelPanelTitle);
+//							labelPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(labelPanel);
+//
+//							JLabel soldUnitsLabel = new JLabel("Number of Top");
+//							JLabel soldUnitsLabel2 = new JLabel("Products:");
+//							Font myFont = new Font("SansSerif", Font.BOLD, 42);
+//							soldUnitsLabel.setFont(myFont);
+//							soldUnitsLabel2.setFont(myFont);
+//							labelPanel.add(soldUnitsLabel);
+//							labelPanel.add(soldUnitsLabel2);
+//
+//							JPanel inputUnitsPanel = new JPanel();
+//							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
+//							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
+//							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(inputUnitsPanel);
+//
+//							JLabel unitsInputLabel = new JLabel("Input:");
+//							JTextField units = new JTextField("");
+//							JLabel unitsInputExample = new JLabel("e.g. 10");
+//							inputUnitsPanel.add(unitsInputLabel);
+//							inputUnitsPanel.add(units);
+//							inputUnitsPanel.add(unitsInputExample);
+//
+//							JPanel resultsButtonPanel = new JPanel();
+//							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+//							rightPanel.add(resultsButtonPanel);
+//
+//							JLabel blank = new JLabel();
+//							resultsButtonPanel.add(blank);
+//							JButton getResultsButton = new JButton("Get Results");
+//							resultsButtonPanel.add(getResultsButton);
+//
+//							getResultsButton.addActionListener(new ActionListener()
+//							{
+//
+//								@Override
+//								public void actionPerformed(ActionEvent arg0) 
+//								{
+////									myFrame.dispose();
+//								}
+//							});
+//
+//							JButton backButton = new JButton("Back");
+//							resultsButtonPanel.add(backButton);
+//
+//							backButton.addActionListener(new ActionListener()
+//							{
+//
+//								@Override
+//								public void actionPerformed(ActionEvent arg0) 
+//								{
 //									myFrame.dispose();
-								}
-							});
-
-							JButton backButton = new JButton("Back");
-							resultsButtonPanel.add(backButton);
-
-							backButton.addActionListener(new ActionListener()
-							{
-
-								@Override
-								public void actionPerformed(ActionEvent arg0) 
-								{
-									myFrame.dispose();
-								}
-							});
-
-
-							myFrame.setVisible(true);
+//								}
+//							});
+//
+//
+//							myFrame.setVisible(true);
 						}
 					});
 			}
