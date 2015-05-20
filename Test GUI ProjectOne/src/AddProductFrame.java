@@ -1,5 +1,5 @@
-
 //SSS project work
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -14,12 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings("serial")
 public class AddProductFrame extends JFrame {
+	
 	public AddProductFrame()
 	{
-		
-		
-		
 		JPanel addProductpanel = new JPanel(new GridLayout (3, 1, 1, 1));
 		TitledBorder mainPanelT = new TitledBorder("Add Product");
 		addProductpanel.setBorder(mainPanelT);
@@ -48,8 +47,6 @@ public class AddProductFrame extends JFrame {
 		TitledBorder pricingINFOT = new TitledBorder("Pricing");
 		pricingINFO.setBorder(pricingINFOT);
 		panelforinfo.add(pricingINFO);
-		
-		
 		
 		JLabel barcodeLabel = new JLabel ("Barcode");
 		JTextField barcodeText = new JTextField ("");
@@ -166,8 +163,5 @@ public class AddProductFrame extends JFrame {
 		setVisible(true);
 		barcodeText.requestFocusInWindow();
 	}
-
-
-
 }
 

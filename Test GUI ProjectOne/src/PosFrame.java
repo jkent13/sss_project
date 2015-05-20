@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class PosFrame extends JFrame {
 
 	public PosFrame() {
