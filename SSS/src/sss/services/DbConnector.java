@@ -1,3 +1,8 @@
+/* DbConnector Class
+*  Responsible for establishing the database connection and controlling access to the Connection object
+*  Original Author: Josh Kent
+*/
+
 package sss.services;
 
 import java.sql.Connection;
@@ -8,6 +13,9 @@ public class DbConnector {
 	private static Connection connection;
 	
 	protected static Connection getConnection() {
+		if(connection == null) {
+			establishConnection();
+		}
 		return connection;
 	}
 	

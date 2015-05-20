@@ -1,3 +1,9 @@
+/* SqlBuilder Class
+*  Responsible for creating SQL strings in the correct syntax for passing to the DbReader and DbWriter classes 
+*  Creates INSERT, UPDATE and SELECT statements
+*  Original Author: Josh Kent
+*/
+
 package sss.services;
 
 import sss.domain.Sale;
@@ -42,7 +48,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public String getSaleInsertStatement(Sale sale) {
+	public static String getSaleInsertStatement(Sale sale) {
 		
 		StringBuffer currentStatement = new StringBuffer();
 		
@@ -60,7 +66,7 @@ public class SqlBuilder {
 		
 	}
 	
-	public String[] getLineInsertStatements(Sale sale) {
+	public static String[] getLineInsertStatements(Sale sale) {
 		String[] statements = new String[sale.getNumberOfLines()];
 		StringBuffer currentStatement = new StringBuffer();
 		int i = 0;

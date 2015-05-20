@@ -1,49 +1,42 @@
+/* DbReader Class
+*  Responsible for executing queries on the database and returning the results to calling classes
+*  Original Author: Josh Kent
+*/
+
 package sss.services;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 public class DbReader {
 	
-	private Connection connection;
-	private Statement statement;
-	private PreparedStatement productQuery;
+	private static Connection connection = DbConnector.getConnection();
+	private static Statement statement;
 	
-	public DbReader() throws SQLException {
-		if (DbConnector.establishConnection()) {
-			connection = DbConnector.getConnection();
+	private DbReader() {
+	}
+	
+	public static ResultSet executeQuery(String sqlQuery) throws SQLException {
+		if(statement == null) {
 			statement = connection.createStatement();
 		}
+		if(sqlQuery != null){
+			ResultSet productDetails = statement.executeQuery(sqlQuery);
+			return productDetails;
+		}
+		else {
+			return null;
+		}
 	}
 	
-	private boolean createProductQuery() {
-		try {
-			productQuery = connection.prepareStatement("SELECT * FROM product WHERE prod_id = ?;");
-			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+	public static void closeConnection() throws SQLException {
+		if(statement != null) {
+			statement.close();
 		}
-	} 
-	
-	public ResultSet lookUpProduct(long prod_id) throws SQLException {
-		if (productQuery == null){
-			createProductQuery();
-		}
-		
-		productQuery.setLong(1, prod_id);
-		ResultSet productDetails = productQuery.executeQuery();
-		return productDetails;
-	}
-	
-	public void closeConnection() throws SQLException {
 		if (connection != null) {
 			connection.close();
-			DbConnector.closeConnection();
 		}
 	}
 }
