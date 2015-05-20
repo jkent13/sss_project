@@ -1,5 +1,5 @@
 /*
- * InventoryMenuFrame Class
+ * ReportsMenuFrame Class
  * Frame design to support the 'Sales Report', 'Refund Report', 'Slow Sellers Report ' and 'Top Sellers Report' functions
  * Original Author: Amethyst Mayer
  */

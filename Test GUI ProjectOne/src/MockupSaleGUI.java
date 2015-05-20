@@ -1,5 +1,5 @@
 /*
- * PosFrame Class
+ * MockupSaleGUI Class
  * Frame design to support the 'Make Sale' function
  * Original Author: Amethyst Mayer
  */
