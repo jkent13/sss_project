@@ -6,15 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 
@@ -24,17 +18,9 @@ public class MockupMainMenu {
 
 		JFrame myFrame = new JFrame();
 		myFrame.setTitle("Main Menu");
-		//		myFrame.setSize(900,500);
 		myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		//		myFrame.setUndecorated(true);
-		//		myFrame.setLayout(new FlowLayout());
-		//		myFrame.setLayout(new GridLayout(3,0,20,10));
-		//		myFrame.setLayout(new BorderLayout());
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		myFrame.setLocationRelativeTo(null);
 		myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-		//		myFrame.setVisible(true);
-
 
 
 		//Full Screen Panel
@@ -48,8 +34,8 @@ public class MockupMainMenu {
 		//SECTION PANELS
 
 		JPanel topPanel = new JPanel();
-		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-		topPanel.setBorder(topPanelTitle);
+//		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+//		topPanel.setBorder(topPanelTitle);
 		topPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(topPanel);
 
@@ -57,10 +43,10 @@ public class MockupMainMenu {
 		Font myFont = new Font("SansSerif", Font.BOLD, 42);
 		inventoryLabel.setFont(myFont);
 		topPanel.add(inventoryLabel);
-		
+
 		JPanel bottomPanel = new JPanel();
-		TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-		bottomPanel.setBorder(bottomPanelTitle);
+//		TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+//		bottomPanel.setBorder(bottomPanelTitle);
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
@@ -86,19 +72,11 @@ public class MockupMainMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			
+
 				JFrame myFrame = new JFrame();
 				myFrame.setTitle("Make Sale");
-				//						myFrame.setSize(900,500);
 				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				//						myFrame.setUndecorated(true);
-				//						myFrame.setLayout(new FlowLayout());
-				//						myFrame.setLayout(new GridLayout(3,0,20,10));
-				//						myFrame.setLayout(new BorderLayout());
-				//Parameters: numRows, numColumns, Hgap, Vgap
 				myFrame.setLocationRelativeTo(null);
-				//						myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-				//						myFrame.setVisible(true);
 
 
 
@@ -113,27 +91,97 @@ public class MockupMainMenu {
 				//SECTION PANELS
 
 				JPanel leftPanel = new JPanel();
-				//						TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-				//						leftPanel.setBorder(leftPanelTitle);
-				leftPanel.setLayout(new GridLayout(2,1,10,10));	
+				TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
+				leftPanel.setBorder(leftPanelTitle);
+				leftPanel.setLayout(new GridLayout(2,1,10,10));
+				fullScreenPanel.add(leftPanel);
 
-				JPanel scannedItems = new JPanel();
-				JLabel showScannedItems = new JLabel("blah");
-				//						TitledBorder scanned = new TitledBorder("blah");
-				//						scannedItems.setBorder(scanned);
+				JPanel itemsPanel = new JPanel();
+				TitledBorder itemsPanelTitle = new TitledBorder("Product Inventory:");
+				itemsPanel.setBorder(itemsPanelTitle);
+				itemsPanel.setLayout(new GridLayout(1,1,10,10));
+				//				leftPanel.add(itemsPanel);
 
-				scannedItems.add(showScannedItems);
 
-				JPanel showTotal = new JPanel();
+				String[] colNames = {"Qty","Product id","Name","Discount","Sale Price"};
+				Object[][] data = {
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"},
+						{"DGKF353","4256985216","Cat","Pet","$40"}
+				};
+
+				JTable lookUpTable = new JTable(data, colNames);
+				JScrollPane scrlPane = new JScrollPane(lookUpTable);
+				itemsPanel.add(scrlPane);
+
+
+
+				JPanel showAmount = new JPanel();
+				showAmount.setLayout(new GridLayout(2,1,10,10));
+				JLabel saleBalanceLabel = new JLabel("Balance:$" + "");
 				JLabel saleTotalLabel = new JLabel("TOTAL:$" + "");
-				//						TitledBorder total = new TitledBorder("total");
-				//						showTotal.setBorder(total);
 
+				JPanel showBalance = new JPanel();
+				JPanel showTotal = new JPanel();
+
+				showBalance.add(saleBalanceLabel);
 				showTotal.add(saleTotalLabel);
 
-				leftPanel.add(scannedItems, BorderLayout.CENTER);
-				leftPanel.add(showTotal, BorderLayout.SOUTH);
-				fullScreenPanel.add(leftPanel);
+				showAmount.add(showBalance);
+				showAmount.add(showTotal);
+
+				leftPanel.add(itemsPanel);
+				leftPanel.add(showAmount);
+				//				fullScreenPanel.add(itemsPanel);
 
 
 
@@ -265,7 +313,9 @@ public class MockupMainMenu {
 				rightPanel.add(secondRightPanel);
 				fullScreenPanel.add(rightPanel);
 
+
 				myFrame.setVisible(true);
+				barcodeEntryField.requestFocusInWindow();
 
 				lookUpButton.addActionListener(new ActionListener()
 				{
@@ -276,16 +326,30 @@ public class MockupMainMenu {
 						JFrame myFrame = new JFrame();
 						myFrame.setTitle("Lookup Item");
 						myFrame.setSize(900,500);
-//						Parameters: numRows, numColumns, Hgap, Vgap
+						//						Parameters: numRows, numColumns, Hgap, Vgap
 						myFrame.setLocationRelativeTo(null);
 						myFrame.setVisible(true);
-						
+
 						JPanel fullScreenPanel = new JPanel();
 						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 						fullScreenPanel.setBorder(fullScreenTitle);
-						fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 						myFrame.add(fullScreenPanel);
-						
+
+
+						JPanel topPanel = new JPanel();
+						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+						topPanel.setBorder(topPanelTitle);
+						topPanel.setLayout(new GridLayout(1,2,10,10));
+						fullScreenPanel.add(topPanel);
+
+						JPanel bottomPanel = new JPanel();
+						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+						bottomPanel.setBorder(bottomPanelTitle);
+						bottomPanel.setLayout(new GridLayout(1,2,10,10));
+						bottomPanel.setSize(700,240);
+						fullScreenPanel.add(bottomPanel);
+
 						String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
 						Object[][] data = {
 								{"DGKF353","4256985216","Cat","Pet","$40","7"},
@@ -302,58 +366,129 @@ public class MockupMainMenu {
 								{"DGKF353","4256985216","Cat","Pet","$40","7"},
 								{"DGKF353","4256985216","Cat","Pet","$40","7"}
 						};
-						
-						
-						
+
+
+
 						JTable lookUpTable = new JTable(data, colNames);
 						JScrollPane scrlPane = new JScrollPane(lookUpTable);
-						fullScreenPanel.add(scrlPane);
+						bottomPanel.add(scrlPane);
 
+						barcodeEntryField.requestFocusInWindow();
 					}
 
 				});
-				
+
+				voidButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						barcodeEntryField.requestFocusInWindow();
+					}
+				});
+
 				barcodeEntryField.addKeyListener(new KeyAdapter()
 				{
 					public void keyPressed(KeyEvent e)
 					{
 						if (e.getKeyCode() == KeyEvent.VK_F2)
 						{
-						JFrame myFrame = new JFrame();
-						myFrame.setTitle("Lookup Item");
-						myFrame.setSize(900,500);
-//						Parameters: numRows, numColumns, Hgap, Vgap
-						myFrame.setLocationRelativeTo(null);
-						myFrame.setVisible(true);
-						
-						JPanel fullScreenPanel = new JPanel();
-						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-						fullScreenPanel.setBorder(fullScreenTitle);
-						fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
-						myFrame.add(fullScreenPanel);
-						
-						String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
-						Object[][] data = {
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"},
-								{"DGKF353","4256985216","Cat","Pet","$40","7"}
-						};
-						
-						
-						
-						JTable lookUpTable = new JTable(data, colNames);
-						JScrollPane scrlPane = new JScrollPane(lookUpTable);
-						fullScreenPanel.add(scrlPane);
+							JFrame myFrame = new JFrame();
+							myFrame.setTitle("Lookup Item");
+							myFrame.setSize(900,500);
+							//						Parameters: numRows, numColumns, Hgap, Vgap
+							myFrame.setLocationRelativeTo(null);
+							myFrame.setVisible(true);
+
+							JPanel fullScreenPanel = new JPanel();
+							//						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+							//						fullScreenPanel.setBorder(fullScreenTitle);
+							fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+							myFrame.add(fullScreenPanel);
+
+							JPanel topPanel = new JPanel();
+							//						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+							//						topPanel.setBorder(topPanelTitle);
+							topPanel.setLayout(new GridLayout(1,3,10,10));
+							fullScreenPanel.add(topPanel);
+
+							JPanel topLeftPanel = new JPanel();
+							//						TitledBorder topLeftPanelTitle = new TitledBorder("Left Panel:");
+							//						topLeftPanel.setBorder(topLeftPanelTitle);
+							topLeftPanel.setLayout(new GridLayout(4,1,10,10));
+							topPanel.add(topLeftPanel);
+
+							JLabel barcodeLabel = new JLabel("Barcode:");
+							JTextField barcodeEntryField = new JTextField(13);
+							topLeftPanel.add(barcodeLabel);
+							topLeftPanel.add(barcodeEntryField);
+
+							JLabel pCodeLabel = new JLabel("Product Code:");
+							JTextField pCodeEntryField = new JTextField(13);
+							topLeftPanel.add(pCodeLabel);
+							topLeftPanel.add(pCodeEntryField);
+
+							JPanel topMiddlePanel = new JPanel();
+							TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
+							topMiddlePanel.setBorder(topMiddlePanelTitle);
+							topMiddlePanel.setLayout(new GridLayout(3,1,10,10));
+							topPanel.add(topMiddlePanel);
+
+							JTextField searchField = new JTextField();
+							topMiddlePanel.add(searchField);
+
+							JLabel comboboxLabel = new JLabel("Category:");
+							topMiddlePanel.add(comboboxLabel);
+							String[] selectSearch = { "Pet", "Homeware" };
+							//Create the combo box, select item at index 1.
+							@SuppressWarnings({ "unchecked", "rawtypes" })
+							JComboBox searchComboBox = new JComboBox(selectSearch);
+							searchComboBox.setSelectedIndex(1);
+							topMiddlePanel.add(searchComboBox);
+							searchComboBox.setEnabled(true);
+
+							JPanel topRightPanel = new JPanel();
+							//						TitledBorder topRightPanelTitle = new TitledBorder("Right Panel:");
+							//						topRightPanel.setBorder(topRightPanelTitle);
+							topRightPanel.setLayout(new GridLayout(3,1,10,10));
+							topPanel.add(topRightPanel);
+
+							JButton searchButton = new JButton("Search!");
+							topRightPanel.add(searchButton);
+
+							JLabel spaceLabel = new JLabel();
+							topRightPanel.add(spaceLabel);
+
+							JButton selectButton = new JButton("Select");
+							topRightPanel.add(selectButton);
+
+							JPanel bottomPanel = new JPanel();
+							//						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+							//						bottomPanel.setBorder(bottomPanelTitle);
+							bottomPanel.setLayout(new GridLayout(1,1,10,10));
+							fullScreenPanel.add(bottomPanel);
+
+							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
+							Object[][] data = {
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"},
+									{"DGKF353","4256985216","Cat","Pet","$40","7"}
+							};
+
+							JTable lookUpTable = new JTable(data, colNames);
+							JScrollPane scrlPane = new JScrollPane(lookUpTable);
+							bottomPanel.add(scrlPane);
 						}
 					}
 				});
@@ -365,6 +500,7 @@ public class MockupMainMenu {
 					public void actionPerformed(ActionEvent arg0) 
 					{
 						JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						barcodeEntryField.requestFocusInWindow();
 					}
 				});
 
@@ -385,6 +521,7 @@ public class MockupMainMenu {
 					public void actionPerformed(ActionEvent arg0) 
 					{
 						JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);
+						barcodeEntryField.requestFocusInWindow();
 					}
 				});
 
@@ -404,6 +541,7 @@ public class MockupMainMenu {
 					public void actionPerformed(ActionEvent arg0) 
 					{
 						JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+						barcodeEntryField.requestFocusInWindow();
 					}
 				});
 
@@ -427,16 +565,9 @@ public class MockupMainMenu {
 			{
 				JFrame myFrame = new JFrame();
 				myFrame.setTitle("Make Sale");
-				//						myFrame.setSize(900,500);
 				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				//						myFrame.setUndecorated(true);
-				//						myFrame.setLayout(new FlowLayout());
-				//						myFrame.setLayout(new GridLayout(3,0,20,10));
-				//						myFrame.setLayout(new BorderLayout());
-				//Parameters: numRows, numColumns, Hgap, Vgap
 				myFrame.setLocationRelativeTo(null);
-				//						myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-										myFrame.setVisible(true);
+				myFrame.setVisible(true);
 			}
 		});
 
@@ -448,30 +579,19 @@ public class MockupMainMenu {
 			{
 				JFrame myFrame = new JFrame();
 				myFrame.setTitle("Product Inventory");
-				//			myFrame.setSize(900,500);
 				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				//			myFrame.setUndecorated(true);
-				//			myFrame.setLayout(new FlowLayout());
-				//			myFrame.setLayout(new GridLayout(3,0,20,10));
-				//			myFrame.setLayout(new BorderLayout());
-				//Parameters: numRows, numColumns, Hgap, Vgap
 				myFrame.setLocationRelativeTo(null);
-				//			myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-				//			myFrame.setVisible(true);
 
-
-
-				//Full Screen Panel
+				//Full Screen Panel over Frame
 				JPanel fullScreenPanel = new JPanel();
 				TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 				fullScreenPanel.setBorder(fullScreenTitle);
 				fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 				myFrame.add(fullScreenPanel);
 
+				//SECTION PANELS within the Full Screen Panel
 
-				//SECTION PANELS
-
-				JPanel topPanel = new JPanel();
+				JPanel topPanel = new JPanel();		//top panel in the FULL SCREEN Panel
 				TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
 				topPanel.setBorder(topPanelTitle);
 				topPanel.setLayout(new GridLayout(3,2,10,10));
@@ -482,56 +602,588 @@ public class MockupMainMenu {
 				inventoryLabel.setFont(myFont);
 				topPanel.add(inventoryLabel);
 
-				JPanel bottomPanel = new JPanel();
+				JPanel bottomPanel = new JPanel();		//bottom panel in the FULL SCREEN Panel
 				TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
 				bottomPanel.setBorder(bottomPanelTitle);
-				bottomPanel.setLayout(new GridLayout(2,2,10,10));
+				bottomPanel.setLayout(new GridLayout(1,3,10,10));
 				fullScreenPanel.add(bottomPanel);
 
+				JPanel bottomLeftPanel = new JPanel();	//left panel in the BOTTOM Panel
+				bottomLeftPanel.setLayout(new GridLayout(2,1,10,10));
+				fullScreenPanel.add(bottomLeftPanel);
+				bottomPanel.add(bottomLeftPanel);
+
+				JPanel bottomMiddlePanel = new JPanel();	//middle panel in the BOTTOM Panel
+				bottomMiddlePanel.setLayout(new GridLayout(1,1,10,10));
+				bottomPanel.add(bottomMiddlePanel);
+
+				JPanel bottomRightPanel = new JPanel();
+				bottomRightPanel.setLayout(new GridLayout(2,1,10,10));
+				bottomPanel.add(bottomRightPanel);
 
 				JButton viewStockButton = new JButton("View Inventory Stock");
-				bottomPanel.add(viewStockButton);
+				bottomMiddlePanel.add(viewStockButton);
 
 				JButton addProductButton = new JButton("Add Product");
-				bottomPanel.add(addProductButton);
+				bottomLeftPanel.add(addProductButton);
 
 				JButton modifyProductButton = new JButton("Modify Product");
-				bottomPanel.add(modifyProductButton);
+				bottomLeftPanel.add(modifyProductButton);
 
 				JButton importCSVButton = new JButton("Import CSV");
-				bottomPanel.add(importCSVButton);
+				bottomRightPanel.add(importCSVButton);
 
+				JButton addSupplierButton = new JButton("Add Supplier");
+				bottomRightPanel.add(addSupplierButton);
+
+
+				viewStockButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JFrame viewStockFrame = new JFrame ();//Creating frame
+						
+						JPanel MAINPANEL = new JPanel (new GridLayout(1,2,2,2));//Creating the main panel 
+						TitledBorder MAINPANELtitle = new TitledBorder("MAIN");
+						MAINPANEL.setBorder(MAINPANELtitle);
+						viewStockFrame.add(MAINPANEL);
+						
+						JPanel p1 = new JPanel(new GridLayout(1, 1, 1, 1)); //Creating the panel for the grid 
+						TitledBorder p1title = new TitledBorder("Grid Panel");
+						p1.setBorder(p1title);//Setting border 
+						
+						JPanel p2 = new JPanel(new GridLayout(4, 1, 2, 2));//Creating the panel for the bar/buttons 
+						TitledBorder p2title = new TitledBorder("VIEW PRODUCT INVENTORY");
+						p2.setBorder(p2title);
+						
+
+						String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
+						Object[][] data = {
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"},
+								{"DGKF353","4256985216","Cat","Pet","$40","7"}
+						};
+
+						JTable lookUpTable = new JTable(data, colNames);
+						JScrollPane scrlPane = new JScrollPane(lookUpTable);
+						p1.add(scrlPane);
+						
+						
+						/** Creating a panel for the search functions**/
+						
+						JPanel searchPanel = new JPanel(new GridLayout(3,2,2,9));//Search panel inside p2
+						TitledBorder SearchPaneltitle = new TitledBorder("SEARCH");
+						searchPanel.setBorder(SearchPaneltitle);
+						
+						JTextField searchTBox= new JTextField("Text"); 
+						JButton SearchB = new JButton("Search");
+						JLabel spaceForPanel = new JLabel("ENTER TEXT TO SEARCH");//Creating space/so panel looks better
+						
+						
+						searchPanel.add(spaceForPanel);//Adding the space
+						searchPanel.add(searchTBox);
+						searchPanel.add(SearchB);
+						
+						
+						
+						
+						p2.add(searchPanel);//Adding search panel 1st
+						
+						/** Creating all the buttons/labels etc for searching options**/
+						
+						JCheckBox pRange = new JCheckBox ("Price Range"); 
+						JLabel to = new JLabel ("to");
+						JTextField minT = new JTextField ("$0.00");
+						JLabel minL = new JLabel("Min Price");
+						JTextField maxT = new JTextField("$0.00");
+						JLabel maxL = new JLabel("Max Price");
+						
+						JCheckBox catCheckB = new JCheckBox ("Category");
+						JComboBox catDr= new JComboBox ();
+						
+						JCheckBox Quant = new JCheckBox ("Quantity-on-hand");
+						JTextField amoun = new JTextField ("10");
+						JRadioButton R1 = new JRadioButton ("Equal to");
+						JRadioButton R2 = new JRadioButton ("Less than");
+						JRadioButton R3 = new JRadioButton ("Greater than");
+						
+						ButtonGroup mygroup = new ButtonGroup();
+						mygroup.add(R1);
+						mygroup.add(R2);
+						mygroup.add(R3);
+						
+						
+						JCheckBox supC = new JCheckBox ("Supplier");		
+						JComboBox supDrop= new JComboBox ();
+						
+						/** End **/
+						
+						JPanel checkPANEL1 = new JPanel (new GridLayout(1,2,1,1));//Panel for check boxes - holds 2 Panels (Category + priceRange)
+						
+						/** Panels for PriceRange Panel **/
+						
+						JPanel priceRangeP = new JPanel (new GridLayout(3,1,4,4));//Panel for Price range options
+						TitledBorder priceRangePtitle = new TitledBorder("Price Range");
+						priceRangeP.setBorder(priceRangePtitle);
+						
+						JPanel priceCheckP = new JPanel(new GridLayout(1,1,1,1));//Panel for the checkbox (Inside price range panel)
+						
+						priceCheckP.add(pRange);
+						
+						JPanel priceLabelP = new JPanel(new GridLayout(1,2,125,30));//Panel for Labels (Inside price range panel)
+						
+						priceLabelP.add(minL);
+						priceLabelP.add(maxL);
+						
+						JPanel priceTextP = new JPanel(new GridLayout(1,3,10,10));//Panel for Textbox (Inside price range panel)
+
+						priceTextP.add(minT);
+						priceTextP.add(to);
+						priceTextP.add(maxT);
+						
+						//Adding (3) above panels to price range panel
+						
+						priceRangeP.add(priceCheckP);
+						priceRangeP.add(priceLabelP);
+						priceRangeP.add(priceTextP);
+						
+						minT.setEnabled(false);
+						maxT.setEnabled(false);
+						minL.setEnabled(false);
+						maxL.setEnabled(false);
+						to.setEnabled(false);
+						
+						pRange.addActionListener(new ActionListener()
+						{
+							@Override 
+							public void actionPerformed(ActionEvent argo0)
+							{
+								if (pRange.isSelected())
+									{
+									minT.setEnabled(true);
+									maxT.setEnabled(true);
+									minL.setEnabled(true);
+									maxL.setEnabled(true);
+									to.setEnabled(true);
+									}
+								else{
+									minT.setEnabled(false);
+									maxT.setEnabled(false);
+									minL.setEnabled(false);
+									maxL.setEnabled(false);
+									to.setEnabled(false);
+								}
+							}
+						});
+						
+						
+						
+						//price range panel to the panel holding (category + priceRange)
+						checkPANEL1.add(priceRangeP);
+						
+						/** End OF Price range panel**/ 
+						
+						
+						/** Creating category panel + adding features**/
+						
+						JPanel categoryPanel = new JPanel (new GridLayout(2,2,4,30));
+						TitledBorder ButtonStuffP4title = new TitledBorder("Category");
+						categoryPanel.setBorder(ButtonStuffP4title);
+						
+						categoryPanel.add(catCheckB);
+						categoryPanel.add(catDr);
+						catDr.setEnabled(false);
+						
+						catCheckB.addActionListener(new ActionListener()
+						{
+							@Override 
+							public void actionPerformed(ActionEvent argo0)
+							{
+								if (catCheckB.isSelected())
+									{
+									catDr.setEnabled(true);
+									}
+								else{
+									catDr.setEnabled(false);
+								}
+							}
+						});
+						
+						checkPANEL1.add(categoryPanel);
+						
+						/**End of Category panel**/
+						
+						JPanel checkPANEL2 = new JPanel (new GridLayout(1,2,1,1));//Panel for check boxes - holds 2 Panels (Quantity + Supplier)
+						
+						/** Creating the Quantity panel + adding features**/ 
+						
+						JPanel quantityPanel = new JPanel (new GridLayout(5,1,1,1));
+						TitledBorder ButtonStuffP2title = new TitledBorder("Quantity");
+						quantityPanel.setBorder(ButtonStuffP2title);
+						
+						quantityPanel.add(Quant);
+						quantityPanel.add(R1);
+						quantityPanel.add(R2);
+						quantityPanel.add(R3);
+						quantityPanel.add(amoun);
+						
+						
+						R1.setEnabled(false);
+						R2.setEnabled(false);
+						R3.setEnabled(false);
+						amoun.setEnabled(false);
+					
+						
+						
+						
+						Quant.addActionListener(new ActionListener()
+						{
+							@Override 
+							public void actionPerformed(ActionEvent argo0)
+							{
+								if (Quant.isSelected())
+									{
+									R1.setEnabled(true);
+									R2.setEnabled(true);
+									R3.setEnabled(true);
+									amoun.setEnabled(true);
+									}
+								else
+								{
+									R1.setEnabled(false);
+									R2.setEnabled(false);
+									R3.setEnabled(false);
+									amoun.setEnabled(false);
+								}
+								
+							}
+						});
+						
+						checkPANEL2.add(quantityPanel);
+						
+						/**End OF Quantity Panel**/
+						
+						/** Creating supplier panel **/
+						
+						JPanel supplierPanel = new JPanel (new GridLayout(2,2,4,30));//Creating Supplier panel 
+						TitledBorder ButtonStuffP3title = new TitledBorder("Supplier");
+						supplierPanel.setBorder(ButtonStuffP3title);
+						
+						supplierPanel.add(supC);
+						supplierPanel.add(supDrop);
+						supDrop.setEnabled(false);
+						
+						supC.addActionListener(new ActionListener()
+						{
+							@Override 
+							public void actionPerformed(ActionEvent argo0)
+							{
+								if (supC.isSelected())
+									{
+									supDrop.setEnabled(true);
+									}
+								else{
+									supDrop.setEnabled(false);
+								}
+							}
+						});
+						checkPANEL2.add(supplierPanel);//Adding supplier to checkbox panel 2
+						
+						/** End of Supplier panel **/
+						
+						//Adding fist and second panel for the check boxes to the main panel2
+						p2.add(checkPANEL2);
+						p2.add(checkPANEL1);
+						
+						
+						/**Creating button panel for RESUTL-CANCEL-EXPORT**/
+						JPanel buttonPANEL = new JPanel(new GridLayout(2, 1, 1, 10));//Main button panel		
+						TitledBorder Resultcanceltitle = new TitledBorder("Result/Cancel/Export");
+						buttonPANEL.setBorder(Resultcanceltitle);
+						
+						JPanel resultCancelPANEL = new JPanel(new GridLayout(1, 2, 10, 1));//Panel for result and cancel
+						
+						JPanel exportPanel = new JPanel(new GridLayout(1, 1, 1, 1));//Panel for export 
+						
+						JButton resultButton = new JButton ("Result");
+						JButton cancelButton = new JButton ("Cancel");
+						JButton exportButton = new JButton ("Export");
+						
+						resultCancelPANEL.add(resultButton);//Adding buttons 
+						resultCancelPANEL.add(cancelButton);//Adding buttons
+						exportPanel.add(exportButton);//Adding button
+						
+						buttonPANEL.add(resultCancelPANEL);//Adding Result/Cancel panel to main button panel
+						buttonPANEL.add(exportPanel);//Adding Export panel to main button panel
+						
+						resultButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+//								viewStockFrame.dispose();
+								
+							}
+						});
+						
+						cancelButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								viewStockFrame.dispose();
+								
+							}
+						});
+						
+						exportButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+//								viewStockFrame.dispose();
+								
+							}
+						});
+						
+						p2.add(buttonPANEL);//Adding Button panel to the main function panel (P2)
+						/** End of Button panel adding **/
+						
+						MAINPANEL.add(p1);
+						MAINPANEL.add(p2);		
+						
+						viewStockFrame.setExtendedState(viewStockFrame.MAXIMIZED_BOTH);
+						viewStockFrame.setLocationRelativeTo(null);
+						viewStockFrame.setVisible(true);
+
+					}
+				});
+				
+				addProductButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JFrame addProductFRAME = new JFrame ();//Creating frame
+						
+						
+						JPanel addProductpanel = new JPanel(new GridLayout (3, 1, 1, 1));
+						TitledBorder mainPanelT = new TitledBorder("Add Product");
+						addProductpanel.setBorder(mainPanelT);
+						addProductFRAME.add(addProductpanel);
+						
+						JPanel outtitlePanel = new JPanel(new BorderLayout ());
+						JPanel intitlePanel = new JPanel(new GridLayout(1,1,1,1));
+						JLabel frameTitle = new JLabel ("Add Product");
+						Font font = new Font("SansSerif", Font.BOLD, 42);
+						frameTitle.setFont(font);
+						
+						intitlePanel.add(frameTitle);
+						outtitlePanel.add(intitlePanel, BorderLayout.NORTH);
+						addProductpanel.add(outtitlePanel);
+						
+						JPanel panelforinfo = new JPanel(new GridLayout(1, 2, 50, 10));
+						addProductpanel.add(panelforinfo);
+						
+						
+						JPanel productINFO = new JPanel(new GridLayout(6, 2, 10, 10));
+						TitledBorder productINFOT = new TitledBorder("PRODUCT");
+						productINFO.setBorder(productINFOT);
+						panelforinfo.add(productINFO);
+						
+						JPanel pricingINFO = new JPanel(new GridLayout(2, 1, 10, 10));
+						TitledBorder pricingINFOT = new TitledBorder("Pricing");
+						pricingINFO.setBorder(pricingINFOT);
+						panelforinfo.add(pricingINFO);
+						
+						
+						
+						JLabel barcodeLabel = new JLabel ("Barcode");
+						JTextField barcodeText = new JTextField ("");
+						
+						JLabel productCLabel = new JLabel ("Product Code");
+						JTextField productCText = new JTextField ("");
+						
+						JLabel nameLabel = new JLabel ("Name");
+						JTextField nameText = new JTextField ("");
+						
+						JLabel categoryLabel = new JLabel ("Category");
+						JComboBox categoryComboBox = new JComboBox ();
+						
+						JLabel quantityLabel = new JLabel ("Quantity");
+						JTextField quantityText = new JTextField ("");
+						
+						JLabel supplierLabel = new JLabel ("Supplier");
+						JComboBox supplierComboBox = new JComboBox ();
+						
+						productINFO.add(barcodeLabel);
+						productINFO.add(barcodeText);
+						productINFO.add(productCLabel);
+						productINFO.add(productCText);
+						productINFO.add(nameLabel);
+						productINFO.add(nameText);
+						productINFO.add(categoryLabel);
+						productINFO.add(categoryComboBox);
+						productINFO.add(quantityLabel);
+						productINFO.add(quantityText);
+						productINFO.add(supplierLabel);
+						productINFO.add(supplierComboBox);
+						
+						
+						JPanel pricingPanel1 = new JPanel (new GridLayout(4, 2, 7, 7));
+						JPanel pricingPanel2 = new JPanel (new GridLayout(2, 2, 7, 7));
+						
+						JLabel costpriceLabel = new JLabel("Cost Pricing");
+						JTextField costpriceText = new JTextField ("");
+						
+						JLabel salepriceLabel = new JLabel("Cost Pricing");
+						JTextField salepriceText = new JTextField ("");
+						
+						JLabel gstLabel = new JLabel("GST (10%) ");
+						JLabel gstLabelinfo = new JLabel("$0");
+						
+						JLabel lineLabel = new JLabel("_____________________________________________");
+						JLabel lineLabel1 = new JLabel("_____________________________________________");
+						JLabel profitmargLabel = new JLabel("Cost Pricing");
+						JLabel profitmargLabelinfo = new JLabel("$ ###");
+						
+						JLabel profitmargLabelinf = new JLabel("Cost Pricing");
+						JLabel profitLabelinfo = new JLabel("###% ");
+						
+						pricingPanel1.add(costpriceLabel);
+						pricingPanel1.add(costpriceText);
+						pricingPanel1.add(salepriceLabel);
+						pricingPanel1.add(salepriceText);
+						pricingPanel1.add(gstLabel);
+						pricingPanel1.add(gstLabelinfo);
+						pricingPanel1.add(lineLabel);
+						pricingPanel1.add(lineLabel1);		
+						pricingPanel2.add(profitmargLabel);
+						pricingPanel2.add(profitmargLabelinfo);
+						pricingPanel2.add(profitmargLabelinf);
+						pricingPanel2.add(profitLabelinfo);
+						
+						pricingINFO.add(pricingPanel1);
+						pricingINFO.add(pricingPanel2);
+						
+						
+						
+						JPanel outbuttonPanel = new JPanel(new GridLayout(2,1,70,100));
+						JPanel a = new JPanel();
+						JPanel inbuttonPanel = new JPanel(new GridLayout(1,2,50,50));
+						
+						JButton saveButton = new JButton("Save");
+						JButton cancelButton = new JButton("Cancel");
+						
+						inbuttonPanel.add(saveButton);
+						inbuttonPanel.add(cancelButton);
+						
+						outbuttonPanel.add(a);
+						outbuttonPanel.add(inbuttonPanel, BorderLayout.SOUTH);
+						addProductpanel.add(outbuttonPanel);
+						
+						
+						addProductFRAME.setExtendedState(addProductFRAME.MAXIMIZED_BOTH);
+						addProductFRAME.setLocationRelativeTo(null);
+						addProductFRAME.setVisible(true);
+						barcodeText.requestFocusInWindow();
+
+						saveButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+//								addProductFRAME.dispose();
+								
+							}
+						});
+						
+						cancelButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								addProductFRAME.dispose();
+								
+							}
+						});
+					}
+				});
+				
+				modifyProductButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						
+					}
+				});
+				
+				importCSVButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						
+					}
+				});
+				
+				addSupplierButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						
+					}
+				});
+				
 				myFrame.setVisible(true);
 			}
 		});
 
-		reportsButton.addActionListener(new ActionListener()
+		reportsButton.addActionListener(new ActionListener()	//creates the report main menu from Main Menu
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Product Inventory");
+				JFrame reportsMenuFrame = new JFrame();		//creates the Reports frame 
+				reportsMenuFrame.setTitle("Reports Menu");
 				//			myFrame.setSize(900,500);
-				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				//			myFrame.setUndecorated(true);
-				//			myFrame.setLayout(new FlowLayout());
-				//			myFrame.setLayout(new GridLayout(3,0,20,10));
-				//			myFrame.setLayout(new BorderLayout());
+				reportsMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 				//Parameters: numRows, numColumns, Hgap, Vgap
-				myFrame.setLocationRelativeTo(null);
-				//			myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-				//			myFrame.setVisible(true);
-
-
+				reportsMenuFrame.setLocationRelativeTo(null);
 
 				//Full Screen Panel
 				JPanel fullScreenPanel = new JPanel();
 				TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 				fullScreenPanel.setBorder(fullScreenTitle);
 				fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-				myFrame.add(fullScreenPanel);
+				reportsMenuFrame.add(fullScreenPanel);
 
 
 				//SECTION PANELS
@@ -554,20 +1206,1170 @@ public class MockupMainMenu {
 				fullScreenPanel.add(bottomPanel);
 
 
-				JButton viewStockButton = new JButton("Sales Report");
-				bottomPanel.add(viewStockButton);
+				JButton salesReportButton = new JButton("Sales Report");
+				bottomPanel.add(salesReportButton);
 
-				JButton addProductButton = new JButton("Refund Report");
-				bottomPanel.add(addProductButton);
+				JButton refundReportButton = new JButton("Refund Report");
+				bottomPanel.add(refundReportButton);
 
-				JButton modifyProductButton = new JButton("Slow Sellers Report");
-				bottomPanel.add(modifyProductButton);
+				JButton slowSellersButton = new JButton("Slow Sellers Report");
+				bottomPanel.add(slowSellersButton);
 
-				JButton importCSVButton = new JButton("Top Seller Report");
-				bottomPanel.add(importCSVButton);
+				JButton topSellersButton = new JButton("Top Seller Report");
+				bottomPanel.add(topSellersButton);
 
-				myFrame.setVisible(true);
+				reportsMenuFrame.setVisible(true);
+
+				salesReportButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JFrame myFrame = new JFrame();
+						myFrame.setTitle("Sales Reports");
+						//			myFrame.setSize(900,500);
+						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+						//Parameters: numRows, numColumns, Hgap, Vgap
+						myFrame.setLocationRelativeTo(null);
+
+						//Full Screen Panel
+						JPanel fullScreenPanel = new JPanel();
+						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+						fullScreenPanel.setBorder(fullScreenTitle);
+						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+						myFrame.add(fullScreenPanel);
+
+
+						//SECTION PANELS
+
+						JPanel topPanel = new JPanel();
+						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+						topPanel.setBorder(topPanelTitle);
+						topPanel.setLayout(new GridLayout(3,2,10,10));
+						fullScreenPanel.add(topPanel);
+
+						JLabel salesReportsLabel = new JLabel("Sales Reports");
+						Font myFont = new Font("SansSerif", Font.BOLD, 42);
+						salesReportsLabel.setFont(myFont);
+						topPanel.add(salesReportsLabel);
+
+						JPanel bottomPanel = new JPanel();
+						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+						bottomPanel.setBorder(bottomPanelTitle);
+						bottomPanel.setLayout(new GridLayout(2,2,10,10));
+						fullScreenPanel.add(bottomPanel);
+
+
+						JButton singleDaySaleButton = new JButton("Single Day Report");
+						bottomPanel.add(singleDaySaleButton);
+
+						JButton timePeriodSaleButton = new JButton("Time-Period Report");
+						bottomPanel.add(timePeriodSaleButton);
+
+						myFrame.setVisible(true);
+
+						singleDaySaleButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								JFrame myFrame = new JFrame();
+								myFrame.setTitle("Single Day Report");
+								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+								myFrame.setLocationRelativeTo(null);
+
+								//Full Screen Panel
+								JPanel fullScreenPanel = new JPanel();
+								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+								fullScreenPanel.setBorder(fullScreenTitle);
+								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+								myFrame.add(fullScreenPanel);
+
+
+								//SECTION PANELS
+
+								JPanel leftPanel = new JPanel();
+								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+								leftPanel.setBorder(leftPanelTitle);
+								leftPanel.setLayout(new GridLayout(1,1,10,10));
+								fullScreenPanel.add(leftPanel);
+
+								JPanel rightPanel = new JPanel();
+								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+								rightPanel.setBorder(rightPanelTitle);
+								rightPanel.setLayout(new GridLayout(4,1,10,10));
+								fullScreenPanel.add(rightPanel);
+
+								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+								Object[][] data = {
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"}
+								};
+
+								JTable lookUpTable = new JTable(data, colNames);
+								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+								leftPanel.add(scrlPane);
+								
+								
+								JPanel datePanel = new JPanel();
+								TitledBorder datePanelTitle = new TitledBorder("View Date:");
+								datePanel.setBorder(datePanelTitle);
+								datePanel.setLayout(new GridLayout(3,2,10,10));
+								
+								JTextField viewDate = new JTextField();
+								JLabel viewDateLabel = new JLabel("View Date:");
+								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
+								datePanel.add(viewDateLabel);
+								datePanel.add(viewDate);
+								datePanel.add(viewDateExample);
+
+								
+								rightPanel.add(datePanel);
+
+								
+								rightPanel.add(datePanel);
+								
+								JPanel reportTypePanel = new JPanel();
+								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+								reportTypePanel.setBorder(reportTypePanelTitle);
+								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(reportTypePanel);
+
+								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+								ButtonGroup myGroup = new ButtonGroup();
+
+								myGroup.add(salesByDollar);
+								myGroup.add(salesByVolume);
+								myGroup.add(profitByDollar);
+
+								reportTypePanel.add(salesByDollar);
+								reportTypePanel.add(salesByVolume);
+								reportTypePanel.add(profitByDollar);
+
+								JPanel shownAsPanel = new JPanel();
+								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+								shownAsPanel.setBorder(shownAsPanelTitle);
+								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+								rightPanel.add(shownAsPanel);
+
+								JButton barGraph = new JButton("Bar Graph");
+								shownAsPanel.add(barGraph);
+								JButton lineGraph = new JButton("Line Graph");
+								shownAsPanel.add(lineGraph);
+
+								JPanel resultsButtonPanel = new JPanel();
+								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(resultsButtonPanel);
+
+								JLabel blank = new JLabel();
+								resultsButtonPanel.add(blank);
+								JButton getResultsButton = new JButton("Get Results");
+								resultsButtonPanel.add(getResultsButton);
+
+								getResultsButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+//										myFrame.dispose();
+									}
+								});
+
+								JButton backButton = new JButton("Back");
+								resultsButtonPanel.add(backButton);
+
+								backButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+										myFrame.dispose();
+									}
+								});
+
+
+								myFrame.setVisible(true);
+							}
+						});
+						
+						timePeriodSaleButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								JFrame myFrame = new JFrame();
+								myFrame.setTitle("Time-Period Report");
+								//			myFrame.setSize(900,500);
+								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+								//Parameters: numRows, numColumns, Hgap, Vgap
+								myFrame.setLocationRelativeTo(null);
+
+								//Full Screen Panel
+								JPanel fullScreenPanel = new JPanel();
+								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+								fullScreenPanel.setBorder(fullScreenTitle);
+								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+								myFrame.add(fullScreenPanel);
+
+
+								//SECTION PANELS
+
+								JPanel leftPanel = new JPanel();
+								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+								leftPanel.setBorder(leftPanelTitle);
+								leftPanel.setLayout(new GridLayout(1,1,10,10));
+								fullScreenPanel.add(leftPanel);
+
+								JPanel rightPanel = new JPanel();
+								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+								rightPanel.setBorder(rightPanelTitle);
+								rightPanel.setLayout(new GridLayout(5,1,10,10));
+								fullScreenPanel.add(rightPanel);
+
+								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+								Object[][] data = {
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"}
+								};
+
+								JTable lookUpTable = new JTable(data, colNames);
+								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+								leftPanel.add(scrlPane);
+								
+								JPanel datePanel = new JPanel();
+								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
+								datePanel.setBorder(datePanelTitle);
+								datePanel.setLayout(new GridLayout(1,2,10,10));
+								
+								
+								JPanel rightDatePanel = new JPanel();
+								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+								rightDatePanel.setBorder(rightDatePanelTitle);
+								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+								
+								JPanel leftDatePanel = new JPanel();
+								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+								leftDatePanel.setBorder(leftDatePanelTitle);
+								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+								
+								JTextField viewStartDate = new JTextField();
+								JLabel viewStartDateLabel = new JLabel("Start Date:");
+								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+								rightDatePanel.add(viewStartDateLabel);
+								rightDatePanel.add(viewStartDate);
+								rightDatePanel.add(viewStartDateExample);
+								
+								JTextField viewEndDate = new JTextField();
+								JLabel viewEndDateLabel = new JLabel("End Date:");
+								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+								leftDatePanel.add(viewEndDateLabel);
+								leftDatePanel.add(viewEndDate);
+								leftDatePanel.add(viewEndDateExample);
+
+								datePanel.add(rightDatePanel);
+								datePanel.add(leftDatePanel);
+								rightPanel.add(datePanel);
+								
+								JPanel reportTypePanel = new JPanel();
+								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+								reportTypePanel.setBorder(reportTypePanelTitle);
+								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(reportTypePanel);
+
+								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+								ButtonGroup reportTypeGroup = new ButtonGroup();
+
+								reportTypeGroup.add(salesByDollar);
+								reportTypeGroup.add(salesByVolume);
+								reportTypeGroup.add(profitByDollar);
+
+								reportTypePanel.add(salesByDollar);
+								reportTypePanel.add(salesByVolume);
+								reportTypePanel.add(profitByDollar);
+
+								JPanel groupTypePanel = new JPanel();
+								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
+								groupTypePanel.setBorder(groupTypePanelTitle);
+								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(groupTypePanel);
+
+								JRadioButton dayRadio = new JRadioButton("Day", true);
+								JRadioButton weekRadio = new JRadioButton("Week", false);
+								JRadioButton monthRadio = new JRadioButton("Month", false);
+								ButtonGroup groupTypeGroup = new ButtonGroup();
+
+								groupTypeGroup.add(dayRadio);
+								groupTypeGroup.add(weekRadio);
+								groupTypeGroup.add(monthRadio);
+
+								groupTypePanel.add(dayRadio);
+								groupTypePanel.add(weekRadio);
+								groupTypePanel.add(monthRadio);
+								
+								JPanel shownAsPanel = new JPanel();
+								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+								shownAsPanel.setBorder(shownAsPanelTitle);
+								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+								rightPanel.add(shownAsPanel);
+
+								JButton barGraph = new JButton("Bar Graph");
+								shownAsPanel.add(barGraph);
+								JButton lineGraph = new JButton("Line Graph");
+								shownAsPanel.add(lineGraph);
+
+								JPanel resultsButtonPanel = new JPanel();
+								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(resultsButtonPanel);
+
+								JLabel blank = new JLabel();
+								resultsButtonPanel.add(blank);
+								JButton getResultsButton = new JButton("Get Results");
+								resultsButtonPanel.add(getResultsButton);
+
+								getResultsButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+//										myFrame.dispose();
+									}
+								});
+
+								JButton backButton = new JButton("Back");
+								resultsButtonPanel.add(backButton);
+
+								backButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+										myFrame.dispose();
+									}
+								});
+
+
+								myFrame.setVisible(true);
+							}
+						});
+					}
+				});
+
+
+				refundReportButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						JFrame myFrame = new JFrame();
+						myFrame.setTitle("Refund Reports");
+						//			myFrame.setSize(900,500);
+						myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+						//Parameters: numRows, numColumns, Hgap, Vgap
+						myFrame.setLocationRelativeTo(null);
+
+						//Full Screen Panel
+						JPanel fullScreenPanel = new JPanel();
+						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+						fullScreenPanel.setBorder(fullScreenTitle);
+						fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+						myFrame.add(fullScreenPanel);
+
+
+						//SECTION PANELS
+
+						JPanel topPanel = new JPanel();
+						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
+						topPanel.setBorder(topPanelTitle);
+						topPanel.setLayout(new GridLayout(3,2,10,10));
+						fullScreenPanel.add(topPanel);
+
+						JLabel inventoryLabel = new JLabel("Refund Reports");
+						Font myFont = new Font("SansSerif", Font.BOLD, 42);
+						inventoryLabel.setFont(myFont);
+						topPanel.add(inventoryLabel);
+
+						JPanel bottomPanel = new JPanel();
+						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
+						bottomPanel.setBorder(bottomPanelTitle);
+						bottomPanel.setLayout(new GridLayout(2,2,10,10));
+						fullScreenPanel.add(bottomPanel);
+
+
+						JButton singleDayRefundButton = new JButton("Single Day Report");
+						bottomPanel.add(singleDayRefundButton);
+
+						JButton timePeriodRefundButton = new JButton("Time-Period Report");
+						bottomPanel.add(timePeriodRefundButton);
+
+						myFrame.setVisible(true);
+						
+						singleDayRefundButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								JFrame myFrame = new JFrame();
+								myFrame.setTitle("Single Day Report");
+								//			myFrame.setSize(900,500);
+								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+								//Parameters: numRows, numColumns, Hgap, Vgap
+								myFrame.setLocationRelativeTo(null);
+
+								//Full Screen Panel
+								JPanel fullScreenPanel = new JPanel();
+								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+								fullScreenPanel.setBorder(fullScreenTitle);
+								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+								myFrame.add(fullScreenPanel);
+
+
+								//SECTION PANELS
+
+								JPanel leftPanel = new JPanel();
+								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+								leftPanel.setBorder(leftPanelTitle);
+								leftPanel.setLayout(new GridLayout(1,1,10,10));
+								fullScreenPanel.add(leftPanel);
+
+								JPanel rightPanel = new JPanel();
+								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+								rightPanel.setBorder(rightPanelTitle);
+								rightPanel.setLayout(new GridLayout(4,1,10,10));
+								fullScreenPanel.add(rightPanel);
+
+								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+								Object[][] data = {
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"}
+								};
+
+								JTable lookUpTable = new JTable(data, colNames);
+								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+								leftPanel.add(scrlPane);
+								
+								JPanel datePanel = new JPanel();
+								TitledBorder datePanelTitle = new TitledBorder("Report Type:");
+								datePanel.setBorder(datePanelTitle);
+								datePanel.setLayout(new GridLayout(3,2,10,10));
+								
+								JTextField viewDate = new JTextField();
+								JLabel viewDateLabel = new JLabel("View Date:");
+								JLabel viewDateExample = new JLabel("e.g. 24/03/2014");
+								datePanel.add(viewDateLabel);
+								datePanel.add(viewDate);
+								datePanel.add(viewDateExample);
+
+								
+								rightPanel.add(datePanel);
+								
+								JPanel reportTypePanel = new JPanel();
+								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+								reportTypePanel.setBorder(reportTypePanelTitle);
+								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(reportTypePanel);
+
+								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+								ButtonGroup myGroup = new ButtonGroup();
+
+								myGroup.add(salesByDollar);
+								myGroup.add(salesByVolume);
+								myGroup.add(profitByDollar);
+
+								reportTypePanel.add(salesByDollar);
+								reportTypePanel.add(salesByVolume);
+								reportTypePanel.add(profitByDollar);
+
+								JPanel shownAsPanel = new JPanel();
+								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+								shownAsPanel.setBorder(shownAsPanelTitle);
+								shownAsPanel.setLayout(new GridLayout(1,1,10,10));
+								rightPanel.add(shownAsPanel);
+
+								JButton barGraph = new JButton("Bar Graph");
+								shownAsPanel.add(barGraph);
+
+								JPanel resultsButtonPanel = new JPanel();
+								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(resultsButtonPanel);
+
+								JLabel blank = new JLabel();
+								resultsButtonPanel.add(blank);
+								JButton getResultsButton = new JButton("Get Results");
+								resultsButtonPanel.add(getResultsButton);
+
+								getResultsButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+//										myFrame.dispose();
+									}
+								});
+
+								JButton backButton = new JButton("Back");
+								resultsButtonPanel.add(backButton);
+
+								backButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+										myFrame.dispose();
+									}
+								});
+
+
+								myFrame.setVisible(true);
+							}
+						});
+						
+						timePeriodRefundButton.addActionListener(new ActionListener()
+						{
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) 
+							{
+								JFrame myFrame = new JFrame();
+								myFrame.setTitle("Time-Period Report");
+								//			myFrame.setSize(900,500);
+								myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+								//Parameters: numRows, numColumns, Hgap, Vgap
+								myFrame.setLocationRelativeTo(null);
+
+								//Full Screen Panel
+								JPanel fullScreenPanel = new JPanel();
+								TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+								fullScreenPanel.setBorder(fullScreenTitle);
+								fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+								myFrame.add(fullScreenPanel);
+
+
+								//SECTION PANELS
+
+								JPanel leftPanel = new JPanel();
+								TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+								leftPanel.setBorder(leftPanelTitle);
+								leftPanel.setLayout(new GridLayout(1,1,10,10));
+								fullScreenPanel.add(leftPanel);
+
+								JPanel rightPanel = new JPanel();
+								TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+								rightPanel.setBorder(rightPanelTitle);
+								rightPanel.setLayout(new GridLayout(5,1,10,10));
+								fullScreenPanel.add(rightPanel);
+
+								String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+								Object[][] data = {
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"},
+										{"DGKF353","4256985216","Cat","Pet","$40"}
+								};
+
+								JTable lookUpTable = new JTable(data, colNames);
+								JScrollPane scrlPane = new JScrollPane(lookUpTable);
+								leftPanel.add(scrlPane);
+								
+								JPanel datePanel = new JPanel();
+								TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
+								datePanel.setBorder(datePanelTitle);
+								datePanel.setLayout(new GridLayout(1,2,10,10));
+								
+								JPanel rightDatePanel = new JPanel();
+								TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+								rightDatePanel.setBorder(rightDatePanelTitle);
+								rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+								
+								JPanel leftDatePanel = new JPanel();
+								TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+								leftDatePanel.setBorder(leftDatePanelTitle);
+								leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+								
+
+								
+								JTextField viewStartDate = new JTextField();
+								JLabel viewStartDateLabel = new JLabel("Start Date:");
+								JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+								rightDatePanel.add(viewStartDateLabel);
+								rightDatePanel.add(viewStartDate);
+								rightDatePanel.add(viewStartDateExample);
+								
+								JTextField viewEndDate = new JTextField();
+								JLabel viewEndDateLabel = new JLabel("End Date:");
+								JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+								leftDatePanel.add(viewEndDateLabel);
+								leftDatePanel.add(viewEndDate);
+								leftDatePanel.add(viewEndDateExample);
+
+								datePanel.add(rightDatePanel);
+								datePanel.add(leftDatePanel);
+								rightPanel.add(datePanel);
+								
+								JPanel reportTypePanel = new JPanel();
+								TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
+								reportTypePanel.setBorder(reportTypePanelTitle);
+								reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(reportTypePanel);
+
+								JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
+								JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
+								JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+								ButtonGroup reportTypeGroup = new ButtonGroup();
+
+								reportTypeGroup.add(salesByDollar);
+								reportTypeGroup.add(salesByVolume);
+								reportTypeGroup.add(profitByDollar);
+
+								reportTypePanel.add(salesByDollar);
+								reportTypePanel.add(salesByVolume);
+								reportTypePanel.add(profitByDollar);
+
+								JPanel groupTypePanel = new JPanel();
+								TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
+								groupTypePanel.setBorder(groupTypePanelTitle);
+								groupTypePanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(groupTypePanel);
+
+								JRadioButton dayRadio = new JRadioButton("Day", true);
+								JRadioButton weekRadio = new JRadioButton("Week", false);
+								JRadioButton monthRadio = new JRadioButton("Month", false);
+								ButtonGroup groupTypeGroup = new ButtonGroup();
+
+								groupTypeGroup.add(dayRadio);
+								groupTypeGroup.add(weekRadio);
+								groupTypeGroup.add(monthRadio);
+
+								groupTypePanel.add(dayRadio);
+								groupTypePanel.add(weekRadio);
+								groupTypePanel.add(monthRadio);
+								
+								JPanel shownAsPanel = new JPanel();
+								TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
+								shownAsPanel.setBorder(shownAsPanelTitle);
+								shownAsPanel.setLayout(new GridLayout(1,2,10,10));
+								rightPanel.add(shownAsPanel);
+
+								JButton barGraph = new JButton("Bar Graph");
+								shownAsPanel.add(barGraph);
+
+								JPanel resultsButtonPanel = new JPanel();
+								//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
+								//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
+								resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+								rightPanel.add(resultsButtonPanel);
+
+								JLabel blank = new JLabel();
+								resultsButtonPanel.add(blank);
+								JButton getResultsButton = new JButton("Get Results");
+								resultsButtonPanel.add(getResultsButton);
+
+								getResultsButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+//										myFrame.dispose();
+									}
+								});
+
+								JButton backButton = new JButton("Back");
+								resultsButtonPanel.add(backButton);
+
+								backButton.addActionListener(new ActionListener()
+								{
+
+									@Override
+									public void actionPerformed(ActionEvent arg0) 
+									{
+										myFrame.dispose();
+									}
+								});
+
+
+								myFrame.setVisible(true);
+							}
+						});
+						
+					}
+				});
+				
+				
+				slowSellersButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+							JFrame myFrame = new JFrame();
+							myFrame.setTitle("Slow Sellers Report");
+							//			myFrame.setSize(900,500);
+							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+							//Parameters: numRows, numColumns, Hgap, Vgap
+							myFrame.setLocationRelativeTo(null);
+
+							//Full Screen Panel
+							JPanel fullScreenPanel = new JPanel();
+							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+							fullScreenPanel.setBorder(fullScreenTitle);
+							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+							myFrame.add(fullScreenPanel);
+
+
+							//SECTION PANELS
+
+							JPanel leftPanel = new JPanel();
+							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+							leftPanel.setBorder(leftPanelTitle);
+							leftPanel.setLayout(new GridLayout(1,1,10,10));
+							fullScreenPanel.add(leftPanel);
+
+							JPanel rightPanel = new JPanel();
+							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+							rightPanel.setBorder(rightPanelTitle);
+							rightPanel.setLayout(new GridLayout(4,1,10,10));
+							fullScreenPanel.add(rightPanel);
+
+							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+							Object[][] data = {
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"}
+							};
+
+							JTable lookUpTable = new JTable(data, colNames);
+							JScrollPane scrlPane = new JScrollPane(lookUpTable);
+							leftPanel.add(scrlPane);
+							
+							JPanel datePanel = new JPanel();
+							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+							datePanel.setBorder(datePanelTitle);
+							datePanel.setLayout(new GridLayout(1,2,10,10));
+							
+							JPanel rightDatePanel = new JPanel();
+							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+							rightDatePanel.setBorder(rightDatePanelTitle);
+							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+							
+							JPanel leftDatePanel = new JPanel();
+							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+							leftDatePanel.setBorder(leftDatePanelTitle);
+							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+							
+							JTextField viewStartDate = new JTextField();
+							JLabel viewStartDateLabel = new JLabel("Start Date:");
+							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+							rightDatePanel.add(viewStartDateLabel);
+							rightDatePanel.add(viewStartDate);
+							rightDatePanel.add(viewStartDateExample);
+							
+							JTextField viewEndDate = new JTextField();
+							JLabel viewEndDateLabel = new JLabel("End Date:");
+							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+							leftDatePanel.add(viewEndDateLabel);
+							leftDatePanel.add(viewEndDate);
+							leftDatePanel.add(viewEndDateExample);
+
+							datePanel.add(rightDatePanel);
+							datePanel.add(leftDatePanel);
+							rightPanel.add(datePanel);
+
+							
+							JPanel labelPanel = new JPanel();
+							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
+							labelPanel.setBorder(labelPanelTitle);
+							labelPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(labelPanel);
+
+							JLabel soldUnitsLabel = new JLabel("Product units sold,");
+							JLabel soldUnitsLabel2 = new JLabel("less than or equal to:");
+							Font myFont = new Font("SansSerif", Font.BOLD, 42);
+							soldUnitsLabel.setFont(myFont);
+							soldUnitsLabel2.setFont(myFont);
+							labelPanel.add(soldUnitsLabel);
+							labelPanel.add(soldUnitsLabel2);
+
+							JPanel inputUnitsPanel = new JPanel();
+							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
+							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
+							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(inputUnitsPanel);
+
+							JLabel unitsInputLabel = new JLabel("Input:");
+							JTextField units = new JTextField("");
+							JLabel unitsInputExample = new JLabel("e.g. 10");
+							inputUnitsPanel.add(unitsInputLabel);
+							inputUnitsPanel.add(units);
+							inputUnitsPanel.add(unitsInputExample);
+
+							JPanel resultsButtonPanel = new JPanel();
+							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(resultsButtonPanel);
+
+							JLabel blank = new JLabel();
+							resultsButtonPanel.add(blank);
+							JButton getResultsButton = new JButton("Get Results");
+							resultsButtonPanel.add(getResultsButton);
+
+							getResultsButton.addActionListener(new ActionListener()
+							{
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) 
+								{
+//									myFrame.dispose();
+								}
+							});
+
+							JButton backButton = new JButton("Back");
+							resultsButtonPanel.add(backButton);
+
+							backButton.addActionListener(new ActionListener()
+							{
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) 
+								{
+									myFrame.dispose();
+								}
+							});
+
+
+							myFrame.setVisible(true);
+						}
+					});
+					
+				
+				topSellersButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+							JFrame myFrame = new JFrame();
+							myFrame.setTitle("Top Sellers Report");
+							//			myFrame.setSize(900,500);
+							myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+							//Parameters: numRows, numColumns, Hgap, Vgap
+							myFrame.setLocationRelativeTo(null);
+
+							//Full Screen Panel
+							JPanel fullScreenPanel = new JPanel();
+							TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+							fullScreenPanel.setBorder(fullScreenTitle);
+							fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
+							myFrame.add(fullScreenPanel);
+
+
+							//SECTION PANELS
+
+							JPanel leftPanel = new JPanel();
+							TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+							leftPanel.setBorder(leftPanelTitle);
+							leftPanel.setLayout(new GridLayout(1,1,10,10));
+							fullScreenPanel.add(leftPanel);
+
+							JPanel rightPanel = new JPanel();
+							TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+							rightPanel.setBorder(rightPanelTitle);
+							rightPanel.setLayout(new GridLayout(4,1,10,10));
+							fullScreenPanel.add(rightPanel);
+
+							String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
+							Object[][] data = {
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"},
+									{"DGKF353","4256985216","Cat","Pet","$40"}
+							};
+
+							JTable lookUpTable = new JTable(data, colNames);
+							JScrollPane scrlPane = new JScrollPane(lookUpTable);
+							leftPanel.add(scrlPane);
+							
+							JPanel datePanel = new JPanel();
+							TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+							datePanel.setBorder(datePanelTitle);
+							datePanel.setLayout(new GridLayout(1,2,10,10));
+							
+							JPanel rightDatePanel = new JPanel();
+							TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+							rightDatePanel.setBorder(rightDatePanelTitle);
+							rightDatePanel.setLayout(new GridLayout(3,1,10,10));
+							
+							JPanel leftDatePanel = new JPanel();
+							TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+							leftDatePanel.setBorder(leftDatePanelTitle);
+							leftDatePanel.setLayout(new GridLayout(3,1,10,10));
+							
+							JTextField viewStartDate = new JTextField();
+							JLabel viewStartDateLabel = new JLabel("Start Date:");
+							JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
+							rightDatePanel.add(viewStartDateLabel);
+							rightDatePanel.add(viewStartDate);
+							rightDatePanel.add(viewStartDateExample);
+							
+							JTextField viewEndDate = new JTextField();
+							JLabel viewEndDateLabel = new JLabel("End Date:");
+							JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
+							leftDatePanel.add(viewEndDateLabel);
+							leftDatePanel.add(viewEndDate);
+							leftDatePanel.add(viewEndDateExample);
+
+							datePanel.add(rightDatePanel);
+							datePanel.add(leftDatePanel);
+							rightPanel.add(datePanel);
+							
+							JPanel labelPanel = new JPanel();
+							TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
+							labelPanel.setBorder(labelPanelTitle);
+							labelPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(labelPanel);
+
+							JLabel soldUnitsLabel = new JLabel("Number of Top");
+							JLabel soldUnitsLabel2 = new JLabel("Products:");
+							Font myFont = new Font("SansSerif", Font.BOLD, 42);
+							soldUnitsLabel.setFont(myFont);
+							soldUnitsLabel2.setFont(myFont);
+							labelPanel.add(soldUnitsLabel);
+							labelPanel.add(soldUnitsLabel2);
+
+							JPanel inputUnitsPanel = new JPanel();
+							TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
+							inputUnitsPanel.setBorder(inputUnitsPanelTitle);
+							inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(inputUnitsPanel);
+
+							JLabel unitsInputLabel = new JLabel("Input:");
+							JTextField units = new JTextField("");
+							JLabel unitsInputExample = new JLabel("e.g. 10");
+							inputUnitsPanel.add(unitsInputLabel);
+							inputUnitsPanel.add(units);
+							inputUnitsPanel.add(unitsInputExample);
+
+							JPanel resultsButtonPanel = new JPanel();
+							resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+							rightPanel.add(resultsButtonPanel);
+
+							JLabel blank = new JLabel();
+							resultsButtonPanel.add(blank);
+							JButton getResultsButton = new JButton("Get Results");
+							resultsButtonPanel.add(getResultsButton);
+
+							getResultsButton.addActionListener(new ActionListener()
+							{
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) 
+								{
+//									myFrame.dispose();
+								}
+							});
+
+							JButton backButton = new JButton("Back");
+							resultsButtonPanel.add(backButton);
+
+							backButton.addActionListener(new ActionListener()
+							{
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) 
+								{
+									myFrame.dispose();
+								}
+							});
+
+
+							myFrame.setVisible(true);
+						}
+					});
 			}
 		});
+
+
+
+
 	}
 }
