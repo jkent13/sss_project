@@ -1,4 +1,8 @@
-//SSS project work
+/*
+ * AddProductFrame Class
+ * Frame design to support 'Add Product' function
+ * Original Author: Jasmina Pasalic
+ */
 
 import java.awt.BorderLayout;
 import java.awt.Font;

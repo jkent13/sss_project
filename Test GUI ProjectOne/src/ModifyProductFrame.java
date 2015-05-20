@@ -1,3 +1,9 @@
+/*
+ * ModifyProductFrame Class
+ * Frame design to support 'Modify Product' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

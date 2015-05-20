@@ -1,3 +1,9 @@
+/*
+ * MockupMainMenu Class
+ * Frame design to support 'View Inventory' function
+ * Original Author: Jasmina Pasalic
+ */
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

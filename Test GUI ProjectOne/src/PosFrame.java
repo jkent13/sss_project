@@ -1,3 +1,9 @@
+/*
+ * PosFrame Class
+ * Frame design to support the 'Make Sale' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;

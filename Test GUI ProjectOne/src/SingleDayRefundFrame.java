@@ -1,3 +1,9 @@
+/*
+ * SingleDayRefundFrame Class
+ * Frame design to support 'Single Day Refund' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

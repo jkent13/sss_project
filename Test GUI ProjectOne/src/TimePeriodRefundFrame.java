@@ -1,3 +1,9 @@
+/*
+ * TimePeriodRefundFrame Class
+ * Frame design to support 'Time-Period Refund' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

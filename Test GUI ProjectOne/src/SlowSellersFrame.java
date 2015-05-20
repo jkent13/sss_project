@@ -1,3 +1,9 @@
+/*
+ * SlowSellersFrame Class
+ * Frame design to support 'Slow Sellers' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;

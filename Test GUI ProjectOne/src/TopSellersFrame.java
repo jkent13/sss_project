@@ -1,3 +1,9 @@
+/*
+ * TopSellersFrame Class
+ * Frame design to support 'Top Sellers' function
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;

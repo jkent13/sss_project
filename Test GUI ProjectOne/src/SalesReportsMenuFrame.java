@@ -1,3 +1,9 @@
+/*
+ * SalesReportsMenuFrame Class
+ * Frame design to support the 'Single Day Sale' and 'Time-Period Sale' functions
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;

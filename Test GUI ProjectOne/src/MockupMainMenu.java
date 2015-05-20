@@ -1,3 +1,9 @@
+/*
+ * MockupMainMenu Class
+ * The intial entry point into the application
+ * Original Author: Amethyst Mayer
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
