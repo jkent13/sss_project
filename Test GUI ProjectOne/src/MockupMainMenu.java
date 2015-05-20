@@ -1138,8 +1138,7 @@ public class MockupMainMenu {
 					@Override
 					public void actionPerformed(ActionEvent arg0) 
 					{
-						JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
-						
+						JFrame modifyProductUI = new ModifyProductFrame();
 					}
 				});
 				

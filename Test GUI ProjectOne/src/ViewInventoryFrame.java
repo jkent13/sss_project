@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class ViewInventoryFrame extends JFrame {
 
 	public ViewInventoryFrame()
