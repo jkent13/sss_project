@@ -1,3 +1,12 @@
+/* Register Class
+ * 
+ * The controller class for the POS / Retail subsystem
+ * Delegates input from PosFrame to other classes when needed
+ * Entry point from Presentation Layer to Domain Layer
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.io.File;
