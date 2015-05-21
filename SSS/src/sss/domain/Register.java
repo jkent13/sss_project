@@ -166,21 +166,21 @@ public class Register {
 			try {
 				writeSale(saleInsertStatement, lineInsertStatements);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
 			}
 			printReceipt(formatSale());
+			
 			// Clear lookUpTable
 			for(int i = dataModel.getRowCount()-1; i != -1; i--) {
 				dataModel.removeRow(i);
 			}
-			
 		}
 		else {
 			System.out.print("ERROR: Amount tendered not enough!");
 		}
 	}
+	
 	public String getSaleInsertStatement() {
 		String saleInsertStatement = SqlBuilder.getSaleInsertStatement(currentSale);
 		return saleInsertStatement;
@@ -213,18 +213,17 @@ public class Register {
 	}
 	
 	public void initialise() {
-		idFile = new File("id.txt");
-		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the table
+		idFile = new File("id.txt"); // Contains nextSaleId
+		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
 		try {
 			fileScanner = new Scanner(idFile);
+			nextSaleId = fileScanner.nextLong();
+			System.out.println("Next Sale ID read successfully.\nNext ID: " + nextSaleId);
+			fileScanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "Error: Could not find id.txt file. Next sale ID cannot be correctly established.", "File Not Found", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
-		nextSaleId = fileScanner.nextLong();
-		System.out.println("Next Sale ID read successfully.\nNext ID: " + nextSaleId);
-		fileScanner.close();
 	}
 	
 	public void shutdown() {
@@ -243,7 +242,6 @@ public class Register {
 		else {
 			System.out.println("No sales made.\nNext ID: " + nextSaleId);
 		}
-		
 		
 		try {
 			DbConnector.closeConnection();
