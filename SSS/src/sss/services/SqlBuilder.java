@@ -1,6 +1,8 @@
 /* SqlBuilder Class
+ * 
 *  Responsible for creating SQL strings in the correct syntax for passing to the DbReader and DbWriter classes 
 *  Creates INSERT, UPDATE and SELECT statements
+*  
 *  Original Author: Josh Kent
 */
 

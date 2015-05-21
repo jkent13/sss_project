@@ -1,5 +1,7 @@
 /* DbReader Class
-*  Responsible for executing queries on the database and returning the results to calling classes
+ * 
+*  Responsible for executing queries on the database and returning the results to calling objects
+*  
 *  Original Author: Josh Kent
 */
 

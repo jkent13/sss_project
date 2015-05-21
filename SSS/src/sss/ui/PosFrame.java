@@ -1,6 +1,10 @@
 /* PosFrame Class
  * 
+ * Frame design to supported the 'Make Sale' function
+ * 
+ * Original Author: Amethyst Mayer
  */
+
 package sss.ui;
 
 import java.awt.Font;

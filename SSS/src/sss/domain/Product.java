@@ -1,8 +1,8 @@
 /* Product Class
-*  Represents a real world product
-*  Original Author: Josh Kent
+ * 
+*  Represents a real world product / item and its details
 *  
-*  SET BIGDECIMAL ROUNDING MODE TO HALF-EVEN
+*  Original Author: Josh Kent
 */
 
 package sss.domain;

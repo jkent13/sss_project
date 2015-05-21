@@ -1,8 +1,9 @@
 /* Sale Class
-*  Represents a sale transaction
-*  Original Author: Josh Kent
+ * 
+*  Represents a sale transaction, consists of Line objects and 
+*  additional sale-related fields
 *  
-*  SET BIGDECIMAL ROUNDING MODE TO HALF-EVEN
+*  Original Author: Josh Kent
 */
 
 package sss.domain;
@@ -14,17 +15,17 @@ public class Sale {
 	
 	private int number_of_lines = 0;
 	
-	private long sale_id; // PK
+	private long sale_id; 												// PK
 	
-	private String sale_date; // String representing a MySQL DateTime
-	private BigDecimal sale_subtotal = new BigDecimal("0");; // Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst = new BigDecimal("0");; // Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total = new BigDecimal("0"); // Sale total (sum of line item totals)
-	private BigDecimal sale_amount_tendered = new BigDecimal("0");; // Amount tendered for sale (must be > sale total)
-	private BigDecimal sale_balance = new BigDecimal("0");; // Difference between amount tendered and sale total
-	private String sale_type = "Purchase"; // Sale type: either 'Purchase' or 'Refund'
+	private String sale_date; 											// String representing a MySQL DateTime
+	private BigDecimal sale_subtotal = new BigDecimal("0"); 			// Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal("0");					// Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal("0"); 				// Sale total (sum of line item totals)
+	private BigDecimal sale_amount_tendered = new BigDecimal("0");		// Amount tendered for sale (must be > sale total)
+	private BigDecimal sale_balance = new BigDecimal("0"); 				// Difference between amount tendered and sale total
+	private String sale_type = "Purchase"; 								// Sale type: either 'Purchase' or 'Refund'
 
-	private ArrayList<Line> lineItems = new ArrayList<>(); // Collection of all lines within a Sale
+	private ArrayList<Line> lineItems = new ArrayList<>(); 				// Collection of all lines within a Sale
 	
 	public Sale(long sale_id, String sale_date, String sale_type) {
 		this.sale_id = sale_id;

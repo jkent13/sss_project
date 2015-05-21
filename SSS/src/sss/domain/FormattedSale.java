@@ -1,3 +1,12 @@
+/* FormattedSale Class
+ * 
+ * A representation of a Sale object as a series of String values that can easily be printed
+ * using the ReceiptPrinter class
+ * Also contains receipt header and footer information as constants
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 public class FormattedSale {
