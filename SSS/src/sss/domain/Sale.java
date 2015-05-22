@@ -94,6 +94,24 @@ public class Sale {
 	public void removeLineItem(Line lineItem) {
 		lineItems.remove(lineItem);
 		number_of_lines--;
+		rebuildLineItems();
+		System.out.println("Line Item removed!");
+		for(Line l: lineItems) {
+			System.out.println(l);
+		}
+	}
+	
+	public void rebuildLineItems(){
+		ArrayList<Line> rebuiltLines = new ArrayList<Line>();
+		int newLineNumber = 1;
+		for(int i = 0; i < lineItems.size(); i++) {
+			if(lineItems.get(i) != null) {
+				rebuiltLines.add(lineItems.get(i));
+				rebuiltLines.get(i).setLineNumber(newLineNumber);
+				newLineNumber++;
+			}
+		}
+		lineItems = rebuiltLines;
 	}
 	
 	public BigDecimal calculateTotal() {

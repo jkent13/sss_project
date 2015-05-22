@@ -106,6 +106,10 @@ public class Line {
 		}
 	}
 	
+	public void setLineNumber(int line_number) {
+		this.line_number = line_number;
+	}
+	
 	@Override
 	public String toString() {
 		return "Sale ID: " + sale_id + " Line Number: " + line_number + " Product ID: " + prod_id + " Line Price: " + line_price + " Line Units: "
