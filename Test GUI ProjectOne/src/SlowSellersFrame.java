@@ -26,21 +26,21 @@ public class SlowSellersFrame extends JFrame {
 	public SlowSellersFrame()
 	{
 
+		//-------------------Frame Details--------------------
+
 		setTitle("Slow Sellers Report");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
-
-		//SECTION PANELS
+		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
 		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
@@ -82,6 +82,8 @@ public class SlowSellersFrame extends JFrame {
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
+		//--------------------Date Panels--------------------
+
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Select Date:");
 		datePanel.setBorder(datePanelTitle);
@@ -97,6 +99,8 @@ public class SlowSellersFrame extends JFrame {
 		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
+		//--------------------Date Panel Fields--------------------
+
 		JTextField viewStartDate = new JTextField();
 		JLabel viewStartDateLabel = new JLabel("Start Date:");
 		JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
@@ -115,6 +119,7 @@ public class SlowSellersFrame extends JFrame {
 		datePanel.add(leftDatePanel);
 		rightPanel.add(datePanel);
 
+		//--------------------Units Entry Panel--------------------
 		
 		JPanel labelPanel = new JPanel();
 		TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
@@ -143,14 +148,22 @@ public class SlowSellersFrame extends JFrame {
 		inputUnitsPanel.add(units);
 		inputUnitsPanel.add(unitsInputExample);
 
+		//---------------------Create Buttons---------------------
+
 		JPanel resultsButtonPanel = new JPanel();
 		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(resultsButtonPanel);
 
 		JLabel blank = new JLabel();
 		resultsButtonPanel.add(blank);
+		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
+
+		JButton backButton = new JButton("Back");
+		resultsButtonPanel.add(backButton);
+		
+		//---------------------Event Handlers---------------------
 
 		getResultsButton.addActionListener(new ActionListener()
 		{
@@ -161,9 +174,6 @@ public class SlowSellersFrame extends JFrame {
 //				myFrame.dispose();
 			}
 		});
-
-		JButton backButton = new JButton("Back");
-		resultsButtonPanel.add(backButton);
 
 		backButton.addActionListener(new ActionListener()
 		{

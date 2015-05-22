@@ -22,41 +22,41 @@ public class MockupMainMenu {
 
 	public static void main(String[] args) {
 
-		JFrame myFrame = new JFrame();
-		myFrame.setTitle("Main Menu");
-		myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		myFrame.setLocationRelativeTo(null);
-		myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+//-------------------Frame Details--------------------		
+
+		JFrame mainMenuFrame = new JFrame();
+		mainMenuFrame.setTitle("Main Menu");
+		mainMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		mainMenuFrame.setLocationRelativeTo(null);
+		mainMenuFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
 
 
-		//Full Screen Panel
+//-------------------Full Screen Panel--------------------
+		
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-		myFrame.add(fullScreenPanel);
+		mainMenuFrame.add(fullScreenPanel);
 
 
-		//SECTION PANELS
+//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-//		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-//		topPanel.setBorder(topPanelTitle);
 		topPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel inventoryLabel = new JLabel("Welcome to the SSS Project");
+		JLabel mainMenuLabel = new JLabel("Welcome to the SSS Project");
 		Font myFont = new Font("SansSerif", Font.BOLD, 42);
-		inventoryLabel.setFont(myFont);
-		topPanel.add(inventoryLabel);
+		mainMenuLabel.setFont(myFont);
+		topPanel.add(mainMenuLabel);
 
 		JPanel bottomPanel = new JPanel();
-//		TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-//		bottomPanel.setBorder(bottomPanelTitle);
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
-
+//---------------------Create Buttons---------------------
+		
 		JButton salesTransButton = new JButton("Sales Transactions");
 		bottomPanel.add(salesTransButton);
 
@@ -69,8 +69,8 @@ public class MockupMainMenu {
 		JButton reportsButton = new JButton("Reports");
 		bottomPanel.add(reportsButton);
 
-		myFrame.setVisible(true);
-
+		
+//---------------------Event Handlers---------------------
 
 		salesTransButton.addActionListener(new ActionListener()
 		{
@@ -115,9 +115,7 @@ public class MockupMainMenu {
 				JFrame reportsMenuUI = new ReportsMenuFrame();
 			}
 		});
-
-
-
-
+		
+		mainMenuFrame.setVisible(true);
 	}
 }

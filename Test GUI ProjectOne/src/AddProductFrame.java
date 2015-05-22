@@ -23,24 +23,36 @@ public class AddProductFrame extends JFrame {
 	
 	public AddProductFrame()
 	{
+		
+//-------------------Frame Details--------------------
+
+		setTitle("Add Product");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setLocationRelativeTo(null);
+		
+//-------------------Full Screen Panel--------------------
+		
 		JPanel addProductpanel = new JPanel(new GridLayout (3, 1, 1, 1));
 		TitledBorder mainPanelT = new TitledBorder("Add Product");
 		addProductpanel.setBorder(mainPanelT);
 		add(addProductpanel);
 		
-		JPanel outtitlePanel = new JPanel(new BorderLayout ());
-		JPanel intitlePanel = new JPanel(new GridLayout(1,1,1,1));
-		JLabel frameTitle = new JLabel ("Add Product");
-		Font font = new Font("SansSerif", Font.BOLD, 42);
-		frameTitle.setFont(font);
+//--------------------Section Panels--------------------
 		
-		intitlePanel.add(frameTitle);
-		outtitlePanel.add(intitlePanel, BorderLayout.NORTH);
-		addProductpanel.add(outtitlePanel);
+		JPanel topPanel = new JPanel(new BorderLayout ());
+		TitledBorder outPanel = new TitledBorder("Out Panel");
+		topPanel.setBorder(outPanel);
+		addProductpanel.add(topPanel);
+		
+		JPanel titlePanel = new JPanel(new GridLayout(1,1,1,1));
+		JLabel addProductTitle = new JLabel ("Add Product");
+		Font font = new Font("SansSerif", Font.BOLD, 42);
+		addProductTitle.setFont(font);
+		titlePanel.add(addProductTitle);
+		topPanel.add(titlePanel, BorderLayout.NORTH);
 		
 		JPanel panelforinfo = new JPanel(new GridLayout(1, 2, 50, 10));
 		addProductpanel.add(panelforinfo);
-		
 		
 		JPanel productINFO = new JPanel(new GridLayout(6, 2, 10, 10));
 		TitledBorder productINFOT = new TitledBorder("PRODUCT");
@@ -51,6 +63,8 @@ public class AddProductFrame extends JFrame {
 		TitledBorder pricingINFOT = new TitledBorder("Pricing");
 		pricingINFO.setBorder(pricingINFOT);
 		panelforinfo.add(pricingINFO);
+		
+//---------------------Create Fields---------------------
 		
 		JLabel barcodeLabel = new JLabel ("Barcode");
 		JTextField barcodeText = new JTextField ("");
@@ -120,7 +134,7 @@ public class AddProductFrame extends JFrame {
 		pricingINFO.add(pricingPanel1);
 		pricingINFO.add(pricingPanel2);
 		
-		
+//---------------------Create Buttons---------------------
 		
 		JPanel outbuttonPanel = new JPanel(new GridLayout(2,1,70,100));
 		JPanel a = new JPanel();
@@ -135,12 +149,8 @@ public class AddProductFrame extends JFrame {
 		outbuttonPanel.add(a);
 		outbuttonPanel.add(inbuttonPanel, BorderLayout.SOUTH);
 		addProductpanel.add(outbuttonPanel);
-		
-		
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setLocationRelativeTo(null);
-		
-		
+				
+//---------------------Event Handlers---------------------		
 
 		saveButton.addActionListener(new ActionListener()
 		{

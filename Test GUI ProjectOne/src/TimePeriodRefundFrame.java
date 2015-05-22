@@ -27,21 +27,21 @@ public class TimePeriodRefundFrame extends JFrame {
 	public TimePeriodRefundFrame()
 	{
 
+		//-------------------Frame Details--------------------
+
 		setTitle("Time-Period Refund Report");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
-
-		//SECTION PANELS
+		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
 		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
@@ -75,6 +75,8 @@ public class TimePeriodRefundFrame extends JFrame {
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
+		//--------------------Date Panels--------------------
+
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
 		datePanel.setBorder(datePanelTitle);
@@ -90,8 +92,8 @@ public class TimePeriodRefundFrame extends JFrame {
 		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
+		//--------------------Date Panel Fields--------------------
 
-		
 		JTextField viewStartDate = new JTextField();
 		JLabel viewStartDateLabel = new JLabel("Start Date:");
 		JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
@@ -110,6 +112,9 @@ public class TimePeriodRefundFrame extends JFrame {
 		datePanel.add(leftDatePanel);
 		rightPanel.add(datePanel);
 		
+		//--------------------Report Panel--------------------
+		// the radio button for report type are held in this panel.
+
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
@@ -128,6 +133,9 @@ public class TimePeriodRefundFrame extends JFrame {
 		reportTypePanel.add(salesByDollar);
 		reportTypePanel.add(salesByVolume);
 		reportTypePanel.add(profitByDollar);
+
+		//--------------------Group By Panel--------------------
+		// the group by (day, week, month) radio buttons are held in this panel.
 
 		JPanel groupTypePanel = new JPanel();
 		TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
@@ -148,6 +156,9 @@ public class TimePeriodRefundFrame extends JFrame {
 		groupTypePanel.add(weekRadio);
 		groupTypePanel.add(monthRadio);
 		
+		//--------------------Shown As Panel--------------------
+		// the type of graph view for the records are held in this panel.
+
 		JPanel shownAsPanel = new JPanel();
 		TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
 		shownAsPanel.setBorder(shownAsPanelTitle);
@@ -157,9 +168,9 @@ public class TimePeriodRefundFrame extends JFrame {
 		JButton barGraph = new JButton("Bar Graph");
 		shownAsPanel.add(barGraph);
 
+		//---------------------Create Buttons---------------------
+
 		JPanel resultsButtonPanel = new JPanel();
-		//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-		//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
 		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(resultsButtonPanel);
 
@@ -167,6 +178,11 @@ public class TimePeriodRefundFrame extends JFrame {
 		resultsButtonPanel.add(blank);
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
+
+		JButton backButton = new JButton("Back");
+		resultsButtonPanel.add(backButton);
+		
+		//---------------------Event Handlers---------------------
 
 		getResultsButton.addActionListener(new ActionListener()
 		{
@@ -178,8 +194,7 @@ public class TimePeriodRefundFrame extends JFrame {
 			}
 		});
 
-		JButton backButton = new JButton("Back");
-		resultsButtonPanel.add(backButton);
+		
 
 		backButton.addActionListener(new ActionListener()
 		{

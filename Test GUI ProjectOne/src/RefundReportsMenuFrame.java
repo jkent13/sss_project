@@ -22,13 +22,14 @@ public class RefundReportsMenuFrame extends JFrame {
 	public RefundReportsMenuFrame()
 	{
 
+//-------------------Frame Details--------------------
+		
 		setTitle("Refund Reports");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
@@ -36,7 +37,7 @@ public class RefundReportsMenuFrame extends JFrame {
 		add(fullScreenPanel);
 
 
-		//SECTION PANELS
+//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
 		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
@@ -55,6 +56,7 @@ public class RefundReportsMenuFrame extends JFrame {
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
+//---------------------Create Buttons---------------------
 
 		JButton singleDayRefundButton = new JButton("Single Day Report");
 		bottomPanel.add(singleDayRefundButton);
@@ -62,7 +64,7 @@ public class RefundReportsMenuFrame extends JFrame {
 		JButton timePeriodRefundButton = new JButton("Time-Period Report");
 		bottomPanel.add(timePeriodRefundButton);
 
-		setVisible(true);
+//---------------------Event Handlers---------------------
 		
 		singleDayRefundButton.addActionListener(new ActionListener()
 		{
@@ -84,6 +86,7 @@ public class RefundReportsMenuFrame extends JFrame {
 			}
 		});
 		
+		setVisible(true);
 	
 	}
 }

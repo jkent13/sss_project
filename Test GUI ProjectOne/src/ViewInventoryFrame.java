@@ -296,14 +296,14 @@ public class ViewInventoryFrame extends JFrame {
 		
 		/**Creating button panel for RESUTL-CANCEL-EXPORT**/
 		JPanel buttonPANEL = new JPanel(new GridLayout(2, 1, 1, 10));//Main button panel		
-		TitledBorder Resultcanceltitle = new TitledBorder("Result/Cancel/Export");
+		TitledBorder Resultcanceltitle = new TitledBorder("Get Results/Cancel/Export");
 		buttonPANEL.setBorder(Resultcanceltitle);
 		
 		JPanel resultCancelPANEL = new JPanel(new GridLayout(1, 2, 10, 1));//Panel for result and cancel
 		
 		JPanel exportPanel = new JPanel(new GridLayout(1, 1, 1, 1));//Panel for export 
 		
-		JButton resultButton = new JButton ("Result");
+		JButton resultButton = new JButton ("Get Results");
 		JButton cancelButton = new JButton ("Cancel");
 		JButton exportButton = new JButton ("Export");
 		

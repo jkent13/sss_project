@@ -22,18 +22,22 @@ public class InventoryMenuFrame extends JFrame {
 
 	public InventoryMenuFrame()
 	{
+		
+		//-------------------Frame Details--------------------
+
 		setTitle("Product Inventory");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel over Frame
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 		add(fullScreenPanel);
 
-		//SECTION PANELS within the Full Screen Panel
+		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();		//top panel in the FULL SCREEN Panel
 		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
@@ -65,6 +69,8 @@ public class InventoryMenuFrame extends JFrame {
 		bottomRightPanel.setLayout(new GridLayout(2,1,10,10));
 		bottomPanel.add(bottomRightPanel);
 
+		//---------------------Create Buttons---------------------
+		
 		JButton viewStockButton = new JButton("View Inventory Stock");
 		bottomMiddlePanel.add(viewStockButton);
 
@@ -80,6 +86,7 @@ public class InventoryMenuFrame extends JFrame {
 		JButton addSupplierButton = new JButton("Add Supplier");
 		bottomRightPanel.add(addSupplierButton);
 
+		//---------------------Event Handlers---------------------
 
 		viewStockButton.addActionListener(new ActionListener()
 		{

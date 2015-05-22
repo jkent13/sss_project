@@ -21,22 +21,21 @@ public class ReportsMenuFrame extends JFrame {
 
 	public ReportsMenuFrame()
 	{
- 
+		//-------------------Frame Details--------------------
+
 		setTitle("Reports Menu");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 		add(fullScreenPanel);
 
-
-		//SECTION PANELS
+		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
 		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
@@ -55,6 +54,7 @@ public class ReportsMenuFrame extends JFrame {
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
+		//---------------------Create Buttons---------------------
 
 		JButton salesReportMenuButton = new JButton("Sales Report");
 		bottomPanel.add(salesReportMenuButton);
@@ -68,6 +68,7 @@ public class ReportsMenuFrame extends JFrame {
 		JButton topSellersButton = new JButton("Top Seller Report");
 		bottomPanel.add(topSellersButton);
 
+		//---------------------Event Handlers---------------------
 
 		salesReportMenuButton.addActionListener(new ActionListener()
 		{

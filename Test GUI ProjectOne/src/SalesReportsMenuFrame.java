@@ -23,21 +23,21 @@ public class SalesReportsMenuFrame extends JFrame {
 	public SalesReportsMenuFrame()
 	{
 
+		//-------------------Frame Details--------------------
+
 		setTitle("Sales Reports");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 		add(fullScreenPanel);
 
-
-		//SECTION PANELS
+		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
 		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
@@ -56,6 +56,7 @@ public class SalesReportsMenuFrame extends JFrame {
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
+		//---------------------Create Buttons---------------------
 
 		JButton singleDaySaleButton = new JButton("Single Day Report");
 		bottomPanel.add(singleDaySaleButton);
@@ -63,8 +64,8 @@ public class SalesReportsMenuFrame extends JFrame {
 		JButton timePeriodSaleButton = new JButton("Time-Period Report");
 		bottomPanel.add(timePeriodSaleButton);
 
-		setVisible(true);
-
+		//---------------------Event Handlers---------------------
+		
 		singleDaySaleButton.addActionListener(new ActionListener()
 		{
 
@@ -86,5 +87,6 @@ public class SalesReportsMenuFrame extends JFrame {
 			}
 		});
 	
+		setVisible(true);
 	}
 }

@@ -28,14 +28,14 @@ public class ModifyProductFrame extends JFrame {
 	public ModifyProductFrame()
 	{
 
+//-------------------Frame Details--------------------
 		
 		setTitle("Modify Product");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
-
-		//Full Screen Panel
+		
+//-------------------Full Screen Panel--------------------
+		
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
@@ -43,7 +43,7 @@ public class ModifyProductFrame extends JFrame {
 		add(fullScreenPanel);
 
 
-		//SECTION PANELS
+//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
 		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
@@ -117,6 +117,8 @@ public class ModifyProductFrame extends JFrame {
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
+//--------------------Date Panels--------------------
+		
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
 		datePanel.setBorder(datePanelTitle);
@@ -151,9 +153,10 @@ public class ModifyProductFrame extends JFrame {
 		datePanel.add(leftDatePanel);
 		rightPanel.add(datePanel);
 		
+//--------------------Code Panel--------------------
+// the barcode and product code fields are held in this panel.
+		
 		JPanel codesPanel = new JPanel();
-//		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
-//		codesPanel.setBorder(reportTypePanelTitle);
 		codesPanel.setLayout(new GridLayout(2,2,10,10));
 		rightPanel.add(codesPanel);
 
@@ -168,6 +171,9 @@ public class ModifyProductFrame extends JFrame {
 		codesPanel.add(productCodeLabel);
 		codesPanel.add(productCode);
 
+//--------------------Details Panel--------------------
+// the product name and price fields are held in this panel.
+		
 		JPanel productDetailsPanel = new JPanel();
 		productDetailsPanel.setLayout(new GridLayout(3,2,10,10));
 		rightPanel.add(productDetailsPanel);
@@ -189,6 +195,8 @@ public class ModifyProductFrame extends JFrame {
 		productDetailsPanel.add(categoryLabel);
 		productDetailsPanel.add(categoryComboBox);
 		
+//--------------------Supplier/Active Panel--------------------
+// the supplier and active fields are held in this panel.
 		JPanel suppActivePanel = new JPanel();
 		suppActivePanel.setLayout(new GridLayout(2,2,10,10));
 		rightPanel.add(suppActivePanel);
@@ -204,18 +212,23 @@ public class ModifyProductFrame extends JFrame {
 		suppActivePanel.add(activeCheckBoxLabel);
 		suppActivePanel.add(activeCheckBox);
 		
+//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-		//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
 		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(resultsButtonPanel);
 
 		JLabel blank = new JLabel();
 		resultsButtonPanel.add(blank);
+		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
 
+		JButton backButton = new JButton("Back");
+		resultsButtonPanel.add(backButton);
+		
+//---------------------Event Handlers---------------------
+		
 		getResultsButton.addActionListener(new ActionListener()
 		{
 
@@ -226,8 +239,7 @@ public class ModifyProductFrame extends JFrame {
 			}
 		});
 
-		JButton backButton = new JButton("Back");
-		resultsButtonPanel.add(backButton);
+		
 
 		backButton.addActionListener(new ActionListener()
 		{

@@ -26,22 +26,22 @@ public class SingleDayRefundFrame extends JFrame {
 
 	public SingleDayRefundFrame()
 	{
+		
+		//-------------------Frame Details--------------------
 
 		setTitle("Single Day Refund Report");
-		//			myFrame.setSize(900,500);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		//Parameters: numRows, numColumns, Hgap, Vgap
 		setLocationRelativeTo(null);
 
-		//Full Screen Panel
+		//-------------------Full Screen Panel--------------------
+
 		JPanel fullScreenPanel = new JPanel();
 		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
-
-		//SECTION PANELS
+		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
 		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
@@ -83,6 +83,8 @@ public class SingleDayRefundFrame extends JFrame {
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
+		//--------------------Date Panels--------------------
+
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Report Type:");
 		datePanel.setBorder(datePanelTitle);
@@ -95,9 +97,11 @@ public class SingleDayRefundFrame extends JFrame {
 		datePanel.add(viewDate);
 		datePanel.add(viewDateExample);
 
-		
 		rightPanel.add(datePanel);
 		
+		//--------------------Report Panel--------------------
+		// the radio button for report type are held in this panel.
+
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
@@ -117,6 +121,9 @@ public class SingleDayRefundFrame extends JFrame {
 		reportTypePanel.add(salesByVolume);
 		reportTypePanel.add(profitByDollar);
 
+		//--------------------Shown As Panel--------------------
+		// the type of graph view for the records are held in this panel.
+
 		JPanel shownAsPanel = new JPanel();
 		TitledBorder shownAsPanelTitle = new TitledBorder("Shown as:");
 		shownAsPanel.setBorder(shownAsPanelTitle);
@@ -126,16 +133,22 @@ public class SingleDayRefundFrame extends JFrame {
 		JButton barGraph = new JButton("Bar Graph");
 		shownAsPanel.add(barGraph);
 
+		//---------------------Create Buttons---------------------
+		
 		JPanel resultsButtonPanel = new JPanel();
-		//								TitledBorder resultsButtonPanelTitle = new TitledBorder("Shown as:");
-		//								resultsButtonPanel.setBorder(resultsButtonPanelTitle);
 		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(resultsButtonPanel);
 
 		JLabel blank = new JLabel();
 		resultsButtonPanel.add(blank);
+		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
+
+		JButton backButton = new JButton("Back");
+		resultsButtonPanel.add(backButton);
+		
+		//---------------------Event Handlers---------------------
 
 		getResultsButton.addActionListener(new ActionListener()
 		{
@@ -146,9 +159,6 @@ public class SingleDayRefundFrame extends JFrame {
 //				myFrame.dispose();
 			}
 		});
-
-		JButton backButton = new JButton("Back");
-		resultsButtonPanel.add(backButton);
 
 		backButton.addActionListener(new ActionListener()
 		{
