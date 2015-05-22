@@ -10,12 +10,18 @@ package sss.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 
-public class Sale {
+public class Sale extends Observable {
 	
 	private int number_of_lines = 0;
 	
 	private long sale_id; 												// PK
+	
+	private BigDecimal[] observerData = new BigDecimal[2]; 
 	
 	private String sale_date; 											// String representing a MySQL DateTime
 	private BigDecimal sale_subtotal = new BigDecimal("0"); 			// Sale subtotal before GST (10 / 11 of sale total)
@@ -95,6 +101,9 @@ public class Sale {
 		lineItems.remove(lineItem);
 		number_of_lines--;
 		rebuildLineItems();
+		for(Line l: lineItems) {
+			System.out.println(l);
+		}
 	}
 	
 	public void rebuildLineItems(){
@@ -115,6 +124,9 @@ public class Sale {
 		for(Line l: lineItems) {
 			sale_total = sale_total.add(l.getLineAmount().setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		}
+		observerData[1] = sale_total;
+		setChanged();
+		notifyObservers(observerData);
 		return sale_total;
 	}
 	
@@ -133,6 +145,9 @@ public class Sale {
 	public BigDecimal calculateBalance() {
 		sale_balance = new BigDecimal(0);
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		observerData[0] = sale_balance;
+		setChanged();
+		notifyObservers(observerData);
 		return sale_balance;
 	}
 	

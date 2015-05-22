@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observer;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -47,6 +48,12 @@ public class Register {
 	
 	public Register() {
 		initialise();
+	}
+	
+	public void registerSaleObserver(Observer o) {
+		if(activeSale) {
+			currentSale.addObserver(o);
+		}
 	}
 	
 	public LineItemTableModel getDataModel() {

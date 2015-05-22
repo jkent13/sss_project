@@ -18,6 +18,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,17 +38,22 @@ import sss.domain.LineItemTableModel;
 import sss.domain.Register;
 
 @SuppressWarnings("serial")
-public class PosFrame extends JFrame {
+public class PosFrame extends JFrame implements Observer {
+	
+	private BigDecimal[] saleData;
+	
+	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
+	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
+	
+	Register register = new Register();
 	
 	public PosFrame() {
-		
-		Register register = new Register();
 
 		setTitle("Make Sale");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+		
 
 		//Full Screen Panel
 		JPanel fullScreenPanel = new JPanel();
@@ -85,9 +92,9 @@ public class PosFrame extends JFrame {
 
 		JPanel showAmount = new JPanel();
 		showAmount.setLayout(new GridLayout(2,1,10,10));
-		JLabel saleBalanceLabel = new JLabel("Change: $0.00");
+
 		saleBalanceLabel.setFont(myFont);
-		JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
+
 		saleTotalLabel.setFont(myFont);
 
 		JPanel showBalance = new JPanel();
@@ -413,7 +420,7 @@ public class PosFrame extends JFrame {
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
 					register.voidLineItem(lookUpTable.getSelectedRow());
-					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
@@ -428,7 +435,7 @@ public class PosFrame extends JFrame {
 				if(lookUpTable.getSelectedRow() != -1) {
 					int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 					register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -455,7 +462,7 @@ public class PosFrame extends JFrame {
 				if(lookUpTable.getSelectedRow() != -1) {
 					double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 					register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -472,8 +479,8 @@ public class PosFrame extends JFrame {
 				if(register.getCurrentSaleTotal() != "0.00") { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 					register.makePayment(exactAmount);
-					saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
-					saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
+//					saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
+//					saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
@@ -488,7 +495,7 @@ public class PosFrame extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -504,7 +511,7 @@ public class PosFrame extends JFrame {
 					if(lookUpTable.getSelectedRow() != -1) {
 						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -530,7 +537,7 @@ public class PosFrame extends JFrame {
 					if(lookUpTable.getSelectedRow() != -1) {
 						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -546,7 +553,7 @@ public class PosFrame extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -562,7 +569,7 @@ public class PosFrame extends JFrame {
 					if(lookUpTable.getSelectedRow() != -1) {
 						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -578,7 +585,7 @@ public class PosFrame extends JFrame {
 					if(lookUpTable.getSelectedRow() != -1) {
 						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -595,8 +602,9 @@ public class PosFrame extends JFrame {
 						try {
 							register.beginSale();
 							register.enterItem(Long.valueOf(barcodeEntryField.getText()));
+							registerFrameAsObserver();
 							register.calculateTotal();
-							saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+//							saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 							barcodeEntryField.setText("");
 							barcodeEntryField.requestFocusInWindow();
 						}
@@ -628,8 +636,27 @@ public class PosFrame extends JFrame {
 				}
 			}
 		});
-
+		
+		
 		setVisible(true);
 		barcodeEntryField.requestFocusInWindow();
+	}
+
+	public void registerFrameAsObserver() {
+		register.registerSaleObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		if(arg instanceof BigDecimal[]) {
+			saleData = (BigDecimal[])arg;
+			
+			if(saleData[0] != null)
+				saleBalanceLabel.setText("Change: $" + saleData[0].toString());
+			
+			if(saleData[1] != null)
+				saleTotalLabel.setText("TOTAL: $" + saleData[1].toString());
+		}
+		
 	}
 }
