@@ -95,10 +95,6 @@ public class Sale {
 		lineItems.remove(lineItem);
 		number_of_lines--;
 		rebuildLineItems();
-		System.out.println("Line Item removed!");
-		for(Line l: lineItems) {
-			System.out.println(l);
-		}
 	}
 	
 	public void rebuildLineItems(){

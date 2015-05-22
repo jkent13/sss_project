@@ -41,8 +41,8 @@ public class Line {
 		this.line_number = line_number;
 		product = prod;
 		this.prod_id = product.getId();
-		line_price = product.getPrice();
-		line_cost_price = product.getCostPrice();
+		line_price = product.getPrice().setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		line_cost_price = product.getCostPrice().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);	
 	}
