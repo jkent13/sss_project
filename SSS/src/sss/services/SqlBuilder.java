@@ -112,7 +112,8 @@ public class SqlBuilder {
 				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN ");
 		currentStatement.append("'" + startDate + "' ");
 		currentStatement.append("AND ");
-		currentStatement.append("'" + endDate +"';");
+		currentStatement.append("'" + endDate +"' ");
+		currentStatement.append("GROUP BY HOUR(sale_date);");
 		
 		System.out.println(currentStatement.toString()); // Testing purposes
 		return currentStatement.toString();

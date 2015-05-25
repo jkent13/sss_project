@@ -7,10 +7,16 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import sss.services.SqlBuilder;
+
 public class ReportController {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	private NonEditableTableModel allSalesData = new NonEditableTableModel();		// Containing SELECT * sale info
+	private NonEditableTableModel summarySalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
+	
 	
 	public ReportController() {
 		
@@ -45,6 +51,10 @@ public class ReportController {
 
 			System.out.println("VIEW DATE: " + startDate); // For Testing
 			System.out.println("END DATE: " + endDate); // For Testing
+			
+			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
+			String summarySalesQuery = SqlBuilder.getSaleReportByHour(startDate, endDate);
+			
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 		}
