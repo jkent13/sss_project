@@ -6,7 +6,7 @@
  * Original Author: Josh Kent
  */
 
-package test;
+package sss.test;
 
 import sss.ui.PosFrame;
 

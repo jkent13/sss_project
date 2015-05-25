@@ -7,7 +7,7 @@
 *  Original Author: Josh Kent
 */
 
-package test;
+package sss.test;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;

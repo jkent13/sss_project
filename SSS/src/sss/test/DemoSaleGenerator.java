@@ -7,7 +7,7 @@
 *  Original Author: Josh Kent
 */
 
-package test;
+package sss.test;
 //
 //import java.sql.Connection;
 //import java.sql.DriverManager;
