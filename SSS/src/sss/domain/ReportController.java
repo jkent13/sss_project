@@ -1,3 +1,10 @@
+/* ReportController Class
+ * 
+ * Serves as the controlling class behind all reporting use cases and UIs
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.text.ParseException;
