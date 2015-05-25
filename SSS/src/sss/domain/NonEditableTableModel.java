@@ -12,7 +12,7 @@ package sss.domain;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class LineItemTableModel extends DefaultTableModel {
+public class NonEditableTableModel extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {

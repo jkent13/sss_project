@@ -34,7 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
 
-import sss.domain.LineItemTableModel;
+import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
 
 @SuppressWarnings("serial")
@@ -77,7 +77,7 @@ public class PosFrame extends JFrame implements Observer {
 		itemsPanel.setLayout(new GridLayout(1,1,10,10));
 		//				leftPanel.add(itemsPanel);
 
-		LineItemTableModel dataModel = register.getDataModel();
+		NonEditableTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
 		TableColumnModel columnModel =lookUpTable.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);

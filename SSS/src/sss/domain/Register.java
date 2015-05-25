@@ -37,7 +37,7 @@ public class Register {
 	
 	private Sale currentSale;
 	private Product currentProduct;
-	private LineItemTableModel dataModel = new LineItemTableModel();
+	private NonEditableTableModel dataModel = new NonEditableTableModel();
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -56,7 +56,7 @@ public class Register {
 		}
 	}
 	
-	public LineItemTableModel getDataModel() {
+	public NonEditableTableModel getDataModel() {
 		return dataModel;
 	}
 	
