@@ -44,14 +44,10 @@ public class TopSellersFrame extends JFrame {
 		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
-		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-		leftPanel.setBorder(leftPanelTitle);
 		leftPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
@@ -86,18 +82,14 @@ public class TopSellersFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+		TitledBorder datePanelTitle = new TitledBorder("Select Dates:");
 		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
 		
 		JPanel rightDatePanel = new JPanel();
-		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-		rightDatePanel.setBorder(rightDatePanelTitle);
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		JPanel leftDatePanel = new JPanel();
-		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		//--------------------Date Panel Fields--------------------
@@ -123,31 +115,27 @@ public class TopSellersFrame extends JFrame {
 		//--------------------Units Entry Panel--------------------
 
 		JPanel labelPanel = new JPanel();
-		TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
+		TitledBorder labelPanelTitle = new TitledBorder("Number of Top Products:");
 		labelPanel.setBorder(labelPanelTitle);
+		Font myFont = new Font("SansSerif", Font.BOLD, 32);
 		labelPanel.setLayout(new GridLayout(3,1,10,10));
+		labelPanelTitle.setTitleFont(myFont);
 		rightPanel.add(labelPanel);
 
-		JLabel soldUnitsLabel = new JLabel("Number of Top");
-		JLabel soldUnitsLabel2 = new JLabel("Products:");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
-		soldUnitsLabel.setFont(myFont);
-		soldUnitsLabel2.setFont(myFont);
-		labelPanel.add(soldUnitsLabel);
-		labelPanel.add(soldUnitsLabel2);
-
 		JPanel inputUnitsPanel = new JPanel();
-		TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
-		inputUnitsPanel.setBorder(inputUnitsPanelTitle);
-		inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
+		inputUnitsPanel.setLayout(new GridLayout(1,1,10,10));
 		rightPanel.add(inputUnitsPanel);
 
 		JLabel unitsInputLabel = new JLabel("Input:");
 		JTextField units = new JTextField("");
 		JLabel unitsInputExample = new JLabel("e.g. 10");
-		inputUnitsPanel.add(unitsInputLabel);
-		inputUnitsPanel.add(units);
-		inputUnitsPanel.add(unitsInputExample);
+		
+		JButton barGraphButton = new JButton("Bar Graph");
+		
+		labelPanel.add(unitsInputLabel);
+		labelPanel.add(units);
+		labelPanel.add(unitsInputExample);
+		inputUnitsPanel.add(barGraphButton);
 
 		//---------------------Create Buttons---------------------
 
@@ -166,6 +154,16 @@ public class TopSellersFrame extends JFrame {
 		
 		//---------------------Event Handlers---------------------
 
+		barGraphButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+//				myFrame.dispose();
+			}
+		});
+		
 		getResultsButton.addActionListener(new ActionListener()
 		{
 

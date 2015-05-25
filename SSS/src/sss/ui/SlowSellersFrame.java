@@ -44,14 +44,10 @@ public class SlowSellersFrame extends JFrame {
 		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
-		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
-		leftPanel.setBorder(leftPanelTitle);
 		leftPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
@@ -86,18 +82,14 @@ public class SlowSellersFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("Select Date:");
+		TitledBorder datePanelTitle = new TitledBorder("Select Dates:");
 		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
 		
 		JPanel rightDatePanel = new JPanel();
-		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-		rightDatePanel.setBorder(rightDatePanelTitle);
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		JPanel leftDatePanel = new JPanel();
-		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		//--------------------Date Panel Fields--------------------
@@ -123,9 +115,7 @@ public class SlowSellersFrame extends JFrame {
 		//--------------------Units Entry Panel--------------------
 		
 		JPanel labelPanel = new JPanel();
-		TitledBorder labelPanelTitle = new TitledBorder("Report Type:");
-		labelPanel.setBorder(labelPanelTitle);
-		labelPanel.setLayout(new GridLayout(3,1,10,10));
+		labelPanel.setLayout(new GridLayout(2,1,10,10));
 		rightPanel.add(labelPanel);
 
 		JLabel soldUnitsLabel = new JLabel("Product units sold,");
@@ -137,8 +127,6 @@ public class SlowSellersFrame extends JFrame {
 		labelPanel.add(soldUnitsLabel2);
 
 		JPanel inputUnitsPanel = new JPanel();
-		TitledBorder inputUnitsPanelTitle = new TitledBorder("Input:");
-		inputUnitsPanel.setBorder(inputUnitsPanelTitle);
 		inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(inputUnitsPanel);
 
