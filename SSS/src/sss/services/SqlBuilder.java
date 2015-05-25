@@ -92,4 +92,30 @@ public class SqlBuilder {
 		
 		return statements;
 	}
+	
+	public static String getSaleReportQuery(String startDate, String endDate) {
+		StringBuffer currentStatement = new StringBuffer();
+		
+		currentStatement.append("SELECT * FROM sale WHERE sale_date BETWEEN ");
+		currentStatement.append("'" + startDate + "' ");
+		currentStatement.append("AND ");
+		currentStatement.append("'" + endDate + "';");
+		
+		System.out.println(currentStatement.toString()); // Testing purposes
+		return currentStatement.toString();
+	}
+	
+	public static String getSaleReportByHour(String startDate, String endDate) {
+		StringBuffer currentStatement = new StringBuffer();
+		
+		currentStatement.append("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
+				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN ");
+		currentStatement.append("'" + startDate + "' ");
+		currentStatement.append("AND ");
+		currentStatement.append("'" + endDate +"';");
+		
+		System.out.println(currentStatement.toString()); // Testing purposes
+		return currentStatement.toString();
+	}
+	
 }

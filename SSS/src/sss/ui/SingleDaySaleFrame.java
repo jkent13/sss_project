@@ -9,11 +9,17 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -21,9 +27,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import sss.domain.ReportController;
+
 
 @SuppressWarnings("serial")
 public class SingleDaySaleFrame extends JFrame {
+	
+	private ReportController controller = new ReportController();
 	
 	public SingleDaySaleFrame()
 	{
@@ -190,8 +200,19 @@ public class SingleDaySaleFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				myFrame.dispose();
+				if(viewDate.getText() != null){
+					
+					String inputDateString = viewDate.getText();
+					
+					if(!controller.isValidDate(inputDateString)) {
+						viewDate.setText("");
+					}
+					else {
+						controller.getResults(inputDateString);
+					}
+				}
 			}
+				
 		});
 
 		backButton.addActionListener(new ActionListener()
