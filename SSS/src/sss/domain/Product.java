@@ -1,8 +1,8 @@
 /* Product Class
-*  Represents a real world product
-*  Original Author: Josh Kent
+ * 
+*  Represents a real world product / item and its details
 *  
-*  SET BIGDECIMAL ROUNDING MODE TO HALF-EVEN
+*  Original Author: Josh Kent
 */
 
 package sss.domain;
@@ -36,8 +36,8 @@ public class Product {
 		if (productDetails.next()){
 			prod_code = productDetails.getString("prod_code");
 			prod_name = productDetails.getString("prod_name");
-			prod_cost_price = new BigDecimal(productDetails.getDouble("prod_cost_price"));
-			prod_price = new BigDecimal(productDetails.getDouble("prod_price"));
+			prod_cost_price = new BigDecimal(productDetails.getDouble("prod_cost_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			prod_price = new BigDecimal(productDetails.getDouble("prod_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			prod_qoh = productDetails.getInt("prod_qoh");
 			prod_category = productDetails.getString("prod_category");
 			if(productDetails.getString("prod_active").toUpperCase().equals("Y")) {

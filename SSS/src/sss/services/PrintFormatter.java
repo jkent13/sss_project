@@ -1,5 +1,13 @@
+/* PrintFormatter Class
+ * 
+ * Responsible for take a Sale object and returning a FormattedSale object
+ * A FormattedSale object can be passed to the ReceiptPrinter and easily printed
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.services;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import sss.domain.FormattedSale;
@@ -38,7 +46,7 @@ public class PrintFormatter {
 		moneyFormatter.setMinimumFractionDigits(2);
 		
 		String[] saleHeader = new String[2];
-		String[] saleDetails = new String[sale.getNumberOfLines() * 3];
+		String[] saleDetails = new String[sale.getNumberOfLines() * 4];
 		String[] saleFooter = new String[8];
 		
 		int numberOfItems = 0;
@@ -56,6 +64,13 @@ public class PrintFormatter {
 			saleDetails[j] = sale.getLineItems().get(i).getLineUnits() + " x $" + moneyFormatter.format(sale.getLineItems().get(i).getLinePrice());
 			j++;
 			saleDetails[j] = "$" + moneyFormatter.format(sale.getLineItems().get(i).getLineAmount());
+			j++;
+			
+			String discount = sale.getLineItems().get(i).getDiscount().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
+			if (discount.equals("0.00")) // Don't add discount for printing if = 0.00
+				saleDetails[j] = " ";
+			else
+				saleDetails[j] = discount + "%";
 		}
 		
 		saleFooter[0] = "Total for " + numberOfItems + " items";

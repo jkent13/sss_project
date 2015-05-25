@@ -1,5 +1,8 @@
 /* DbConnector Class
+* 
 *  Responsible for establishing the database connection and controlling access to the Connection object
+*  Opens and closes the connection to the MySQL DB using JDBC
+*  
 *  Original Author: Josh Kent
 */
 

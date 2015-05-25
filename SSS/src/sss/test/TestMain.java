@@ -1,9 +1,13 @@
 /* TestMain Class
-*  Contains a main method for quick testing of objects and methods
+ * 
+*  Contains a main method for quick testing of objects and methods, used to 
+*  quickly find errors or logic flaws in code in a sandbox test environment without 
+*  use of a GUI
+*  
 *  Original Author: Josh Kent
 */
 
-package test;
+package sss.test;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -180,7 +184,4 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 //		DbConnector.closeConnection();
 
 	}
-	
-	
-
 }

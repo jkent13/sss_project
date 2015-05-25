@@ -1,30 +1,37 @@
 /* Sale Class
-*  Represents a sale transaction
-*  Original Author: Josh Kent
+ * 
+*  Represents a sale transaction, consists of Line objects and 
+*  additional sale-related fields
 *  
-*  SET BIGDECIMAL ROUNDING MODE TO HALF-EVEN
+*  Original Author: Josh Kent
 */
 
 package sss.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 
-public class Sale {
+public class Sale extends Observable {
 	
 	private int number_of_lines = 0;
 	
-	private long sale_id; // PK
+	private long sale_id; 												// PK
 	
-	private String sale_date; // String representing a MySQL DateTime
-	private BigDecimal sale_subtotal = new BigDecimal("0");; // Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst = new BigDecimal("0");; // Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total = new BigDecimal("0"); // Sale total (sum of line item totals)
-	private BigDecimal sale_amount_tendered = new BigDecimal("0");; // Amount tendered for sale (must be > sale total)
-	private BigDecimal sale_balance = new BigDecimal("0");; // Difference between amount tendered and sale total
-	private String sale_type = "Purchase"; // Sale type: either 'Purchase' or 'Refund'
+	private BigDecimal[] observerData = new BigDecimal[2]; 
+	
+	private String sale_date; 											// String representing a MySQL DateTime
+	private BigDecimal sale_subtotal = new BigDecimal("0"); 			// Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal("0");					// Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal("0"); 				// Sale total (sum of line item totals)
+	private BigDecimal sale_amount_tendered = new BigDecimal("0");		// Amount tendered for sale (must be > sale total)
+	private BigDecimal sale_balance = new BigDecimal("0"); 				// Difference between amount tendered and sale total
+	private String sale_type = "Purchase"; 								// Sale type: either 'Purchase' or 'Refund'
 
-	private ArrayList<Line> lineItems = new ArrayList<>(); // Collection of all lines within a Sale
+	private ArrayList<Line> lineItems = new ArrayList<>(); 				// Collection of all lines within a Sale
 	
 	public Sale(long sale_id, String sale_date, String sale_type) {
 		this.sale_id = sale_id;
@@ -93,6 +100,23 @@ public class Sale {
 	public void removeLineItem(Line lineItem) {
 		lineItems.remove(lineItem);
 		number_of_lines--;
+		rebuildLineItems();
+		for(Line l: lineItems) {
+			System.out.println(l);
+		}
+	}
+	
+	public void rebuildLineItems(){
+		ArrayList<Line> rebuiltLines = new ArrayList<Line>();
+		int newLineNumber = 1;
+		for(int i = 0; i < lineItems.size(); i++) {
+			if(lineItems.get(i) != null) {
+				rebuiltLines.add(lineItems.get(i));
+				rebuiltLines.get(i).setLineNumber(newLineNumber);
+				newLineNumber++;
+			}
+		}
+		lineItems = rebuiltLines;
 	}
 	
 	public BigDecimal calculateTotal() {
@@ -100,6 +124,9 @@ public class Sale {
 		for(Line l: lineItems) {
 			sale_total = sale_total.add(l.getLineAmount().setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		}
+		observerData[1] = sale_total;
+		setChanged();
+		notifyObservers(observerData);
 		return sale_total;
 	}
 	
@@ -118,6 +145,9 @@ public class Sale {
 	public BigDecimal calculateBalance() {
 		sale_balance = new BigDecimal(0);
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		observerData[0] = sale_balance;
+		setChanged();
+		notifyObservers(observerData);
 		return sale_balance;
 	}
 	

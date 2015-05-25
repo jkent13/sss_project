@@ -1,10 +1,13 @@
-///* DemoSaleGenerator Class
-//*  A class with a main method able to generate complete Sale and Line objects, 
-//*  and write them to the database in batches of 1000 sales
-//*  Original Author: Josh Kent
-//*/
-//
-//package test;
+/* DemoSaleGenerator Class
+ * 
+*  A class with a main method able to generate complete Sale and Line objects, 
+*  and write them to the database in batches of 1000 sales
+*  Used solely to populate the DB with large amounts of sale data
+*  
+*  Original Author: Josh Kent
+*/
+
+package sss.test;
 //
 //import java.sql.Connection;
 //import java.sql.DriverManager;
