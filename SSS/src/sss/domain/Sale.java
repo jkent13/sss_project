@@ -19,7 +19,7 @@ public class Sale extends Observable {
 	
 	private int number_of_lines = 0;
 	
-	private long sale_id; 												// PK
+	private long sale_id; 												// PK eg. 160165
 	
 	private BigDecimal[] observerData = new BigDecimal[2]; 
 	
