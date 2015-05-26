@@ -101,7 +101,6 @@ public class SqlBuilder {
 		currentStatement.append("AND ");
 		currentStatement.append("'" + endDate + "';");
 		
-		System.out.println(currentStatement.toString()); // Testing purposes
 		return currentStatement.toString();
 	}
 	
@@ -114,8 +113,7 @@ public class SqlBuilder {
 		currentStatement.append("AND ");
 		currentStatement.append("'" + endDate +"' ");
 		currentStatement.append("GROUP BY HOUR(sale_date);");
-		
-		System.out.println(currentStatement.toString()); // Testing purposes
+
 		return currentStatement.toString();
 	}
 	
