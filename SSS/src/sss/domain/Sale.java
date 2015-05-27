@@ -10,25 +10,22 @@ package sss.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.List;
+import sss.services.SaleListener;
 
-public class Sale extends Observable {
+public class Sale {
+	List<SaleListener> listeners = new ArrayList<SaleListener>();
 	
 	private int number_of_lines = 0;
 	
 	private long sale_id; 												// PK eg. 160165
 	
-	private BigDecimal[] observerData = new BigDecimal[2]; 
-	
 	private String sale_date; 											// String representing a MySQL DateTime
-	private BigDecimal sale_subtotal = new BigDecimal("0"); 			// Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst = new BigDecimal("0");					// Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total = new BigDecimal("0"); 				// Sale total (sum of line item totals)
-	private BigDecimal sale_amount_tendered = new BigDecimal("0");		// Amount tendered for sale (must be > sale total)
-	private BigDecimal sale_balance = new BigDecimal("0"); 				// Difference between amount tendered and sale total
+	private BigDecimal sale_subtotal = new BigDecimal(0.00); 			// Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal(0.00);					// Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal(0.00); 				// Sale total (sum of line item totals)
+	private BigDecimal sale_amount_tendered = new BigDecimal(0.00);		// Amount tendered for sale (must be > sale total)
+	private BigDecimal sale_balance = new BigDecimal(0.00); 				// Difference between amount tendered and sale total
 	private String sale_type = "Purchase"; 								// Sale type: either 'Purchase' or 'Refund'
 
 	private ArrayList<Line> lineItems = new ArrayList<>(); 				// Collection of all lines within a Sale
@@ -41,6 +38,22 @@ public class Sale extends Observable {
 	
 	public Sale(long sale_id) {
 		this.sale_id = sale_id;
+	}
+	
+	public void registerListener(SaleListener newListener) {
+		listeners.add(newListener);
+	}
+	
+	public void removeListener(SaleListener listener) {
+		if(listeners.contains(listener)) {
+			listeners.remove(listener);
+		}
+	}
+	
+	public void notifyListeners(int eventType, BigDecimal newValue) {
+		for(SaleListener sl: listeners) {
+			sl.update(eventType, newValue);
+		}
 	}
 	
 	public void setAmountTendered(BigDecimal sale_amount_tendered) {
@@ -95,12 +108,15 @@ public class Sale extends Observable {
 	public void addLineItem(Line lineItem){
 		lineItems.add(lineItem);
 		number_of_lines++;
+		calculateTotal();
+		
 	}
 	
 	public void removeLineItem(Line lineItem) {
 		lineItems.remove(lineItem);
 		number_of_lines--;
 		rebuildLineItems();
+		calculateTotal();
 	}
 	
 	private void rebuildLineItems(){
@@ -117,34 +133,39 @@ public class Sale extends Observable {
 	}
 	
 	public BigDecimal calculateTotal() {
-		sale_total = new BigDecimal(0);
+		sale_total = new BigDecimal(0.00).setScale(2);
 		for(Line l: lineItems) {
 			sale_total = sale_total.add(l.getLineAmount().setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		}
-		observerData[1] = sale_total;
-		setChanged();
-		notifyObservers(observerData);
+		calculateGST();
+		calculateSubtotal();
+		notifyListeners(SaleListener.SALE_TOTAL, sale_total);
 		return sale_total;
 	}
 	
-	public BigDecimal calculateGST() { 
-		sale_gst = new BigDecimal(0);
-		sale_gst = sale_total.divide(new BigDecimal(11), 2, BigDecimal.ROUND_HALF_EVEN);
-		return sale_gst;
+	private BigDecimal calculateGST() { 
+		if(sale_total.doubleValue() > 0) {
+			sale_gst = new BigDecimal(0.00).setScale(2);
+			sale_gst = sale_total.divide(new BigDecimal(11), 2, BigDecimal.ROUND_HALF_EVEN);
+			return sale_gst;
+		}
+		else {
+			sale_gst = new BigDecimal(0.00);
+			return sale_gst;
+		}
+			
 	}
 	
-	public BigDecimal calculateSubtotal() {
-		sale_subtotal = new BigDecimal(0);
+	private BigDecimal calculateSubtotal() {
+		sale_subtotal = new BigDecimal(0.00).setScale(2);
 		sale_subtotal = sale_total.subtract(sale_gst).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		return sale_subtotal;
 	}
 	
 	public BigDecimal calculateBalance() {
-		sale_balance = new BigDecimal(0);
+		sale_balance = new BigDecimal(0.00).setScale(2);
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-		observerData[0] = sale_balance;
-		setChanged();
-		notifyObservers(observerData);
+		notifyListeners(SaleListener.SALE_BALANCE, sale_balance);
 		return sale_balance;
 	}
 	

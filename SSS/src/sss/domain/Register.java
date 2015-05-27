@@ -26,6 +26,7 @@ import sss.services.DbConnector;
 import sss.services.DbWriter;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
+import sss.services.SaleListener;
 import sss.services.SqlBuilder;
 
 public class Register {
@@ -50,9 +51,9 @@ public class Register {
 		initialise();
 	}
 	
-	public void registerSaleObserver(Observer o) {
+	public void registerSaleListener(SaleListener listener) {
 		if(activeSale) {
-			currentSale.addObserver(o);
+			currentSale.registerListener(listener);
 		}
 	}
 	
@@ -102,6 +103,7 @@ public class Register {
 			Line lineItem = currentSale.getLineItems().get(lineIndex);
 			currentSale.removeLineItem(lineItem);
 			dataModel.removeRow(lineIndex);
+			calculateTotal();
 		}
 	}
 	
@@ -113,6 +115,7 @@ public class Register {
 			newQty = String.valueOf(lineItem.getLineUnits());
 			dataModel.setValueAt(newQty, lineIndex, 0);
 			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+			calculateTotal();
 		}
 	}
 	
@@ -124,6 +127,7 @@ public class Register {
 			newDiscount = lineItem.getDiscount().setScale(2).toString();
 			dataModel.setValueAt(newDiscount, lineIndex, 3);
 			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+			calculateTotal();
 		}
 	}
 	
@@ -147,8 +151,6 @@ public class Register {
 	
 	public void calculateTotal() {
 		currentSale.calculateTotal();
-		currentSale.calculateGST();
-		currentSale.calculateSubtotal();
 	}
 	
 	public void makePayment(BigDecimal amt_tendered) {
@@ -157,8 +159,7 @@ public class Register {
 			currentSale.setAmountTendered(amt_tendered);
 			currentSale.calculateBalance();
 			currentSale.setTimestamp(sdf.format(new Date()));
-			currentSale.calculateGST();
-			currentSale.calculateSubtotal();
+			currentSale.calculateTotal();
 
 			String saleInsertStatement = getSaleInsertStatement();
 			String[] lineInsertStatements = getLineInsertStatements();

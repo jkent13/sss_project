@@ -36,11 +36,10 @@ import javax.swing.table.TableColumnModel;
 
 import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
+import sss.services.SaleListener;
 
 @SuppressWarnings("serial")
-public class PosFrame extends JFrame implements Observer {
-	
-	private BigDecimal[] saleData;
+public class PosFrame extends JFrame implements SaleListener {
 	
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
@@ -602,7 +601,7 @@ public class PosFrame extends JFrame implements Observer {
 						try {
 							register.beginSale();
 							register.enterItem(Long.valueOf(barcodeEntryField.getText()));
-							registerFrameAsObserver();
+							registerFrameAsListener();
 							register.calculateTotal();
 //							saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 							barcodeEntryField.setText("");
@@ -642,21 +641,23 @@ public class PosFrame extends JFrame implements Observer {
 		barcodeEntryField.requestFocusInWindow();
 	}
 
-	public void registerFrameAsObserver() {
-		register.registerSaleObserver(this);
+	public void registerFrameAsListener() {
+		register.registerSaleListener(this);
 	}
 	
+
 	@Override
-	public void update(Observable o, Object arg) {
-		if(arg instanceof BigDecimal[]) {
-			saleData = (BigDecimal[])arg;
+	public void update(int eventType, BigDecimal newValue) {
+		switch(eventType) {
+		case SaleListener.SALE_TOTAL:
+			saleTotalLabel.setText("TOTAL: $" + newValue.toString());
+			break;
+		case SaleListener.SALE_BALANCE:
+			saleBalanceLabel.setText("Change: $" + newValue.toString());
+			break;
+		default:
+			break;
 			
-			if(saleData[0] != null)
-				saleBalanceLabel.setText("Change: $" + saleData[0].toString());
-			
-			if(saleData[1] != null)
-				saleTotalLabel.setText("TOTAL: $" + saleData[1].toString());
 		}
-		
 	}
 }

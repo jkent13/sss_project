@@ -76,8 +76,6 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 	  }
 	  
 	  sale.calculateTotal();
-	  sale.calculateGST();
-	  sale.calculateSubtotal();
 	  
 	  double amtTendered = 0;
 	  long saleAmt = sale.getSaleTotal().longValue() + 1;
