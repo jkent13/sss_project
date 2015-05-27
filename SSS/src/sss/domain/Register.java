@@ -30,10 +30,10 @@ import sss.services.SqlBuilder;
 
 public class Register {
 	
-	private long nextSaleId;
-	private boolean activeSale = false;
-	
-	private BigDecimal lastSaleBalance;
+	private long nextSaleId;				// The next sale id is the next consecutive id to be used in the next Sale
+	private boolean activeSale = false;		// Maintains state of Register
+		
+	private BigDecimal lastSaleBalance;		// 
 	
 	private Sale currentSale;
 	private Product currentProduct;

@@ -113,15 +113,24 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 	public static void main(String[] args) throws SQLException {
 		
 		
-		long barcode = 9300026131160L;
-		Line testLine = new Line(1L, barcode, 1);
-		Line testLine2 = new Line(1L, 9300062687246L, 2);
+//		long barcode = 9300026131160L;
+//		Line testLine = new Line(1L, barcode, 1);
+//		Line testLine2 = new Line(1L, 9300062687246L, 2);
+//		
+//		testLine.setDiscount(10);
+//		testLine2.setQuantity(4);
 		
-		testLine.setDiscount(10);
-		testLine2.setQuantity(4);
+		Product prod = new Product(120392183218L);
+		if(prod.successfulLookup()) {
+			System.out.println("SUCCESS");
+			System.out.println(prod.getName());
+		}
+		else {
+			System.out.println("NOT FOUND");
+		}
 		
-		System.out.println(testLine);
-		System.out.println(testLine2);
+//		System.out.println(testLine);
+//		System.out.println(testLine2);
 		
 //		String idQuery = SqlBuilder.getLookupQueryById(barcode);
 //		String nameQuery = SqlBuilder.getLookupQueryByName("cat");

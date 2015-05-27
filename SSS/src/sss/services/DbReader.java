@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 public class DbReader {
 	
 	private static Connection connection = DbConnector.getConnection();
@@ -20,15 +22,20 @@ public class DbReader {
 	private DbReader() {
 	}
 	
-	public static ResultSet executeQuery(String sqlQuery) throws SQLException {
-		if(statement == null) {
-			statement = connection.createStatement();
-		}
-		if(sqlQuery != null){
-			ResultSet productDetails = statement.executeQuery(sqlQuery);
-			return productDetails;
-		}
-		else {
+	public static ResultSet executeQuery(String sqlQuery) {
+		try {
+			if(statement == null) {
+				statement = connection.createStatement();
+			}
+			if(sqlQuery != null){
+				ResultSet productDetails = statement.executeQuery(sqlQuery);
+				return productDetails;
+			}
+			else {
+				return null;
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: The query could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}
