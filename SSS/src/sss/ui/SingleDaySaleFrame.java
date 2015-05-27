@@ -62,8 +62,6 @@ public class SingleDaySaleFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 		
@@ -92,11 +90,15 @@ public class SingleDaySaleFrame extends JFrame {
 		//--------------------Report Panel--------------------
 		// the radio button for report type are held in this panel.
 		
+		JPanel reportPanel = new JPanel();
+		reportPanel.setLayout(new GridLayout(1,2,10,10));
+		rightPanel.add(reportPanel);
+		
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
 		reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-		rightPanel.add(reportTypePanel);
+		reportPanel.add(reportTypePanel);
 
 		JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
 		JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
@@ -106,14 +108,29 @@ public class SingleDaySaleFrame extends JFrame {
 		salesByDollar.setActionCommand("dollar");
 		salesByVolume.setActionCommand("volume");
 		profitByDollar.setActionCommand("profit");
-
+		
 		myGroup.add(salesByDollar);
 		myGroup.add(salesByVolume);
 		myGroup.add(profitByDollar);
 
+		JPanel viewPanel = new JPanel();
+		TitledBorder viewPanelTitle = new TitledBorder("View Type:");
+		viewPanel.setBorder(viewPanelTitle);
+		viewPanel.setLayout(new GridLayout(2,1,10,10));
+		reportPanel.add(viewPanel);
+		
+		JRadioButton wholeView = new JRadioButton("Whole Day Sale View", true);
+		JRadioButton summView = new JRadioButton("Day Summary View", false);
+		ButtonGroup myView = new ButtonGroup();
+		myView.add(wholeView);
+		myView.add(summView);
+		
 		reportTypePanel.add(salesByDollar);
 		reportTypePanel.add(salesByVolume);
 		reportTypePanel.add(profitByDollar);
+		
+		viewPanel.add(wholeView);
+		viewPanel.add(summView);
 
 		//--------------------Shown As Panel--------------------
 		// the type of graph view for the records are held in this panel.

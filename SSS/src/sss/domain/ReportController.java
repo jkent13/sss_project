@@ -42,7 +42,8 @@ public class ReportController {
 	}
 	
 	public NonEditableTableModel getDataModel() {
-		return currentTableView;
+//		return currentTableView;
+		return summarySalesData;
 	}
 	
 	public boolean isValidDate(String inputDateString) {
