@@ -24,7 +24,7 @@ public class ReportController {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
-	private NonEditableTableModel currentTableView = new NonEditableTableModel();
+	private NonEditableTableModel currentTableView = new NonEditableTableModel(); // IMPLEMENT AS OBSERVABLE
 	
 	private NonEditableTableModel allSalesData = new NonEditableTableModel();		// Containing SELECT * sale info
 	private NonEditableTableModel summarySalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
