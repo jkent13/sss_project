@@ -101,9 +101,7 @@ public class Sale extends Observable {
 		lineItems.remove(lineItem);
 		number_of_lines--;
 		rebuildLineItems();
-		for(Line l: lineItems) {
-			System.out.println(l);
-		}
+
 	}
 	
 	public void rebuildLineItems(){

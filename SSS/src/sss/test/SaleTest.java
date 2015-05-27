@@ -3,11 +3,15 @@ package sss.test;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sss.domain.Line;
+import sss.domain.Product;
 import sss.domain.Sale;
 
 public class SaleTest {
@@ -20,7 +24,13 @@ public class SaleTest {
 	private final int NUMBER_OF_LINES_DEFAULT = 0;
 	private final BigDecimal SALE_SUBTOTAL_DEFAULT = new BigDecimal("0");
 	private final BigDecimal SALE_GST_DEFAULT = new BigDecimal("0");
+	private final BigDecimal SALE_TOTAL = new BigDecimal("0");
+	private final BigDecimal SALE_AMOUNT_TENDERED = new BigDecimal("0");
+	private final BigDecimal SALE_BALANCE = new BigDecimal("0");
 	
+	private final Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true);
+	private final Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false);
+	private final Product PEN =  new Product(9493849856932L, "PENY123", "Pen", new BigDecimal(31), new BigDecimal(62), 8, "Office", true);
 	
 	@Before
 	public void setUp() throws Exception {
@@ -53,16 +63,33 @@ public class SaleTest {
 		
 		assertEquals(NUMBER_OF_LINES_DEFAULT, constructor1.getNumberOfLines());
 		assertEquals(SALE_SUBTOTAL_DEFAULT, constructor1.getSaleSubtotal());
+		assertEquals(SALE_GST_DEFAULT, constructor1.getSaleGST());
+		assertEquals(SALE_TOTAL, constructor1.getSaleTotal());
+		assertEquals(SALE_AMOUNT_TENDERED, constructor1.getSaleAmountTendered());
+		assertEquals(SALE_BALANCE, constructor1.getSaleBalance());
+		assertEquals(saleTypeRefund, constructor1.getSaleType());
 	}
 
 	@Test
 	public void testSaleLong() {
-		fail("Not yet implemented");
+		Sale constructor2 = new Sale(232323);
+		
+		assertEquals(232323, constructor2.getSaleId());
+		
+		assertEquals(NUMBER_OF_LINES_DEFAULT, constructor2.getNumberOfLines());
+		assertEquals(SALE_SUBTOTAL_DEFAULT, constructor2.getSaleSubtotal());
+		assertEquals(SALE_GST_DEFAULT, constructor2.getSaleGST());
+		assertEquals(SALE_TOTAL, constructor2.getSaleTotal());
+		assertEquals(SALE_AMOUNT_TENDERED, constructor2.getSaleAmountTendered());
+		assertEquals(SALE_BALANCE, constructor2.getSaleBalance());
+		assertEquals(saleTypePurchase, constructor2.getSaleType());
 	}
 
 	@Test
-	public void testSetAmountTendered() {
-		fail("Not yet implemented");
+	public void testGetSetAmountTendered() {
+		BigDecimal amt = new BigDecimal(300);
+		testSale.setAmountTendered(amt);
+		assertEquals(amt.setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleAmountTendered());
 	}
 
 	@Test
@@ -101,15 +128,11 @@ public class SaleTest {
 	}
 
 	@Test
-	public void testGetSaleAmountTendered() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetSaleBalance() {
-		testSale.setAmountTendered(new BigDecimal(100));
+		BigDecimal amt = new BigDecimal(100);
+		testSale.setAmountTendered(amt);
 		testSale.calculateBalance();
-		assertEquals(new BigDecimal(100).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleBalance());
+		assertEquals(amt.setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleBalance());
 	}
 
 	@Test
@@ -118,38 +141,92 @@ public class SaleTest {
 	}
 
 	@Test
-	public void testGetLineItems() {
-		fail("Not yet implemented");
+	public void testGetAddLineItems() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+	
+		ArrayList<Line> lines = testSale.getLineItems();
+		
+		assertEquals(line1, lines.get(0));
+		assertEquals(line2, lines.get(1));
+		assertEquals(line3, lines.get(2));
+		assertEquals(3, lines.size());
 	}
 
 	@Test
-	public void testAddLineItem() {
-		fail("Not yet implemented");
+	public void testRemoveLineItem() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+		
+		ArrayList<Line> lines = testSale.getLineItems();
+		
+		assertEquals(3, lines.size());
+	
+		testSale.removeLineItem(line2);
+		
+		lines = testSale.getLineItems();
+		
+		assertEquals(2, lines.size());
+		
+		assertEquals(line1, lines.get(0));
+		assertEquals(line3, lines.get(1));
 	}
 
 	@Test
-	public void testRemoveLineItem() {
-		fail("Not yet implemented");
+	public void testCalculateTotal() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+		
+		BigDecimal amt = new BigDecimal(80);
+		testSale.calculateTotal();
+		assertEquals(amt.setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateTotal());
 	}
 
 	@Test
-	public void testRebuildLineItems() {
-		fail("Not yet implemented");
+	public void testCalculateGST() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+		
+		testSale.calculateTotal();
+		testSale.calculateGST();
+		
+		assertEquals(new BigDecimal(7.27).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateGST());
 	}
 
 	@Test
-	public void testCalculateTotal() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCalculateGST() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCalculateSubtotal() {
-		fail("Not yet implemented");
+	public void testCalculateSubtotal() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+		
+		testSale.calculateTotal();
+		testSale.calculateGST();
+		
+		assertEquals(new BigDecimal(72.73).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateSubtotal());
 	}
 
 	@Test
