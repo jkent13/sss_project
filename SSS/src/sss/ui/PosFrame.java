@@ -107,13 +107,9 @@ public class PosFrame extends JFrame implements SaleListener {
 
 
 		JPanel middlePanel = new JPanel();
-		//		TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
-		//		middlePanel.setBorder(middlePanelTitle);
 		middlePanel.setLayout(new GridLayout(3,1,10,10));
 
 		JPanel topMiddlePanel = new JPanel();
-		//						TitledBorder topMiddlePanelTitle = new TitledBorder("Top Middle Panel:");
-		//						topMiddlePanel.setBorder(topMiddlePanelTitle);
 		topMiddlePanel.setLayout(new GridLayout(4,2,10,10));
 
 		JLabel barcodeLabel = new JLabel("Barcode:");
@@ -130,14 +126,10 @@ public class PosFrame extends JFrame implements SaleListener {
 		topMiddlePanel.add(paymentEntryField);
 
 		JPanel midMiddlePanel = new JPanel();
-		//						TitledBorder midMiddlePanelTitle = new TitledBorder("Middle Middle Panel:");
-		//						midMiddlePanel.setBorder(midMiddlePanelTitle);
 		midMiddlePanel.setLayout(new GridLayout(2,3,10,10));
 
 
 		JPanel botMiddlePanel = new JPanel();
-		//						TitledBorder botMiddlePanelTitle = new TitledBorder("Bottom Middle Panel:");
-		//						botMiddlePanel.setBorder(botMiddlePanelTitle);
 		botMiddlePanel.setLayout(new GridLayout(2,3,10,10));
 
 		JButton Button1 = new JButton("1");
@@ -174,9 +166,8 @@ public class PosFrame extends JFrame implements SaleListener {
 
 
 		JPanel rightPanel = new JPanel();
-		//						TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		//						rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(1,2,10,10));
+		
 		JButton voidButton = new JButton("f1 Void");
 		JButton lookUpButton = new JButton("f2 Lookup Item");
 		JButton quantityButton = new JButton("f3 Quantity");
@@ -186,9 +177,8 @@ public class PosFrame extends JFrame implements SaleListener {
 		JButton enterButton = new JButton("ENTER");
 
 		JPanel firstRightPanel = new JPanel();
-		//						TitledBorder firstRightPanelTitle = new TitledBorder("1st Right Panel:");
-		//						firstRightPanel.setBorder(firstRightPanelTitle);
 		firstRightPanel.setLayout(new GridLayout(2,1,10,10));
+		
 		JButton note5Button = new JButton("$5");
 		JButton note10Button = new JButton("$10");
 		JButton note20Button = new JButton("$20");
@@ -198,9 +188,9 @@ public class PosFrame extends JFrame implements SaleListener {
 		JPanel exactCashPanel = new JPanel();
 		JButton exactCashButton = new JButton("Exact Cash");
 		exactCashPanel.setLayout(new GridLayout(3,1,10,10));
-		//						JButton enterButton2 = new JButton("ENTER");
+
 		JPanel blankPanel = new JPanel();
-		//						exactCashPanel.add(enterButton2);
+
 		exactCashPanel.add(blankPanel);
 		exactCashPanel.add(exactCashButton);
 
@@ -216,8 +206,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 
 		JPanel secondRightPanel = new JPanel();
-		//						TitledBorder secondRightPanelTitle = new TitledBorder("2nd Right Panel:");
-		//						secondRightPanel.setBorder(secondRightPanelTitle);
+
 		secondRightPanel.setLayout(new GridLayout(7,1,10,10));
 
 		secondRightPanel.add(voidButton);
@@ -236,7 +225,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		fullScreenPanel.add(rightPanel);
 
 
-
+		// -- PLACEHOLDER EVENT HANDLERS -------------------------------------
 
 		lookUpButton.addActionListener(new ActionListener()
 		{
@@ -247,7 +236,7 @@ public class PosFrame extends JFrame implements SaleListener {
 				JFrame myFrame = new JFrame();
 				myFrame.setTitle("Lookup Item");
 				myFrame.setSize(900,500);
-				//						Parameters: numRows, numColumns, Hgap, Vgap
+
 				myFrame.setLocationRelativeTo(null);
 				myFrame.setVisible(true);
 
@@ -308,25 +297,22 @@ public class PosFrame extends JFrame implements SaleListener {
 					JFrame myFrame = new JFrame();
 					myFrame.setTitle("Lookup Item");
 					myFrame.setSize(900,500);
-					//						Parameters: numRows, numColumns, Hgap, Vgap
+
 					myFrame.setLocationRelativeTo(null);
 					myFrame.setVisible(true);
 
 					JPanel fullScreenPanel = new JPanel();
-					//						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-					//						fullScreenPanel.setBorder(fullScreenTitle);
+
 					fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
 					myFrame.add(fullScreenPanel);
 
 					JPanel topPanel = new JPanel();
-					//						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-					//						topPanel.setBorder(topPanelTitle);
+
 					topPanel.setLayout(new GridLayout(1,3,10,10));
 					fullScreenPanel.add(topPanel);
 
 					JPanel topLeftPanel = new JPanel();
-					//						TitledBorder topLeftPanelTitle = new TitledBorder("Left Panel:");
-					//						topLeftPanel.setBorder(topLeftPanelTitle);
+
 					topLeftPanel.setLayout(new GridLayout(4,1,10,10));
 					topPanel.add(topLeftPanel);
 
@@ -352,6 +338,7 @@ public class PosFrame extends JFrame implements SaleListener {
 					JLabel comboboxLabel = new JLabel("Category:");
 					topMiddlePanel.add(comboboxLabel);
 					String[] selectSearch = { "Pet", "Homeware" };
+					
 					//Create the combo box, select item at index 1.
 					@SuppressWarnings({ "unchecked", "rawtypes" })
 					JComboBox searchComboBox = new JComboBox(selectSearch);
@@ -360,8 +347,7 @@ public class PosFrame extends JFrame implements SaleListener {
 					searchComboBox.setEnabled(true);
 
 					JPanel topRightPanel = new JPanel();
-					//						TitledBorder topRightPanelTitle = new TitledBorder("Right Panel:");
-					//						topRightPanel.setBorder(topRightPanelTitle);
+
 					topRightPanel.setLayout(new GridLayout(3,1,10,10));
 					topPanel.add(topRightPanel);
 
@@ -375,8 +361,7 @@ public class PosFrame extends JFrame implements SaleListener {
 					topRightPanel.add(selectButton);
 
 					JPanel bottomPanel = new JPanel();
-					//						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-					//						bottomPanel.setBorder(bottomPanelTitle);
+
 					bottomPanel.setLayout(new GridLayout(1,1,10,10));
 					fullScreenPanel.add(bottomPanel);
 
@@ -416,7 +401,6 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
 					register.voidLineItem(lookUpTable.getSelectedRow());
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
@@ -431,7 +415,6 @@ public class PosFrame extends JFrame implements SaleListener {
 				if(lookUpTable.getSelectedRow() != -1) {
 					int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 					register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -458,7 +441,6 @@ public class PosFrame extends JFrame implements SaleListener {
 				if(lookUpTable.getSelectedRow() != -1) {
 					double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 					register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -472,11 +454,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.getCurrentSaleTotal() != "0.00") { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
-					BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					register.makePayment(exactAmount);
-//					saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
-//					saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
@@ -491,7 +471,6 @@ public class PosFrame extends JFrame implements SaleListener {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -507,7 +486,6 @@ public class PosFrame extends JFrame implements SaleListener {
 					if(lookUpTable.getSelectedRow() != -1) {
 						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -533,7 +511,6 @@ public class PosFrame extends JFrame implements SaleListener {
 					if(lookUpTable.getSelectedRow() != -1) {
 						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -549,7 +526,6 @@ public class PosFrame extends JFrame implements SaleListener {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -565,7 +541,6 @@ public class PosFrame extends JFrame implements SaleListener {
 					if(lookUpTable.getSelectedRow() != -1) {
 						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
 						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -581,7 +556,6 @@ public class PosFrame extends JFrame implements SaleListener {
 					if(lookUpTable.getSelectedRow() != -1) {
 						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
 						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -597,23 +571,25 @@ public class PosFrame extends JFrame implements SaleListener {
 					if(barcodeEntryField.getText().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
 						try {
 							register.beginSale();
-							register.enterItem(Long.valueOf(barcodeEntryField.getText()));
 							registerFrameAsListener();
-							register.calculateTotal();
-//							saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+							register.enterItem(Long.valueOf(barcodeEntryField.getText()));
 							barcodeEntryField.setText("");
 							barcodeEntryField.requestFocusInWindow();
 						}
-						catch (NumberFormatException nfe) {
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
 							System.out.println("An NFE exception occurred");
 							nfe.printStackTrace();
 						}
-						catch (SQLException se) {
-							System.out.println("A SQL exception occurred");
-							se.printStackTrace();
+					}
+					else { 
+						if(!barcodeEntryField.getText().equals("")) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
 						}
+						barcodeEntryField.setText("");
+						barcodeEntryField.requestFocusInWindow();
 					}
 				}
+				
 
 
 			}
@@ -638,6 +614,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		barcodeEntryField.requestFocusInWindow();
 	}
 
+	// -- PosFrame Methods -------------------------------------
 	public void registerFrameAsListener() {
 		register.registerSaleListener(this);
 	}
