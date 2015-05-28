@@ -16,17 +16,24 @@ import javax.swing.JOptionPane;
 
 public class DbReader {
 	
-	private static Connection connection = DbConnector.getConnection();
-	private static Statement statement;
+	private static Connection connection = DbConnector.getConnection();		// Connection to DB
+	private static Statement statement;										// Statement for executing queries
+	
 	
 	private DbReader() {
 	}
 	
+	/**
+	 * Static method for executing any kind of SQL SELECT statement on the database
+	 * @param sqlQuery the SQL query to be executed (must be SELECT statement)
+	 * @return a ResultSet containing the results of the query. Contains a single row of null values if no results are found.
+	 */
 	public static ResultSet executeQuery(String sqlQuery) {
 		try {
 			if(statement == null) {
 				statement = connection.createStatement();
 			}
+			
 			if(sqlQuery != null){
 				ResultSet productDetails = statement.executeQuery(sqlQuery);
 				return productDetails;
@@ -34,18 +41,23 @@ public class DbReader {
 			else {
 				return null;
 			}
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The query could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}
 	
+	/**
+	 * Static method for shutting down the DbReader by safely closing its Statement and the database connection
+	 * @throws SQLException if there is an error in closing the statement or connection
+	 */
 	public static void closeConnection() throws SQLException {
 		if(statement != null) {
 			statement.close();
 		}
 		if (connection != null) {
-			connection.close();
+			DbConnector.closeConnection();
 		}
 	}
 }

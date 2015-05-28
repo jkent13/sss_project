@@ -91,7 +91,7 @@ public class ReportController {
 			
 			// GET QUERIES
 			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
-			String summarySalesQuery = SqlBuilder.getSaleReportByHour(startDate, endDate);
+			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate, endDate);
 			
 			ResultSet summaryResultSet = DbReader.executeQuery(summarySalesQuery);
 			
