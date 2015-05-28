@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sss.domain.Line;
@@ -87,14 +86,21 @@ public class SaleTest {
 
 	@Test
 	public void testGetSetAmountTendered() {
-		BigDecimal amt = new BigDecimal(300);
+		BigDecimal amt = new BigDecimal(100);
 		testSale.setAmountTendered(amt);
 		assertEquals(amt.setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleAmountTendered());
 	}
 
 	@Test
 	public void testSetTimestamp() {
-		fail("Not yet implemented");
+		java.util.Date date = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf
+		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+		String newTime = sdf.format(date);
+		
+		assertEquals(newTime, testSale.getSaleDate());
 	}
 
 	@Test
@@ -110,21 +116,6 @@ public class SaleTest {
 	@Test
 	public void testGetSaleDate() {
 		assertEquals(timestamp, testSale.getSaleDate());
-	}
-
-	@Test
-	public void testGetSaleSubtotal() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetSaleGST() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetSaleTotal() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -192,9 +183,8 @@ public class SaleTest {
 		testSale.addLineItem(line2);
 		testSale.addLineItem(line3);
 		
-		BigDecimal amt = new BigDecimal(80);
 		testSale.calculateTotal();
-		assertEquals(amt.setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateTotal());
+		assertEquals(new BigDecimal(80).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleTotal());
 	}
 
 	@Test
@@ -210,7 +200,7 @@ public class SaleTest {
 		testSale.calculateTotal();
 		testSale.calculateGST();
 		
-		assertEquals(new BigDecimal(7.27).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateGST());
+		assertEquals(new BigDecimal(7.27).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleGST());
 	}
 
 	@Test
@@ -225,23 +215,26 @@ public class SaleTest {
 		
 		testSale.calculateTotal();
 		testSale.calculateGST();
+		testSale.calculateSubtotal();
 		
-		assertEquals(new BigDecimal(72.73).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.calculateSubtotal());
+		assertEquals(new BigDecimal(72.73).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleSubtotal());
 	}
 
 	@Test
-	public void testCalculateBalance() {
-		fail("Not yet implemented");
+	public void testCalculateBalance() throws SQLException {
+		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
+		Line line2 = new Line(testSale.getSaleId(), BED, 2);
+		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		testSale.addLineItem(line1);
+		testSale.addLineItem(line2);
+		testSale.addLineItem(line3);
+		
+		testSale.calculateTotal();
+		BigDecimal amt = new BigDecimal(100);
+		testSale.setAmountTendered(amt);
+		testSale.calculateBalance();
+		
+		assertEquals(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleBalance());
 	}
-
-	@Test
-	public void testIsValid() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
-	}
-
 }
