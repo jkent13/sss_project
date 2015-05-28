@@ -1,3 +1,9 @@
+/*
+ * ProductTest Class
+ * Junit Testing for the Product class
+ * Original Author: Jasmina Pasalic
+ */
+
 package sss.test;
 
 import static org.junit.Assert.*;

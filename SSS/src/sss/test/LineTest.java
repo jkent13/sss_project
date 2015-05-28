@@ -1,3 +1,9 @@
+/*
+ * LineTest Class
+ * Junit Testing for the Test class
+ * Original Author: Jasmina Pasalic
+ */
+
 package sss.test;
 
 import static org.junit.Assert.*;

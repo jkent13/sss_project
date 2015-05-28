@@ -1,3 +1,9 @@
+/*
+ * SqlBuilderTest Class
+ * Junit Testing for the SqlBuilder class
+ * Original Author: Jasmina Pasalic
+ */
+
 package sss.test;
 
 import static org.junit.Assert.*;

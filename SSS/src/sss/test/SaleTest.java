@@ -49,7 +49,6 @@ public class SaleTest {
 		Long saleId = 160163L;
 		
 		testSale = new Sale(saleId, timestamp, saleTypePurchase);
-		
 	}
 
 	@Test
