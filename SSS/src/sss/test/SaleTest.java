@@ -1,3 +1,9 @@
+/*
+ * SaleTest Class
+ * Junit Testing for the Sale class
+ * Original Author: Amethyst Mayer
+ */
+
 package sss.test;
 
 import static org.junit.Assert.*;
