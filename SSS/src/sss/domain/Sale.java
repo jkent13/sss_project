@@ -58,6 +58,7 @@ public class Sale {
 	
 	public void setAmountTendered(BigDecimal sale_amount_tendered) {
 		this.sale_amount_tendered = sale_amount_tendered.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		calculateBalance();
 	}
 	
 	public void setTimestamp(String timestamp) {
@@ -153,7 +154,6 @@ public class Sale {
 			sale_gst = new BigDecimal(0.00);
 			return sale_gst;
 		}
-			
 	}
 	
 	private BigDecimal calculateSubtotal() {
