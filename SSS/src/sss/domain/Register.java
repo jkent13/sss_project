@@ -249,11 +249,11 @@ public class Register {
 	 */
 	public void makePayment(BigDecimal amt_tendered) {
 		if(activeSale && amt_tendered.compareTo(currentSale.getSaleTotal()) >= 0) {
-			
+			calculateTotal();
 			currentSale.setAmountTendered(amt_tendered);
 			calculateBalance();
 			currentSale.setTimestamp(sdf.format(new Date())); // Create and set the timestamp
-			calculateTotal();
+			
 			
 			// Get the SQL insert statements
 			String saleInsertStatement = getSaleInsertStatement();
