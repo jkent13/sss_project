@@ -8,6 +8,7 @@ package sss.ui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -31,9 +33,24 @@ import sss.domain.NonEditableTableModel;
 public class ViewInventoryFrame extends JFrame {
 
 	private IMController controller = new IMController();
-	
 	private InventoryFilter filter = new InventoryFilter();
 	
+	private JCheckBox supplierCheckBox;
+	private JCheckBox categoryCheckBox;
+	private JCheckBox qohCheckBox;
+	private JCheckBox priceRangeCheckBox;
+	
+	private JComboBox<String> supplierComboBox;
+	private JComboBox<String> categoryComboBox;
+	
+	private JTextField minTextField;
+	private JTextField maxTextField;
+	
+	private JTextField qohTextField;
+	private JRadioButton equalToRadioButton;
+	private JRadioButton greaterThanRadioButton;
+	private JRadioButton lessThanRadioButton;
+ 	
 	public ViewInventoryFrame()
 	{
 		setTitle("View Inventory");
@@ -77,21 +94,21 @@ public class ViewInventoryFrame extends JFrame {
 
 		/** Creating all the buttons/labels etc for searching options**/
 
-		JCheckBox priceRangeCheckBox = new JCheckBox ("Price Range"); 
+		priceRangeCheckBox = new JCheckBox ("Price Range"); 
 		JLabel toLabel = new JLabel ("to");
-		JTextField minTextField = new JTextField ("$0.00");
+		minTextField = new JTextField ("0.00");
 		JLabel minLabel = new JLabel("Min Price");
-		JTextField maxTextField = new JTextField("$0.00");
+		maxTextField = new JTextField("0.00");
 		JLabel maxLabel = new JLabel("Max Price");
 
-		JCheckBox categoryCheckBox = new JCheckBox ("Category");
-		JComboBox<String> categoryComboBox= new JComboBox<String>(controller.getCategoryNames());
+		categoryCheckBox = new JCheckBox ("Category");
+		categoryComboBox = new JComboBox<String>(controller.getCategoryNames());
 
-		JCheckBox qohCheckBox = new JCheckBox ("Quantity-on-hand");
-		JTextField qohTextField = new JTextField ("10");
-		JRadioButton equalToRadioButton = new JRadioButton ("Equal to");
-		JRadioButton lessThanRadioButton = new JRadioButton ("Less than");
-		JRadioButton greaterThanRadioButton = new JRadioButton ("Greater than");
+		qohCheckBox = new JCheckBox ("Quantity-on-hand");
+		qohTextField = new JTextField ("10");
+		equalToRadioButton = new JRadioButton ("Equal to");
+		lessThanRadioButton = new JRadioButton ("Less than");
+		greaterThanRadioButton = new JRadioButton ("Greater than");
 
 		ButtonGroup mygroup = new ButtonGroup();
 		mygroup.add(equalToRadioButton);
@@ -99,8 +116,8 @@ public class ViewInventoryFrame extends JFrame {
 		mygroup.add(greaterThanRadioButton);
 
 
-		JCheckBox supplierCheckBox = new JCheckBox ("Supplier");		
-		JComboBox<String> supplierComboBox = new JComboBox<String>(controller.getSupplierNames());
+		supplierCheckBox = new JCheckBox ("Supplier");		
+		supplierComboBox = new JComboBox<String>(controller.getSupplierNames());
 
 		/** End **/
 
@@ -173,7 +190,7 @@ public class ViewInventoryFrame extends JFrame {
 		quantityPanel.add(greaterThanRadioButton);
 		quantityPanel.add(qohTextField);
 
-
+		equalToRadioButton.setSelected(true);
 		equalToRadioButton.setEnabled(false);
 		lessThanRadioButton.setEnabled(false);
 		greaterThanRadioButton.setEnabled(false);
@@ -237,9 +254,7 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
-				if(filter.isQohSelected()) {
-					
-				}
+				buildFilter();
 
 			}
 		});
@@ -275,12 +290,12 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (supplierCheckBox.isSelected())
 				{
-					filter.setSupplierSelected(true);
+//					filter.setSupplierSelected(true);
 					supplierComboBox.setEnabled(true);
-					filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
+//					filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
 				}
 				else{
-					filter.setSupplierSelected(false);
+//					filter.setSupplierSelected(false);
 					supplierComboBox.setEnabled(false);
 				}
 			}
@@ -293,7 +308,7 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (qohCheckBox.isSelected())
 				{
-					filter.setQohSelected(true);
+//					filter.setQohSelected(true);
 					equalToRadioButton.setEnabled(true);
 					lessThanRadioButton.setEnabled(true);
 					greaterThanRadioButton.setEnabled(true);
@@ -301,7 +316,7 @@ public class ViewInventoryFrame extends JFrame {
 				}
 				else
 				{
-					filter.setQohSelected(false);
+//					filter.setQohSelected(false);
 					equalToRadioButton.setEnabled(false);
 					lessThanRadioButton.setEnabled(false);
 					greaterThanRadioButton.setEnabled(false);
@@ -318,12 +333,12 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (categoryCheckBox.isSelected())
 				{
-					filter.setCategorySelected(true);
+//					filter.setCategorySelected(true);
 					categoryComboBox.setEnabled(true);
-					filter.setCategory((String)categoryComboBox.getSelectedItem());
+//					filter.setCategory((String)categoryComboBox.getSelectedItem());
 				}
 				else{
-					filter.setCategorySelected(false);
+//					filter.setCategorySelected(false);
 					categoryComboBox.setEnabled(false);
 				}
 			}
@@ -336,7 +351,7 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (priceRangeCheckBox.isSelected())
 				{
-					filter.setPriceRangeSelected(true);
+//					filter.setPriceRangeSelected(true);
 					minTextField.setEnabled(true);
 					maxTextField.setEnabled(true);
 					minLabel.setEnabled(true);
@@ -344,7 +359,7 @@ public class ViewInventoryFrame extends JFrame {
 					toLabel.setEnabled(true);
 				}
 				else{
-					filter.setPriceRangeSelected(false);
+//					filter.setPriceRangeSelected(false);
 					minTextField.setEnabled(false);
 					maxTextField.setEnabled(false);
 					minLabel.setEnabled(false);
@@ -353,32 +368,67 @@ public class ViewInventoryFrame extends JFrame {
 				}
 			}
 		});
-
-		// COMBO BOXES
-		supplierComboBox.addActionListener(new ActionListener()
-		{
-			@Override 
-			public void actionPerformed(ActionEvent ae)
-			{
-				if(supplierComboBox.isEnabled()) {
-					filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
-				}
-			}
-		});
-		
-		categoryComboBox.addActionListener(new ActionListener()
-		{
-			@Override 
-			public void actionPerformed(ActionEvent ae)
-			{
-				if(categoryComboBox.isEnabled()) {
-					filter.setCategory((String)categoryComboBox.getSelectedItem());
-				}
-			}
-		});
-		
 		
 		setVisible(true);
 	}
 	
+	private void buildFilter() {
+		if(supplierCheckBox.isSelected()) {
+			filter.setSupplierSelected(true);
+			filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
+		}
+		
+		if(categoryCheckBox.isSelected()) {
+			filter.setCategorySelected(true);
+			filter.setCategory((String)categoryComboBox.getSelectedItem());
+		}
+		
+		if(qohCheckBox.isSelected()) {
+			
+			if(equalToRadioButton.isSelected()) {
+				filter.setQohOperator("=");
+			}
+			else if(greaterThanRadioButton.isSelected()) {
+				filter.setQohOperator(">");
+			}
+			else {
+				filter.setQohOperator("<");
+			}
+			
+			try {
+				if(Integer.parseInt(qohTextField.getText()) >= 0) {
+					filter.setQohValue(Integer.valueOf(qohTextField.getText()));
+					filter.setQohSelected(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error: Invalid value for quantity-on-hand. Must be a positive digit", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					qohTextField.setText("");
+				}
+			} catch (NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "Error: Invalid value for quantity-on-hand. Must be a positive digit", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+				qohTextField.setText("0");
+			}
+		}
+		
+		if(priceRangeCheckBox.isSelected()) {
+			try {
+				Double minValue = Double.parseDouble(minTextField.getText());
+				Double maxValue = Double.parseDouble(maxTextField.getText());
+				
+				if(maxValue.compareTo(minValue) > 0) {
+					filter.setMinPrice(new BigDecimal(minValue).setScale(2, BigDecimal.ROUND_HALF_EVEN));
+					filter.setMaxPrice(new BigDecimal(maxValue).setScale(2, BigDecimal.ROUND_HALF_EVEN));
+					filter.setPriceRangeSelected(true);
+				}
+				else {
+					throw new NumberFormatException();
+				}
+			}
+			catch (NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "Error: Invalid values for price range. Min must be less than max, and both values must be numeric", "Invalid Values", JOptionPane.ERROR_MESSAGE);
+				minTextField.setText("0.00");
+				maxTextField.setText("0.00");
+			}
+		}
+	}
 }// End class
