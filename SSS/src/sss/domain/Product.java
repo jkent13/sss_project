@@ -38,7 +38,7 @@ public class Product {
 	 */
 	public Product(long prod_id) {
 		this.prod_id = prod_id;
-		 String lookUpQuery = SqlBuilder.getLookupQueryById(prod_id);
+		 String lookUpQuery = SqlBuilder.getProductById(prod_id);
 		 productDetails = DbReader.executeQuery(lookUpQuery);
 		 if(productDetails == null) {
 			 successfulLookup = false;

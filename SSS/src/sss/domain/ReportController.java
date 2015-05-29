@@ -17,6 +17,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import sss.services.DbConnector;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
@@ -50,6 +51,16 @@ public class ReportController {
 		allSalesData.setColumnIdentifiers(allSalesColNames);
 		dollarSalesData.setColumnIdentifiers(dollarColNames);
 		volumeSalesData.setColumnIdentifiers(volumeColNames);
+	}
+	
+	public void shutdown() {
+		try {
+			DbConnector.closeConnection();
+			System.out.println("DB connection closed.");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -240,6 +251,7 @@ public class ReportController {
 			
 			// Reset view to default
 			switchView("dollar","summary");
+			allSalesResultSet.close();
 			
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);

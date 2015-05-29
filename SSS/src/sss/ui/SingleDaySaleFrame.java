@@ -9,10 +9,14 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -163,6 +167,7 @@ public class SingleDaySaleFrame extends JFrame {
 		
 		//---------------------Event Handlers---------------------
 
+		// View Changers
 		allView.addActionListener(new ActionListener()
 		{
 
@@ -187,6 +192,7 @@ public class SingleDaySaleFrame extends JFrame {
 				
 		});
 		
+		// Report Type Changers
 		salesByDollar.addActionListener(new ActionListener()
 		{
 
@@ -224,7 +230,7 @@ public class SingleDaySaleFrame extends JFrame {
 		});
 		
 		
-		
+		// Get Results button
 		getResultsButton.addActionListener(new ActionListener()
 		{
 
@@ -246,19 +252,39 @@ public class SingleDaySaleFrame extends JFrame {
 				
 		});
 
+		// Pressing Enter key on View Date textbox
+		viewDate.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(viewDate.getText() != null) {
+						String inputDateString = viewDate.getText();
+						
+						if(!controller.isValidDate(inputDateString)) {
+							viewDate.setText("");
+						}
+						else {
+							controller.getResults(inputDateString);
+						}
+					}
+				}
+			}
+		});
+		
+		// Back Button
 		backButton.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
+				controller.shutdown();
 				dispose();
 			}
 		});
 
 
 		setVisible(true);
-	
 	}
-
-}
+}// End class
