@@ -10,6 +10,7 @@ package sss.services;
 
 import java.math.BigDecimal;
 
+import sss.domain.InventoryFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
 
@@ -29,6 +30,10 @@ public class SqlBuilder {
 		return "SELECT supp_name FROM supplier ORDER BY supp_id;";
 	}
 	
+	/**
+	 * Gets a SQL SELECT statement that will return all the distinct category names from the product table
+	 * @return a SQL SELECT statement
+	 */
 	public static String getCategoryNames() {
 		return "SELECT DISTINCT prod_category FROM product;";
 	}
@@ -168,14 +173,14 @@ public class SqlBuilder {
 	 * @return a SQL SELECT statement String
 	 */
 	public static String getSaleReportQuery(String startDate, String endDate) {
-		StringBuffer currentStatement = new StringBuffer();
+		StringBuffer query = new StringBuffer();
 		
-		currentStatement.append("SELECT * FROM sale WHERE sale_date BETWEEN ");
-		currentStatement.append("'" + startDate + "' ");
-		currentStatement.append("AND ");
-		currentStatement.append("'" + endDate + "';");
+		query.append("SELECT * FROM sale WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "';");
 		
-		return currentStatement.toString();
+		return query.toString();
 	}
 	
 	/**
@@ -185,16 +190,58 @@ public class SqlBuilder {
 	 * @return a SQL SELECT statement String
 	 */
 	public static String getSaleReportByHourQuery(String startDate, String endDate) {
-		StringBuffer currentStatement = new StringBuffer();
+		StringBuffer query = new StringBuffer();
 		
-		currentStatement.append("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
+		query.append("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
 				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN ");
-		currentStatement.append("'" + startDate + "' ");
-		currentStatement.append("AND ");
-		currentStatement.append("'" + endDate +"' ");
-		currentStatement.append("GROUP BY HOUR(sale_date);");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate +"' ");
+		query.append("GROUP BY HOUR(sale_date);");
 
-		return currentStatement.toString();
+		return query.toString();
+	}
+	
+	/**
+	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values
+	 * @param filter an InventoryFilter that filters product results
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getProductsFiltered(InventoryFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
+				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id");
+		
+		if(filter.isCategorySelected()) {
+			query.append(" AND ");
+			query.append("prod_category = '");
+			query.append(filter.getCategory() + "'");
+		}
+		
+		if(filter.isSupplierSelected()) {
+			query.append(" AND ");
+			query.append("product.supp_id = ");
+			query.append(filter.getSupplierId());
+		}
+		
+		if(filter.isQohSelected()) {
+			query.append(" AND ");
+			query.append("prod_qoh ");
+			query.append(filter.getQohOperator() + " ");
+			query.append(filter.getQohValue());
+		}
+		
+		if(filter.isPriceRangeSelected()) {
+			query.append(" AND ");
+			query.append("prod_price >= ");
+			query.append(filter.getMinPrice() + " ");
+			query.append("AND ");
+			query.append("prod_price <= ");
+			query.append(filter.getMaxPrice());
+		}
+		
+		query.append(";");
+		return query.toString();
 	}
 	
 	//---------------------------------------------------------

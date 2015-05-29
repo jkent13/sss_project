@@ -30,6 +30,10 @@ public class DbReader {
 	 */
 	public static ResultSet executeQuery(String sqlQuery) {
 		try {
+			if(connection == null) {
+				connection = DbConnector.getConnection();
+			}
+			
 			if(statement == null) {
 				statement = connection.createStatement();
 			}
@@ -44,6 +48,7 @@ public class DbReader {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The query could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			return null;
 		}
 	}

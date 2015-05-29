@@ -279,12 +279,12 @@ public class SingleDaySaleFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
-				controller.shutdown();
 				dispose();
 			}
 		});
 
 
 		setVisible(true);
+		viewDate.requestFocusInWindow();
 	}
 }// End class

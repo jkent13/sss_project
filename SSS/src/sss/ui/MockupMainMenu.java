@@ -10,8 +10,14 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import sss.services.DbConnector;
 
 public class MockupMainMenu {
 
@@ -108,6 +114,26 @@ public class MockupMainMenu {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				JFrame reportsMenuUI = new ReportsMenuFrame();
+			}
+		});
+		
+		// Close window handler (shows confirm dialog)
+		mainMenuFrame.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+
+				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (confirm == 0) {
+					try {
+						DbConnector.closeConnection();
+						System.out.println("DB connection closed.");
+					} catch (SQLException sqle) {
+						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
+						sqle.printStackTrace();
+					}
+					mainMenuFrame.dispose();
+				}
 			}
 		});
 		

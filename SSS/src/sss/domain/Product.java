@@ -59,6 +59,7 @@ public class Product {
 					prod_active = false;
 				}
 				supp_id = productDetails.getInt("supp_id");
+				productDetails.close(); // Close ResultSet
 			}
 		} catch (SQLException e) {
 			successfulLookup = false;

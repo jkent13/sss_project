@@ -27,9 +27,14 @@ public class DbWriter {
 	 */
 	public static void executeStatement(String sql) {
 		try {
-			statement = connection.createStatement();
+			if(connection == null) {
+				connection = DbConnector.getConnection();
+			}
+			
+			if(statement == null) {
+				statement = connection.createStatement();
+			}
 			statement.execute(sql);
-			statement.close();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The SQL statements could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();

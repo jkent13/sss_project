@@ -614,12 +614,18 @@ public class PosFrame extends JFrame implements SaleListener {
 	}
 
 	// -- PosFrame Methods -------------------------------------
+	/**
+	 * Method for registering this frame as a SaleListener
+	 */
 	public void registerFrameAsListener() {
 		register.registerSaleListener(this);
 	}
 	
 
 	@Override
+	/**
+	 * Method called whenever a Sale object that this frame is listening to updates its balance or total
+	 */
 	public void update(int eventType, BigDecimal newValue) {
 		switch(eventType) {
 		case SaleListener.SALE_TOTAL:

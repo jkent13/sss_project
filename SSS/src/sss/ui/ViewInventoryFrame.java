@@ -33,7 +33,7 @@ import sss.domain.NonEditableTableModel;
 public class ViewInventoryFrame extends JFrame {
 
 	private IMController controller = new IMController();
-	private InventoryFilter filter = new InventoryFilter();
+	private InventoryFilter filter = new InventoryFilter();		// Contains all the user input and selections (except for search box)
 	
 	private JCheckBox supplierCheckBox;
 	private JCheckBox categoryCheckBox;
@@ -247,7 +247,7 @@ public class ViewInventoryFrame extends JFrame {
 		MAINPANEL.add(p2);		
 
 		// EVENT HANDLERS -----------------------------------------------
-
+		
 		resultButton.addActionListener(new ActionListener()
 		{
 
@@ -255,6 +255,7 @@ public class ViewInventoryFrame extends JFrame {
 			public void actionPerformed(ActionEvent ae) 
 			{
 				buildFilter();
+				controller.getResults(filter);
 
 			}
 		});
@@ -265,7 +266,6 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
-				controller.shutdown();
 				dispose();
 
 			}
@@ -281,8 +281,11 @@ public class ViewInventoryFrame extends JFrame {
 
 			}
 		});
+		
+		// --------------------------------------------------------------
 
-		// CHECK BOXES ---------------------------
+		// CHECK BOXES --------------------------------------------------
+		
 		supplierCheckBox.addActionListener(new ActionListener()
 		{
 			@Override 
@@ -290,12 +293,9 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (supplierCheckBox.isSelected())
 				{
-//					filter.setSupplierSelected(true);
 					supplierComboBox.setEnabled(true);
-//					filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
 				}
 				else{
-//					filter.setSupplierSelected(false);
 					supplierComboBox.setEnabled(false);
 				}
 			}
@@ -308,7 +308,6 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (qohCheckBox.isSelected())
 				{
-//					filter.setQohSelected(true);
 					equalToRadioButton.setEnabled(true);
 					lessThanRadioButton.setEnabled(true);
 					greaterThanRadioButton.setEnabled(true);
@@ -316,7 +315,6 @@ public class ViewInventoryFrame extends JFrame {
 				}
 				else
 				{
-//					filter.setQohSelected(false);
 					equalToRadioButton.setEnabled(false);
 					lessThanRadioButton.setEnabled(false);
 					greaterThanRadioButton.setEnabled(false);
@@ -333,12 +331,9 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (categoryCheckBox.isSelected())
 				{
-//					filter.setCategorySelected(true);
 					categoryComboBox.setEnabled(true);
-//					filter.setCategory((String)categoryComboBox.getSelectedItem());
 				}
 				else{
-//					filter.setCategorySelected(false);
 					categoryComboBox.setEnabled(false);
 				}
 			}
@@ -351,7 +346,6 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				if (priceRangeCheckBox.isSelected())
 				{
-//					filter.setPriceRangeSelected(true);
 					minTextField.setEnabled(true);
 					maxTextField.setEnabled(true);
 					minLabel.setEnabled(true);
@@ -359,7 +353,6 @@ public class ViewInventoryFrame extends JFrame {
 					toLabel.setEnabled(true);
 				}
 				else{
-//					filter.setPriceRangeSelected(false);
 					minTextField.setEnabled(false);
 					maxTextField.setEnabled(false);
 					minLabel.setEnabled(false);
@@ -369,18 +362,32 @@ public class ViewInventoryFrame extends JFrame {
 			}
 		});
 		
+		// --------------------------------------------------------------
+		
+		
 		setVisible(true);
+		searchField.requestFocusInWindow();
 	}
 	
+	// ViewInventoryFrame Methods ---------------------------------
+	/**
+	 * Reads the state of the frame and all its values and updates the InventoryFilter to align with this state
+	 */
 	private void buildFilter() {
 		if(supplierCheckBox.isSelected()) {
 			filter.setSupplierSelected(true);
 			filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
 		}
+		else {
+			filter.setSupplierSelected(false);
+		}
 		
 		if(categoryCheckBox.isSelected()) {
 			filter.setCategorySelected(true);
 			filter.setCategory((String)categoryComboBox.getSelectedItem());
+		}
+		else {
+			filter.setCategorySelected(false);
 		}
 		
 		if(qohCheckBox.isSelected()) {
@@ -409,6 +416,9 @@ public class ViewInventoryFrame extends JFrame {
 				qohTextField.setText("0");
 			}
 		}
+		else {
+			filter.setQohSelected(false);
+		}
 		
 		if(priceRangeCheckBox.isSelected()) {
 			try {
@@ -429,6 +439,9 @@ public class ViewInventoryFrame extends JFrame {
 				minTextField.setText("0.00");
 				maxTextField.setText("0.00");
 			}
+		}
+		else {
+			filter.setPriceRangeSelected(false);
 		}
 	}
 }// End class

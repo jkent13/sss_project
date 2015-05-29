@@ -89,14 +89,6 @@ public class Register {
 		else {
 			System.out.println("No sales made.\nNext ID: " + nextSaleId);
 		}
-		
-		try {
-			DbConnector.closeConnection();
-			System.out.println("DB connection closed.");
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
 	}
 	
 	/**

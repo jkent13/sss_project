@@ -25,8 +25,11 @@ public class DbConnector {
 	protected static Connection getConnection() {
 		if(connection == null) {
 			establishConnection();
+			return connection;
 		}
-		return connection;
+		else {
+			return connection;
+		}
 	}
 	
 	/**
