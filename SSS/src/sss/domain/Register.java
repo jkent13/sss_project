@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -98,7 +97,6 @@ public class Register {
 			JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		System.out.println("DB connection closed.");
 	}
 	
 	/**

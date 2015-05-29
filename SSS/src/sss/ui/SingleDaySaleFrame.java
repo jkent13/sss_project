@@ -9,17 +9,10 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -34,6 +27,9 @@ import sss.domain.ReportController;
 
 @SuppressWarnings("serial")
 public class SingleDaySaleFrame extends JFrame {
+	
+	private String reportType = "dollar";
+	private String viewType = "summary";
 	
 	private ReportController controller = new ReportController();
 	
@@ -56,7 +52,7 @@ public class SingleDaySaleFrame extends JFrame {
 		//--------------------Section Panels--------------------
 
 		JPanel leftPanel = new JPanel();
-		TitledBorder leftPanelTitle = new TitledBorder("Product Inventory:");
+		TitledBorder leftPanelTitle = new TitledBorder("Sale Data:");
 		leftPanel.setBorder(leftPanelTitle);
 		leftPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(leftPanel);
@@ -119,17 +115,21 @@ public class SingleDaySaleFrame extends JFrame {
 		viewPanel.setLayout(new GridLayout(2,1,10,10));
 		reportPanel.add(viewPanel);
 		
-		JRadioButton wholeView = new JRadioButton("Whole Day Sale View", true);
-		JRadioButton summView = new JRadioButton("Day Summary View", false);
+		JRadioButton allView = new JRadioButton("All Sales View", false);
+		JRadioButton summView = new JRadioButton("Hour Summary View", true);
 		ButtonGroup myView = new ButtonGroup();
-		myView.add(wholeView);
+		
+		allView.setActionCommand("all");
+		summView.setActionCommand("summary");
+		
+		myView.add(allView);
 		myView.add(summView);
 		
 		reportTypePanel.add(salesByDollar);
 		reportTypePanel.add(salesByVolume);
 		reportTypePanel.add(profitByDollar);
 		
-		viewPanel.add(wholeView);
+		viewPanel.add(allView);
 		viewPanel.add(summView);
 
 		//--------------------Shown As Panel--------------------
@@ -163,13 +163,38 @@ public class SingleDaySaleFrame extends JFrame {
 		
 		//---------------------Event Handlers---------------------
 
+		allView.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				viewType = ae.getActionCommand();
+				controller.switchView(reportType, viewType);
+			}
+				
+		});
+		
+		summView.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				viewType = ae.getActionCommand();
+				controller.switchView(reportType, viewType);
+			}
+				
+		});
+		
 		salesByDollar.addActionListener(new ActionListener()
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
-				controller.switchModel(arg0.getActionCommand());
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, viewType);
 			}
 				
 		});
@@ -178,9 +203,10 @@ public class SingleDaySaleFrame extends JFrame {
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
-				
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, viewType);
 			}
 				
 		});
@@ -189,9 +215,10 @@ public class SingleDaySaleFrame extends JFrame {
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
-				
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, viewType);
 			}
 				
 		});
@@ -202,7 +229,7 @@ public class SingleDaySaleFrame extends JFrame {
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
 				if(viewDate.getText() != null){
 					
@@ -223,7 +250,7 @@ public class SingleDaySaleFrame extends JFrame {
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
 				dispose();
 			}
