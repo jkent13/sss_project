@@ -29,7 +29,7 @@ public class SaleTest {
 	private final int NUMBER_OF_LINES_DEFAULT = 0;
 	private final BigDecimal SALE_SUBTOTAL_DEFAULT = new BigDecimal("0");
 	private final BigDecimal SALE_GST_DEFAULT = new BigDecimal("0");
-	private final BigDecimal SALE_TOTAL = new BigDecimal("0");
+	private final BigDecimal SALE_TOTAL = new BigDecimal("0").setScale(2, BigDecimal.ROUND_HALF_DOWN);
 	private final BigDecimal SALE_AMOUNT_TENDERED = new BigDecimal("0");
 	private final BigDecimal SALE_BALANCE = new BigDecimal("0");
 	

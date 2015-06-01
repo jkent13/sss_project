@@ -25,7 +25,15 @@ public class ProductTest {
 
 	@Test
 	public void testProductLong() {
-		fail("Not yet implemented");
+		Product idConstructor = new Product(9300518897101L);
+		assertEquals(9300518897101L, idConstructor.getId());
+		assertEquals("GHDH302", idConstructor.getCode()); 
+		assertEquals("milk", idConstructor.getName()); 
+		assertEquals(new BigDecimal(17.50).setScale(2, BigDecimal.ROUND_HALF_EVEN), idConstructor.getCostPrice()); 
+		assertEquals(new BigDecimal(35.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), idConstructor.getPrice()); 
+		assertEquals(5, idConstructor.getQuantityOnHand()); 
+		assertEquals("Food", idConstructor.getCategory()); 
+		assertEquals(true, idConstructor.isActive());	
 	}
 
 	@Test
@@ -84,7 +92,7 @@ public class ProductTest {
 
 	@Test
 	public void testGetSupplierId() {
-		fail("Not yet implemented");
+		assertEquals(1, testProduct.getSupplierId());
 	}
 
 }

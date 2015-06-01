@@ -26,18 +26,9 @@ public class LineTest {
 	}
 
 	@Test
-	public void testLineLongLongInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testLineLongProductInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testSetDiscount() {
-		fail("Not yet implemented");
+		testLine.setDiscount(25.0);
+		assertEquals(new BigDecimal(-25.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getDiscount());
 	}
 
 	@Test
