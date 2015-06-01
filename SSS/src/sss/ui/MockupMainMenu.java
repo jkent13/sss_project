@@ -128,11 +128,11 @@ public class MockupMainMenu {
 					try {
 						DbConnector.closeConnection();
 						System.out.println("DB connection closed.");
+						mainMenuFrame.dispose();
 					} catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 						sqle.printStackTrace();
 					}
-					mainMenuFrame.dispose();
 				}
 			}
 		});

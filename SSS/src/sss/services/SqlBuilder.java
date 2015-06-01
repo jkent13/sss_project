@@ -27,7 +27,7 @@ public class SqlBuilder {
 	 * @return a SQL SELECT statement String
 	 */
 	public static String getLastSaleId() {
-		return "SELECT MAX(sale_id) FROM sale;";
+		return "SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;";
 	}
 	
 	/**

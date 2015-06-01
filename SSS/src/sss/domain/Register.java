@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import sss.services.DbConnector;
+import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
@@ -56,38 +58,18 @@ public class Register {
 	 * A start-up method for the Register. Reads in the nextSaleId value and sets the column names for the data model
 	 */
 	public void initialise() {
-		idFile = new File("id.txt"); // Contains nextSaleId
-		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
 		try {
-			fileScanner = new Scanner(idFile);
-			nextSaleId = fileScanner.nextLong();
-			System.out.println("Next Sale ID read successfully.\nNext ID: " + nextSaleId);
-			fileScanner.close();
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Error: Could not find id.txt file. Next sale ID cannot be correctly established.", "File Not Found", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * A closing method for the Register. Writes the next sale id to text for next initialization and closes 
-	 * any connections to the database
-	 */
-	public void shutdown() {
-		if(saleMade) {
-			try {
-				fileWriter = new PrintWriter(idFile);
-				fileWriter.print(nextSaleId);
-				System.out.println("Next Sale ID saved successfully.\nNext ID: " + nextSaleId);
-				fileWriter.close();
-			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Error: Could not find id.txt file. Next sale ID cannot be correctly written to file.", "File Not Found", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-			}
+		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
+		String lastIdQuery = SqlBuilder.getLastSaleId();
+		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
 
-		}
-		else {
-			System.out.println("No sales made.\nNext ID: " + nextSaleId);
+			if(lastIdResult.next()) {
+				nextSaleId = lastIdResult.getLong("Last Sale ID") + 1;
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: The next sale id could not be read", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 	

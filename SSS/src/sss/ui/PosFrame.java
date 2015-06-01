@@ -602,7 +602,6 @@ public class PosFrame extends JFrame implements SaleListener {
 
 				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == 0) {
-					register.shutdown();
 					dispose();
 				}
 			}
