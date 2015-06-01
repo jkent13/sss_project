@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="sss.services.SqlBuilder" project="SSS" 
     file="/SSS/src/sss/services/SqlBuilder.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="737" y="-187"/>    
+    <position height="-1" width="-1" x="728" y="-130"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
