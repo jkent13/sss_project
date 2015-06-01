@@ -33,9 +33,9 @@ public class SaleTest {
 	private final BigDecimal SALE_AMOUNT_TENDERED = new BigDecimal("0");
 	private final BigDecimal SALE_BALANCE = new BigDecimal("0");
 	
-	private final Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true);
-	private final Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false);
-	private final Product PEN =  new Product(9493849856932L, "PENY123", "Pen", new BigDecimal(31), new BigDecimal(62), 8, "Office", true);
+	private final Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true, 1);
+	private final Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false, 2);
+	private final Product PEN =  new Product(9493849856932L, "PENY123", "Pen", new BigDecimal(31), new BigDecimal(62), 8, "Office", true, 5);
 	
 	@Before
 	public void setUp() throws Exception {
@@ -203,7 +203,6 @@ public class SaleTest {
 		testSale.addLineItem(line3);
 		
 		testSale.calculateTotal();
-		testSale.calculateGST();
 		
 		assertEquals(new BigDecimal(7.27).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleGST());
 	}
@@ -219,9 +218,7 @@ public class SaleTest {
 		testSale.addLineItem(line3);
 		
 		testSale.calculateTotal();
-		testSale.calculateGST();
-		testSale.calculateSubtotal();
-		
+
 		assertEquals(new BigDecimal(72.73).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleSubtotal());
 	}
 

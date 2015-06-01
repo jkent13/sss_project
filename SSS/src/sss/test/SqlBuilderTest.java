@@ -22,22 +22,22 @@ public class SqlBuilderTest {
 
 	@Test
 	public void testGetLookupQueryById() {
-		assertEquals("SELECT * FROM product WHERE prod_id = 1234567891022;", SqlBuilder.getLookupQueryById(1234567891022L));
+		assertEquals("SELECT * FROM product WHERE prod_id = 1234567891022;", SqlBuilder.getProductById(1234567891022L));
 	}
 
 	@Test
 	public void testGetLookupQueryByCode() {
-		assertEquals("SELECT * FROM product WHERE prod_code = 'TTTT666';", SqlBuilder.getLookupQueryByCode("TTTT666"));
+		assertEquals("SELECT * FROM product WHERE prod_code = 'TTTT666';", SqlBuilder.getProductsByCode("TTTT666"));
 	}
 
 	@Test
 	public void testGetLookupQueryByNameAndCategory() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%' AND prod_category = 'Pet';", SqlBuilder.getLookupQueryByNameAndCategory("Cat", "Pet"));
+		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%' AND prod_category = 'Pet';", SqlBuilder.getProductsByNameAndCategory("Cat", "Pet"));
 	}
 
 	@Test
 	public void testGetLookupQueryByName() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%';", SqlBuilder.getLookupQueryByName("Cat"));
+		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%';", SqlBuilder.getProductsByName("Cat"));
 	}
 
 	@Test

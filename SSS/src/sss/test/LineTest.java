@@ -17,7 +17,7 @@ import sss.domain.Line;
 import sss.domain.Product;
 
 public class LineTest {
-	private final Product testProduct = new Product(1111111111111L,"GGGG444", "Cat" , new BigDecimal(3), new BigDecimal(5), 6, "Pet", true);
+	private final Product testProduct = new Product(1111111111111L,"GGGG444", "Cat" , new BigDecimal(3), new BigDecimal(5), 6, "Pet", true, 1);
 	private Line testLine = null;
 
 	@Before

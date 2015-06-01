@@ -25,9 +25,9 @@ public class PrintFormatterTest {
 	private static String timestamp;
 	private static String saleTypePurchase = "Purchase";
 	
-	private final static Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true);
-	private final static Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false);
-	private final static Product PEN =  new Product(9493849856932L, "PENY123", "Pen", new BigDecimal(31), new BigDecimal(62), 8, "Office", true);
+	private final static Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true, 2);
+	private final static Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false, 5);
+	private final static Product PEN =  new Product(9493849856932L, "PENY123", "Pen", new BigDecimal(31), new BigDecimal(62), 8, "Office", true, 4);
 	
 	private static FormattedSale fs;
 	
@@ -53,8 +53,6 @@ public class PrintFormatterTest {
 		testSale.addLineItem(line3);
 		
 		testSale.calculateTotal();
-		testSale.calculateGST();
-		testSale.calculateSubtotal();
 		testSale.setAmountTendered(new BigDecimal(80));
 
 		testSale.calculateBalance();

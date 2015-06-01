@@ -18,7 +18,7 @@ import sss.domain.Product;
 
 
 public class ProductTest {
-	private final Product testProduct = new Product(1111111111111L,"GGGG444", "Cat" , new BigDecimal(3), new BigDecimal(5), 6, "Pet", true);
+	private final Product testProduct = new Product(1111111111111L,"GGGG444", "Cat" , new BigDecimal(3), new BigDecimal(5), 6, "Pet", true, 1);
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -30,13 +30,13 @@ public class ProductTest {
 
 	@Test
 	public void testProductLongStringStringBigDecimalBigDecimalIntStringBoolean() {
-		final Product testProduct2 = new Product(2222222222222L,"RRRR555", "Foundation" , new BigDecimal(2), new BigDecimal(4), 5, "Cosmetics", false);
+		final Product testProduct2 = new Product(2222222222222L,"RRRR555", "Foundation" , new BigDecimal(2), new BigDecimal(4), 5, "Cosmetics", false, 2);
 		assertEquals(2222222222222L, testProduct2.getId());
 		assertEquals("RRRR555", testProduct2.getCode()); 
 		assertEquals("Foundation", testProduct2.getName()); 
 		assertEquals(new BigDecimal(2), testProduct2.getCostPrice()); 
 		assertEquals(new BigDecimal(4), testProduct2.getPrice()); 
-		assertEquals(5, testProduct2.getQuantity()); 
+		assertEquals(5, testProduct2.getQuantityOnHand()); 
 		assertEquals("Cosmetics", testProduct2.getCategory()); 
 		assertEquals(false, testProduct2.isActive());	
 		
@@ -69,7 +69,7 @@ public class ProductTest {
 
 	@Test
 	public void testGetQuantity() {
-		assertEquals(6, testProduct.getQuantity());
+		assertEquals(6, testProduct.getQuantityOnHand());
 	}
 
 	@Test
