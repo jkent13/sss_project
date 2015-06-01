@@ -125,7 +125,6 @@ public class IMController {
 	public void getResults(InventoryFilter filter) {
 		try {
 			String filteredQuery = SqlBuilder.getProductsFiltered(filter);
-			System.out.println(filteredQuery);
 			ResultSet filterProducts = DbReader.executeQuery(filteredQuery);
 			
 			// Clear product data

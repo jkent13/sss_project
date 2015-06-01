@@ -23,6 +23,14 @@ public class SqlBuilder {
 	//---------- SELECT Methods --------------------------------
 	
 	/**
+	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getLastSaleId() {
+		return "SELECT MAX(sale_id) FROM sale;";
+	}
+	
+	/**
 	 * Gets a SQL SELECT statement that will return all the names of product suppliers from the supplier table
 	 * @return a SQL SELECT statement String
 	 */
@@ -35,16 +43,16 @@ public class SqlBuilder {
 	 * @return a SQL SELECT statement
 	 */
 	public static String getCategoryNames() {
-		return "SELECT DISTINCT prod_category FROM product;";
+		return "SELECT DISTINCT prod_category FROM product ORDER BY prod_category;";
 	}
 	
 	/**
-	 * Gets a SQL SELECT statement that will retrieve all rows and columns for all products
+	 * Gets a SQL SELECT statement that will retrieve all rows and columns for all products, ordered alphabetically by name
 	 * @return a SQL SELECT statement String
 	 */
 	public static String getAllProducts() {
 		return "SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
-				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id;";
+				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id ORDER BY prod_name;";
 	}
 	
 	/**
@@ -175,7 +183,8 @@ public class SqlBuilder {
 	public static String getSaleReportQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		
-		query.append("SELECT * FROM sale WHERE sale_date BETWEEN ");
+		query.append("SELECT sale_id, sale_date, sale_total, sale_amt_tendered, sale_balance FROM sale WHERE sale_type"
+				+ " = 'Purchase' AND sale_date BETWEEN ");
 		query.append("'" + startDate + "' ");
 		query.append("AND ");
 		query.append("'" + endDate + "';");
@@ -203,7 +212,8 @@ public class SqlBuilder {
 	}
 	
 	/**
-	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values
+	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values, ordered alphabetically
+	 * by name
 	 * @param filter an InventoryFilter that filters product results
 	 * @return a SQL SELECT statement String
 	 */
@@ -240,7 +250,7 @@ public class SqlBuilder {
 			query.append(filter.getMaxPrice());
 		}
 		
-		query.append(";");
+		query.append(" ORDER BY prod_name;");
 		return query.toString();
 	}
 	

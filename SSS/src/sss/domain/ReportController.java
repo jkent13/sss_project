@@ -33,7 +33,7 @@ public class ReportController {
 	private NonEditableTableModel volumeSalesData = new NonEditableTableModel();	// Contains only hour and sale volume
 	
 	// Column names of table models
-	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Subtotal", "GST", "Amount Tendered", "Change Given", "Type"};
+	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Amount Tendered", "Change Given"};
 	private String[] dollarColNames = {"Hours", "Number of Transactions", "Sale Total"};
 	private String[] volumeColNames = {"Hours", "Number of Transactions"};
 	
@@ -204,11 +204,8 @@ public class ReportController {
 						{allSalesResultSet.getLong("sale_id"), 
 						allSalesResultSet.getString("sale_date"), 
 						new BigDecimal(allSalesResultSet.getDouble("sale_total")).setScale(2, BigDecimal.ROUND_HALF_EVEN) , 
-						new BigDecimal(allSalesResultSet.getDouble("sale_subtotal")).setScale(2, BigDecimal.ROUND_HALF_EVEN), 
-						new BigDecimal(allSalesResultSet.getDouble("sale_gst")).setScale(2, BigDecimal.ROUND_HALF_EVEN), 
 						new BigDecimal(allSalesResultSet.getDouble("sale_amt_tendered")).setScale(2, BigDecimal.ROUND_HALF_EVEN), 
-						new BigDecimal(allSalesResultSet.getDouble("sale_balance")).setScale(2, BigDecimal.ROUND_HALF_EVEN), 
-						allSalesResultSet.getString("sale_type")});
+						new BigDecimal(allSalesResultSet.getDouble("sale_balance")).setScale(2, BigDecimal.ROUND_HALF_EVEN)});
 			}
 			
 			// Reset view to default
@@ -243,6 +240,9 @@ public class ReportController {
 	 * @return true if inputDateString is a valid date in the correct format, false otherwise
 	 */
 	public boolean isValidDate(String inputDateString) {
+		if(inputDateString.equals("")){
+			return false;
+		}
 		try {
 			Date inputDate = dateFormat.parse(inputDateString);
 			if(!dateFormat.format(inputDate).equals(inputDateString)) { // If the formatted inputDate != inputDateString, then the input date was invalid

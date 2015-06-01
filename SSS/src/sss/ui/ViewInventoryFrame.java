@@ -8,6 +8,8 @@ package sss.ui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 import javax.swing.ButtonGroup;
@@ -248,6 +250,51 @@ public class ViewInventoryFrame extends JFrame {
 
 		// EVENT HANDLERS -----------------------------------------------
 		
+		searchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildFilter();
+					controller.getResults(filter);
+					searchField.requestFocusInWindow();
+				}
+			}
+		});
+		
+		minTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildFilter();
+					controller.getResults(filter);
+				}
+			}
+		});
+		
+		maxTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildFilter();
+					controller.getResults(filter);
+				}
+			}
+		});
+		
+		qohTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildFilter();
+					controller.getResults(filter);
+				}
+			}
+		});
+		
 		resultButton.addActionListener(new ActionListener()
 		{
 
@@ -256,7 +303,7 @@ public class ViewInventoryFrame extends JFrame {
 			{
 				buildFilter();
 				controller.getResults(filter);
-
+				searchField.requestFocusInWindow();
 			}
 		});
 
@@ -278,7 +325,7 @@ public class ViewInventoryFrame extends JFrame {
 			public void actionPerformed(ActionEvent ae) 
 			{
 
-
+				searchField.requestFocusInWindow();
 			}
 		});
 		
@@ -298,6 +345,7 @@ public class ViewInventoryFrame extends JFrame {
 				else{
 					supplierComboBox.setEnabled(false);
 				}
+				searchField.requestFocusInWindow();
 			}
 		});
 
@@ -320,7 +368,7 @@ public class ViewInventoryFrame extends JFrame {
 					greaterThanRadioButton.setEnabled(false);
 					qohTextField.setEnabled(false);
 				}
-
+				searchField.requestFocusInWindow();
 			}
 		});
 
@@ -336,6 +384,7 @@ public class ViewInventoryFrame extends JFrame {
 				else{
 					categoryComboBox.setEnabled(false);
 				}
+				searchField.requestFocusInWindow();
 			}
 		});
 		
@@ -359,6 +408,7 @@ public class ViewInventoryFrame extends JFrame {
 					maxLabel.setEnabled(false);
 					toLabel.setEnabled(false);
 				}
+				searchField.requestFocusInWindow();
 			}
 		});
 		
