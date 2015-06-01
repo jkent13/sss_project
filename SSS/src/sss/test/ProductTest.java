@@ -76,7 +76,7 @@ public class ProductTest {
 	}
 
 	@Test
-	public void testGetQuantity() {
+	public void testGetQuantityOnHand() {
 		assertEquals(6, testProduct.getQuantityOnHand());
 	}
 

@@ -29,7 +29,10 @@ public class LineTest {
 	public void testSetDiscount() {
 		testLine.setDiscount(25.0);
 		assertEquals(new BigDecimal(-25.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getDiscount());
+		assertEquals(new BigDecimal(3.75).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getLineAmount());
+		assertEquals(new BigDecimal(3.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getLineCostAmount());
 	}
+		
 
 	@Test
 	public void testGetSaleId() {
@@ -90,6 +93,8 @@ public class LineTest {
 	public void testSetQuantity() {
 		testLine.setQuantity(9);
 		assertEquals(9, testLine.getLineUnits());
+		assertEquals(new BigDecimal(45.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getLineAmount());
+		assertEquals(new BigDecimal(27.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), testLine.getLineCostAmount());
 	}
 
 	@Test

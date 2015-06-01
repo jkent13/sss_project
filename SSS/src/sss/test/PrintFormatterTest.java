@@ -33,12 +33,8 @@ public class PrintFormatterTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		java.util.Date dt = new java.util.Date();
 
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-
-		timestamp = sdf.format(dt);
+		timestamp = "2015-03-31 13:56:12";
 
 		Long saleId = 160163L;
 		
@@ -47,6 +43,9 @@ public class PrintFormatterTest {
 		Line line1 = new Line(testSale.getSaleId(), CAT, 1);
 		Line line2 = new Line(testSale.getSaleId(), BED, 2);
 		Line line3 = new Line(testSale.getSaleId(), PEN, 3);
+		
+		line3.setDiscount(50);
+		line1.setQuantity(4);
 		
 		testSale.addLineItem(line1);
 		testSale.addLineItem(line2);
@@ -81,11 +80,11 @@ public class PrintFormatterTest {
 		assertEquals("TAX INVOICE - ABN 11 111 111 111", receiptHeader[4]);
 		
 		assertEquals("Receipt No: 160163", saleHeader[0]);
-		assertEquals("Timestamp: " + timestamp, saleHeader[1]);
+		assertEquals("Timestamp: 2015-03-31 13:56:12", saleHeader[1]);
 		
 		assertEquals("Cat", saleDetails[0]);
-		assertEquals("1 x $10.00", saleDetails[1]);
-		assertEquals("$10.00", saleDetails[2]);
+		assertEquals("4 x $10.00", saleDetails[1]);
+		assertEquals("$40.00", saleDetails[2]);
 		assertEquals(" ", saleDetails[3]);
 
 		assertEquals("Bed", saleDetails[4]);
@@ -95,17 +94,17 @@ public class PrintFormatterTest {
 		
 		assertEquals("Pen", saleDetails[8]);
 		assertEquals("1 x $62.00", saleDetails[9]);
-		assertEquals("$62.00", saleDetails[10]);
-		assertEquals(" ", saleDetails[11]);
+		assertEquals("$31.00", saleDetails[10]);
+		assertEquals("-50.00%", saleDetails[11]);
 		
-		assertEquals("Total for 3 items", saleFooter[0]);
-		assertEquals("$80.00", saleFooter[1]);
+		assertEquals("Total for 6 items", saleFooter[0]);
+		assertEquals("$79.00", saleFooter[1]);
 		assertEquals("Cash Tendered", saleFooter[2]);
 		assertEquals("$80.00", saleFooter[3]);
 		assertEquals("Change", saleFooter[4]);
-		assertEquals("$0.00", saleFooter[5]);
+		assertEquals("$1.00", saleFooter[5]);
 		assertEquals("GST included in total", saleFooter[6]);
-		assertEquals("$7.27", saleFooter[7]);
+		assertEquals("$7.18", saleFooter[7]);
 		
 		assertEquals("Please keep your receipt as proof-of-purchases.", receiptFooter[0]);
 		assertEquals("No refunds can be given without a receipt.", receiptFooter[1]);

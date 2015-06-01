@@ -127,12 +127,8 @@ public class SqlBuilderTest {
 
 	@Test
 	public void testGetSaleInsertStatement() {
-		java.util.Date dt = new java.util.Date();
 
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-
-		timestamp = sdf.format(dt);
+		timestamp = "2015-02-25 11:30:08";
 
 		Long saleId = 160163L;
 		
@@ -150,17 +146,13 @@ public class SqlBuilderTest {
 		testSale.setAmountTendered(new BigDecimal(100));
 		testSale.calculateBalance();
 				
-		assertEquals("INSERT INTO sale VALUES(160163, '" + timestamp + "', 72.73, 7.27, 80.00, 100.00, 20.00, 'Purchase');", SqlBuilder.getSaleInsertStatement(testSale));
+		assertEquals("INSERT INTO sale VALUES(160163, '2015-02-25 11:30:08', 72.73, 7.27, 80.00, 100.00, 20.00, 'Purchase');", SqlBuilder.getSaleInsertStatement(testSale));
 	}
 
 	@Test
 	public void testGetLineInsertStatements() {
-		java.util.Date dt = new java.util.Date();
 
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-
-		timestamp = sdf.format(dt);
+		timestamp = "2015-02-25 11:30:08";
 
 		Long saleId = 160163L;
 		

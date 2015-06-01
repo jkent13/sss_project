@@ -27,11 +27,11 @@ public class SaleTest {
 	private static String saleTypeRefund = "Refund";
 	
 	private final int NUMBER_OF_LINES_DEFAULT = 0;
-	private final BigDecimal SALE_SUBTOTAL_DEFAULT = new BigDecimal("0");
-	private final BigDecimal SALE_GST_DEFAULT = new BigDecimal("0");
-	private final BigDecimal SALE_TOTAL = new BigDecimal("0").setScale(2, BigDecimal.ROUND_HALF_DOWN);
-	private final BigDecimal SALE_AMOUNT_TENDERED = new BigDecimal("0");
-	private final BigDecimal SALE_BALANCE = new BigDecimal("0");
+	private final BigDecimal SALE_SUBTOTAL_DEFAULT = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;
+	private final BigDecimal SALE_GST_DEFAULT = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;
+	private final BigDecimal SALE_TOTAL = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;
+	private final BigDecimal SALE_AMOUNT_TENDERED = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;
+	private final BigDecimal SALE_BALANCE = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;
 	
 	private final Product CAT =  new Product(9312547856932L, "CATY123", "Cat", new BigDecimal(5), new BigDecimal(10), 18, "Pet", true, 1);
 	private final Product BED =  new Product(2309493056932L, "BEDY123", "Bed", new BigDecimal(4), new BigDecimal(8), 1, "Furniture", false, 2);
@@ -39,12 +39,8 @@ public class SaleTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		java.util.Date dt = new java.util.Date();
-
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-
-		timestamp = sdf.format(dt);
+		
+		timestamp = "2014-05-26 09:45:32";
 
 		Long saleId = 160163L;
 		
@@ -98,13 +94,9 @@ public class SaleTest {
 
 	@Test
 	public void testSetTimestamp() {
-		java.util.Date date = new java.util.Date();
-
-		java.text.SimpleDateFormat sdf
-		= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-
-		String newTime = sdf.format(date);
 		
+		String newTime = "2015-06-01 16:45:20";
+		testSale.setTimestamp(newTime);
 		assertEquals(newTime, testSale.getSaleDate());
 	}
 
@@ -152,6 +144,10 @@ public class SaleTest {
 		assertEquals(line2, lines.get(1));
 		assertEquals(line3, lines.get(2));
 		assertEquals(3, lines.size());
+		assertEquals(new BigDecimal(80).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleTotal());
+		assertEquals(new BigDecimal(72.73).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleSubtotal());
+		assertEquals(new BigDecimal(7.27).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleGST());
+		assertEquals(3, testSale.getNumberOfLines());
 	}
 
 	@Test
@@ -176,6 +172,10 @@ public class SaleTest {
 		
 		assertEquals(line1, lines.get(0));
 		assertEquals(line3, lines.get(1));
+		assertEquals(new BigDecimal(72).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleTotal());
+		assertEquals(new BigDecimal(65.45).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleSubtotal());
+		assertEquals(new BigDecimal(6.55).setScale(2, BigDecimal.ROUND_HALF_EVEN), testSale.getSaleGST());
+		assertEquals(2, testSale.getNumberOfLines());
 	}
 
 	@Test

@@ -25,13 +25,13 @@ public class Sale {
 	
 	private long sale_id; 												// PK eg. 160165
 	
-	private String sale_date; 											// String representing a MySQL DateTime
-	private BigDecimal sale_subtotal = new BigDecimal(0.00); 			// Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst = new BigDecimal(0.00);					// Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total = new BigDecimal(0.00); 				// Sale total (sum of line item totals)
-	private BigDecimal sale_amount_tendered = new BigDecimal(0.00);		// Amount tendered for sale (must be >= sale total)
-	private BigDecimal sale_balance = new BigDecimal(0.00); 			// Difference between amount tendered and sale total
-	private String sale_type = "Purchase"; 								// Sale type: either 'Purchase' or 'Refund'
+	private String sale_date; 																				// String representing a MySQL DateTime
+	private BigDecimal sale_subtotal = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN); 		// Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;			// Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 			// Sale total (sum of line item totals)
+	private BigDecimal sale_amount_tendered = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);	// Amount tendered for sale (must be >= sale total)
+	private BigDecimal sale_balance = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 		// Difference between amount tendered and sale total
+	private String sale_type = "Purchase"; 																	// Sale type: either 'Purchase' or 'Refund'
 
 	private ArrayList<Line> lineItems = new ArrayList<>(); 				// Collection of all lines within a Sale
 	
