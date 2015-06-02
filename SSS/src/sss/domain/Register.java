@@ -38,12 +38,7 @@ public class Register {
 	private Product currentProduct;			// The last Product enter as a Line	
 	private NonEditableTableModel dataModel = new NonEditableTableModel();	// The data model for PosFrame's JTable (lookupTable)
 	
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
-	
-	private File idFile; 					// File object for manipulating a text file containing the next sale id
-	private Scanner fileScanner; 			// For reading idFile
-	private PrintWriter fileWriter; 		// For writing the new value of the next sale id to file if any sales are made 
-	private boolean saleMade; 				// Tracks whether writing a new sale id to file is necessary 
+	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
 	
 	/**
 	 * Constructor - calls the initialise method to set up the Register
@@ -57,7 +52,7 @@ public class Register {
 	/**
 	 * A start-up method for the Register. Reads in the nextSaleId value and sets the column names for the data model
 	 */
-	public void initialise() {
+	private void initialise() {
 		try {
 		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
 		String lastIdQuery = SqlBuilder.getLastSaleId();
@@ -224,7 +219,7 @@ public class Register {
 			calculateTotal();
 			currentSale.setAmountTendered(amt_tendered);
 			calculateBalance();
-			currentSale.setTimestamp(sdf.format(new Date())); // Create and set the timestamp
+			currentSale.setTimestamp(mySqlDateFormat.format(new Date())); // Create and set the timestamp
 			
 			
 			// Get the SQL insert statements
@@ -312,7 +307,6 @@ public class Register {
 		ReceiptPrinter printer = new ReceiptPrinter(fs);
 		printer.printReceipt();
 		nextSaleId++;
-		saleMade = true;
 		activeSale = false;
 	}
 	

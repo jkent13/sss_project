@@ -18,12 +18,12 @@ import sss.services.SaleListener;
 
 public class Sale {
 	
-	List<SaleListener> listeners = new ArrayList<SaleListener>();		// Contains reference to all listeners concerned with changes
-																		// to a Sale object (such as a UI frame)
+	private List<SaleListener> listeners = new ArrayList<SaleListener>();		// Contains reference to all listeners concerned with changes
+																				// to a Sale object (such as a UI frame)
 	
-	private int number_of_lines = 0;									// Initially, Sale has no lines
+	private int number_of_lines = 0;											// Initially, Sale has no lines
 	
-	private long sale_id; 												// PK eg. 160165
+	private long sale_id; 														// PK eg. 160165
 	
 	private String sale_date; 																				// String representing a MySQL DateTime
 	private BigDecimal sale_subtotal = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN); 		// Sale subtotal before GST (10 / 11 of sale total)
