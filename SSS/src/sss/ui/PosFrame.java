@@ -36,19 +36,19 @@ import sss.services.SaleListener;
 
 @SuppressWarnings("serial")
 public class PosFrame extends JFrame implements SaleListener {
-	
+
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
-	
+
 	Register register = new Register();
-	
+
 	public PosFrame() {
 
 		setTitle("Make Sale");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 
 		//Full Screen Panel
 		JPanel fullScreenPanel = new JPanel();
@@ -166,7 +166,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(1,2,10,10));
-		
+
 		JButton voidButton = new JButton("f1 Void");
 		JButton lookUpButton = new JButton("f2 Lookup Item");
 		JButton quantityButton = new JButton("f3 Quantity");
@@ -177,7 +177,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel firstRightPanel = new JPanel();
 		firstRightPanel.setLayout(new GridLayout(2,1,10,10));
-		
+
 		JButton note5Button = new JButton("$5");
 		JButton note10Button = new JButton("$10");
 		JButton note20Button = new JButton("$20");
@@ -337,7 +337,7 @@ public class PosFrame extends JFrame implements SaleListener {
 					JLabel comboboxLabel = new JLabel("Category:");
 					topMiddlePanel.add(comboboxLabel);
 					String[] selectSearch = { "Pet", "Homeware" };
-					
+
 					//Create the combo box, select item at index 1.
 					@SuppressWarnings({ "unchecked", "rawtypes" })
 					JComboBox searchComboBox = new JComboBox(selectSearch);
@@ -412,8 +412,16 @@ public class PosFrame extends JFrame implements SaleListener {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
-					int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-					register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+					try{
+						String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						if(input != null) {
+							int newQty = Integer.parseInt(input);
+							register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						}
+					}
+					catch (NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -438,8 +446,16 @@ public class PosFrame extends JFrame implements SaleListener {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
-					double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-					register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+					try{
+						String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+						if(input != null) {
+							double discountPercentage = Double.parseDouble(input);
+							register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						}
+					}
+					catch (NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -481,10 +497,18 @@ public class PosFrame extends JFrame implements SaleListener {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F3) {
+				if(e.getKeyCode() == KeyEvent.VK_F3) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								int newQty = Integer.parseInt(input);
+								register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -508,8 +532,16 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if (e.getKeyCode() == KeyEvent.VK_F5) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								double discountPercentage = Double.parseDouble(input);
+								register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -536,10 +568,18 @@ public class PosFrame extends JFrame implements SaleListener {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F3) {
+				if(e.getKeyCode() == KeyEvent.VK_F3) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								int newQty = Integer.parseInt(input);
+								register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -553,8 +593,16 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if (e.getKeyCode() == KeyEvent.VK_F5) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								double discountPercentage = Double.parseDouble(input);
+								register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -588,7 +636,7 @@ public class PosFrame extends JFrame implements SaleListener {
 						barcodeEntryField.requestFocusInWindow();
 					}
 				}
-				
+
 
 
 			}
@@ -606,8 +654,8 @@ public class PosFrame extends JFrame implements SaleListener {
 				}
 			}
 		});
-		
-		
+
+
 		setVisible(true);
 		barcodeEntryField.requestFocusInWindow();
 	}
@@ -619,7 +667,7 @@ public class PosFrame extends JFrame implements SaleListener {
 	public void registerFrameAsListener() {
 		register.registerSaleListener(this);
 	}
-	
+
 
 	@Override
 	/**
@@ -635,7 +683,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			break;
 		default:
 			break;
-			
+
 		}
 	}
 }
