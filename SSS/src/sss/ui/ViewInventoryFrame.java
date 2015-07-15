@@ -48,6 +48,8 @@ public class ViewInventoryFrame extends JFrame {
 	private JTextField minTextField;
 	private JTextField maxTextField;
 	
+	private JTextField searchField; 
+	
 	private JTextField qohTextField;
 	private JRadioButton equalToRadioButton;
 	private JRadioButton greaterThanRadioButton;
@@ -84,7 +86,7 @@ public class ViewInventoryFrame extends JFrame {
 		TitledBorder searchPanelTitledBorder = new TitledBorder("SEARCH");
 		searchPanel.setBorder(searchPanelTitledBorder);
 
-		JTextField searchField= new JTextField(); 
+		searchField = new JTextField(); 
 		JButton searchButton = new JButton("Search");
 		JLabel spaceForPanel = new JLabel("ENTER TEXT TO SEARCH");//Creating space/so panel looks better
 
@@ -492,6 +494,14 @@ public class ViewInventoryFrame extends JFrame {
 		}
 		else {
 			filter.setPriceRangeSelected(false);
+		}
+		
+		if(searchField.getText().length() > 0) {
+			filter.setNameSupplied(true);
+			filter.setProductName(searchField.getText());
+		}
+		else {
+			filter.setNameSupplied(false);
 		}
 	}
 }// End class

@@ -251,6 +251,12 @@ public class SqlBuilder {
 			query.append(filter.getMaxPrice());
 		}
 		
+		if(filter.isNameSupplied()) {
+			query.append(" AND ");
+			query.append("product.prod_name LIKE '%");
+			query.append(filter.getProductName() + "%'");
+		}
+		
 		query.append(" ORDER BY prod_name;");
 		return query.toString();
 	}

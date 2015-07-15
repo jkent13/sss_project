@@ -12,11 +12,14 @@ import java.math.BigDecimal;
 
 public class InventoryFilter {
 
+	private boolean nameSupplied = false;			// User entered a product name to search for
 	private boolean qohSelected = false;			// QOH Filter
 	private boolean supplierSelected = false;		// Supplier Filter
 	private boolean categorySelected = false;		// Category Filter
 	private boolean priceRangeSelected = false;		// Price Range Filter
 	
+	private String productName;						// A product name
+
 	private String qohOperator;						// The quantity on hand operator (either =, > or <)
 	private int qohValue;							// The quantity on hand value (e.g. 10)
 	
@@ -79,6 +82,14 @@ public class InventoryFilter {
 	 */
 	public boolean isPriceRangeSelected() {
 		return priceRangeSelected;
+	}
+	
+	public boolean isNameSupplied() {
+		return nameSupplied;
+	}
+
+	public String getProductName() {
+		return productName;
 	}
 
 	/**
@@ -162,6 +173,14 @@ public class InventoryFilter {
 	 */
 	public void setQohSelected(boolean qohSelected) {
 		this.qohSelected = qohSelected;
+	}
+	
+	public void setNameSupplied(boolean nameSupplied) {
+		this.nameSupplied = nameSupplied;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 	/**
