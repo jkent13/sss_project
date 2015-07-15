@@ -29,7 +29,7 @@ public class MockupMainMenu {
 		mainMenuFrame.setTitle("Main Menu");
 		mainMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		mainMenuFrame.setLocationRelativeTo(null);
-		mainMenuFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 
 //-------------------Full Screen Panel--------------------
@@ -124,7 +124,7 @@ public class MockupMainMenu {
 			{
 
 				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (confirm == 0) {
+				if (confirm == JOptionPane.YES_OPTION) {
 					try {
 						DbConnector.closeConnection();
 						System.out.println("DB connection closed.");
