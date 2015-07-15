@@ -98,8 +98,8 @@ public class PosFrame extends JFrame implements SaleListener {
 		columnModel.getColumn(2).setPreferredWidth(200); // Sets preferred width of the Product Name 
 		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only one row of table able to be selected at a time
 
-		JScrollPane scrlPane = new JScrollPane(lookUpTable);
-		itemsPanel.add(scrlPane);
+		JScrollPane scrollPane = new JScrollPane(lookUpTable);
+		itemsPanel.add(scrollPane);
 
 		Font myFont = new Font("SansSerif", Font.BOLD, 29); //Label Fonts
 
@@ -241,212 +241,80 @@ public class PosFrame extends JFrame implements SaleListener {
 		rightPanel.add(secondRightPanel);
 		fullScreenPanel.add(rightPanel);
 
+		// Lookup Product frame
+		
+		JFrame lookupFrame = new JFrame();
+		lookupFrame.setTitle("Lookup Item");
+		lookupFrame.setSize(900,500);
 
-		// -- PLACEHOLDER EVENT HANDLERS -------------------------------------
+		lookupFrame.setLocationRelativeTo(null);
 
-		lookUpButton.addActionListener(new ActionListener()
-		{
+		JPanel gridPanel = new JPanel();
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Lookup Item");
-				myFrame.setSize(900,500);
+		gridPanel.setLayout(new GridLayout(2,1,10,10));
+		lookupFrame.add(gridPanel);
 
-				myFrame.setLocationRelativeTo(null);
-				myFrame.setVisible(true);
+		JPanel topPanel = new JPanel();
 
-				JPanel fullScreenPanel = new JPanel();
+		topPanel.setLayout(new GridLayout(1,3,10,10));
+		gridPanel.add(topPanel);
 
-				fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-				myFrame.add(fullScreenPanel);
+		JPanel topLeftPanel = new JPanel();
 
-				JPanel topPanel = new JPanel();
+		topLeftPanel.setLayout(new GridLayout(4,1,10,10));
+		topPanel.add(topLeftPanel);
 
-				topPanel.setLayout(new GridLayout(1,3,10,10));
-				fullScreenPanel.add(topPanel);
+		JLabel barcodeSearchLabel = new JLabel("Barcode:");
+		JTextField barcodeSearchField = new JTextField(13);
+		topLeftPanel.add(barcodeSearchLabel);
+		topLeftPanel.add(barcodeSearchField);
 
-				JPanel topLeftPanel = new JPanel();
+		JLabel pCodeLabel = new JLabel("Product Code:");
+		JTextField pCodeEntryField = new JTextField(13);
+		topLeftPanel.add(pCodeLabel);
+		topLeftPanel.add(pCodeEntryField);
 
-				topLeftPanel.setLayout(new GridLayout(4,1,10,10));
-				topPanel.add(topLeftPanel);
+		JPanel topCentrePanel = new JPanel();
+		TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
+		topCentrePanel.setBorder(topMiddlePanelTitle);
+		topCentrePanel.setLayout(new GridLayout(3,1,10,10));
+		topPanel.add(topCentrePanel);
 
-				JLabel barcodeLabel = new JLabel("Barcode:");
-				JTextField barcodeEntryField = new JTextField(13);
-				topLeftPanel.add(barcodeLabel);
-				topLeftPanel.add(barcodeEntryField);
+		JTextField searchField = new JTextField();
+		topCentrePanel.add(searchField);
 
-				JLabel pCodeLabel = new JLabel("Product Code:");
-				JTextField pCodeEntryField = new JTextField(13);
-				topLeftPanel.add(pCodeLabel);
-				topLeftPanel.add(pCodeEntryField);
+		JLabel comboboxLabel = new JLabel("Category:");
+		topCentrePanel.add(comboboxLabel);
 
-				JPanel topMiddlePanel = new JPanel();
-				TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
-				topMiddlePanel.setBorder(topMiddlePanelTitle);
-				topMiddlePanel.setLayout(new GridLayout(3,1,10,10));
-				topPanel.add(topMiddlePanel);
+		JComboBox<String> searchComboBox = new JComboBox<String>(register.getCategoryNames());
+		searchComboBox.setSelectedIndex(0);
+		topCentrePanel.add(searchComboBox);
+		searchComboBox.setEnabled(true);
 
-				JTextField searchField = new JTextField();
-				topMiddlePanel.add(searchField);
+		JPanel topRightPanel = new JPanel();
 
-				JLabel comboboxLabel = new JLabel("Category:");
-				topMiddlePanel.add(comboboxLabel);
-				String[] selectSearch = { "Pet", "Homeware" };
+		topRightPanel.setLayout(new GridLayout(3,1,10,10));
+		topPanel.add(topRightPanel);
 
-				//Create the combo box, select item at index 1.
-				@SuppressWarnings({ "unchecked", "rawtypes" })
-				JComboBox searchComboBox = new JComboBox(selectSearch);
-				searchComboBox.setSelectedIndex(1);
-				topMiddlePanel.add(searchComboBox);
-				searchComboBox.setEnabled(true);
+		JButton searchButton = new JButton("Search!");
+		topRightPanel.add(searchButton);
 
-				JPanel topRightPanel = new JPanel();
+		JLabel spaceLabel = new JLabel();
+		topRightPanel.add(spaceLabel);
 
-				topRightPanel.setLayout(new GridLayout(3,1,10,10));
-				topPanel.add(topRightPanel);
+		JButton selectButton = new JButton("Select");
+		topRightPanel.add(selectButton);
 
-				JButton searchButton = new JButton("Search!");
-				topRightPanel.add(searchButton);
+		JPanel bottomPanel = new JPanel();
 
-				JLabel spaceLabel = new JLabel();
-				topRightPanel.add(spaceLabel);
+		bottomPanel.setLayout(new GridLayout(1,1,10,10));
+		gridPanel.add(bottomPanel);
 
-				JButton selectButton = new JButton("Select");
-				topRightPanel.add(selectButton);
-
-				JPanel bottomPanel = new JPanel();
-
-				bottomPanel.setLayout(new GridLayout(1,1,10,10));
-				fullScreenPanel.add(bottomPanel);
-
-				String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
-				Object[][] data = {
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"}
-				};
-
-				JTable lookUpTable = new JTable(data, colNames);
-				JScrollPane scrlPane = new JScrollPane(lookUpTable);
-				bottomPanel.add(scrlPane);
-				
-				barcodeEntryField.requestFocusInWindow();
-			}
-	});
-
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F2)
-				{
-					JFrame myFrame = new JFrame();
-					myFrame.setTitle("Lookup Item");
-					myFrame.setSize(900,500);
-
-					myFrame.setLocationRelativeTo(null);
-					myFrame.setVisible(true);
-
-					JPanel fullScreenPanel = new JPanel();
-
-					fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-					myFrame.add(fullScreenPanel);
-
-					JPanel topPanel = new JPanel();
-
-					topPanel.setLayout(new GridLayout(1,3,10,10));
-					fullScreenPanel.add(topPanel);
-
-					JPanel topLeftPanel = new JPanel();
-
-					topLeftPanel.setLayout(new GridLayout(4,1,10,10));
-					topPanel.add(topLeftPanel);
-
-					JLabel barcodeLabel = new JLabel("Barcode:");
-					JTextField barcodeEntryField = new JTextField(13);
-					topLeftPanel.add(barcodeLabel);
-					topLeftPanel.add(barcodeEntryField);
-
-					JLabel pCodeLabel = new JLabel("Product Code:");
-					JTextField pCodeEntryField = new JTextField(13);
-					topLeftPanel.add(pCodeLabel);
-					topLeftPanel.add(pCodeEntryField);
-
-					JPanel topMiddlePanel = new JPanel();
-					TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
-					topMiddlePanel.setBorder(topMiddlePanelTitle);
-					topMiddlePanel.setLayout(new GridLayout(3,1,10,10));
-					topPanel.add(topMiddlePanel);
-
-					JTextField searchField = new JTextField();
-					topMiddlePanel.add(searchField);
-
-					JLabel comboboxLabel = new JLabel("Category:");
-					topMiddlePanel.add(comboboxLabel);
-					String[] selectSearch = { "Pet", "Homeware" };
-
-					//Create the combo box, select item at index 1.
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					JComboBox searchComboBox = new JComboBox(selectSearch);
-					searchComboBox.setSelectedIndex(1);
-					topMiddlePanel.add(searchComboBox);
-					searchComboBox.setEnabled(true);
-
-					JPanel topRightPanel = new JPanel();
-
-					topRightPanel.setLayout(new GridLayout(3,1,10,10));
-					topPanel.add(topRightPanel);
-
-					JButton searchButton = new JButton("Search!");
-					topRightPanel.add(searchButton);
-
-					JLabel spaceLabel = new JLabel();
-					topRightPanel.add(spaceLabel);
-
-					JButton selectButton = new JButton("Select");
-					topRightPanel.add(selectButton);
-
-					JPanel bottomPanel = new JPanel();
-
-					bottomPanel.setLayout(new GridLayout(1,1,10,10));
-					fullScreenPanel.add(bottomPanel);
-
-					String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
-					Object[][] data = {
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"}
-					};
-
-					JTable lookUpTable = new JTable(data, colNames);
-					JScrollPane scrlPane = new JScrollPane(lookUpTable);
-					bottomPanel.add(scrlPane);
-				}
-			}
-		});
-
+		NonEditableTableModel searchDataModel = register.getSearchDataModel();
+		JTable resultsTable = new JTable(searchDataModel);
+		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrlPane = new JScrollPane(resultsTable);
+		bottomPanel.add(scrlPane);
 
 		// -- EVENT HANDLERS -------------------------------------
 
@@ -460,6 +328,18 @@ public class PosFrame extends JFrame implements SaleListener {
 				if(lookUpTable.getSelectedRow() != -1) {
 					register.voidLineItem(lookUpTable.getSelectedRow());
 				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		lookUpButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				
+				lookupFrame.setVisible(true);
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
@@ -784,6 +664,18 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
+		// Lookup Item Hotkey F2
+		barcodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F2)
+				{
+					lookupFrame.setVisible(true);
+				}
+			}
+		});
+		
 		// Change line quantity Hotkey F3
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{

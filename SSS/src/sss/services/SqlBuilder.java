@@ -11,6 +11,7 @@ package sss.services;
 import java.math.BigDecimal;
 
 import sss.domain.InventoryFilter;
+import sss.domain.LookupFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
 
@@ -251,6 +252,39 @@ public class SqlBuilder {
 		}
 		
 		query.append(" ORDER BY prod_name;");
+		return query.toString();
+	}
+	
+	public static String lookupProduct(LookupFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
+				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id");
+		
+		if(filter.isUseCategory()) {
+			query.append(" AND ");
+			query.append("product.prod_category = '");
+			query.append(filter.getCategoryValue() + "'");
+		}
+		
+		if(filter.isUseBarcode()) {
+			query.append(" AND ");
+			query.append("CAST(product.prod_id as CHAR) LIKE '%");
+			query.append(filter.getBarcodeValue() + "%'");
+		}
+		
+		if(filter.isUseProductName()) {
+			query.append(" AND ");
+			query.append("product.prod_name LIKE '%");
+			query.append(filter.getProductNameValue() + "%'");
+		}
+		
+		if(filter.isUseProductCode()) {
+			query.append(" AND ");
+			query.append("product.prod_code LIKE '%");
+			query.append(filter.getProductCodeValue() + "%'");
+		}
+		
+		query.append(" ORDER BY product.prod_name;");
 		return query.toString();
 	}
 	

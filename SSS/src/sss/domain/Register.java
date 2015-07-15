@@ -37,6 +37,9 @@ public class Register {
 	private Sale currentSale;				// The current Sale object for the current transaction
 	private Product currentProduct;			// The last Product enter as a Line	
 	private NonEditableTableModel dataModel = new NonEditableTableModel();	// The data model for PosFrame's JTable (lookupTable)
+	private NonEditableTableModel searchDataModel = new NonEditableTableModel();
+	
+	private String[] categories;	// Holds the distinct category names (read in from DB)
 	
 	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
 	
@@ -55,15 +58,44 @@ public class Register {
 	private void initialise() {
 		try {
 		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
+		searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
+		
 		String lastIdQuery = SqlBuilder.getLastSaleId();
+		String getSuppliers = SqlBuilder.getSupplierNames();
+		String getCategories = SqlBuilder.getCategoryNames();
+		
 		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
 
 			if(lastIdResult.next()) {
 				nextSaleId = lastIdResult.getLong("Last Sale ID") + 1;
 			}
+		lastIdResult.close();
+		
+		ResultSet categoryNames = DbReader.executeQuery(getCategories);
+		
+		int categoryArraySize = 0;
+		if(categoryNames.next()) {
+			// This loop counts how many categories there are, so that the array can be
+			// set to the correct size
+			do {
+				categoryArraySize++;
+			} while(categoryNames.next());
+			categories = new String[categoryArraySize]; // Set array to correct size
 			
+			categoryNames.beforeFirst(); // Reset ResultSet
+			
+			// This loop populates the categories array with category names from the DB
+			int index = 0;
+			while(categoryNames.next()) {
+				categories[index] = categoryNames.getString("prod_category");
+				index++;
+			}
+		}
+		
+		categoryNames.close(); // Close ResultSet
+		
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error: The next sale id could not be read", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Failed to read a required value from the database", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -107,6 +139,9 @@ public class Register {
 		return dataModel;
 	}
 	
+	public NonEditableTableModel getSearchDataModel() {
+		return searchDataModel;
+	}
 	/**
 	 * Getter method for the current sale total - used for exact cash payments 
 	 * @return the current sale's total (amount due)
@@ -136,6 +171,14 @@ public class Register {
 	public String[] getLineInsertStatements() {
 		String[] lineInsertStatements = SqlBuilder.getLineInsertStatements(currentSale);
 		return lineInsertStatements;
+	}
+	
+	/**
+	 * Getter method for the array containing all category names
+	 * @return the category name array
+	 */
+	public String[] getCategoryNames() {
+		return categories;
 	}
 	
 	//-----------------------------------------------------------------
