@@ -194,13 +194,13 @@ public class IMController {
 
 					for(String[] row: rows) {
 						if(!row[1].equals("-")) {
-							costPrice = new BigDecimal(row[1]);
+							costPrice = new BigDecimal(row[1]).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						}
 						else {
 							costPrice = null;
 						}
 						if(!row[2].equals("-")) {
-							price = new BigDecimal(row[2]);
+							price = new BigDecimal(row[2]).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						}
 						else {
 							price = null;
