@@ -7,11 +7,17 @@
 
 package sss.domain;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
@@ -155,6 +161,96 @@ public class IMController {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+
+
+	public void readCsv() {
+
+		try {
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
+			chooser.setFileFilter(filter);
+			int selection = chooser.showOpenDialog(null);
+			if(selection == JFileChooser.APPROVE_OPTION) {
+
+				File file = chooser.getSelectedFile();
+				Scanner fileReader = new Scanner(file);
+				ArrayList<String[]> rows = new ArrayList<String[]>();
+
+				String currentLine;
+				String[] tokens;
+
+				while (fileReader.hasNext()) {
+					currentLine = fileReader.nextLine();
+					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
+					rows.add(tokens);
+				}
+
+				if(validateCsvRows(rows)) {
+					Invoice invoice = new Invoice();
+					BigDecimal costPrice = null;
+					BigDecimal price = null;
+					int quantity = 0;
+
+					for(String[] row: rows) {
+						if(!row[1].equals("-")) {
+							costPrice = new BigDecimal(row[1]);
+						}
+						else {
+							costPrice = null;
+						}
+						if(!row[2].equals("-")) {
+							price = new BigDecimal(row[2]);
+						}
+						else {
+							price = null;
+						}
+						if(!row[3].equals("-")) {
+							quantity = Integer.parseInt(row[3]);
+						}
+						else {
+							quantity = 0;
+						}
+
+						invoice.addRow(row[0], costPrice, price, quantity);
+					}
+
+					System.out.print(invoice);
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Error: The file you tried to open could not be found.", "File Not Found", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+	
+	private boolean validateCsvRows(ArrayList<String[]> rows) {
+		int rowCounter = 1;
+		try {
+			for(String[] row: rows) {
+				if(row.length != 4) {
+					return false;
+				}
+				if(!row[1].equals("-")) {
+					BigDecimal costPrice = new BigDecimal(row[1]);
+				}
+				if(!row[2].equals("-")) {
+					BigDecimal price = new BigDecimal(row[2]);
+				}
+				if(!row[3].equals("-")) {
+					Integer quantity = Integer.parseInt(row[3]);
+				}
+				rowCounter++;
+			}
+		} 
+		catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Error: An invalid price value was found at row: " + rowCounter + 
+					". Please ensure this value is correct and retry the import.", "Invalid Price", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		return true;
 	}
 	
 	//-----------------------------------------------------------------

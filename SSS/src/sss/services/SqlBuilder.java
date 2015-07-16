@@ -9,8 +9,11 @@
 package sss.services;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import sss.domain.InventoryFilter;
+import sss.domain.Invoice;
+import sss.domain.InvoiceRow;
 import sss.domain.LookupFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
@@ -292,6 +295,22 @@ public class SqlBuilder {
 		
 		query.append(" ORDER BY product.prod_name;");
 		return query.toString();
+	}
+	
+	public static String lookupProductsFromInvoice(Invoice invoice) {
+		StringBuffer query = new StringBuffer();
+		ArrayList<InvoiceRow> rows = invoice.getRows();
+		
+		query.append("SELECT prod_code, prod_cost_price, prod_price, prod_qoh FROM product WHERE ");
+		
+		for(InvoiceRow row : rows){
+			query.append("prod_code = '" + row.getProductCode() + "'");
+			query.append(" OR ");
+		}
+		query.delete(query.length()-4, query.length());
+		query.append(";");
+		
+		return query.toString();		
 	}
 	
 	//---------------------------------------------------------

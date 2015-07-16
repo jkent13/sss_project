@@ -9,16 +9,24 @@
 
 package sss.test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import sss.domain.FormattedSale;
+import sss.domain.Invoice;
 import sss.domain.Line;
 import sss.domain.Product;
 import sss.domain.Sale;
@@ -118,14 +126,14 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 //		testLine.setDiscount(10);
 //		testLine2.setQuantity(4);
 		
-		Product prod = new Product(120392183218L);
-		if(prod.successfulLookup()) {
-			System.out.println("SUCCESS");
-			System.out.println(prod.getName());
-		}
-		else {
-			System.out.println("NOT FOUND");
-		}
+//		Product prod = new Product(120392183218L);
+//		if(prod.successfulLookup()) {
+//			System.out.println("SUCCESS");
+//			System.out.println(prod.getName());
+//		}
+//		else {
+//			System.out.println("NOT FOUND");
+//		}
 		
 //		System.out.println(testLine);
 //		System.out.println(testLine2);
@@ -190,5 +198,98 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 //		connection.close();
 //		DbConnector.closeConnection();
 
+		readCsv();
+		
+	}
+	
+	public static void readCsv() {
+
+		try {
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
+			chooser.setFileFilter(filter);
+			int selection = chooser.showOpenDialog(null);
+			if(selection == JFileChooser.APPROVE_OPTION) {
+
+				File file = chooser.getSelectedFile();
+				Scanner fileReader = new Scanner(file);
+				ArrayList<String[]> rows = new ArrayList<String[]>();
+
+				String currentLine;
+				String[] tokens;
+
+				while (fileReader.hasNext()) {
+					currentLine = fileReader.nextLine();
+					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
+					rows.add(tokens);
+				}
+
+				if(validateCsvRows(rows)) {
+					Invoice invoice = new Invoice();
+					BigDecimal costPrice = null;
+					BigDecimal price = null;
+					int quantity = 0;
+
+					for(String[] row: rows) {
+						if(!row[1].equals("-")) {
+							costPrice = new BigDecimal(row[1]);
+						}
+						else {
+							costPrice = null;
+						}
+						if(!row[2].equals("-")) {
+							price = new BigDecimal(row[2]);
+						}
+						else {
+							price = null;
+						}
+						if(!row[3].equals("-")) {
+							quantity = Integer.parseInt(row[3]);
+						}
+						else {
+							quantity = 0;
+						}
+
+						invoice.addRow(row[0], costPrice, price, quantity);
+					}
+
+					System.out.print(invoice);
+//					invoice.pull();
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	private static boolean validateCsvRows(ArrayList<String[]> rows) {
+		int rowCounter = 1;
+		try {
+			for(String[] row: rows) {
+				if(row.length != 4) {
+					return false;
+				}
+				if(!row[1].equals("-")) {
+					BigDecimal costPrice = new BigDecimal(row[1]);
+				}
+				if(!row[2].equals("-")) {
+					BigDecimal price = new BigDecimal(row[2]);
+				}
+				if(!row[3].equals("-")) {
+					Integer quantity = Integer.parseInt(row[3]);
+				}
+				rowCounter++;
+			}
+		} 
+		catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Error: An invalid price value was found at row: " + rowCounter + 
+					". Please ensure this value is correct and retry the import.", "Invalid Price", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		return true;
 	}
 }
