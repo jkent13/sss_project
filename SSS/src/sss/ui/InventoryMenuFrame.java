@@ -136,8 +136,7 @@ public class InventoryMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
-				
+				JFrame addSupplierUI = new AddSupplierFrame();				
 			}
 		});
 		
