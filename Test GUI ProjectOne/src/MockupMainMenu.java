@@ -55,6 +55,14 @@ public class MockupMainMenu {
 		bottomPanel.setLayout(new GridLayout(2,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
+//---------------------Card Layout---------------------
+		
+//		CardLayout card = new CardLayout();
+//		fullScreenPanel.setLayout(card);
+//		fullScreen.add(panel01, "one"); //
+	
+		
+		
 //---------------------Create Buttons---------------------
 		
 		JButton salesTransButton = new JButton("Sales Transactions");
