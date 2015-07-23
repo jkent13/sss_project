@@ -1,5 +1,7 @@
 package sss.domain;
 
+import java.math.BigDecimal;
+
 public class InvoiceRowComparison {
 
 	private int rowNumber;
@@ -8,6 +10,10 @@ public class InvoiceRowComparison {
 	private String costPriceChange;
 	private String priceChange;
 	private String quantityChange;
+	
+	private BigDecimal newCostPrice;
+	private BigDecimal newPrice;
+	private int newQuantity;
 	
 	public InvoiceRowComparison(InvoiceRow row1, InvoiceRow row2) {
 		if(!row1.getProductCode().equals(row2.getProductCode())) {
@@ -19,25 +25,43 @@ public class InvoiceRowComparison {
 			
 			if (row1.getCostPrice() == null || row1.getCostPrice().equals(row2.getCostPrice())) {
 				costPriceChange = "*No Change*";
+				newCostPrice = row2.getCostPrice();
 			}
 			else {
-				costPriceChange = row1.getCostPrice().toPlainString() + " --> " + row2.getCostPrice().toPlainString();
+				costPriceChange = row2.getCostPrice().toPlainString() + " --> " + row1.getCostPrice().toPlainString();
+				newCostPrice = row1.getCostPrice();
 			}
 			
 			if (row1.getPrice() == null || row1.getPrice().equals(row2.getPrice())) {
 				priceChange = "*No Change*";
+				newPrice = row2.getPrice();
 			}
 			else {
-				priceChange = row1.getPrice().toPlainString() + " --> " + row2.getPrice().toPlainString();
+				priceChange = row2.getPrice().toPlainString() + " --> " + row1.getPrice().toPlainString();
+				newPrice = row1.getPrice();
 			}
 			
 			if (row1.getQuantity() == 0) {
-				quantityChange = "*No Change*"; 
+				quantityChange = "*No Change*";
+				newQuantity = row2.getQuantity();
 			}
 			else {
 				quantityChange = row2.getQuantity() + " --> " + (row1.getQuantity() + row2.getQuantity());
+				newQuantity = row1.getQuantity() + row2.getQuantity();
 			}
 		}
+	}
+
+	public BigDecimal getNewCostPrice() {
+		return newCostPrice;
+	}
+
+	public BigDecimal getNewPrice() {
+		return newPrice;
+	}
+
+	public int getNewQuantity() {
+		return newQuantity;
 	}
 
 	public int getRowNumber() {
@@ -60,7 +84,7 @@ public class InvoiceRowComparison {
 		return quantityChange;
 	}
 	
-	public void print() {
+	public void printDetails() {
 		System.out.printf("%-8s", "[" + rowNumber + "]");
 		System.out.print("| ");
 		System.out.printf("%-10s", productCode);
@@ -71,5 +95,20 @@ public class InvoiceRowComparison {
 		System.out.print(" |");
 		System.out.printf("%-12s", quantityChange);
 		System.out.print(" |\n");
+	}
+	
+	public static void printHeader() {
+		System.out.printf("%-8s", "Row #");
+		System.out.print("| ");
+		System.out.printf("%-10s", "Code");
+		System.out.print(" |");
+		System.out.printf("%-20s", "Cost Price");
+		System.out.print(" |");
+		System.out.printf("%-20s", "Price");
+		System.out.print(" |");
+		System.out.printf("%-12s", "Quantity");
+		System.out.print(" |\n");
+		
+		System.out.println("--------------------------------------------------------------------------------");
 	}
 }

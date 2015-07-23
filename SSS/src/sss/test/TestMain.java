@@ -259,8 +259,9 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 //					invoice.printComparison();
 					
 					ArrayList<InvoiceRowComparison> compSet = invoice.getComparisonSet();
+					InvoiceRowComparison.printHeader();
 					for(InvoiceRowComparison irc: compSet) {
-						irc.print();
+						irc.printDetails();
 					}
 					fileReader.close();
 				}
