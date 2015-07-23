@@ -103,7 +103,7 @@ public class MockupMainMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame inventoryMenuUI = new InventoryMenuFrame();
+				JFrame inventoryMenuUI = new ViewInventoryFrame();
 			}
 		});
 

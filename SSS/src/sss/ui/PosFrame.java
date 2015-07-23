@@ -7,6 +7,7 @@
 
 package sss.ui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -17,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -148,19 +150,34 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel botMiddlePanel = new JPanel();
 		botMiddlePanel.setLayout(new GridLayout(2,3,10,10));
+		
+		Font myFont1 = new Font("SansSerif", Font.BOLD, 35);
+		
 
 		JButton Button1 = new JButton("1");
+		Button1.setFont(myFont1);
 		JButton Button2 = new JButton("2");
+		Button2.setFont(myFont1);
 		JButton Button3 = new JButton("3");
+		Button3.setFont(myFont1);
 		JButton Button4 = new JButton("4");
+		Button4.setFont(myFont1);
 		JButton Button5 = new JButton("5");
+		Button5.setFont(myFont1);
 		JButton Button6 = new JButton("6");
+		Button6.setFont(myFont1);
 		JButton Button7 = new JButton("7");
+		Button7.setFont(myFont1);
 		JButton Button8 = new JButton("8");
+		Button8.setFont(myFont1);
 		JButton Button9 = new JButton("9");
+		Button9.setFont(myFont1);
 		JButton Buttondec = new JButton(".");
+		Buttondec.setFont(myFont1);
 		JButton Button0 = new JButton("0");
+		Button0.setFont(myFont1);
 		JButton Buttondel = new JButton("del");
+		Buttondel.setFont(myFont1);
 
 		midMiddlePanel.add(Button1);
 		midMiddlePanel.add(Button2);
@@ -188,9 +205,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		JButton voidButton = new JButton("f1 Void");
 		JButton lookUpButton = new JButton("f2 Lookup Item");
 		JButton quantityButton = new JButton("f3 Quantity");
-		JButton overridePriceButton = new JButton("f4 Override Price");
-		JButton discountButton = new JButton("f5 Discount");
-		JButton optionsButton = new JButton("f6 Options");
+		JButton discountButton = new JButton("f4 Discount");
 		JButton enterButton = new JButton("ENTER");
 
 		JPanel firstRightPanel = new JPanel();
@@ -204,16 +219,16 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel exactCashPanel = new JPanel();
 		JButton exactCashButton = new JButton("Exact Cash");
-		exactCashPanel.setLayout(new GridLayout(3,1,10,10));
+		exactCashPanel.setLayout(new GridLayout(2,1,10,10));
 
-		JPanel blankPanel = new JPanel();
+		//JPanel blankPanel = new JPanel();
 
-		exactCashPanel.add(blankPanel);
+		//exactCashPanel.add(blankPanel);
 		exactCashPanel.add(exactCashButton);
+		exactCashPanel.add(enterButton);
 
 
-		JPanel notesPanel = new JPanel();
-		notesPanel.setLayout(new GridLayout(5,1,10,10));
+		JPanel notesPanel = new JPanel();		notesPanel.setLayout(new GridLayout(5,1,10,10));
 
 		notesPanel.add(note100Button);
 		notesPanel.add(note50Button);
@@ -224,15 +239,12 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel secondRightPanel = new JPanel();
 
-		secondRightPanel.setLayout(new GridLayout(7,1,10,10));
+		secondRightPanel.setLayout(new GridLayout(4,1,10,10));
 
 		secondRightPanel.add(voidButton);
 		secondRightPanel.add(lookUpButton);
 		secondRightPanel.add(quantityButton);
-		secondRightPanel.add(overridePriceButton);
 		secondRightPanel.add(discountButton);
-		secondRightPanel.add(optionsButton);
-		secondRightPanel.add(enterButton);
 
 		firstRightPanel.add(notesPanel);
 		firstRightPanel.add(exactCashPanel);
@@ -275,11 +287,12 @@ public class PosFrame extends JFrame implements SaleListener {
 		topLeftPanel.add(pCodeEntryField);
 
 		JPanel topCentrePanel = new JPanel();
-		TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
-		topCentrePanel.setBorder(topMiddlePanelTitle);
-		topCentrePanel.setLayout(new GridLayout(3,1,10,10));
+		topCentrePanel.setLayout(new GridLayout(4,1,10,10));
 		topPanel.add(topCentrePanel);
 
+		JLabel searchByName = new JLabel("Search By Name:");
+		topCentrePanel.add(searchByName);
+		
 		JTextField searchField = new JTextField();
 		topCentrePanel.add(searchField);
 
@@ -293,16 +306,16 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel topRightPanel = new JPanel();
 
-		topRightPanel.setLayout(new GridLayout(3,1,10,10));
+		topRightPanel.setLayout(new GridLayout(4,1,10,10));
 		topPanel.add(topRightPanel);
 
-		JButton searchButton = new JButton("Search!");
+		JButton searchButton = new JButton("Search");
 		topRightPanel.add(searchButton);
 
-		JLabel spaceLabel = new JLabel();
-		topRightPanel.add(spaceLabel);
 
 		JButton selectButton = new JButton("Select");
+//		selectButton.setBackground(Color.BLUE);
+//		selectButton.setOpaque(true);
 		topRightPanel.add(selectButton);
 
 		JPanel bottomPanel = new JPanel();
@@ -367,16 +380,6 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		overridePriceButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
 
 		discountButton.addActionListener(new ActionListener()
 		{

@@ -118,42 +118,6 @@ public class ModifyProductFrame extends JFrame {
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
-//--------------------Date Panels--------------------
-		
-		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
-		datePanel.setBorder(datePanelTitle);
-		datePanel.setLayout(new GridLayout(1,2,10,10));
-		
-		
-		JPanel rightDatePanel = new JPanel();
-		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-		rightDatePanel.setBorder(rightDatePanelTitle);
-		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
-		JPanel leftDatePanel = new JPanel();
-		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-		leftDatePanel.setBorder(leftDatePanelTitle);
-		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
-		JTextField viewStartDate = new JTextField();
-		JLabel viewStartDateLabel = new JLabel("Start Date:");
-		JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
-		rightDatePanel.add(viewStartDateLabel);
-		rightDatePanel.add(viewStartDate);
-		rightDatePanel.add(viewStartDateExample);
-		
-		JTextField viewEndDate = new JTextField();
-		JLabel viewEndDateLabel = new JLabel("End Date:");
-		JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
-		leftDatePanel.add(viewEndDateLabel);
-		leftDatePanel.add(viewEndDate);
-		leftDatePanel.add(viewEndDateExample);
-
-		datePanel.add(rightDatePanel);
-		datePanel.add(leftDatePanel);
-		rightPanel.add(datePanel);
-		
 //--------------------Code Panel--------------------
 // the barcode and product code fields are held in this panel.
 		
