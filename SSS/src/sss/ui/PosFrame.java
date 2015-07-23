@@ -511,6 +511,62 @@ public class PosFrame extends JFrame implements SaleListener {
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
+		
+		enterButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					try{ 
+						BigDecimal exactAmount = register.getCurrentSaleTotal();
+						BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+						if(exactAmount.compareTo(payment) < 0) {
+							register.makePayment(payment);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					catch (NumberFormatException nfe){
+						JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+						paymentEntryField.setText("");
+					}
+					
+				}
+				paymentEntryField.setText("");
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		paymentEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+						try{ 
+							BigDecimal exactAmount = register.getCurrentSaleTotal();
+							BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+							if(exactAmount.compareTo(payment) < 0) {
+								register.makePayment(payment);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						catch (NumberFormatException nfe){
+							JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+							paymentEntryField.setText("");
+						}
+						
+					}
+					paymentEntryField.setText("");
+					barcodeEntryField.requestFocusInWindow();
+				}
+			}
+		});
 
 		// Keypad BUTTON listeners
 		
