@@ -216,6 +216,7 @@ public class IMController {
 					}
 
 					System.out.print(invoice);
+					fileReader.close();
 				}
 			}
 

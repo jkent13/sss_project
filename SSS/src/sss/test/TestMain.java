@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.domain.FormattedSale;
 import sss.domain.Invoice;
+import sss.domain.InvoiceRowComparison;
 import sss.domain.Line;
 import sss.domain.Product;
 import sss.domain.Sale;
@@ -253,8 +254,15 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 						invoice.addRow(row[0], costPrice, price, quantity);
 					}
 
-					System.out.print(invoice);
+					//System.out.print(invoice);
 //					invoice.pull();
+//					invoice.printComparison();
+					
+					ArrayList<InvoiceRowComparison> compSet = invoice.getComparisonSet();
+					for(InvoiceRowComparison irc: compSet) {
+						irc.print();
+					}
+					fileReader.close();
 				}
 			}
 
