@@ -260,7 +260,12 @@ public class IMController {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Changes applied successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+				
 				refresh();
+				comparisonSet = null;
+				for(int i = invoiceComparisonData.getRowCount()-1; i != -1; i--) {
+					invoiceComparisonData.removeRow(i);
+				}
 			}
 			
 		}
@@ -273,7 +278,9 @@ public class IMController {
 	}
 	
 	public void exportComparisonReport() {
-		
+		if(comparisonSet != null) {
+			
+		}
 	}
 	
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
