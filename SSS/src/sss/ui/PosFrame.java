@@ -758,22 +758,12 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		// Override Price Hotkey F4
+		// Discount Hotkey F4
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F4)
-					JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);	
-			}
-		});
-
-		// Discount Hotkey F5
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						try{
 							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
@@ -829,12 +819,12 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		// Hotkey F5
+		// Hotkey F4
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						try{
 							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
