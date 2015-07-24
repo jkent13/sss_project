@@ -35,7 +35,7 @@ import sss.domain.NonEditableTableModel;
 public class ViewInventoryFrame extends JFrame {
 
 	private IMController controller = new IMController();
-	private InventoryFilter filter = new InventoryFilter();		// Contains all the user input and selections (except for search box)
+	private InventoryFilter filter = new InventoryFilter();		// Contains all the user input and selections and search box input
 	
 	private JCheckBox supplierCheckBox;
 	private JCheckBox categoryCheckBox;
@@ -294,7 +294,7 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+				controller.readCsv();
 				
 			}
 		});

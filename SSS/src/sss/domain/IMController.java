@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.SqlBuilder;
+import sss.ui.InvoiceComparisonFrame;
 
 public class IMController {
 	
@@ -31,7 +33,7 @@ public class IMController {
 	// Column names for the product table
 	private String[] productColNames = {"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
 	
-	private String[] comparisonTableNames = {"Row #", "Product Code", "Cost Price", "Price", "Quantity"};
+	private String[] comparisonTableColNames = {"Row #", "Product Code", "Cost Price", "Price", "Quantity"};
 	
 	private String[] suppliers;		// Holds the supplier names (read in from DB). Used to fill combobox in ViewInventoryFrame
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox in ViewInventoryFrame
@@ -50,6 +52,7 @@ public class IMController {
 	private void initialise() {
 		try {
 		productData.setColumnIdentifiers(productColNames);
+		invoiceComparisonData.setColumnIdentifiers(comparisonTableColNames);
 
 		// Get SQL statements
 		String selectAllProducts = SqlBuilder.getAllProducts();
@@ -233,6 +236,7 @@ public class IMController {
 						irc.printDetails();
 					}
 					
+					JFrame compFrame = new InvoiceComparisonFrame(invoiceComparisonData);
 					String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(compSet);
 					
 //					for(String updateStatement: updateStatements) {
