@@ -20,14 +20,18 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.services.DbReader;
+import sss.services.DbWriter;
 import sss.services.SqlBuilder;
 
 public class IMController {
 	
 	private NonEditableTableModel productData = new NonEditableTableModel(); // Data model for ViewInventoryFrame JTable
+	private NonEditableTableModel invoiceComparisonData = new NonEditableTableModel();
 	
 	// Column names for the product table
 	private String[] productColNames = {"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
+	
+	private String[] comparisonTableNames = {"Row #", "Product Code", "Cost Price", "Price", "Quantity"};
 	
 	private String[] suppliers;		// Holds the supplier names (read in from DB). Used to fill combobox in ViewInventoryFrame
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox in ViewInventoryFrame
@@ -185,7 +189,8 @@ public class IMController {
 					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
 					rows.add(tokens);
 				}
-
+				fileReader.close();
+				
 				if(validateCsvRows(rows)) {
 					Invoice invoice = new Invoice();
 					BigDecimal costPrice = null;
@@ -215,8 +220,24 @@ public class IMController {
 						invoice.addRow(row[0], costPrice, price, quantity);
 					}
 
-					System.out.print(invoice);
-					fileReader.close();
+					ArrayList<InvoiceRowComparison> compSet = invoice.getComparisonSet();
+					InvoiceRowComparison.printHeader();
+					for(InvoiceRowComparison irc: compSet) {
+						invoiceComparisonData.addRow(new Object[] {
+								irc.getRowNumber(),
+								irc.getProductCode(),
+								irc.getCostPriceChange(),
+								irc.getPriceChange(),
+								irc.getQuantityChange()
+						});
+						irc.printDetails();
+					}
+					
+					String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(compSet);
+					
+//					for(String updateStatement: updateStatements) {
+//						DbWriter.executeStatement(updateStatement);
+//					}
 				}
 			}
 
