@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,6 +30,9 @@ public class IMController {
 	
 	private NonEditableTableModel productData = new NonEditableTableModel(); // Data model for ViewInventoryFrame JTable
 	private NonEditableTableModel invoiceComparisonData = new NonEditableTableModel();
+	
+	private InventoryFilter blankFilter = new InventoryFilter(false, false, false, false);
+	private ArrayList<InvoiceRowComparison> comparisonSet;
 	
 	// Column names for the product table
 	private String[] productColNames = {"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
@@ -189,7 +193,7 @@ public class IMController {
 
 				while (fileReader.hasNext()) {
 					currentLine = fileReader.nextLine();
-					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
+					tokens = currentLine.split(",");	
 					rows.add(tokens);
 				}
 				fileReader.close();
@@ -223,9 +227,9 @@ public class IMController {
 						invoice.addRow(row[0], costPrice, price, quantity);
 					}
 
-					ArrayList<InvoiceRowComparison> compSet = invoice.getComparisonSet();
-					InvoiceRowComparison.printHeader();
-					for(InvoiceRowComparison irc: compSet) {
+					comparisonSet = invoice.getComparisonSet();
+
+					for(InvoiceRowComparison irc: comparisonSet) {
 						invoiceComparisonData.addRow(new Object[] {
 								irc.getRowNumber(),
 								irc.getProductCode(),
@@ -233,15 +237,9 @@ public class IMController {
 								irc.getPriceChange(),
 								irc.getQuantityChange()
 						});
-						irc.printDetails();
 					}
 					
-					JFrame compFrame = new InvoiceComparisonFrame(invoiceComparisonData);
-					String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(compSet);
-					
-//					for(String updateStatement: updateStatements) {
-//						DbWriter.executeStatement(updateStatement);
-//					}
+					JFrame compFrame = new InvoiceComparisonFrame(invoiceComparisonData, this);
 				}
 			}
 
@@ -249,6 +247,33 @@ public class IMController {
 			JOptionPane.showMessageDialog(null, "Error: The file you tried to open could not be found.", "File Not Found", JOptionPane.ERROR_MESSAGE);
 		}
 
+	}
+	
+	public void bulkUpdate(int confirmed) {
+		if(confirmed == 1) {
+			
+			if(comparisonSet != null) {
+				String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(comparisonSet);
+				
+				for(String updateStatement: updateStatements) {
+					DbWriter.executeStatement(updateStatement);
+				}
+				
+				JOptionPane.showMessageDialog(null, "Changes applied successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+				refresh();
+			}
+			
+		}
+		else {
+			comparisonSet = null;
+			for(int i = invoiceComparisonData.getRowCount()-1; i != -1; i--) {
+				invoiceComparisonData.removeRow(i);
+			}
+		}
+	}
+	
+	public void exportComparisonReport() {
+		
 	}
 	
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
@@ -277,6 +302,10 @@ public class IMController {
 		}
 		
 		return true;
+	}
+	
+	private void refresh() {
+		getResults(blankFilter);
 	}
 	
 	//-----------------------------------------------------------------
