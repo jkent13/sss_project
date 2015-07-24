@@ -414,7 +414,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(FIVE_DOLLARS) < 0) {
+					if(exactAmount.compareTo(FIVE_DOLLARS) <= 0) {
 						register.makePayment(FIVE_DOLLARS);
 					}
 					else {
@@ -433,7 +433,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(TEN_DOLLARS) < 0) {
+					if(exactAmount.compareTo(TEN_DOLLARS) <= 0) {
 						register.makePayment(TEN_DOLLARS);
 					}
 					else {
@@ -452,7 +452,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(TWENTY_DOLLARS) < 0) {
+					if(exactAmount.compareTo(TWENTY_DOLLARS) <= 0) {
 						register.makePayment(TWENTY_DOLLARS);
 					}
 					else {
@@ -471,7 +471,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(FIFTY_DOLLARS) < 0) {
+					if(exactAmount.compareTo(FIFTY_DOLLARS) <= 0) {
 						register.makePayment(FIFTY_DOLLARS);
 					}
 					else {
@@ -490,7 +490,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			{
 				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(HUNDRED_DOLLARS) < 0) {
+					if(exactAmount.compareTo(HUNDRED_DOLLARS) <= 0) {
 						register.makePayment(HUNDRED_DOLLARS);
 					}
 					else {
@@ -525,7 +525,7 @@ public class PosFrame extends JFrame implements SaleListener {
 					try{ 
 						BigDecimal exactAmount = register.getCurrentSaleTotal();
 						BigDecimal payment = new BigDecimal(paymentEntryField.getText());
-						if(exactAmount.compareTo(payment) < 0) {
+						if(exactAmount.compareTo(payment) <= 0) {
 							register.makePayment(payment);
 						}
 						else {
@@ -552,7 +552,7 @@ public class PosFrame extends JFrame implements SaleListener {
 						try{ 
 							BigDecimal exactAmount = register.getCurrentSaleTotal();
 							BigDecimal payment = new BigDecimal(paymentEntryField.getText());
-							if(exactAmount.compareTo(payment) < 0) {
+							if(exactAmount.compareTo(payment) <= 0) {
 								register.makePayment(payment);
 							}
 							else {
