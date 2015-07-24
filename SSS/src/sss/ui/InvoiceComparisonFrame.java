@@ -21,7 +21,6 @@ public class InvoiceComparisonFrame extends JFrame {
 	
 	public static final int CONFIRMED_OPTION = 1;
 	public static final int CANCEL_OPTION = 0;
-	public static final int EXPORT_OPTION = 2;
 	
 	private NonEditableTableModel comparisonDataModel;
 	private IMController controller;
@@ -67,6 +66,17 @@ public class InvoiceComparisonFrame extends JFrame {
 			{
 				controller.bulkUpdate(CONFIRMED_OPTION);
 				dispose();
+				
+			}
+		});
+		
+		saveButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				controller.exportComparisonReport();
 				
 			}
 		});

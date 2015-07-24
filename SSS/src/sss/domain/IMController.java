@@ -9,6 +9,8 @@ package sss.domain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -279,7 +281,33 @@ public class IMController {
 	
 	public void exportComparisonReport() {
 		if(comparisonSet != null) {
-			
+			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			int optionSelected = fileChooser.showDialog(null, "Save");
+			if(optionSelected == JFileChooser.APPROVE_OPTION) {
+				try{
+					File selectedFile = fileChooser.getSelectedFile();
+					String fileName = selectedFile.getName();
+					if(!fileName.toUpperCase().contains(".CSV")) {
+						fileName = fileChooser.getSelectedFile() + ".csv";
+					}
+					else {
+						fileName = fileChooser.getSelectedFile().toString();
+					}
+					
+					FileWriter writer = new FileWriter(fileName);
+					writer.append(InvoiceRowComparison.getCsvHeader());
+					for(int i = 0; i < comparisonSet.size(); i++) {
+						writer.append(comparisonSet.get(i).getCsvRow());
+					}
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+			}
 		}
 	}
 	
