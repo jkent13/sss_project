@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import sss.domain.InventoryFilter;
 import sss.domain.Invoice;
 import sss.domain.InvoiceRow;
+import sss.domain.InvoiceRowComparison;
 import sss.domain.LookupFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
@@ -367,6 +368,33 @@ public class SqlBuilder {
 			currentStatement.delete(0, currentStatement.length());
 		}
 		return statements;
+	}
+	
+	//---------------------------------------------------------
+	
+	//---------- UPDATE Methods -------------------------------
+	
+	public static String[] getInvoiceUpdateStatements(ArrayList<InvoiceRowComparison> comparisonSet) {
+		String[] statements = new String[comparisonSet.size()];
+		StringBuffer currentStatement = new StringBuffer();
+		
+		for(int i = 0; i < comparisonSet.size(); i++) {
+			currentStatement.append("UPDATE product SET ");
+			currentStatement.append("prod_cost_price = ");
+			currentStatement.append(comparisonSet.get(i).getNewCostPrice() + ", ");
+			currentStatement.append("prod_price = ");
+			currentStatement.append(comparisonSet.get(i).getNewPrice() + ", ");
+			currentStatement.append("prod_qoh = ");
+			currentStatement.append(comparisonSet.get(i).getNewQuantity() + " ");
+			currentStatement.append("WHERE prod_code = '");
+			currentStatement.append(comparisonSet.get(i).getProductCode() + "';");
+			
+			statements[i] = currentStatement.toString();
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
+		
 	}
 	
 	//---------------------------------------------------------

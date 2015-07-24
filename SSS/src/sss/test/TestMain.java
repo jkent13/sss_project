@@ -27,10 +27,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.domain.FormattedSale;
 import sss.domain.Invoice;
+import sss.domain.InvoiceRowComparison;
 import sss.domain.Line;
 import sss.domain.Product;
 import sss.domain.Sale;
 import sss.services.DbConnector;
+import sss.services.DbWriter;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
 import sss.services.SqlBuilder;
@@ -220,10 +222,11 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 
 				while (fileReader.hasNext()) {
 					currentLine = fileReader.nextLine();
-					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
+					tokens = currentLine.split(",");
 					rows.add(tokens);
 				}
-
+				fileReader.close();
+				
 				if(validateCsvRows(rows)) {
 					Invoice invoice = new Invoice();
 					BigDecimal costPrice = null;
@@ -252,9 +255,20 @@ public static void createSale(ArrayList<Line> lineItems, String timeStamp) {
 
 						invoice.addRow(row[0], costPrice, price, quantity);
 					}
-
-					System.out.print(invoice);
-//					invoice.pull();
+					
+					ArrayList<InvoiceRowComparison> compSet = invoice.getComparisonSet();
+					InvoiceRowComparison.printHeader();
+					for(InvoiceRowComparison irc: compSet) {
+						irc.printDetails();
+					}
+					
+					String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(compSet);
+					
+					for(String updateStatement: updateStatements) {
+						DbWriter.executeStatement(updateStatement);
+					}
+					
+					
 				}
 			}
 

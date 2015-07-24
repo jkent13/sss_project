@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.swing.JOptionPane;
+
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
@@ -19,6 +21,10 @@ public class Invoice {
 	
 	public Invoice() {
 		
+	}
+	
+	public int size() {
+		return currentLineNumber - 1;
 	}
 	
 	public void addRow(String productCode, BigDecimal costPrice, BigDecimal price, int quantity) {
@@ -60,8 +66,6 @@ public class Invoice {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			System.out.print(comparedInvoice);
 		}
 	}
 	
@@ -74,5 +78,63 @@ public class Invoice {
 		}
 		return allRows.toString();
 		
+	}
+	
+	public void printComparison() {
+		if(comparedInvoice == null) {
+			pull();
+		}
+		if(comparedInvoice.size() != size()) {
+			JOptionPane.showMessageDialog(null, "Error: The imported invoice contains a product not in the database", "Product Not Found", JOptionPane.ERROR_MESSAGE);
+		}
+		else {
+
+			ArrayList<InvoiceRow> comparedRows = comparedInvoice.getRows();
+
+			System.out.printf("%-9s", "Row #");
+			System.out.printf("%-15s", " Code");
+			System.out.printf("%-15s", " CP ($)");
+			System.out.printf("%-15s", " P ($)");
+			System.out.printf("%-10s", " Quant.");
+			System.out.print("\t");
+			System.out.printf("%-9s", "Row #");
+			System.out.printf("%-15s", " Code");
+			System.out.printf("%-15s", " CP ($)");
+			System.out.printf("%-15s", " P ($)");
+			System.out.printf("%-10s", " Quant.");
+			System.out.print("\n");
+			
+			for(int i = 0; i < rows.size(); i++) {
+				rows.get(i).printRow();
+				System.out.print("\t");
+				comparedRows.get(i).printRow();
+				System.out.print("\n");
+			}
+		}
+	}
+
+	public ArrayList<InvoiceRowComparison> getComparisonSet() {
+		if(comparedInvoice == null) {
+			pull();
+		}
+		if(comparedInvoice.size() != size()) {
+			JOptionPane.showMessageDialog(null, "Error: The imported invoice contains a product not in the database", "Product Not Found", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		else {
+			ArrayList<InvoiceRow> comparedRows = comparedInvoice.getRows();
+			ArrayList<InvoiceRowComparison> comparisonSet = new ArrayList<InvoiceRowComparison>();
+			InvoiceRowComparison currentCompare;
+			
+			for(int i = 0; i < rows.size(); i++) {
+				currentCompare = new InvoiceRowComparison(rows.get(i), comparedRows.get(i));
+				if(currentCompare != null) {
+					comparisonSet.add(currentCompare);
+					currentCompare = null;
+				}
+			}
+			
+			return comparisonSet;
+		}
 	}
 }

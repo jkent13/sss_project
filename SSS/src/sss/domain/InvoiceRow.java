@@ -104,5 +104,47 @@ public class InvoiceRow implements Comparable<InvoiceRow> {
 		return string.toString();
 	}
 	
+	public void printRow() {
+		System.out.printf("%-8s", "[" + rowNumber + "]");
+		System.out.print("| ");
+		System.out.printf("%-12s", productCode);
+		System.out.print(" |");
+		if(costPrice != null) {
+			System.out.print(" ");
+			System.out.printf("%-12s", costPrice.toPlainString());
+			System.out.print(" |");
+		}
+		else {
+			System.out.print(" ");
+			System.out.printf("%-12s", "NULL");
+			System.out.print(" |");
+		}
+		if(price != null) {
+			System.out.print(" ");
+			System.out.printf("%-12s", price.toPlainString());
+			System.out.print(" |");
+		}
+		else {
+			System.out.print(" ");
+			System.out.printf("%-12s", "NULL");
+			System.out.print(" |");
+		}
+		System.out.print(" ");
+		System.out.printf("%-8s", quantity);
+		System.out.print(" ||");
+		
+	}
+
+	public boolean isDifference(InvoiceRow row) {
+		if(quantity != 0) {
+			return true;
+		} 
+		else if (!(costPrice.equals(row.getCostPrice())) && !(price.equals(row.getPrice()))) {
+				return true;
+			}
+		else {
+			return false;
+		}
+	}
 	
 }
