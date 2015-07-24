@@ -272,6 +272,10 @@ public class IMController {
 		}
 	}
 	
+	public void exportComparisonReport() {
+		
+	}
+	
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
 		int rowCounter = 1;
 		try {
