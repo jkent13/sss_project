@@ -375,7 +375,7 @@ public class ViewInventoryFrame extends JFrame {
 			public void actionPerformed(ActionEvent ae) 
 			{
 
-				searchField.requestFocusInWindow();
+				controller.exportProductReport();
 			}
 		});
 		
