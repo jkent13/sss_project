@@ -111,4 +111,12 @@ public class InvoiceRowComparison {
 		
 		System.out.println("--------------------------------------------------------------------------------");
 	}
+	
+	public static String getCsvHeader() {
+		return "Row #,Product Code,Cost Price,Price,Quantity\n";
+	}
+	
+	public String getCsvRow() {
+		return rowNumber + "," + productCode + "," + costPriceChange + "," + priceChange + "," + quantityChange + "\n";
+	}
 }

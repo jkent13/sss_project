@@ -9,6 +9,8 @@ package sss.domain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +37,7 @@ public class IMController {
 	private ArrayList<InvoiceRowComparison> comparisonSet;
 	
 	// Column names for the product table
-	private String[] productColNames = {"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
+	private String[] productColNames = {"Product ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
 	
 	private String[] comparisonTableColNames = {"Row #", "Product Code", "Cost Price", "Price", "Quantity"};
 	
@@ -260,7 +262,12 @@ public class IMController {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Changes applied successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+				
 				refresh();
+				comparisonSet = null;
+				for(int i = invoiceComparisonData.getRowCount()-1; i != -1; i--) {
+					invoiceComparisonData.removeRow(i);
+				}
 			}
 			
 		}
@@ -273,7 +280,91 @@ public class IMController {
 	}
 	
 	public void exportComparisonReport() {
-		
+		if(comparisonSet != null) {
+			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			int optionSelected = fileChooser.showDialog(null, "Save");
+			if(optionSelected == JFileChooser.APPROVE_OPTION) {
+				try{
+					File selectedFile = fileChooser.getSelectedFile();
+					String fileName = selectedFile.getName();
+					if(!fileName.toUpperCase().contains(".CSV")) {
+						fileName = fileChooser.getSelectedFile() + ".csv";
+					}
+					else {
+						fileName = fileChooser.getSelectedFile().toString();
+					}
+					
+					FileWriter writer = new FileWriter(fileName);
+					writer.append(InvoiceRowComparison.getCsvHeader());
+					for(int i = 0; i < comparisonSet.size(); i++) {
+						writer.append(comparisonSet.get(i).getCsvRow());
+					}
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void exportProductReport() {
+		if(productData != null) {
+			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			int optionSelected = fileChooser.showDialog(null, "Save");
+			if(optionSelected == JFileChooser.APPROVE_OPTION) {
+				try{
+					File selectedFile = fileChooser.getSelectedFile();
+					String fileName = selectedFile.getName();
+					if(!fileName.toUpperCase().contains(".CSV")) {
+						fileName = fileChooser.getSelectedFile() + ".csv";
+					}
+					else {
+						fileName = fileChooser.getSelectedFile().toString();
+					}
+					
+					FileWriter writer = new FileWriter(fileName);
+					
+					//WRITE HEADER
+					for(int i = 0; i < productColNames.length; i++) {
+						if((i+1) != productColNames.length){
+							writer.append(productColNames[i] + ",");
+						}
+						else {
+							writer.append(productColNames[i]);
+						}
+					}
+					writer.append("\n");
+					
+					int rowCount = productData.getRowCount();
+					int colCount = productData.getColumnCount();
+					
+					//WRITE CONTENT
+					for(int i = 0; i < rowCount; i++) {
+						for(int j = 0; j < colCount; j++) {
+							if((j+1) != colCount) {
+								writer.append(productData.getValueAt(i, j) + ",");
+							}
+							else {
+								writer.append(productData.getValueAt(i, j).toString());
+							}
+						}
+						writer.append("\n");
+						
+					}
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	private boolean validateCsvRows(ArrayList<String[]> rows) {

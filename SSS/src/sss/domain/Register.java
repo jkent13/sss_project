@@ -36,6 +36,7 @@ public class Register {
 	
 	private Sale currentSale;				// The current Sale object for the current transaction
 	private Product currentProduct;			// The last Product enter as a Line	
+	
 	private NonEditableTableModel dataModel = new NonEditableTableModel();	// The data model for PosFrame's JTable (lookupTable)
 	private NonEditableTableModel searchDataModel = new NonEditableTableModel();
 	
@@ -80,12 +81,13 @@ public class Register {
 			do {
 				categoryArraySize++;
 			} while(categoryNames.next());
-			categories = new String[categoryArraySize]; // Set array to correct size
+			categories = new String[categoryArraySize+1]; // Set array to correct size
 			
 			categoryNames.beforeFirst(); // Reset ResultSet
 			
 			// This loop populates the categories array with category names from the DB
-			int index = 0;
+			categories[0] = "All";
+			int index = 1;
 			while(categoryNames.next()) {
 				categories[index] = categoryNames.getString("prod_category");
 				index++;
@@ -159,7 +161,7 @@ public class Register {
 	 * Getter method for the current sale's SQL insert statements
 	 * @return a String SQL insert statement for the current sale
 	 */
-	public String getSaleInsertStatement() {
+	private String getSaleInsertStatement() {
 		String saleInsertStatement = SqlBuilder.getSaleInsertStatement(currentSale);
 		return saleInsertStatement;
 	}
@@ -168,7 +170,7 @@ public class Register {
 	 * Getter method for the current sale's line item SQL insert statements
 	 * @return a String[] containing SQL insert statements for the current sale's lines
 	 */
-	public String[] getLineInsertStatements() {
+	private String[] getLineInsertStatements() {
 		String[] lineInsertStatements = SqlBuilder.getLineInsertStatements(currentSale);
 		return lineInsertStatements;
 	}
@@ -291,6 +293,42 @@ public class Register {
 		}
 		else {
 			JOptionPane.showMessageDialog(null, "ERROR: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void lookUpProducts(LookupFilter filter) {
+		try {
+		
+			String lookupQuery = SqlBuilder.lookupProduct(filter);
+			ResultSet lookupResults = DbReader.executeQuery(lookupQuery);
+			
+			// Clear searchDataModel
+			for(int i = searchDataModel.getRowCount()-1; i != -1; i--) {
+				searchDataModel.removeRow(i);
+			}
+			
+			if(lookupResults.next()) {
+				// Populate searchDataModel with new values
+				do {
+					searchDataModel.addRow(new Object[] {
+							lookupResults.getLong("prod_id"),
+							lookupResults.getString("prod_code"),
+							lookupResults.getString("prod_name"),
+							new BigDecimal(lookupResults.getDouble("prod_cost_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							new BigDecimal(lookupResults.getDouble("prod_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							lookupResults.getInt("prod_qoh"),
+							lookupResults.getString("prod_category"),
+							lookupResults.getString("supp_name"),
+							lookupResults.getString("prod_active")					
+					});
+				} while(lookupResults.next());
+			}
+
+			lookupResults.close(); // Close ResultSet
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 	
