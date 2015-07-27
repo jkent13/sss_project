@@ -374,7 +374,6 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
-
 				controller.exportProductReport();
 			}
 		});
