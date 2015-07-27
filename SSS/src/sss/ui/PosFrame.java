@@ -7,19 +7,20 @@
 
 package sss.ui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,26 +35,51 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
 
-import sss.domain.LineItemTableModel;
+import sss.domain.LookupFilter;
+import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
+import sss.services.SaleListener;
 
 @SuppressWarnings("serial")
-public class PosFrame extends JFrame implements Observer {
+public class PosFrame extends JFrame implements SaleListener {
+
+	static final BigDecimal FIVE_DOLLARS = new BigDecimal(5);
+	static final BigDecimal TEN_DOLLARS = new BigDecimal(10);
+	static final BigDecimal TWENTY_DOLLARS = new BigDecimal(20);
+	static final BigDecimal FIFTY_DOLLARS = new BigDecimal(50);
+	static final BigDecimal HUNDRED_DOLLARS = new BigDecimal(100);
 	
-	private BigDecimal[] saleData;
+	static final String ONE = "1";
+	static final String TWO = "2";
+	static final String THREE = "3";
+	static final String FOUR = "4";
+	static final String FIVE = "5";
+	static final String SIX = "6";
+	static final String SEVEN = "7";
+	static final String EIGHT = "8";
+	static final String NINE = "9";
+	static final String ZERO = "0";
+	static final String DECIMAL_POINT = ".";
 	
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
 	
-	Register register = new Register();
+	private JTextField barcodeSearchField;
+	private JTextField pCodeEntryField;
+	private JTextField searchField;
+	private JComboBox<String> searchComboBox;
+
+	private LookupFilter filter = new LookupFilter();
 	
+	Register register = new Register();
+
 	public PosFrame() {
 
 		setTitle("Make Sale");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 
 		//Full Screen Panel
 		JPanel fullScreenPanel = new JPanel();
@@ -77,7 +103,7 @@ public class PosFrame extends JFrame implements Observer {
 		itemsPanel.setLayout(new GridLayout(1,1,10,10));
 		//				leftPanel.add(itemsPanel);
 
-		LineItemTableModel dataModel = register.getDataModel();
+		NonEditableTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
 		TableColumnModel columnModel =lookUpTable.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
@@ -85,8 +111,8 @@ public class PosFrame extends JFrame implements Observer {
 		columnModel.getColumn(2).setPreferredWidth(200); // Sets preferred width of the Product Name 
 		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only one row of table able to be selected at a time
 
-		JScrollPane scrlPane = new JScrollPane(lookUpTable);
-		itemsPanel.add(scrlPane);
+		JScrollPane scrollPane = new JScrollPane(lookUpTable);
+		itemsPanel.add(scrollPane);
 
 		Font myFont = new Font("SansSerif", Font.BOLD, 29); //Label Fonts
 
@@ -111,13 +137,9 @@ public class PosFrame extends JFrame implements Observer {
 
 
 		JPanel middlePanel = new JPanel();
-		//		TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
-		//		middlePanel.setBorder(middlePanelTitle);
 		middlePanel.setLayout(new GridLayout(3,1,10,10));
 
 		JPanel topMiddlePanel = new JPanel();
-		//						TitledBorder topMiddlePanelTitle = new TitledBorder("Top Middle Panel:");
-		//						topMiddlePanel.setBorder(topMiddlePanelTitle);
 		topMiddlePanel.setLayout(new GridLayout(4,2,10,10));
 
 		JLabel barcodeLabel = new JLabel("Barcode:");
@@ -134,28 +156,39 @@ public class PosFrame extends JFrame implements Observer {
 		topMiddlePanel.add(paymentEntryField);
 
 		JPanel midMiddlePanel = new JPanel();
-		//						TitledBorder midMiddlePanelTitle = new TitledBorder("Middle Middle Panel:");
-		//						midMiddlePanel.setBorder(midMiddlePanelTitle);
 		midMiddlePanel.setLayout(new GridLayout(2,3,10,10));
 
 
 		JPanel botMiddlePanel = new JPanel();
-		//						TitledBorder botMiddlePanelTitle = new TitledBorder("Bottom Middle Panel:");
-		//						botMiddlePanel.setBorder(botMiddlePanelTitle);
 		botMiddlePanel.setLayout(new GridLayout(2,3,10,10));
+		
+		Font myFont1 = new Font("SansSerif", Font.BOLD, 35);
+		
 
 		JButton Button1 = new JButton("1");
+		Button1.setFont(myFont1);
 		JButton Button2 = new JButton("2");
+		Button2.setFont(myFont1);
 		JButton Button3 = new JButton("3");
+		Button3.setFont(myFont1);
 		JButton Button4 = new JButton("4");
+		Button4.setFont(myFont1);
 		JButton Button5 = new JButton("5");
+		Button5.setFont(myFont1);
 		JButton Button6 = new JButton("6");
+		Button6.setFont(myFont1);
 		JButton Button7 = new JButton("7");
+		Button7.setFont(myFont1);
 		JButton Button8 = new JButton("8");
+		Button8.setFont(myFont1);
 		JButton Button9 = new JButton("9");
+		Button9.setFont(myFont1);
 		JButton Buttondec = new JButton(".");
+		Buttondec.setFont(myFont1);
 		JButton Button0 = new JButton("0");
+		Button0.setFont(myFont1);
 		JButton Buttondel = new JButton("del");
+		Buttondel.setFont(myFont1);
 
 		midMiddlePanel.add(Button1);
 		midMiddlePanel.add(Button2);
@@ -178,21 +211,17 @@ public class PosFrame extends JFrame implements Observer {
 
 
 		JPanel rightPanel = new JPanel();
-		//						TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		//						rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(1,2,10,10));
+
 		JButton voidButton = new JButton("f1 Void");
 		JButton lookUpButton = new JButton("f2 Lookup Item");
 		JButton quantityButton = new JButton("f3 Quantity");
-		JButton overridePriceButton = new JButton("f4 Override Price");
-		JButton discountButton = new JButton("f5 Discount");
-		JButton optionsButton = new JButton("f6 Options");
+		JButton discountButton = new JButton("f4 Discount");
 		JButton enterButton = new JButton("ENTER");
 
 		JPanel firstRightPanel = new JPanel();
-		//						TitledBorder firstRightPanelTitle = new TitledBorder("1st Right Panel:");
-		//						firstRightPanel.setBorder(firstRightPanelTitle);
 		firstRightPanel.setLayout(new GridLayout(2,1,10,10));
+
 		JButton note5Button = new JButton("$5");
 		JButton note10Button = new JButton("$10");
 		JButton note20Button = new JButton("$20");
@@ -201,16 +230,16 @@ public class PosFrame extends JFrame implements Observer {
 
 		JPanel exactCashPanel = new JPanel();
 		JButton exactCashButton = new JButton("Exact Cash");
-		exactCashPanel.setLayout(new GridLayout(3,1,10,10));
-		//						JButton enterButton2 = new JButton("ENTER");
-		JPanel blankPanel = new JPanel();
-		//						exactCashPanel.add(enterButton2);
-		exactCashPanel.add(blankPanel);
+		exactCashPanel.setLayout(new GridLayout(2,1,10,10));
+
+		//JPanel blankPanel = new JPanel();
+
+		//exactCashPanel.add(blankPanel);
 		exactCashPanel.add(exactCashButton);
+		exactCashPanel.add(enterButton);
 
 
-		JPanel notesPanel = new JPanel();
-		notesPanel.setLayout(new GridLayout(5,1,10,10));
+		JPanel notesPanel = new JPanel();		notesPanel.setLayout(new GridLayout(5,1,10,10));
 
 		notesPanel.add(note100Button);
 		notesPanel.add(note50Button);
@@ -220,17 +249,13 @@ public class PosFrame extends JFrame implements Observer {
 
 
 		JPanel secondRightPanel = new JPanel();
-		//						TitledBorder secondRightPanelTitle = new TitledBorder("2nd Right Panel:");
-		//						secondRightPanel.setBorder(secondRightPanelTitle);
-		secondRightPanel.setLayout(new GridLayout(7,1,10,10));
+
+		secondRightPanel.setLayout(new GridLayout(4,1,10,10));
 
 		secondRightPanel.add(voidButton);
 		secondRightPanel.add(lookUpButton);
 		secondRightPanel.add(quantityButton);
-		secondRightPanel.add(overridePriceButton);
 		secondRightPanel.add(discountButton);
-		secondRightPanel.add(optionsButton);
-		secondRightPanel.add(enterButton);
 
 		firstRightPanel.add(notesPanel);
 		firstRightPanel.add(exactCashPanel);
@@ -239,175 +264,81 @@ public class PosFrame extends JFrame implements Observer {
 		rightPanel.add(secondRightPanel);
 		fullScreenPanel.add(rightPanel);
 
+		// Lookup Product frame
+		
+		JFrame lookupFrame = new JFrame();
+		lookupFrame.setTitle("Lookup Item");
+		lookupFrame.setSize(900,500);
+
+		lookupFrame.setLocationRelativeTo(null);
+
+		JPanel gridPanel = new JPanel();
+
+		gridPanel.setLayout(new GridLayout(2,1,10,10));
+		lookupFrame.add(gridPanel);
+
+		JPanel topPanel = new JPanel();
+
+		topPanel.setLayout(new GridLayout(1,3,10,10));
+		gridPanel.add(topPanel);
+
+		JPanel topLeftPanel = new JPanel();
+
+		topLeftPanel.setLayout(new GridLayout(4,1,10,10));
+		topPanel.add(topLeftPanel);
+
+		JLabel barcodeSearchLabel = new JLabel("Barcode:");
+		barcodeSearchField = new JTextField(13);
+		topLeftPanel.add(barcodeSearchLabel);
+		topLeftPanel.add(barcodeSearchField);
+
+		JLabel pCodeLabel = new JLabel("Product Code:");
+		pCodeEntryField = new JTextField(13);
+		topLeftPanel.add(pCodeLabel);
+		topLeftPanel.add(pCodeEntryField);
+
+		JPanel topCentrePanel = new JPanel();
+		topCentrePanel.setLayout(new GridLayout(4,1,10,10));
+		topPanel.add(topCentrePanel);
+
+		JLabel searchByName = new JLabel("Search By Name:");
+		topCentrePanel.add(searchByName);
+		
+		searchField = new JTextField();
+		topCentrePanel.add(searchField);
+
+		JLabel comboboxLabel = new JLabel("Category:");
+		topCentrePanel.add(comboboxLabel);
+
+		searchComboBox = new JComboBox<String>(register.getCategoryNames());
+		searchComboBox.setSelectedIndex(0);
+		topCentrePanel.add(searchComboBox);
+		searchComboBox.setEnabled(true);
+
+		JPanel topRightPanel = new JPanel();
+
+		topRightPanel.setLayout(new GridLayout(4,1,10,10));
+		topPanel.add(topRightPanel);
+
+		JButton searchButton = new JButton("Search");
+		topRightPanel.add(searchButton);
 
 
+		JButton selectButton = new JButton("Select");
+//		selectButton.setBackground(Color.BLUE);
+//		selectButton.setOpaque(true);
+		topRightPanel.add(selectButton);
 
-		lookUpButton.addActionListener(new ActionListener()
-		{
+		JPanel bottomPanel = new JPanel();
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Lookup Item");
-				myFrame.setSize(900,500);
-				//						Parameters: numRows, numColumns, Hgap, Vgap
-				myFrame.setLocationRelativeTo(null);
-				myFrame.setVisible(true);
+		bottomPanel.setLayout(new GridLayout(1,1,10,10));
+		gridPanel.add(bottomPanel);
 
-				JPanel fullScreenPanel = new JPanel();
-				TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-				fullScreenPanel.setBorder(fullScreenTitle);
-				fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-				myFrame.add(fullScreenPanel);
-
-
-				JPanel topPanel = new JPanel();
-				TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-				topPanel.setBorder(topPanelTitle);
-				topPanel.setLayout(new GridLayout(1,2,10,10));
-				fullScreenPanel.add(topPanel);
-
-				JPanel bottomPanel = new JPanel();
-				TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-				bottomPanel.setBorder(bottomPanelTitle);
-				bottomPanel.setLayout(new GridLayout(1,2,10,10));
-				bottomPanel.setSize(700,240);
-				fullScreenPanel.add(bottomPanel);
-
-				String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
-				Object[][] data = {
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"},
-						{"DGKF353","4256985216","Cat","Pet","$40","7"}
-				};
-
-
-
-				JTable lookUpTable = new JTable(data, colNames);
-				JScrollPane scrlPane = new JScrollPane(lookUpTable);
-				bottomPanel.add(scrlPane);
-
-				barcodeEntryField.requestFocusInWindow();
-			}
-
-		});
-
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F2)
-				{
-					JFrame myFrame = new JFrame();
-					myFrame.setTitle("Lookup Item");
-					myFrame.setSize(900,500);
-					//						Parameters: numRows, numColumns, Hgap, Vgap
-					myFrame.setLocationRelativeTo(null);
-					myFrame.setVisible(true);
-
-					JPanel fullScreenPanel = new JPanel();
-					//						TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-					//						fullScreenPanel.setBorder(fullScreenTitle);
-					fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
-					myFrame.add(fullScreenPanel);
-
-					JPanel topPanel = new JPanel();
-					//						TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-					//						topPanel.setBorder(topPanelTitle);
-					topPanel.setLayout(new GridLayout(1,3,10,10));
-					fullScreenPanel.add(topPanel);
-
-					JPanel topLeftPanel = new JPanel();
-					//						TitledBorder topLeftPanelTitle = new TitledBorder("Left Panel:");
-					//						topLeftPanel.setBorder(topLeftPanelTitle);
-					topLeftPanel.setLayout(new GridLayout(4,1,10,10));
-					topPanel.add(topLeftPanel);
-
-					JLabel barcodeLabel = new JLabel("Barcode:");
-					JTextField barcodeEntryField = new JTextField(13);
-					topLeftPanel.add(barcodeLabel);
-					topLeftPanel.add(barcodeEntryField);
-
-					JLabel pCodeLabel = new JLabel("Product Code:");
-					JTextField pCodeEntryField = new JTextField(13);
-					topLeftPanel.add(pCodeLabel);
-					topLeftPanel.add(pCodeEntryField);
-
-					JPanel topMiddlePanel = new JPanel();
-					TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
-					topMiddlePanel.setBorder(topMiddlePanelTitle);
-					topMiddlePanel.setLayout(new GridLayout(3,1,10,10));
-					topPanel.add(topMiddlePanel);
-
-					JTextField searchField = new JTextField();
-					topMiddlePanel.add(searchField);
-
-					JLabel comboboxLabel = new JLabel("Category:");
-					topMiddlePanel.add(comboboxLabel);
-					String[] selectSearch = { "Pet", "Homeware" };
-					//Create the combo box, select item at index 1.
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					JComboBox searchComboBox = new JComboBox(selectSearch);
-					searchComboBox.setSelectedIndex(1);
-					topMiddlePanel.add(searchComboBox);
-					searchComboBox.setEnabled(true);
-
-					JPanel topRightPanel = new JPanel();
-					//						TitledBorder topRightPanelTitle = new TitledBorder("Right Panel:");
-					//						topRightPanel.setBorder(topRightPanelTitle);
-					topRightPanel.setLayout(new GridLayout(3,1,10,10));
-					topPanel.add(topRightPanel);
-
-					JButton searchButton = new JButton("Search!");
-					topRightPanel.add(searchButton);
-
-					JLabel spaceLabel = new JLabel();
-					topRightPanel.add(spaceLabel);
-
-					JButton selectButton = new JButton("Select");
-					topRightPanel.add(selectButton);
-
-					JPanel bottomPanel = new JPanel();
-					//						TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-					//						bottomPanel.setBorder(bottomPanelTitle);
-					bottomPanel.setLayout(new GridLayout(1,1,10,10));
-					fullScreenPanel.add(bottomPanel);
-
-					String[] colNames = {"Product id","Barcode","Name","Category","Sale Price","In-Stock"};
-					Object[][] data = {
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"},
-							{"DGKF353","4256985216","Cat","Pet","$40","7"}
-					};
-
-					JTable lookUpTable = new JTable(data, colNames);
-					JScrollPane scrlPane = new JScrollPane(lookUpTable);
-					bottomPanel.add(scrlPane);
-				}
-			}
-		});
-
+		NonEditableTableModel searchDataModel = register.getSearchDataModel();
+		JTable resultsTable = new JTable(searchDataModel);
+		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrlPane = new JScrollPane(resultsTable);
+		bottomPanel.add(scrlPane);
 
 		// -- EVENT HANDLERS -------------------------------------
 
@@ -420,8 +351,19 @@ public class PosFrame extends JFrame implements Observer {
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
 					register.voidLineItem(lookUpTable.getSelectedRow());
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		lookUpButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				
+				lookupFrame.setVisible(true);
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
@@ -433,25 +375,22 @@ public class PosFrame extends JFrame implements Observer {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
-					int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-					register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					try{
+						String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+						if(input != null) {
+							int newQty = Integer.parseInt(input);
+							register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+						}
+					}
+					catch (NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 
-		overridePriceButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
 
 		discountButton.addActionListener(new ActionListener()
 		{
@@ -460,9 +399,16 @@ public class PosFrame extends JFrame implements Observer {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(lookUpTable.getSelectedRow() != -1) {
-					double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-					register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//					saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+					try{
+						String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+						if(input != null) {
+							double discountPercentage = Double.parseDouble(input);
+							register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+						}
+					}
+					catch (NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 				barcodeEntryField.requestFocusInWindow();
@@ -470,22 +416,309 @@ public class PosFrame extends JFrame implements Observer {
 		});
 
 		// Payment entry BUTTON listeners
+		
+		note5Button.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
+					if(exactAmount.compareTo(FIVE_DOLLARS) <= 0) {
+						register.makePayment(FIVE_DOLLARS);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		note10Button.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
+					if(exactAmount.compareTo(TEN_DOLLARS) <= 0) {
+						register.makePayment(TEN_DOLLARS);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		note20Button.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
+					if(exactAmount.compareTo(TWENTY_DOLLARS) <= 0) {
+						register.makePayment(TWENTY_DOLLARS);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		note50Button.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
+					if(exactAmount.compareTo(FIFTY_DOLLARS) <= 0) {
+						register.makePayment(FIFTY_DOLLARS);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		note100Button.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
+					if(exactAmount.compareTo(HUNDRED_DOLLARS) <= 0) {
+						register.makePayment(HUNDRED_DOLLARS);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
 		exactCashButton.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.getCurrentSaleTotal() != "0.00") { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
-					BigDecimal exactAmount = new BigDecimal(register.getCurrentSaleTotal()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					register.makePayment(exactAmount);
-//					saleBalanceLabel.setText("Change: $" + register.getCurrentSaleBalance()); // Updates sale balance label
-//					saleTotalLabel.setText("Total: $0.00"); // Reset sale total label
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
+		
+		enterButton.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					try{ 
+						BigDecimal exactAmount = register.getCurrentSaleTotal();
+						BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+						if(exactAmount.compareTo(payment) <= 0) {
+							register.makePayment(payment);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					catch (NumberFormatException nfe){
+						JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+						paymentEntryField.setText("");
+					}
+					
+				}
+				paymentEntryField.setText("");
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		paymentEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+						try{ 
+							BigDecimal exactAmount = register.getCurrentSaleTotal();
+							BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+							if(exactAmount.compareTo(payment) <= 0) {
+								register.makePayment(payment);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						catch (NumberFormatException nfe){
+							JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+							paymentEntryField.setText("");
+						}
+						
+					}
+					paymentEntryField.setText("");
+					barcodeEntryField.requestFocusInWindow();
+				}
+			}
+		});
+
+		// Keypad BUTTON listeners
+		
+		Button1.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + ONE);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button2.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + TWO);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button3.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + THREE);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button4.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + FOUR);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button5.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + FIVE);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button6.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + SIX);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button7.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + SEVEN);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button8.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + EIGHT);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button9.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + NINE);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Button0.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + ZERO);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Buttondec.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				paymentEntryField.setText(paymentEntryField.getText() + DECIMAL_POINT);
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		Buttondel.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				int textLength = paymentEntryField.getText().length();
+				if(textLength > 0) {
+					paymentEntryField.setText(paymentEntryField.getText().substring(0, textLength-1));
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
 		// Shortcut KEYBOARD listeners
 		// Void item Hotkey F1
 		barcodeEntryField.addKeyListener(new KeyAdapter()
@@ -495,49 +728,64 @@ public class PosFrame extends JFrame implements Observer {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 
+		// Lookup Item Hotkey F2
+		barcodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F2)
+				{
+					lookupFrame.setVisible(true);
+				}
+			}
+		});
+		
 		// Change line quantity Hotkey F3
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F3) {
+				if(e.getKeyCode() == KeyEvent.VK_F3) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								int newQty = Integer.parseInt(input);
+								register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 
-		// Override Price Hotkey F4
+		// Discount Hotkey F4
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F4)
-					JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);	
-			}
-		});
-
-		// Discount Hotkey F5
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								double discountPercentage = Double.parseDouble(input);
+								register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -553,7 +801,6 @@ public class PosFrame extends JFrame implements Observer {
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						register.voidLineItem(lookUpTable.getSelectedRow());
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
@@ -565,27 +812,41 @@ public class PosFrame extends JFrame implements Observer {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F3) {
+				if(e.getKeyCode() == KeyEvent.VK_F3) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						int newQty = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE));
-						register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Quantity:","Quanity",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								int newQty = Integer.parseInt(input);
+								register.changeLineQuantity(lookUpTable.getSelectedRow(), newQty);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid quantity", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
 
-		// Hotkey F5
+		// Hotkey F4
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
-						double discountPercentage = Double.parseDouble(JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE));
-						register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
-//						saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
+						try{
+							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
+							if(input != null) {
+								double discountPercentage = Double.parseDouble(input);
+								register.applyLineDiscount(lookUpTable.getSelectedRow(), discountPercentage);
+							}
+						}
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid discount", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				barcodeEntryField.requestFocusInWindow();	
@@ -601,25 +862,169 @@ public class PosFrame extends JFrame implements Observer {
 					if(barcodeEntryField.getText().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
 						try {
 							register.beginSale();
+							registerFrameAsListener();
 							register.enterItem(Long.valueOf(barcodeEntryField.getText()));
-							registerFrameAsObserver();
-							register.calculateTotal();
-//							saleTotalLabel.setText("TOTAL: $" + register.getCurrentSaleTotal()); // Updates sale total label
 							barcodeEntryField.setText("");
 							barcodeEntryField.requestFocusInWindow();
 						}
-						catch (NumberFormatException nfe) {
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
 							System.out.println("An NFE exception occurred");
 							nfe.printStackTrace();
 						}
-						catch (SQLException se) {
-							System.out.println("A SQL exception occurred");
-							se.printStackTrace();
+					}
+					else { 
+						if(!barcodeEntryField.getText().equals("")) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+						barcodeEntryField.setText("");
+						barcodeEntryField.requestFocusInWindow();
+					}
+				}
+			}
+		});
+		
+		// lookupFrame button handlers
+		
+		searchButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				buildLookupFilter();
+				register.lookUpProducts(filter);
+			}
+		});
+		
+		selectButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(resultsTable.getSelectedRow() != -1) {
+					try {
+						Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+						if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+							register.beginSale();
+							registerFrameAsListener();
+							register.enterItem(code);
+							lookupFrame.setVisible(false);
+							barcodeEntryField.requestFocusInWindow();
+						}
+					}
+					catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+						System.out.println("An NFE exception occurred");
+						nfe.printStackTrace();
+					}
+					catch (ClassCastException cce) { 
+						JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+
+		resultsTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(resultsTable.getSelectedRow() != -1) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							System.out.println("An NFE exception occurred");
+							nfe.printStackTrace();
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
 
-
+		resultsTable.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent event) {
+				Point p = event.getPoint();
+				int row = resultsTable.rowAtPoint(p);
+				if(row != -1) {
+					if (event.getClickCount() == 2) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(row, 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							System.out.println("An NFE exception occurred");
+							nfe.printStackTrace();
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
+		
+		barcodeSearchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		pCodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchComboBox.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
 			}
 		});
 
@@ -630,33 +1035,77 @@ public class PosFrame extends JFrame implements Observer {
 			{
 
 				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (confirm == 0) {
-					register.shutdown();
-					System.exit(0);
+				if (confirm == JOptionPane.YES_OPTION) {
+					dispose();
 				}
 			}
 		});
-		
-		
+
+
 		setVisible(true);
 		barcodeEntryField.requestFocusInWindow();
 	}
 
-	public void registerFrameAsObserver() {
-		register.registerSaleObserver(this);
-	}
+	// -- PosFrame Methods -------------------------------------
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		if(arg instanceof BigDecimal[]) {
-			saleData = (BigDecimal[])arg;
-			
-			if(saleData[0] != null)
-				saleBalanceLabel.setText("Change: $" + saleData[0].toString());
-			
-			if(saleData[1] != null)
-				saleTotalLabel.setText("TOTAL: $" + saleData[1].toString());
+	private void buildLookupFilter() {
+		if(barcodeSearchField.getText().equals(null)) {
+			filter.setUseBarcode(false);
+		}
+		else {
+			filter.setUseBarcode(true);
+			filter.setBarcodeValue(barcodeSearchField.getText());
 		}
 		
+		if(pCodeEntryField.getText().equals(null)) {
+			filter.setUseProductCode(false);
+		}
+		else {
+			filter.setUseProductCode(true);
+			filter.setProductCodeValue(pCodeEntryField.getText());
+		}
+		
+		if(searchField.getText().equals(null)) {
+			filter.setUseProductName(false);
+		}
+		else {
+			filter.setUseProductName(true);
+			filter.setProductNameValue(searchField.getText());
+		}
+		
+		if(((String)searchComboBox.getSelectedItem()).equals("All")) {
+			filter.setUseCategory(false);
+		}
+		else {
+			filter.setUseCategory(true);
+			filter.setCategoryValue((String)searchComboBox.getSelectedItem());
+		}
+	}
+	
+	
+	/**
+	 * Method for registering this frame as a SaleListener
+	 */
+	public void registerFrameAsListener() {
+		register.registerSaleListener(this);
+	}
+
+
+	@Override
+	/**
+	 * Method called whenever a Sale object that this frame is listening to updates its balance or total
+	 */
+	public void update(int eventType, BigDecimal newValue) {
+		switch(eventType) {
+		case SaleListener.SALE_TOTAL:
+			saleTotalLabel.setText("TOTAL: $" + newValue.toString());
+			break;
+		case SaleListener.SALE_BALANCE:
+			saleBalanceLabel.setText("Change: $" + newValue.toString());
+			break;
+		default:
+			break;
+
+		}
 	}
 }
