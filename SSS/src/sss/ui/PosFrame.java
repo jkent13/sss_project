@@ -11,10 +11,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
@@ -32,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
 
+import sss.domain.LookupFilter;
 import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
 import sss.services.SaleListener;
@@ -59,7 +63,14 @@ public class PosFrame extends JFrame implements SaleListener {
 	
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
+	
+	private JTextField barcodeSearchField;
+	private JTextField pCodeEntryField;
+	private JTextField searchField;
+	private JComboBox<String> searchComboBox;
 
+	private LookupFilter filter = new LookupFilter();
+	
 	Register register = new Register();
 
 	public PosFrame() {
@@ -277,12 +288,12 @@ public class PosFrame extends JFrame implements SaleListener {
 		topPanel.add(topLeftPanel);
 
 		JLabel barcodeSearchLabel = new JLabel("Barcode:");
-		JTextField barcodeSearchField = new JTextField(13);
+		barcodeSearchField = new JTextField(13);
 		topLeftPanel.add(barcodeSearchLabel);
 		topLeftPanel.add(barcodeSearchField);
 
 		JLabel pCodeLabel = new JLabel("Product Code:");
-		JTextField pCodeEntryField = new JTextField(13);
+		pCodeEntryField = new JTextField(13);
 		topLeftPanel.add(pCodeLabel);
 		topLeftPanel.add(pCodeEntryField);
 
@@ -293,13 +304,13 @@ public class PosFrame extends JFrame implements SaleListener {
 		JLabel searchByName = new JLabel("Search By Name:");
 		topCentrePanel.add(searchByName);
 		
-		JTextField searchField = new JTextField();
+		searchField = new JTextField();
 		topCentrePanel.add(searchField);
 
 		JLabel comboboxLabel = new JLabel("Category:");
 		topCentrePanel.add(comboboxLabel);
 
-		JComboBox<String> searchComboBox = new JComboBox<String>(register.getCategoryNames());
+		searchComboBox = new JComboBox<String>(register.getCategoryNames());
 		searchComboBox.setSelectedIndex(0);
 		topCentrePanel.add(searchComboBox);
 		searchComboBox.setEnabled(true);
@@ -869,9 +880,151 @@ public class PosFrame extends JFrame implements SaleListener {
 						barcodeEntryField.requestFocusInWindow();
 					}
 				}
+			}
+		});
+		
+		// lookupFrame button handlers
+		
+		searchButton.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				buildLookupFilter();
+				register.lookUpProducts(filter);
+			}
+		});
+		
+		selectButton.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(resultsTable.getSelectedRow() != -1) {
+					try {
+						Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+						if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+							register.beginSale();
+							registerFrameAsListener();
+							register.enterItem(code);
+							lookupFrame.setVisible(false);
+							barcodeEntryField.requestFocusInWindow();
+						}
+					}
+					catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+						System.out.println("An NFE exception occurred");
+						nfe.printStackTrace();
+					}
+					catch (ClassCastException cce) { 
+						JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
 
+		resultsTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(resultsTable.getSelectedRow() != -1) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							System.out.println("An NFE exception occurred");
+							nfe.printStackTrace();
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
+
+		resultsTable.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent event) {
+				Point p = event.getPoint();
+				int row = resultsTable.rowAtPoint(p);
+				if(row != -1) {
+					if (event.getClickCount() == 2) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(row, 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							System.out.println("An NFE exception occurred");
+							nfe.printStackTrace();
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
+		
+		barcodeSearchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		pCodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchComboBox.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
 			}
 		});
 
@@ -894,6 +1047,42 @@ public class PosFrame extends JFrame implements SaleListener {
 	}
 
 	// -- PosFrame Methods -------------------------------------
+	
+	private void buildLookupFilter() {
+		if(barcodeSearchField.getText().equals(null)) {
+			filter.setUseBarcode(false);
+		}
+		else {
+			filter.setUseBarcode(true);
+			filter.setBarcodeValue(barcodeSearchField.getText());
+		}
+		
+		if(pCodeEntryField.getText().equals(null)) {
+			filter.setUseProductCode(false);
+		}
+		else {
+			filter.setUseProductCode(true);
+			filter.setProductCodeValue(pCodeEntryField.getText());
+		}
+		
+		if(searchField.getText().equals(null)) {
+			filter.setUseProductName(false);
+		}
+		else {
+			filter.setUseProductName(true);
+			filter.setProductNameValue(searchField.getText());
+		}
+		
+		if(((String)searchComboBox.getSelectedItem()).equals("All")) {
+			filter.setUseCategory(false);
+		}
+		else {
+			filter.setUseCategory(true);
+			filter.setCategoryValue((String)searchComboBox.getSelectedItem());
+		}
+	}
+	
+	
 	/**
 	 * Method for registering this frame as a SaleListener
 	 */
