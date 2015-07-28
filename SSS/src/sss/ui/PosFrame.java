@@ -320,13 +320,16 @@ public class PosFrame extends JFrame implements SaleListener {
 		topRightPanel.setLayout(new GridLayout(4,1,10,10));
 		topPanel.add(topRightPanel);
 
+		JPanel blankSearch = new JPanel();
+		topRightPanel.add(blankSearch);
+		
 		JButton searchButton = new JButton("Search");
 		topRightPanel.add(searchButton);
 
-
+		JPanel blankSelect = new JPanel();
+		topRightPanel.add(blankSelect);
+		
 		JButton selectButton = new JButton("Select");
-//		selectButton.setBackground(Color.BLUE);
-//		selectButton.setOpaque(true);
 		topRightPanel.add(selectButton);
 
 		JPanel bottomPanel = new JPanel();
