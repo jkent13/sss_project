@@ -22,6 +22,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -217,35 +218,40 @@ public class PosFrame extends JFrame implements SaleListener {
 		JButton lookUpButton = new JButton("f2 Lookup Item");
 		JButton quantityButton = new JButton("f3 Quantity");
 		JButton discountButton = new JButton("f4 Discount");
+		
 		JButton enterButton = new JButton("ENTER");
+		Font enterFont = new Font("SansSerif", Font.BOLD, 30);
+		enterButton.setFont(enterFont);
 
 		JPanel firstRightPanel = new JPanel();
-		firstRightPanel.setLayout(new GridLayout(2,1,10,10));
+		firstRightPanel.setLayout(new GridLayout(1,1,10,10));
 
-		JButton note5Button = new JButton("$5");
-		JButton note10Button = new JButton("$10");
-		JButton note20Button = new JButton("$20");
-		JButton note50Button = new JButton("$50");
-		JButton note100Button = new JButton("$100");
+		ImageIcon fiveNote = new ImageIcon("images/aud5front.jpg");
+		JButton note5Button = new JButton(fiveNote);
+		ImageIcon tenNote = new ImageIcon("images/aud10front.jpg");;
+		JButton note10Button = new JButton(tenNote);
+		ImageIcon twentyNote = new ImageIcon("images/aud20front.jpg");
+		JButton note20Button = new JButton(twentyNote);
+		ImageIcon fiftyNote = new ImageIcon("images/aud50front.jpg");
+		JButton note50Button = new JButton(fiftyNote);
+		ImageIcon hundredNote = new ImageIcon("images/aud100front.jpg");
+		JButton note100Button = new JButton(hundredNote);
 
 		JPanel exactCashPanel = new JPanel();
 		JButton exactCashButton = new JButton("Exact Cash");
+		exactCashButton.setFont(enterFont);
 		exactCashPanel.setLayout(new GridLayout(2,1,10,10));
 
-		//JPanel blankPanel = new JPanel();
-
-		//exactCashPanel.add(blankPanel);
-		exactCashPanel.add(exactCashButton);
-		exactCashPanel.add(enterButton);
-
-
-		JPanel notesPanel = new JPanel();		notesPanel.setLayout(new GridLayout(5,1,10,10));
+		JPanel notesPanel = new JPanel();		
+		notesPanel.setLayout(new GridLayout(7,1,10,10));
 
 		notesPanel.add(note100Button);
 		notesPanel.add(note50Button);
 		notesPanel.add(note20Button);
 		notesPanel.add(note10Button);
 		notesPanel.add(note5Button);
+		notesPanel.add(exactCashButton);
+		notesPanel.add(enterButton);
 
 
 		JPanel secondRightPanel = new JPanel();
@@ -258,7 +264,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		secondRightPanel.add(discountButton);
 
 		firstRightPanel.add(notesPanel);
-		firstRightPanel.add(exactCashPanel);
+//		firstRightPanel.add(exactCashPanel);
 
 		rightPanel.add(firstRightPanel);
 		rightPanel.add(secondRightPanel);
