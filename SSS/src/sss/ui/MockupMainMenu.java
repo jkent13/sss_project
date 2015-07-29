@@ -12,9 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.services.DbConnector;
@@ -35,39 +39,67 @@ public class MockupMainMenu {
 //-------------------Full Screen Panel--------------------
 		
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
-		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+//		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+		fullScreenPanel.setBorder(new EmptyBorder(10,10,10,10));
+		fullScreenPanel.setLayout(new GridLayout(3,1,10,10));
 		mainMenuFrame.add(fullScreenPanel);
 
 
 //--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(2,2,10,10));
+		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
 		JLabel mainMenuLabel = new JLabel("Welcome to the SSS Project");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
+		Font myFont = new Font("SansSerif", Font.BOLD, 57);
 		mainMenuLabel.setFont(myFont);
 		topPanel.add(mainMenuLabel);
 
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new GridLayout(1,2,10,10));
+		fullScreenPanel.add(middlePanel);
+		
 		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new GridLayout(2,2,10,10));
+		bottomPanel.setLayout(new GridLayout(1,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
 //---------------------Create Buttons---------------------
 		
-		JButton salesTransButton = new JButton("Sales Transactions");
-		bottomPanel.add(salesTransButton);
+		JButton salesTransButton = new JButton(new ImageIcon("images/MakeSaleIcon.png"));
+		ImageIcon salesTransButtonHover = new ImageIcon("images/MakeSaleIconHover.png");
+		salesTransButton.setBorderPainted(false);
+		salesTransButton.setRolloverIcon(salesTransButtonHover);
+		salesTransButton.setRolloverEnabled(true);
+		salesTransButton.setFocusPainted(false);
+		salesTransButton.setContentAreaFilled(false);
+		middlePanel.add(salesTransButton);
+		
+		JButton dashboardButton = new JButton(new ImageIcon("images/DashboardIcon.png"));
+		ImageIcon dashboardButtonHover = new ImageIcon("images/DashboardIconHover.png");
+		dashboardButton.setBorderPainted(false);
+		dashboardButton.setRolloverIcon(dashboardButtonHover);
+		dashboardButton.setRolloverEnabled(true);
+		dashboardButton.setFocusPainted(false);
+		dashboardButton.setContentAreaFilled(false);
+		middlePanel.add(dashboardButton);
 
-		JButton dashboardButton = new JButton("Dashboard");
-		bottomPanel.add(dashboardButton);
-
-		JButton inventoryButton = new JButton("Inventory");
+		JButton inventoryButton = new JButton(new ImageIcon("images/InventoryIcon.png"));
+		ImageIcon inventoryButtonHover = new ImageIcon("images/InventoryIconHover.png");
+		inventoryButton.setBorderPainted(false);
+		inventoryButton.setRolloverIcon(inventoryButtonHover);
+		inventoryButton.setRolloverEnabled(true);
+		inventoryButton.setFocusPainted(false);
+		inventoryButton.setContentAreaFilled(false);
 		bottomPanel.add(inventoryButton);
 
-		JButton reportsButton = new JButton("Reports");
+		JButton reportsButton = new JButton(new ImageIcon("images/ReportsIcon.png"));
+		ImageIcon reportsButtonHover = new ImageIcon("images/ReportsIconHover.png");
+		reportsButton.setBorderPainted(false);
+		reportsButton.setRolloverIcon(reportsButtonHover);
+		reportsButton.setRolloverEnabled(true);
+		reportsButton.setFocusPainted(false);
+		reportsButton.setContentAreaFilled(false);
 		bottomPanel.add(reportsButton);
 
 		
