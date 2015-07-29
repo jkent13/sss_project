@@ -84,7 +84,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		//Full Screen Panel
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+		TitledBorder fullScreenTitle = new TitledBorder("Point-of-Sale");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
@@ -93,16 +93,11 @@ public class PosFrame extends JFrame implements SaleListener {
 		//SECTION PANELS
 
 		JPanel leftPanel = new JPanel();
-		TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-		leftPanel.setBorder(leftPanelTitle);
 		leftPanel.setLayout(new GridLayout(2,1,10,10));
 		fullScreenPanel.add(leftPanel);
 
 		JPanel itemsPanel = new JPanel();
-		TitledBorder itemsPanelTitle = new TitledBorder("Product Inventory:");
-		itemsPanel.setBorder(itemsPanelTitle);
 		itemsPanel.setLayout(new GridLayout(1,1,10,10));
-		//				leftPanel.add(itemsPanel);
 
 		NonEditableTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
