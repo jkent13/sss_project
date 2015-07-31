@@ -198,20 +198,31 @@ public class SqlBuilder {
 	}
 	
 	/**
-	 * Gets a SQL SELECT statement for selecting sales grouped by hour between two given dates from the database
-	 * @param startDate the start date
-	 * @param endDate the end date
+	 * Gets a SQL SELECT statement for selecting sales grouped by hour for a given date from the database
+	 * @param date the date
 	 * @return a SQL SELECT statement String
 	 */
-	public static String getSaleReportByHourQuery(String startDate, String endDate) {
+	public static String getSaleReportByHourQuery(String startDate) {
 		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
-				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN ");
+
+		query.append("SELECT CONCAT(hrs.theHour, ':00-', hrs.theHour+1, ':00') as 'Hours', "
+				+ "COUNT(sale_date) AS `Number of Sales`,"
+				+ " SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM ( SELECT 8 AS theHour " 
+				+ "UNION ALL SELECT 9 "
+				+ "UNION ALL SELECT 10 "
+				+ "UNION ALL SELECT 11 "
+				+ "UNION ALL SELECT 12 "
+				+ "UNION ALL SELECT 13 "
+				+ "UNION ALL SELECT 14 "
+				+ "UNION ALL SELECT 15 "
+				+ "UNION ALL SELECT 16 "
+				+ "UNION ALL SELECT 17) AS hrs "
+				+ "LEFT OUTER JOIN sale "
+				+ "ON EXTRACT(HOUR FROM sale.sale_date) = hrs.theHour "
+				+ "AND DATE(sale.sale_date) = ");
 		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate +"' ");
-		query.append("GROUP BY HOUR(sale_date);");
+		query.append("GROUP BY hrs.theHour;");
 
 		return query.toString();
 	}

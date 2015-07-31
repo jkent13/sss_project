@@ -7,6 +7,7 @@
 
 package sss.domain;
 
+import java.awt.Frame;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import sss.services.DatasetConverter;
 import sss.services.DbConnector;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
@@ -25,6 +37,8 @@ public class ReportController {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		// Date format used to validate input
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
+	
+	private String dateOfCurrentReport = "No Date";
 	
 	private NonEditableTableModel currentTableView = new NonEditableTableModel();
 	
@@ -151,6 +165,7 @@ public class ReportController {
 
 			String endDate = sqlDateFormat.format(calendar.getTime()); 	// Convert to MySQL date string
 			String startDate = sqlDateFormat.format(inputDate); 		// Convert to MySQL date string
+			dateOfCurrentReport = startDate;
 			
 			// CLEAR DATA MODELS
 			if(dollarSalesData.getRowCount() != 0) {
@@ -173,7 +188,7 @@ public class ReportController {
 			
 			// GET QUERIES
 			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
-			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate, endDate);
+			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate);
 			
 			ResultSet summaryResultSet = DbReader.executeQuery(summarySalesQuery);
 			
@@ -218,6 +233,129 @@ public class ReportController {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem processing the query", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void showLineChart(String reportType) {
+		
+		switch(reportType) {
+		case "dollar" :
+			DefaultCategoryDataset dollarChartData = DatasetConverter.convertSingleDayDollar(dollarSalesData);
+			
+			JFreeChart dollarLineChart = ChartFactory.createLineChart(
+	        "",
+	        "Hour","Sale Amount ($)",
+	        dollarChartData,
+	        PlotOrientation.VERTICAL,
+	        false,true,false);
+			
+	    CategoryPlot dollarPlot = (CategoryPlot)dollarLineChart.getPlot();
+	    dollarPlot.setDomainGridlinesVisible(true);
+	    CategoryAxis dollarXAxis = (CategoryAxis)dollarPlot.getDomainAxis();
+	    dollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+	    ChartPanel dollarChartPanel = new ChartPanel( dollarLineChart );
+	    dollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+	    
+	    JFrame dollarChartFrame = new JFrame();
+	    dollarChartFrame.setContentPane(dollarChartPanel);
+	    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateOfCurrentReport);
+	    dollarChartFrame.setLocationRelativeTo(null);
+	    dollarChartFrame.pack();
+			
+	    dollarChartFrame.setVisible(true);
+			break;
+		
+		case "volume" :
+			DefaultCategoryDataset volumeChartData = DatasetConverter.convertSingleDayVolume(dollarSalesData);
+			
+			JFreeChart volumeLineChart = ChartFactory.createLineChart(
+	        "",
+	        "Hour","No. of Transactions",
+	        volumeChartData,
+	        PlotOrientation.VERTICAL,
+	        false,true,false);
+			
+	    CategoryPlot volumePlot = (CategoryPlot)volumeLineChart.getPlot();
+	    volumePlot.setDomainGridlinesVisible(true);
+	    CategoryAxis volumeXAxis = (CategoryAxis)volumePlot.getDomainAxis();
+	    volumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+	    ChartPanel volumeChartPanel = new ChartPanel( volumeLineChart );
+	    volumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+	    
+	    JFrame volumeChartFrame = new JFrame();
+	    volumeChartFrame.setContentPane(volumeChartPanel);
+	    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateOfCurrentReport);
+			volumeChartFrame.setLocationRelativeTo(null);
+			volumeChartFrame.pack();
+			
+			volumeChartFrame.setVisible(true);
+			break;
+		
+		default:
+			break;
+		}
+		
+		
+	}
+	
+	public void showBarChart(String reportType) {
+		
+		switch(reportType) {
+		case "dollar" :
+			DefaultCategoryDataset dollarChartData = DatasetConverter.convertSingleDayDollar(dollarSalesData);
+			
+			JFreeChart dollarBarChart = ChartFactory.createBarChart(
+	        "",
+	        "Hour","Sale Amount ($)",
+	        dollarChartData,
+	        PlotOrientation.VERTICAL,
+	        false,true,false);
+			
+	    CategoryPlot dollarPlot = (CategoryPlot)dollarBarChart.getPlot();
+	    dollarPlot.setDomainGridlinesVisible(true);
+	    CategoryAxis dollarXAxis = (CategoryAxis)dollarPlot.getDomainAxis();
+	    dollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+	    ChartPanel dollarChartPanel = new ChartPanel( dollarBarChart );
+	    dollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+	    
+	    JFrame dollarChartFrame = new JFrame();
+	    dollarChartFrame.setContentPane(dollarChartPanel);
+	    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateOfCurrentReport);
+	    dollarChartFrame.pack();
+	    dollarChartFrame.setLocationRelativeTo(null);
+
+	    dollarChartFrame.setVisible(true);
+			break;
+
+		case "volume" :
+			DefaultCategoryDataset volumeChartData = DatasetConverter.convertSingleDayVolume(dollarSalesData);
+
+			JFreeChart volumeBarChart = ChartFactory.createBarChart(
+					"",
+					"Hour","No. of Transactions",
+					volumeChartData,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot volumePlot = (CategoryPlot)volumeBarChart.getPlot();
+			volumePlot.setDomainGridlinesVisible(true);
+			CategoryAxis volumeXAxis = (CategoryAxis)volumePlot.getDomainAxis();
+			volumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			ChartPanel volumeChartPanel = new ChartPanel( volumeBarChart );
+			volumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+
+			JFrame volumeChartFrame = new JFrame();
+			volumeChartFrame.setContentPane(volumeChartPanel);
+			volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateOfCurrentReport);
+			volumeChartFrame.pack();
+			volumeChartFrame.setLocationRelativeTo(null);
+
+			volumeChartFrame.setVisible(true);
+		default :
+			break;
+		}
+		
+		
 	}
 	
 	//-----------------------------------------------------------------

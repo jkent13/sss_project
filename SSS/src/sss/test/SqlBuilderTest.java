@@ -102,7 +102,7 @@ public class SqlBuilderTest {
 		
 		assertEquals("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
 				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN "
-				+ "'2013-12-25 08:00:00' AND '2013-12-25 08:00:00' GROUP BY HOUR(sale_date);", SqlBuilder.getSaleReportByHourQuery(startDate, endDate));
+				+ "'2013-12-25 08:00:00' AND '2013-12-25 08:00:00' GROUP BY HOUR(sale_date);", SqlBuilder.getSaleReportByHourQuery(startDate));
 	}
 	
 	@Test

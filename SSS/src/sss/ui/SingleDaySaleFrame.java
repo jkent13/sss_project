@@ -286,5 +286,27 @@ public class SingleDaySaleFrame extends JFrame {
 
 		setVisible(true);
 		viewDate.requestFocusInWindow();
-	}
+		
+		lineGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showLineChart(reportType);
+			}
+		});
+		
+		barGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType);
+			}
+		});
+		
+		
+	}// End constructor
 }// End class
