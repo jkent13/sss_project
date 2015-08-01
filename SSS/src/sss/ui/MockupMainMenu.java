@@ -67,7 +67,7 @@ public class MockupMainMenu {
 //---------------------Create Buttons---------------------
 		
 		JButton salesTransButton = new JButton(new ImageIcon("images/MakeSaleIcon.png"));
-		ImageIcon salesTransButtonHover = new ImageIcon("images/MakeSaleIconHover.png");
+		ImageIcon salesTransButtonHover = new ImageIcon("images/MakeSaleIconHover2.png");
 		salesTransButton.setBorderPainted(false);
 		salesTransButton.setRolloverIcon(salesTransButtonHover);
 		salesTransButton.setRolloverEnabled(true);
@@ -76,7 +76,7 @@ public class MockupMainMenu {
 		middlePanel.add(salesTransButton);
 		
 		JButton dashboardButton = new JButton(new ImageIcon("images/DashboardIcon.png"));
-		ImageIcon dashboardButtonHover = new ImageIcon("images/DashboardIconHover.png");
+		ImageIcon dashboardButtonHover = new ImageIcon("images/DashboardIconHover3.png");
 		dashboardButton.setBorderPainted(false);
 		dashboardButton.setRolloverIcon(dashboardButtonHover);
 		dashboardButton.setRolloverEnabled(true);
@@ -85,7 +85,7 @@ public class MockupMainMenu {
 		middlePanel.add(dashboardButton);
 
 		JButton inventoryButton = new JButton(new ImageIcon("images/InventoryIcon.png"));
-		ImageIcon inventoryButtonHover = new ImageIcon("images/InventoryIconHover.png");
+		ImageIcon inventoryButtonHover = new ImageIcon("images/InventoryIconHover2.png");
 		inventoryButton.setBorderPainted(false);
 		inventoryButton.setRolloverIcon(inventoryButtonHover);
 		inventoryButton.setRolloverEnabled(true);
@@ -94,7 +94,7 @@ public class MockupMainMenu {
 		bottomPanel.add(inventoryButton);
 
 		JButton reportsButton = new JButton(new ImageIcon("images/ReportsIcon.png"));
-		ImageIcon reportsButtonHover = new ImageIcon("images/ReportsIconHover.png");
+		ImageIcon reportsButtonHover = new ImageIcon("images/ReportsIconHover3.png");
 		reportsButton.setBorderPainted(false);
 		reportsButton.setRolloverIcon(reportsButtonHover);
 		reportsButton.setRolloverEnabled(true);
