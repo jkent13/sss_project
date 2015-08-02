@@ -7,7 +7,6 @@
 
 package sss.domain;
 
-import java.awt.Frame;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,11 +44,14 @@ public class ReportController {
 	private NonEditableTableModel allSalesData = new NonEditableTableModel();		// Containing SELECT * sale info
 	private NonEditableTableModel dollarSalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
 	private NonEditableTableModel volumeSalesData = new NonEditableTableModel();	// Contains only hour and sale volume
+	private NonEditableTableModel grossProfitSalesData = new NonEditableTableModel(); // Contains only GP and sale volume
 	
 	// Column names of table models
 	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Amount Tendered", "Change Given"};
 	private String[] dollarColNames = {"Hours", "Number of Transactions", "Sale Total"};
 	private String[] volumeColNames = {"Hours", "Number of Transactions"};
+	private String[] grossProfitColNames = {"Hours", "Number of Products Sold", "Gross Profit"};
+	
 	
 	/**
 	 * Constructor - calls initialise to set up controller
@@ -66,6 +68,7 @@ public class ReportController {
 		allSalesData.setColumnIdentifiers(allSalesColNames);
 		dollarSalesData.setColumnIdentifiers(dollarColNames);
 		volumeSalesData.setColumnIdentifiers(volumeColNames);
+		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
 	}
 	
 	/**
@@ -145,7 +148,29 @@ public class ReportController {
 					currentTableView.addRow(nextVolumeRow[i]);
 				}
 			}
-			break;
+			else {
+			// REMOVE ALL ROWS
+				for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+					currentTableView.removeRow(i);
+				}
+
+				// EXTRACT ALL DATA FROM NEW DATAMODEL
+				Object[][] nextProfitRow = new Object[grossProfitSalesData.getRowCount()][grossProfitSalesData.getColumnCount()];
+				for(int i = 0; i < nextProfitRow.length; i++) {
+					for(int j = 0; j < nextProfitRow[0].length; j++) {
+						nextProfitRow[i][j] = grossProfitSalesData.getValueAt(i, j);
+					}
+				}
+
+				// SET NEW COLUMNS
+				currentTableView.setColumnIdentifiers(grossProfitColNames);
+
+				// ADD NEW ROWS
+				for(int i = 0; i < nextProfitRow.length; i++) {
+					currentTableView.addRow(nextProfitRow[i]);
+				}
+			}
+			break;			
 		default:
 			break;
 		}
@@ -186,9 +211,16 @@ public class ReportController {
 				}
 			}
 			
+			if(grossProfitSalesData.getRowCount() != 0) {
+				for(int i = grossProfitSalesData.getRowCount()-1; i != -1; i--) {
+					grossProfitSalesData.removeRow(i);
+				}
+			}
+			
 			// GET QUERIES
 			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
 			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate);
+			String grossProfitSalesQuery = SqlBuilder.getSingleDayGrossProfitQuery(startDate);
 			
 			ResultSet summaryResultSet = DbReader.executeQuery(summarySalesQuery);
 			
@@ -223,10 +255,22 @@ public class ReportController {
 						new BigDecimal(allSalesResultSet.getDouble("sale_balance")).setScale(2, BigDecimal.ROUND_HALF_EVEN)});
 			}
 			
-			// Reset view to default
-			switchView("dollar","summary");
-			allSalesResultSet.close();
 			
+			allSalesResultSet.close();
+			ResultSet grossProfitResultSet = DbReader.executeQuery(grossProfitSalesQuery);
+			
+			while(grossProfitResultSet.next()) {
+				grossProfitSalesData.addRow(new Object[] 
+						{grossProfitResultSet.getString(1),
+						grossProfitResultSet.getInt(2), 
+						new BigDecimal(grossProfitResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+			}
+			
+			grossProfitResultSet.close();
+			
+		// Reset view to default
+		switchView("dollar","summary");
+		
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 		} catch (SQLException e) {
@@ -285,12 +329,36 @@ public class ReportController {
 	    JFrame volumeChartFrame = new JFrame();
 	    volumeChartFrame.setContentPane(volumeChartPanel);
 	    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateOfCurrentReport);
-			volumeChartFrame.setLocationRelativeTo(null);
-			volumeChartFrame.pack();
-			
-			volumeChartFrame.setVisible(true);
+	    volumeChartFrame.setLocationRelativeTo(null);
+	    volumeChartFrame.pack();
+
+	    volumeChartFrame.setVisible(true);
+	    break;
+		case "profit" :
+			DefaultCategoryDataset grossProfitChartData = DatasetConverter.convertSingleDayGrossProfit(grossProfitSalesData);
+
+			JFreeChart grossProfitLineChart = ChartFactory.createLineChart(
+					"",
+					"Hour","GP Amount ($)",
+					grossProfitChartData,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot grossProfitPlot = (CategoryPlot)grossProfitLineChart.getPlot();
+			grossProfitPlot.setDomainGridlinesVisible(true);
+			CategoryAxis grossProfitXAxis = (CategoryAxis)grossProfitPlot.getDomainAxis();
+			grossProfitXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			ChartPanel grossProfitChartPanel = new ChartPanel( grossProfitLineChart );
+			grossProfitChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+
+			JFrame grossProfitChartFrame = new JFrame();
+			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateOfCurrentReport);
+			grossProfitChartFrame.setLocationRelativeTo(null);
+			grossProfitChartFrame.pack();
+
+			grossProfitChartFrame.setVisible(true);
 			break;
-		
 		default:
 			break;
 		}
@@ -351,6 +419,32 @@ public class ReportController {
 			volumeChartFrame.setLocationRelativeTo(null);
 
 			volumeChartFrame.setVisible(true);
+			break;
+		case "profit" :
+			DefaultCategoryDataset grossProfitChartData = DatasetConverter.convertSingleDayGrossProfit(grossProfitSalesData);
+
+			JFreeChart grossProfitLineChart = ChartFactory.createBarChart(
+					"",
+					"Hour","GP Amount ($)",
+					grossProfitChartData,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot grossProfitPlot = (CategoryPlot)grossProfitLineChart.getPlot();
+			grossProfitPlot.setDomainGridlinesVisible(true);
+			CategoryAxis grossProfitXAxis = (CategoryAxis)grossProfitPlot.getDomainAxis();
+			grossProfitXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			ChartPanel grossProfitChartPanel = new ChartPanel( grossProfitLineChart );
+			grossProfitChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+
+			JFrame grossProfitChartFrame = new JFrame();
+			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateOfCurrentReport);
+			grossProfitChartFrame.setLocationRelativeTo(null);
+			grossProfitChartFrame.pack();
+
+			grossProfitChartFrame.setVisible(true);
+			break;
 		default :
 			break;
 		}

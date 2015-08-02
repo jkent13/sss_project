@@ -222,7 +222,33 @@ public class SqlBuilder {
 				+ "ON EXTRACT(HOUR FROM sale.sale_date) = hrs.theHour "
 				+ "AND DATE(sale.sale_date) = ");
 		query.append("'" + startDate + "' ");
+		query.append("AND sale.sale_type = 'Purchase' ");
 		query.append("GROUP BY hrs.theHour;");
+
+		return query.toString();
+	}
+
+	public static String getSingleDayGrossProfitQuery(String startDate) {
+		StringBuffer query = new StringBuffer();
+
+		query.append("SELECT CONCAT(hrs.theHour, ':00-', hrs.theHour + 1, ':00') AS 'Hours', "
+				+ "COUNT(sale_date) AS `Number of Sales`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM (SELECT 8 AS theHour UNION ALL SELECT 9 UNION ALL SELECT 10 "
+				+ "UNION ALL SELECT 11 "
+				+ "UNION ALL SELECT 12 "
+				+ "UNION ALL SELECT 13 "
+				+ "UNION ALL SELECT 14 "
+				+ "UNION ALL SELECT 15 "
+				+ "UNION ALL SELECT 16 "
+				+ "UNION ALL SELECT 17) AS hrs "
+				+ "LEFT OUTER JOIN sale "
+				+ "ON EXTRACT(HOUR FROM sale.sale_date) = hrs.theHour "
+				+ "AND DATE(sale.sale_date) = ");
+		query.append("'" + startDate + "' ");
+		query.append("LEFT OUTER JOIN line "
+				+ "ON sale.sale_id = line.sale_id "
+				+ "GROUP BY hrs.theHour;");
 
 		return query.toString();
 	}
