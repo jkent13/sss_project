@@ -246,6 +246,7 @@ public class SingleDaySaleFrame extends JFrame {
 					}
 					else {
 						controller.getResults(inputDateString);
+						controller.switchView(reportType, viewType);
 					}
 				}
 			}
@@ -266,6 +267,7 @@ public class SingleDaySaleFrame extends JFrame {
 						}
 						else {
 							controller.getResults(inputDateString);
+							controller.switchView(reportType, viewType);
 						}
 					}
 				}
@@ -284,9 +286,6 @@ public class SingleDaySaleFrame extends JFrame {
 		});
 
 
-		setVisible(true);
-		viewDate.requestFocusInWindow();
-		
 		lineGraph.addActionListener(new ActionListener()
 		{
 
@@ -307,6 +306,8 @@ public class SingleDaySaleFrame extends JFrame {
 			}
 		});
 		
+		setVisible(true);
+		viewDate.requestFocusInWindow();
 		
 	}// End constructor
 }// End class

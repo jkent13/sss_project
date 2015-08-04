@@ -73,6 +73,8 @@ public class ReportController {
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
 		volumeSalesData.setColumnIdentifiers(volumeSalesColNames);
 		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
+		dollarRefundsData.setColumnIdentifiers(dollarRefundsColNames);
+		volumeRefundsData.setColumnIdentifiers(volumeRefundsColNames);
 	}
 	
 	private void switchToAllSalesView() {
@@ -170,11 +172,49 @@ public class ReportController {
 	}
 	
 	private void switchViewToRefundDollarView() {
-		
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextDollarRefundRow = new Object[dollarRefundsData.getRowCount()][dollarRefundsData.getColumnCount()];
+		for(int i = 0; i < nextDollarRefundRow.length; i++) {
+			for(int j = 0; j < nextDollarRefundRow[0].length; j++) {
+				nextDollarRefundRow[i][j] = dollarRefundsData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(dollarRefundsColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextDollarRefundRow.length; i++) {
+			currentTableView.addRow(nextDollarRefundRow[i]);
+		}
 	}
 	
 	private void switchViewToRefundVolumeView() {
-		
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextVolumeRefundRow = new Object[volumeRefundsData.getRowCount()][volumeRefundsData.getColumnCount()];
+		for(int i = 0; i < nextVolumeRefundRow.length; i++) {
+			for(int j = 0; j < nextVolumeRefundRow[0].length; j++) {
+				nextVolumeRefundRow[i][j] = volumeRefundsData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(volumeRefundsColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextVolumeRefundRow.length; i++) {
+			currentTableView.addRow(nextVolumeRefundRow[i]);
+		}
 	}
 	
 	/**
@@ -191,7 +231,6 @@ public class ReportController {
 		case "summary":
 			if(reportType.equals("dollar")) {
 				switchToSummarySalesDollarView();
-				
 			}
 			else if(reportType.equals("volume")) {
 				switchToSummarySalesVolumeView();				
@@ -252,10 +291,23 @@ public class ReportController {
 				}
 			}
 			
+			if(dollarRefundsData.getRowCount() != 0) {
+				for(int i = dollarRefundsData.getRowCount()-1; i != -1; i--) {
+					dollarRefundsData.removeRow(i);
+				}
+			}
+			
+			if(volumeRefundsData.getRowCount() != 0) {
+				for(int i = volumeRefundsData.getRowCount()-1; i != -1; i--) {
+					volumeRefundsData.removeRow(i);
+				}
+			}
+			
 			// GET QUERIES
 			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
 			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate);
 			String grossProfitSalesQuery = SqlBuilder.getSingleDayGrossProfitQuery(startDate);
+			String refundQuery = SqlBuilder.getSingleDayRefundQuery(startDate);
 			
 			ResultSet summaryResultSet = DbReader.executeQuery(summarySalesQuery);
 			
@@ -294,6 +346,7 @@ public class ReportController {
 			allSalesResultSet.close();
 			ResultSet grossProfitResultSet = DbReader.executeQuery(grossProfitSalesQuery);
 			
+			// Populate grossProfitSalesData
 			while(grossProfitResultSet.next()) {
 				grossProfitSalesData.addRow(new Object[] 
 						{grossProfitResultSet.getString(1),
@@ -302,10 +355,27 @@ public class ReportController {
 			}
 			
 			grossProfitResultSet.close();
+			ResultSet refundResultSet = DbReader.executeQuery(refundQuery);
 			
-		// Reset view to default
-		switchView("dollar","summary");
-		
+			// Populate dollarRefundsData
+			while(refundResultSet.next()) {
+				dollarRefundsData.addRow(new Object[] 
+						{refundResultSet.getString(1),
+						refundResultSet.getInt(2), 
+						new BigDecimal(refundResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+			}
+			
+			refundResultSet.beforeFirst(); // Go back to before first row of ResultSet
+			
+			// Populate volumeSalesData with same ResultSet
+			while(refundResultSet.next()) {
+				volumeRefundsData.addRow(new Object[] 
+						{refundResultSet.getString(1),
+						refundResultSet.getInt(2)});
+			}
+			
+			refundResultSet.close();
+			
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 		} catch (SQLException e) {
@@ -480,10 +550,59 @@ public class ReportController {
 
 			grossProfitChartFrame.setVisible(true);
 			break;
+		case "refundDollar" :
+			DefaultCategoryDataset refundDollarChartData = DatasetConverter.convertSingleDayDollar(dollarRefundsData);
+			
+			JFreeChart refundDollarBarChart = ChartFactory.createBarChart(
+	        "",
+	        "Hour","Refund Amount ($)",
+	        refundDollarChartData,
+	        PlotOrientation.VERTICAL,
+	        false,true,false);
+			
+	    CategoryPlot refundDollarPlot = (CategoryPlot)refundDollarBarChart.getPlot();
+	    refundDollarPlot.setDomainGridlinesVisible(true);
+	    CategoryAxis refundDollarXAxis = (CategoryAxis)refundDollarPlot.getDomainAxis();
+	    refundDollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+	    ChartPanel refundDollarChartPanel = new ChartPanel( refundDollarBarChart );
+	    refundDollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+	    
+	    JFrame refundDollarChartFrame = new JFrame();
+	    refundDollarChartFrame.setContentPane(refundDollarChartPanel);
+	    refundDollarChartFrame.setTitle("Viewing Refunds by Dollar for: " + dateOfCurrentReport);
+	    refundDollarChartFrame.pack();
+	    refundDollarChartFrame.setLocationRelativeTo(null);
+
+	    refundDollarChartFrame.setVisible(true);
+			break;
+		case "refundVolume" :
+			DefaultCategoryDataset refundVolumeChartData = DatasetConverter.convertSingleDayRefundVolume(dollarRefundsData);
+
+			JFreeChart refundVolumeBarChart = ChartFactory.createBarChart(
+					"",
+					"Hour","No. of Refunds",
+					refundVolumeChartData,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot refundVolumePlot = (CategoryPlot)refundVolumeBarChart.getPlot();
+			refundVolumePlot.setDomainGridlinesVisible(true);
+			CategoryAxis refundVolumeXAxis = (CategoryAxis)refundVolumePlot.getDomainAxis();
+			refundVolumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+			ChartPanel refundVolumeChartPanel = new ChartPanel( refundVolumeBarChart );
+			refundVolumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+
+			JFrame refundVolumeChartFrame = new JFrame();
+			refundVolumeChartFrame.setContentPane(refundVolumeChartPanel);
+			refundVolumeChartFrame.setTitle("Viewing Refunds by Volume for: " + dateOfCurrentReport);
+			refundVolumeChartFrame.pack();
+			refundVolumeChartFrame.setLocationRelativeTo(null);
+
+			refundVolumeChartFrame.setVisible(true);
+			break;
 		default :
 			break;
 		}
-		
 		
 	}
 	

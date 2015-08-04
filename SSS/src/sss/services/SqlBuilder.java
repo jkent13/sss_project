@@ -253,6 +253,34 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	public static String getSingleDayRefundQuery(String startDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(hrs.theHour, ':00-', hrs.theHour+1, ':00') as 'Hours', "
+				+ "COUNT(sale_date) AS `Number of Refunds`, "
+				+ "SUM(sale_subtotal) AS 'Refund Totals' "
+				+ "FROM ( SELECT 8 AS theHour "
+				+ "UNION ALL SELECT 9 "
+				+ "UNION ALL SELECT 10 "
+				+ "UNION ALL SELECT 11 "
+				+ "UNION ALL SELECT 12 "
+				+ "UNION ALL SELECT 13 "
+				+ "UNION ALL SELECT 14 "
+				+ "UNION ALL SELECT 15 "
+				+ "UNION ALL SELECT 16 "
+				+ "UNION ALL SELECT 17) AS hrs "
+				+ "LEFT OUTER JOIN sale "
+				+ "ON EXTRACT(HOUR FROM sale.sale_date) = hrs.theHour "
+				+ "AND DATE(sale.sale_date) = ");
+		query.append("'" + startDate + "' ");
+		query.append("AND sale.sale_type = 'Refund' "
+				+ "AND sale.sale_balance < 0 "
+				+ "GROUP BY hrs.theHour;");
+		
+		return query.toString();
+	}
+	
+	
 	/**
 	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values, ordered alphabetically
 	 * by name

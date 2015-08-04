@@ -31,7 +31,7 @@ import sss.domain.ReportController;
 @SuppressWarnings("serial")
 public class SingleDayRefundFrame extends JFrame {
 
-	private String reportType = "dollar";
+	private String reportType = "refundDollar";
 	private String viewType = "summary";
 	
 	private ReportController controller = new ReportController();
@@ -183,6 +183,7 @@ public class SingleDayRefundFrame extends JFrame {
 					}
 					else {
 						controller.getResults(inputDateString);
+						controller.switchView(reportType, viewType);
 					} // End else
 				} // End if
 			} // End method
@@ -202,12 +203,23 @@ public class SingleDayRefundFrame extends JFrame {
 						}
 						else {
 							controller.getResults(inputDateString);
+							controller.switchView(reportType, viewType);
 						} // End else
 					} // End if
 				} // End if
 			} // End method
 		});
 
+		barGraphButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType);
+			}
+		});
+		
 		backButton.addActionListener(new ActionListener()
 		{
 
@@ -217,9 +229,9 @@ public class SingleDayRefundFrame extends JFrame {
 				dispose();
 			}
 		});
-
-
+		
 		setVisible(true);
-	
+		viewDate.requestFocusInWindow();
+		
 	}
 }
