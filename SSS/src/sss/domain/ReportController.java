@@ -45,12 +45,16 @@ public class ReportController {
 	private NonEditableTableModel dollarSalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
 	private NonEditableTableModel volumeSalesData = new NonEditableTableModel();	// Contains only hour and sale volume
 	private NonEditableTableModel grossProfitSalesData = new NonEditableTableModel(); // Contains only GP and sale volume
+	private NonEditableTableModel dollarRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund dollar info
+	private NonEditableTableModel volumeRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund volume info
 	
 	// Column names of table models
 	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Amount Tendered", "Change Given"};
-	private String[] dollarColNames = {"Hours", "Number of Transactions", "Sale Total"};
-	private String[] volumeColNames = {"Hours", "Number of Transactions"};
+	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
+	private String[] volumeSalesColNames = {"Hours", "Number of Transactions"};
 	private String[] grossProfitColNames = {"Hours", "Number of Products Sold", "Gross Profit"};
+	private String[] dollarRefundsColNames = {"Hours", "Number of Refunds", "Refund Total"};
+	private String[] volumeRefundsColNames = {"Hours", "Number of Refunds"};
 	
 	
 	/**
@@ -66,9 +70,111 @@ public class ReportController {
 	 */
 	private void initialise() {
 		allSalesData.setColumnIdentifiers(allSalesColNames);
-		dollarSalesData.setColumnIdentifiers(dollarColNames);
-		volumeSalesData.setColumnIdentifiers(volumeColNames);
+		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
+		volumeSalesData.setColumnIdentifiers(volumeSalesColNames);
 		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
+	}
+	
+	private void switchToAllSalesView() {
+		if(!(currentTableView.getColumnCount() == allSalesData.getColumnCount())) {
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextRow = new Object[allSalesData.getRowCount()][allSalesData.getColumnCount()];
+			for(int i = 0; i < nextRow.length; i++) {
+				for(int j = 0; j < nextRow[0].length; j++) {
+					nextRow[i][j] = allSalesData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(allSalesColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextRow.length; i++) {
+				currentTableView.addRow(nextRow[i]);
+			}
+		}
+	}
+	
+	private void switchToSummarySalesDollarView(){
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextDollarRow = new Object[dollarSalesData.getRowCount()][dollarSalesData.getColumnCount()];
+		for(int i = 0; i < nextDollarRow.length; i++) {
+			for(int j = 0; j < nextDollarRow[0].length; j++) {
+				nextDollarRow[i][j] = dollarSalesData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(dollarSalesColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextDollarRow.length; i++) {
+			currentTableView.addRow(nextDollarRow[i]);
+		}
+	}
+	
+	private void switchToSummarySalesVolumeView() {
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextVolumeRow = new Object[volumeSalesData.getRowCount()][volumeSalesData.getColumnCount()];
+		for(int i = 0; i < nextVolumeRow.length; i++) {
+			for(int j = 0; j < nextVolumeRow[0].length; j++) {
+				nextVolumeRow[i][j] = volumeSalesData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(volumeSalesColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextVolumeRow.length; i++) {
+			currentTableView.addRow(nextVolumeRow[i]);
+		}
+	}
+	
+	private void switchToSummaryGrossProfitView() {
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextProfitRow = new Object[grossProfitSalesData.getRowCount()][grossProfitSalesData.getColumnCount()];
+		for(int i = 0; i < nextProfitRow.length; i++) {
+			for(int j = 0; j < nextProfitRow[0].length; j++) {
+				nextProfitRow[i][j] = grossProfitSalesData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(grossProfitColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextProfitRow.length; i++) {
+			currentTableView.addRow(nextProfitRow[i]);
+		}
+	}
+	
+	private void switchViewToRefundDollarView() {
+		
+	}
+	
+	private void switchViewToRefundVolumeView() {
+		
 	}
 	
 	/**
@@ -80,95 +186,24 @@ public class ReportController {
 
 		switch(viewType) {
 		case "all":
-			if(!(currentTableView.getColumnCount() == allSalesData.getColumnCount())) {
-				// REMOVE ALL ROWS
-				for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-					currentTableView.removeRow(i);
-				}
-
-				// EXTRACT ALL DATA FROM NEW DATAMODEL
-				Object[][] nextRow = new Object[allSalesData.getRowCount()][allSalesData.getColumnCount()];
-				for(int i = 0; i < nextRow.length; i++) {
-					for(int j = 0; j < nextRow[0].length; j++) {
-						nextRow[i][j] = allSalesData.getValueAt(i, j);
-					}
-				}
-
-				// SET NEW COLUMNS
-				currentTableView.setColumnIdentifiers(allSalesColNames);
-
-				// ADD NEW ROWS
-				for(int i = 0; i < nextRow.length; i++) {
-					currentTableView.addRow(nextRow[i]);
-				}
-			}
+			switchToAllSalesView();
 			break;
 		case "summary":
 			if(reportType.equals("dollar")) {
-				// REMOVE ALL ROWS
-				for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-					currentTableView.removeRow(i);
-				}
-
-				// EXTRACT ALL DATA FROM NEW DATAMODEL
-				Object[][] nextDollarRow = new Object[dollarSalesData.getRowCount()][dollarSalesData.getColumnCount()];
-				for(int i = 0; i < nextDollarRow.length; i++) {
-					for(int j = 0; j < nextDollarRow[0].length; j++) {
-						nextDollarRow[i][j] = dollarSalesData.getValueAt(i, j);
-					}
-				}
-
-				// SET NEW COLUMNS
-				currentTableView.setColumnIdentifiers(dollarColNames);
-
-				// ADD NEW ROWS
-				for(int i = 0; i < nextDollarRow.length; i++) {
-					currentTableView.addRow(nextDollarRow[i]);
-				}
+				switchToSummarySalesDollarView();
+				
 			}
 			else if(reportType.equals("volume")) {
-				// REMOVE ALL ROWS
-				for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-					currentTableView.removeRow(i);
-				}
-
-				// EXTRACT ALL DATA FROM NEW DATAMODEL
-				Object[][] nextVolumeRow = new Object[volumeSalesData.getRowCount()][volumeSalesData.getColumnCount()];
-				for(int i = 0; i < nextVolumeRow.length; i++) {
-					for(int j = 0; j < nextVolumeRow[0].length; j++) {
-						nextVolumeRow[i][j] = volumeSalesData.getValueAt(i, j);
-					}
-				}
-
-				// SET NEW COLUMNS
-				currentTableView.setColumnIdentifiers(volumeColNames);
-
-				// ADD NEW ROWS
-				for(int i = 0; i < nextVolumeRow.length; i++) {
-					currentTableView.addRow(nextVolumeRow[i]);
-				}
+				switchToSummarySalesVolumeView();				
+			}
+			else if(reportType.equals("profit")){
+				switchToSummaryGrossProfitView();
+			}
+			else if(reportType.equals("refundDollar")) {
+				switchViewToRefundDollarView();
 			}
 			else {
-			// REMOVE ALL ROWS
-				for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-					currentTableView.removeRow(i);
-				}
-
-				// EXTRACT ALL DATA FROM NEW DATAMODEL
-				Object[][] nextProfitRow = new Object[grossProfitSalesData.getRowCount()][grossProfitSalesData.getColumnCount()];
-				for(int i = 0; i < nextProfitRow.length; i++) {
-					for(int j = 0; j < nextProfitRow[0].length; j++) {
-						nextProfitRow[i][j] = grossProfitSalesData.getValueAt(i, j);
-					}
-				}
-
-				// SET NEW COLUMNS
-				currentTableView.setColumnIdentifiers(grossProfitColNames);
-
-				// ADD NEW ROWS
-				for(int i = 0; i < nextProfitRow.length; i++) {
-					currentTableView.addRow(nextProfitRow[i]);
-				}
+				switchViewToRefundVolumeView();
 			}
 			break;			
 		default:
