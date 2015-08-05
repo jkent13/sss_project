@@ -8,7 +8,6 @@
 
 package sss.services;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.jfree.data.category.DefaultCategoryDataset;
