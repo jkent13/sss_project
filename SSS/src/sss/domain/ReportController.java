@@ -27,6 +27,7 @@ public class ReportController {
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
 	
 	private String dateOfCurrentReport = "No Date";
+	private String[] dateRangeOfCurrentReport = {"No Date", "No Date"}; 
 	
 	private NonEditableTableModel currentTableView = new NonEditableTableModel();
 	
@@ -37,6 +38,10 @@ public class ReportController {
 	private NonEditableTableModel dollarRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund dollar info
 	private NonEditableTableModel volumeRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund volume info
 	
+	private NonEditableTableModel daySalesData = new NonEditableTableModel();
+	private NonEditableTableModel dayVolumeData = new NonEditableTableModel();
+	private NonEditableTableModel dayGrossProfitData = new NonEditableTableModel();
+	
 	// Column names of table models
 	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Amount Tendered", "Change Given"};
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
@@ -44,6 +49,10 @@ public class ReportController {
 	private String[] grossProfitColNames = {"Hours", "Number of Products Sold", "Gross Profit"};
 	private String[] dollarRefundsColNames = {"Hours", "Number of Refunds", "Refund Total"};
 	private String[] volumeRefundsColNames = {"Hours", "Number of Refunds"};
+	
+	private String[] daySalesColNames = {"Day", "Number of Transactions", "Sale Total"};
+	private String[] dayVolumeColNames = {"Day", "Number of Transactions"};
+	private String[] dayGrossProfitColNames = {"Day", "Number of Products Sold", "Gross Profit"};
 	
 	
 	/**
@@ -64,6 +73,10 @@ public class ReportController {
 		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
 		dollarRefundsData.setColumnIdentifiers(dollarRefundsColNames);
 		volumeRefundsData.setColumnIdentifiers(volumeRefundsColNames);
+		
+		daySalesData.setColumnIdentifiers(daySalesColNames);
+		dayVolumeData.setColumnIdentifiers(dayVolumeColNames);
+		dayGrossProfitData.setColumnIdentifiers(dayGrossProfitColNames);
 	}
 	
 	private void switchToAllSalesView() {
@@ -205,6 +218,75 @@ public class ReportController {
 			currentTableView.addRow(nextVolumeRefundRow[i]);
 		}
 	}
+
+	private void switchToSalesDayDollarView() {
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextDayDollarRow = new Object[daySalesData.getRowCount()][daySalesData.getColumnCount()];
+		for(int i = 0; i < nextDayDollarRow.length; i++) {
+			for(int j = 0; j < nextDayDollarRow[0].length; j++) {
+				nextDayDollarRow[i][j] = daySalesData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(daySalesColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextDayDollarRow.length; i++) {
+			currentTableView.addRow(nextDayDollarRow[i]);
+		}
+	}
+	
+	private void switchToSalesDayVolumeView() {
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextDayVolumeRow = new Object[dayVolumeData.getRowCount()][dayVolumeData.getColumnCount()];
+		for(int i = 0; i < nextDayVolumeRow.length; i++) {
+			for(int j = 0; j < nextDayVolumeRow[0].length; j++) {
+				nextDayVolumeRow[i][j] = dayVolumeData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(dayVolumeColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextDayVolumeRow.length; i++) {
+			currentTableView.addRow(nextDayVolumeRow[i]);
+		}
+	}
+	
+	private void switchToGrossProfitDayView() {
+		// REMOVE ALL ROWS
+		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+			currentTableView.removeRow(i);
+		}
+
+		// EXTRACT ALL DATA FROM NEW DATAMODEL
+		Object[][] nextDayGrossProfitRow = new Object[dayGrossProfitData.getRowCount()][dayGrossProfitData.getColumnCount()];
+		for(int i = 0; i < nextDayGrossProfitRow.length; i++) {
+			for(int j = 0; j < nextDayGrossProfitRow[0].length; j++) {
+				nextDayGrossProfitRow[i][j] = dayGrossProfitData.getValueAt(i, j);
+			}
+		}
+
+		// SET NEW COLUMNS
+		currentTableView.setColumnIdentifiers(dayGrossProfitColNames);
+
+		// ADD NEW ROWS
+		for(int i = 0; i < nextDayGrossProfitRow.length; i++) {
+			currentTableView.addRow(nextDayGrossProfitRow[i]);
+		}
+	}
 	
 	/**
 	 * Method to switch the table model data based on user input
@@ -233,7 +315,22 @@ public class ReportController {
 			else {
 				switchViewToRefundVolumeView();
 			}
-			break;			
+			break;
+		case "day" :
+			if(reportType.equals("dollar")) {
+				switchToSalesDayDollarView();
+			}
+			else if (reportType.equals("volume")){
+				switchToSalesDayVolumeView();
+			}
+			else {
+				switchToGrossProfitDayView();
+			}
+			break;
+		case "week" :
+			break;
+		case "month" :
+			break;
 		default:
 			break;
 		}
@@ -373,6 +470,82 @@ public class ReportController {
 		}
 	}
 	
+	public void getResults(String startDate, String endDate) {
+		try {
+			Date inputStartDate = dateFormat.parse(startDate);
+			Date inputEndDate = dateFormat.parse(endDate);
+			
+			String startDateString = sqlDateFormat.format(inputStartDate); 		// Convert to MySQL date string
+			String endDateString = sqlDateFormat.format(inputEndDate); 	// Convert to MySQL date string
+			
+			dateRangeOfCurrentReport[0] = startDate;
+			dateRangeOfCurrentReport[1] = endDate;
+			
+			// CLEAR DATA MODELS			
+			if(daySalesData.getRowCount() != 0) {
+				for(int i = daySalesData.getRowCount()-1; i != -1; i--) {
+					daySalesData.removeRow(i);
+				}
+			}
+			
+			if(dayVolumeData.getRowCount() != 0) {
+				for(int i = dayVolumeData.getRowCount()-1; i != -1; i--) {
+					dayVolumeData.removeRow(i);
+				}
+			}
+			
+			if(dayGrossProfitData.getRowCount() != 0) {
+				for(int i = dayGrossProfitData.getRowCount()-1; i != -1; i--) {
+					dayGrossProfitData.removeRow(i);
+				}
+			}
+			
+			// GET QUERIES
+			String daySalesQuery = SqlBuilder.getTimePeriodSaleDollarDayQuery(startDateString, endDateString);
+			String dayGrossProfitQuery = SqlBuilder.getTimePeriodGrossProfitDayQuery(startDateString, endDateString);
+
+			
+			ResultSet daySalesResultSet = DbReader.executeQuery(daySalesQuery);
+			
+			// Populate daySalesData
+			while(daySalesResultSet.next()) {
+				daySalesData.addRow(new Object[] 
+						{daySalesResultSet.getString(1),
+						daySalesResultSet.getInt(2), 
+						new BigDecimal(daySalesResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+			}
+			
+		
+			daySalesResultSet.beforeFirst(); // Go back to before first row of ResultSet
+			
+			// Populate dayVolumeData with same ResultSet
+			while(daySalesResultSet.next()) {
+				dayVolumeData.addRow(new Object[] 
+						{daySalesResultSet.getString(1),
+						daySalesResultSet.getInt(2)});
+			}
+			
+			daySalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE 			
+			ResultSet grossProfitResultSet = DbReader.executeQuery(dayGrossProfitQuery);
+			
+			// Populate grossProfitSalesData
+			while(grossProfitResultSet.next()) {
+				dayGrossProfitData.addRow(new Object[] 
+						{grossProfitResultSet.getString(1),
+						grossProfitResultSet.getInt(2), 
+						new BigDecimal(grossProfitResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+			}
+			
+			grossProfitResultSet.close();
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: There was a problem processing the query", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (ParseException e) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
 	
 	public void showLineChart(String reportType) {
 		
@@ -430,7 +603,7 @@ public class ReportController {
 	
 	//-----------------------------------------------------------------
 	
-	//------------------ Validator Method -----------------------------
+	//------------------ Validator Methods -----------------------------
 	/**
 	 * Validation method for checking whether an input String is a valid date in the format: 12/02/2014
 	 * @param inputDateString the String to be validated
@@ -450,6 +623,24 @@ public class ReportController {
 				return true;
 			}
 		} catch (ParseException e) { // If the inputDateString does not parse, it is not in the correct format
+			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+
+	public boolean isStartDateBeforeEndDate(String startDate, String endDate) {
+		try {
+			Date firstDate = dateFormat.parse(startDate);
+			Date secondDate = dateFormat.parse(endDate);
+
+			if(firstDate.before(secondDate)) { 
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Dates Input", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch (ParseException e) { // If the either date string does not parse, it is not in the correct format
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

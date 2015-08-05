@@ -280,6 +280,42 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	public static String getTimePeriodSaleDollarDayQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	public static String getTimePeriodGrossProfitDayQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
+				+ "ORDER BY sale_date;");
+
+		return query.toString();
+	}
 	
 	/**
 	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values, ordered alphabetically
