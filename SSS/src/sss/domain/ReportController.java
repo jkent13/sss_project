@@ -27,6 +27,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import sss.services.ChartBuilder;
 import sss.services.DatasetConverter;
 import sss.services.DbConnector;
 import sss.services.DbReader;
@@ -389,216 +390,38 @@ public class ReportController {
 		
 		switch(reportType) {
 		case "dollar" :
-			DefaultCategoryDataset dollarChartData = DatasetConverter.convertSingleDayDollar(dollarSalesData);
-			
-			JFreeChart dollarLineChart = ChartFactory.createLineChart(
-	        "",
-	        "Hour","Sale Amount ($)",
-	        dollarChartData,
-	        PlotOrientation.VERTICAL,
-	        false,true,false);
-			
-	    CategoryPlot dollarPlot = (CategoryPlot)dollarLineChart.getPlot();
-	    dollarPlot.setDomainGridlinesVisible(true);
-	    CategoryAxis dollarXAxis = (CategoryAxis)dollarPlot.getDomainAxis();
-	    dollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-	    ChartPanel dollarChartPanel = new ChartPanel( dollarLineChart );
-	    dollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-	    
-	    JFrame dollarChartFrame = new JFrame();
-	    dollarChartFrame.setContentPane(dollarChartPanel);
-	    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateOfCurrentReport);
-	    dollarChartFrame.setLocationRelativeTo(null);
-	    dollarChartFrame.pack();
-			
-	    dollarChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayLineChart(reportType, dateOfCurrentReport, dollarSalesData);
 			break;
 		
 		case "volume" :
-			DefaultCategoryDataset volumeChartData = DatasetConverter.convertSingleDayVolume(dollarSalesData);
-			
-			JFreeChart volumeLineChart = ChartFactory.createLineChart(
-	        "",
-	        "Hour","No. of Transactions",
-	        volumeChartData,
-	        PlotOrientation.VERTICAL,
-	        false,true,false);
-			
-	    CategoryPlot volumePlot = (CategoryPlot)volumeLineChart.getPlot();
-	    volumePlot.setDomainGridlinesVisible(true);
-	    CategoryAxis volumeXAxis = (CategoryAxis)volumePlot.getDomainAxis();
-	    volumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-	    ChartPanel volumeChartPanel = new ChartPanel( volumeLineChart );
-	    volumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-	    
-	    JFrame volumeChartFrame = new JFrame();
-	    volumeChartFrame.setContentPane(volumeChartPanel);
-	    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateOfCurrentReport);
-	    volumeChartFrame.setLocationRelativeTo(null);
-	    volumeChartFrame.pack();
-
-	    volumeChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayLineChart(reportType, dateOfCurrentReport, dollarSalesData);
 	    break;
 		case "profit" :
-			DefaultCategoryDataset grossProfitChartData = DatasetConverter.convertSingleDayGrossProfit(grossProfitSalesData);
-
-			JFreeChart grossProfitLineChart = ChartFactory.createLineChart(
-					"",
-					"Hour","GP Amount ($)",
-					grossProfitChartData,
-					PlotOrientation.VERTICAL,
-					false,true,false);
-
-			CategoryPlot grossProfitPlot = (CategoryPlot)grossProfitLineChart.getPlot();
-			grossProfitPlot.setDomainGridlinesVisible(true);
-			CategoryAxis grossProfitXAxis = (CategoryAxis)grossProfitPlot.getDomainAxis();
-			grossProfitXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-			ChartPanel grossProfitChartPanel = new ChartPanel( grossProfitLineChart );
-			grossProfitChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-
-			JFrame grossProfitChartFrame = new JFrame();
-			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
-			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateOfCurrentReport);
-			grossProfitChartFrame.setLocationRelativeTo(null);
-			grossProfitChartFrame.pack();
-
-			grossProfitChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayLineChart(reportType, dateOfCurrentReport, grossProfitSalesData);
 			break;
 		default:
 			break;
 		}
-		
-		
 	}
 	
 	public void showBarChart(String reportType) {
 		
 		switch(reportType) {
 		case "dollar" :
-			DefaultCategoryDataset dollarChartData = DatasetConverter.convertSingleDayDollar(dollarSalesData);
-			
-			JFreeChart dollarBarChart = ChartFactory.createBarChart(
-	        "",
-	        "Hour","Sale Amount ($)",
-	        dollarChartData,
-	        PlotOrientation.VERTICAL,
-	        false,true,false);
-			
-	    CategoryPlot dollarPlot = (CategoryPlot)dollarBarChart.getPlot();
-	    dollarPlot.setDomainGridlinesVisible(true);
-	    CategoryAxis dollarXAxis = (CategoryAxis)dollarPlot.getDomainAxis();
-	    dollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-	    ChartPanel dollarChartPanel = new ChartPanel( dollarBarChart );
-	    dollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-	    
-	    JFrame dollarChartFrame = new JFrame();
-	    dollarChartFrame.setContentPane(dollarChartPanel);
-	    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateOfCurrentReport);
-	    dollarChartFrame.pack();
-	    dollarChartFrame.setLocationRelativeTo(null);
-
-	    dollarChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarSalesData);
 			break;
 
 		case "volume" :
-			DefaultCategoryDataset volumeChartData = DatasetConverter.convertSingleDayVolume(dollarSalesData);
-
-			JFreeChart volumeBarChart = ChartFactory.createBarChart(
-					"",
-					"Hour","No. of Transactions",
-					volumeChartData,
-					PlotOrientation.VERTICAL,
-					false,true,false);
-
-			CategoryPlot volumePlot = (CategoryPlot)volumeBarChart.getPlot();
-			volumePlot.setDomainGridlinesVisible(true);
-			CategoryAxis volumeXAxis = (CategoryAxis)volumePlot.getDomainAxis();
-			volumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-			ChartPanel volumeChartPanel = new ChartPanel( volumeBarChart );
-			volumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-
-			JFrame volumeChartFrame = new JFrame();
-			volumeChartFrame.setContentPane(volumeChartPanel);
-			volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateOfCurrentReport);
-			volumeChartFrame.pack();
-			volumeChartFrame.setLocationRelativeTo(null);
-
-			volumeChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarSalesData);
 			break;
 		case "profit" :
-			DefaultCategoryDataset grossProfitChartData = DatasetConverter.convertSingleDayGrossProfit(grossProfitSalesData);
-
-			JFreeChart grossProfitLineChart = ChartFactory.createBarChart(
-					"",
-					"Hour","GP Amount ($)",
-					grossProfitChartData,
-					PlotOrientation.VERTICAL,
-					false,true,false);
-
-			CategoryPlot grossProfitPlot = (CategoryPlot)grossProfitLineChart.getPlot();
-			grossProfitPlot.setDomainGridlinesVisible(true);
-			CategoryAxis grossProfitXAxis = (CategoryAxis)grossProfitPlot.getDomainAxis();
-			grossProfitXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-			ChartPanel grossProfitChartPanel = new ChartPanel( grossProfitLineChart );
-			grossProfitChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-
-			JFrame grossProfitChartFrame = new JFrame();
-			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
-			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateOfCurrentReport);
-			grossProfitChartFrame.setLocationRelativeTo(null);
-			grossProfitChartFrame.pack();
-
-			grossProfitChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, grossProfitSalesData);
 			break;
 		case "refundDollar" :
-			DefaultCategoryDataset refundDollarChartData = DatasetConverter.convertSingleDayDollar(dollarRefundsData);
-			
-			JFreeChart refundDollarBarChart = ChartFactory.createBarChart(
-	        "",
-	        "Hour","Refund Amount ($)",
-	        refundDollarChartData,
-	        PlotOrientation.VERTICAL,
-	        false,true,false);
-			
-	    CategoryPlot refundDollarPlot = (CategoryPlot)refundDollarBarChart.getPlot();
-	    refundDollarPlot.setDomainGridlinesVisible(true);
-	    CategoryAxis refundDollarXAxis = (CategoryAxis)refundDollarPlot.getDomainAxis();
-	    refundDollarXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-	    ChartPanel refundDollarChartPanel = new ChartPanel( refundDollarBarChart );
-	    refundDollarChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-	    
-	    JFrame refundDollarChartFrame = new JFrame();
-	    refundDollarChartFrame.setContentPane(refundDollarChartPanel);
-	    refundDollarChartFrame.setTitle("Viewing Refunds by Dollar for: " + dateOfCurrentReport);
-	    refundDollarChartFrame.pack();
-	    refundDollarChartFrame.setLocationRelativeTo(null);
-
-	    refundDollarChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
 			break;
 		case "refundVolume" :
-			DefaultCategoryDataset refundVolumeChartData = DatasetConverter.convertSingleDayRefundVolume(dollarRefundsData);
-
-			JFreeChart refundVolumeBarChart = ChartFactory.createBarChart(
-					"",
-					"Hour","No. of Refunds",
-					refundVolumeChartData,
-					PlotOrientation.VERTICAL,
-					false,true,false);
-
-			CategoryPlot refundVolumePlot = (CategoryPlot)refundVolumeBarChart.getPlot();
-			refundVolumePlot.setDomainGridlinesVisible(true);
-			CategoryAxis refundVolumeXAxis = (CategoryAxis)refundVolumePlot.getDomainAxis();
-			refundVolumeXAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-			ChartPanel refundVolumeChartPanel = new ChartPanel( refundVolumeBarChart );
-			refundVolumeChartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
-
-			JFrame refundVolumeChartFrame = new JFrame();
-			refundVolumeChartFrame.setContentPane(refundVolumeChartPanel);
-			refundVolumeChartFrame.setTitle("Viewing Refunds by Volume for: " + dateOfCurrentReport);
-			refundVolumeChartFrame.pack();
-			refundVolumeChartFrame.setLocationRelativeTo(null);
-
-			refundVolumeChartFrame.setVisible(true);
+			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
 			break;
 		default :
 			break;
