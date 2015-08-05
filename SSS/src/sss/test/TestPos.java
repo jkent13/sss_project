@@ -19,4 +19,3 @@ public class TestPos {
 		
 	}// End main method
 }// End class
-

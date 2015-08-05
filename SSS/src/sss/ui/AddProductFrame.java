@@ -179,4 +179,3 @@ public class AddProductFrame extends JFrame {
 		barcodeText.requestFocusInWindow();
 	}
 }
-
