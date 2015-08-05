@@ -25,7 +25,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.NonEditableTableModel;
-import sss.domain.ReportController;
+import sss.domain.TimePeriodReportController;
 
 
 @SuppressWarnings("serial")
@@ -34,7 +34,7 @@ public class TimePeriodSaleFrame extends JFrame {
 	private String reportType = "dollar";
 	private String groupBy = "day";
 	
-	private ReportController controller = new ReportController();
+	private TimePeriodReportController controller = new TimePeriodReportController();
 
 	public TimePeriodSaleFrame()
 	{
