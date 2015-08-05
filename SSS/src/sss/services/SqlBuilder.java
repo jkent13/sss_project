@@ -280,7 +280,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public static String getTimePeriodSaleDollarDayQuery(String startDate, String endDate) {
+	public static String getSaleDollarByDayQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		
 		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
@@ -298,7 +298,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public static String getTimePeriodGrossProfitDayQuery(String startDate, String endDate) {
+	public static String getGrossProfitByDayQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		
 		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
@@ -314,6 +314,27 @@ public class SqlBuilder {
 				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
 				+ "ORDER BY sale_date;");
 
+		return query.toString();
+	}
+	
+	public static String getSaleDollarByWeekQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
+				+ "ORDER BY sale_date;");
+		
+		System.out.println(query.toString());
+		
 		return query.toString();
 	}
 	

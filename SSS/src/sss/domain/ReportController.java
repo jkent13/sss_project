@@ -501,8 +501,8 @@ public class ReportController {
 			}
 			
 			// GET QUERIES
-			String daySalesQuery = SqlBuilder.getTimePeriodSaleDollarDayQuery(startDateString, endDateString);
-			String dayGrossProfitQuery = SqlBuilder.getTimePeriodGrossProfitDayQuery(startDateString, endDateString);
+			String daySalesQuery = SqlBuilder.getSaleDollarByDayQuery(startDateString, endDateString);
+			String dayGrossProfitQuery = SqlBuilder.getGrossProfitByDayQuery(startDateString, endDateString);
 
 			
 			ResultSet daySalesResultSet = DbReader.executeQuery(daySalesQuery);
