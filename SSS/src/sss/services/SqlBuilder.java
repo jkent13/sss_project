@@ -333,8 +333,6 @@ public class SqlBuilder {
 				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
 				+ "ORDER BY sale_date;");
 		
-		System.out.println(query.toString());
-		
 		return query.toString();
 	}
 	

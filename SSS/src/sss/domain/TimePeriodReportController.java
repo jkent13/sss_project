@@ -27,10 +27,26 @@ public class TimePeriodReportController {
 		private NonEditableTableModel dayVolumeData = new NonEditableTableModel();
 		private NonEditableTableModel dayGrossProfitData = new NonEditableTableModel();
 		
+		private NonEditableTableModel weekSalesData = new NonEditableTableModel();
+		private NonEditableTableModel weekVolumeData = new NonEditableTableModel();
+		private NonEditableTableModel weekGrossProfitData = new NonEditableTableModel();
+		
+		private NonEditableTableModel monthSalesData = new NonEditableTableModel();
+		private NonEditableTableModel monthVolumeData = new NonEditableTableModel();
+		private NonEditableTableModel monthGrossProfitData = new NonEditableTableModel();
+		
 		// Column names of table models
 		private String[] daySalesColNames = {"Day", "Number of Transactions", "Sale Total"};
 		private String[] dayVolumeColNames = {"Day", "Number of Transactions"};
 		private String[] dayGrossProfitColNames = {"Day", "Number of Products Sold", "Gross Profit"};
+		
+		private String[] weekSalesColNames = {"Week No.", "Starting Date", "Number of Transactions", "Sale Total"};
+		private String[] weekVolumeColNames = {"Week No.", "Starting Date", "Number of Transactions"};
+		private String[] weekGrossProfitColNames = {"Week No.", "Starting Date", "Number of Products Sold", "Gross Profit"};
+		
+		private String[] monthSalesColNames = {"Month", "Number of Transactions", "Sale Total"};
+		private String[] monthVolumeColNames = {"Month", "Number of Transactions"};
+		private String[] monthGrossProfitColNames = {"Month", "Number of Products Sold", "Gross Profit"};
 		
 		
 		/**
@@ -48,6 +64,14 @@ public class TimePeriodReportController {
 			daySalesData.setColumnIdentifiers(daySalesColNames);
 			dayVolumeData.setColumnIdentifiers(dayVolumeColNames);
 			dayGrossProfitData.setColumnIdentifiers(dayGrossProfitColNames);
+			
+			weekSalesData.setColumnIdentifiers(weekSalesColNames);
+			weekVolumeData.setColumnIdentifiers(weekVolumeColNames);
+			weekGrossProfitData.setColumnIdentifiers(weekGrossProfitColNames);
+			
+			monthSalesData.setColumnIdentifiers(monthSalesColNames);
+			monthVolumeData.setColumnIdentifiers(monthVolumeColNames);
+			monthGrossProfitData.setColumnIdentifiers(monthGrossProfitColNames);
 		}
 		
 		private void switchToSalesDayDollarView() {
@@ -119,6 +143,52 @@ public class TimePeriodReportController {
 			}
 		}
 		
+		private void switchToSalesWeekDollarView() {
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextWeekSalesRow = new Object[weekSalesData.getRowCount()][weekSalesData.getColumnCount()];
+			for(int i = 0; i < nextWeekSalesRow.length; i++) {
+				for(int j = 0; j < nextWeekSalesRow[0].length; j++) {
+					nextWeekSalesRow[i][j] = weekSalesData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(weekSalesColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextWeekSalesRow.length; i++) {
+				currentTableView.addRow(nextWeekSalesRow[i]);
+			}
+		}
+		
+		private void switchToSalesWeekVolumeView() {
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextWeekVolumeRow = new Object[weekVolumeData.getRowCount()][weekVolumeData.getColumnCount()];
+			for(int i = 0; i < nextWeekVolumeRow.length; i++) {
+				for(int j = 0; j < nextWeekVolumeRow[0].length; j++) {
+					nextWeekVolumeRow[i][j] = weekVolumeData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(weekVolumeColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextWeekVolumeRow.length; i++) {
+				currentTableView.addRow(nextWeekVolumeRow[i]);
+			}
+		}
+		
 		/**
 		 * Method to switch the table model data based on user input
 		 * @param reportType the report type (dollar, volume, profit)
@@ -139,6 +209,15 @@ public class TimePeriodReportController {
 				}
 				break;
 			case "week" :
+				if(reportType.equals("dollar")) {
+					switchToSalesWeekDollarView();
+				}
+				else if (reportType.equals("volume")){
+					switchToSalesWeekVolumeView();
+				}
+				else {
+//					switchToGrossProfitDayView();
+				}
 				break;
 			case "month" :
 				break;
@@ -159,6 +238,8 @@ public class TimePeriodReportController {
 				dateRangeOfCurrentReport[1] = endDate;
 				
 				// CLEAR DATA MODELS			
+				// Day Tables =========================================================
+				
 				if(daySalesData.getRowCount() != 0) {
 					for(int i = daySalesData.getRowCount()-1; i != -1; i--) {
 						daySalesData.removeRow(i);
@@ -177,10 +258,62 @@ public class TimePeriodReportController {
 					}
 				}
 				
-				// GET QUERIES
+				// ====================================================================
+				// Week Tables ========================================================
+				
+				if(weekSalesData.getRowCount() != 0) {
+					for(int i = weekSalesData.getRowCount()-1; i != -1; i--) {
+						weekSalesData.removeRow(i);
+					}
+				}
+				
+				if(weekVolumeData.getRowCount() != 0) {
+					for(int i = weekVolumeData.getRowCount()-1; i != -1; i--) {
+						weekVolumeData.removeRow(i);
+					}
+				}
+				
+				if(weekGrossProfitData.getRowCount() != 0) {
+					for(int i = weekGrossProfitData.getRowCount()-1; i != -1; i--) {
+						weekGrossProfitData.removeRow(i);
+					}
+				}
+				
+				// ====================================================================
+				// Month Tables =======================================================
+				
+				if(monthSalesData.getRowCount() != 0) {
+					for(int i = monthSalesData.getRowCount()-1; i != -1; i--) {
+						monthSalesData.removeRow(i);
+					}
+				}
+				
+				if(monthVolumeData.getRowCount() != 0) {
+					for(int i = monthVolumeData.getRowCount()-1; i != -1; i--) {
+						monthVolumeData.removeRow(i);
+					}
+				}
+				
+				if(monthGrossProfitData.getRowCount() != 0) {
+					for(int i = monthGrossProfitData.getRowCount()-1; i != -1; i--) {
+						monthGrossProfitData.removeRow(i);
+					}
+				}
+				
+				//=====================================================================
+				// Get Day Queries ====================================================
 				String daySalesQuery = SqlBuilder.getSaleDollarByDayQuery(startDateString, endDateString);
 				String dayGrossProfitQuery = SqlBuilder.getGrossProfitByDayQuery(startDateString, endDateString);
-
+				
+				// Get Week Queries ===================================================
+				String weekSalesQuery = SqlBuilder.getSaleDollarByWeekQuery(startDateString, endDateString);
+				String weekGrossProfitQuery = null;
+				
+				// Get Month Queries ==================================================
+				String monthSalesQuery = null;
+				String monthGrossProfitQuery = null;
+				
+				// Populate Day tables ================================================
 				
 				ResultSet daySalesResultSet = DbReader.executeQuery(daySalesQuery);
 				
@@ -191,7 +324,6 @@ public class TimePeriodReportController {
 							daySalesResultSet.getInt(2), 
 							new BigDecimal(daySalesResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
 				}
-				
 			
 				daySalesResultSet.beforeFirst(); // Go back to before first row of ResultSet
 				
@@ -202,7 +334,7 @@ public class TimePeriodReportController {
 							daySalesResultSet.getInt(2)});
 				}
 				
-				daySalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE 			
+				daySalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
 				ResultSet grossProfitResultSet = DbReader.executeQuery(dayGrossProfitQuery);
 				
 				// Populate grossProfitSalesData
@@ -214,6 +346,44 @@ public class TimePeriodReportController {
 				}
 				
 				grossProfitResultSet.close();
+				
+				// ====================================================================
+				// Populate Week Tables ===============================================
+				
+				ResultSet weekSalesResultSet = DbReader.executeQuery(weekSalesQuery);
+				
+				// Populate weekSalesData
+				while(weekSalesResultSet.next()) {
+					weekSalesData.addRow(new Object[] 
+							{weekSalesResultSet.getString(1),
+							weekSalesResultSet.getString(2),
+							weekSalesResultSet.getInt(3), 
+							new BigDecimal(weekSalesResultSet.getDouble(4)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+				}
+				
+				weekSalesResultSet.beforeFirst(); // Go back to before first row of ResultSet
+				
+				// Populate weekVolumeData with same ResultSet
+				while(weekSalesResultSet.next()) {
+					weekVolumeData.addRow(new Object[] 
+							{weekSalesResultSet.getString(1),
+							weekSalesResultSet.getString(2),
+							weekSalesResultSet.getInt(3)});
+				}
+				
+				weekSalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
+				
+				// ====================================================================
+				// Populate Month Tables ==============================================
+				
+				
+				
+				
+				
+				
+				
+				// ====================================================================
+				
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: There was a problem processing the query", "SQL Error", JOptionPane.ERROR_MESSAGE);

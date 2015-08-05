@@ -232,6 +232,41 @@ public class TimePeriodSaleFrame extends JFrame {
 					
 			});
 			
+			dayRadioButton.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent ae) 
+				{
+					groupBy = ae.getActionCommand();
+					controller.switchView(reportType, groupBy);
+				}
+					
+			});
+
+			weekRadioButton.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent ae) 
+				{
+					groupBy = ae.getActionCommand();
+					controller.switchView(reportType, groupBy);
+				}
+					
+			});
+			
+			monthRadioButton.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent ae) 
+				{
+					groupBy = ae.getActionCommand();
+					controller.switchView(reportType, groupBy);
+				}
+					
+			});
 			
 			// Get Results button
 			getResultsButton.addActionListener(new ActionListener()
