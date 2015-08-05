@@ -49,10 +49,16 @@ public class ReportsMenuFrame extends JFrame {
 		inventoryLabel.setFont(myFont);
 		topPanel.add(inventoryLabel);
 
+		JPanel middlePanel = new JPanel();
+		TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
+		middlePanel.setBorder(middlePanelTitle);
+		middlePanel.setLayout(new GridLayout(1,2,10,10));
+		fullScreenPanel.add(middlePanel);
+		
 		JPanel bottomPanel = new JPanel();
 		TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
 		bottomPanel.setBorder(bottomPanelTitle);
-		bottomPanel.setLayout(new GridLayout(2,2,10,10));
+		bottomPanel.setLayout(new GridLayout(1,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
 		//---------------------Create Buttons---------------------
