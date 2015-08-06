@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.NonEditableTableModel;
@@ -144,19 +146,30 @@ public class SingleDaySaleFrame extends JFrame {
 		shownAsPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(shownAsPanel);
 
-		JButton barGraph = new JButton("Bar Graph");
+		JButton barGraph = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
+		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		barGraph.setBorderPainted(false);
+		barGraph.setRolloverIcon(barGraphButtonHover);
+		barGraph.setRolloverEnabled(true);
+		barGraph.setFocusPainted(false);
+		barGraph.setContentAreaFilled(false);
 		shownAsPanel.add(barGraph);
-		JButton lineGraph = new JButton("Line Graph");
+		
+		JButton lineGraph = new JButton(new ImageIcon("reportMenuIcons/LineGraphIcon2.png"));
+		ImageIcon lineGraphButtonHover = new ImageIcon("reportMenuIcons/LineGraphIcon3.png");
+		lineGraph.setBorderPainted(false);
+		lineGraph.setRolloverIcon(lineGraphButtonHover);
+		lineGraph.setRolloverEnabled(true);
+		lineGraph.setFocusPainted(false);
+		lineGraph.setContentAreaFilled(false);
 		shownAsPanel.add(lineGraph);
 
 		//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
 		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);

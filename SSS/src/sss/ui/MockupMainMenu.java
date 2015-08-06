@@ -39,7 +39,6 @@ public class MockupMainMenu {
 //-------------------Full Screen Panel--------------------
 		
 		JPanel fullScreenPanel = new JPanel();
-//		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
 		fullScreenPanel.setBorder(new EmptyBorder(10,10,10,10));
 		fullScreenPanel.setLayout(new GridLayout(3,1,10,10));
 		mainMenuFrame.add(fullScreenPanel);

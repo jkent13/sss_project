@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 
@@ -51,9 +53,7 @@ public class TimePeriodRefundFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		rightPanel.setBorder(rightPanelTitle);
-		rightPanel.setLayout(new GridLayout(5,1,10,10));
+		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
 		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
@@ -79,18 +79,12 @@ public class TimePeriodRefundFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("Time-Period View:");
-		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
 		
 		JPanel rightDatePanel = new JPanel();
-		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-		rightDatePanel.setBorder(rightDatePanelTitle);
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		JPanel leftDatePanel = new JPanel();
-		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 		
 		//--------------------Date Panel Fields--------------------
@@ -116,11 +110,15 @@ public class TimePeriodRefundFrame extends JFrame {
 		//--------------------Report Panel--------------------
 		// the radio button for report type are held in this panel.
 
+		JPanel radioPanel = new JPanel();
+		radioPanel.setLayout(new GridLayout(1,2,10,10));
+		rightPanel.add(radioPanel);
+		
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
 		reportTypePanel.setLayout(new GridLayout(3,1,10,10));
-		rightPanel.add(reportTypePanel);
+		radioPanel.add(reportTypePanel);
 
 		JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
 		JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
@@ -142,7 +140,7 @@ public class TimePeriodRefundFrame extends JFrame {
 		TitledBorder groupTypePanelTitle = new TitledBorder("Group by:");
 		groupTypePanel.setBorder(groupTypePanelTitle);
 		groupTypePanel.setLayout(new GridLayout(3,1,10,10));
-		rightPanel.add(groupTypePanel);
+		radioPanel.add(groupTypePanel);
 
 		JRadioButton dayRadio = new JRadioButton("Day", true);
 		JRadioButton weekRadio = new JRadioButton("Week", false);
@@ -166,17 +164,22 @@ public class TimePeriodRefundFrame extends JFrame {
 		shownAsPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(shownAsPanel);
 
-		JButton barGraph = new JButton("Bar Graph");
+		JButton barGraph = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
+		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		barGraph.setBorderPainted(false);
+		barGraph.setRolloverIcon(barGraphButtonHover);
+		barGraph.setRolloverEnabled(true);
+		barGraph.setFocusPainted(false);
+		barGraph.setContentAreaFilled(false);
 		shownAsPanel.add(barGraph);
 
 		//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
+		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
 
