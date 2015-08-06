@@ -25,7 +25,7 @@ public class SqlBuilder {
 		
 	}
 	
-	//---------- SELECT Methods --------------------------------
+	// SELECT Methods ===========================================================
 	
 	/**
 	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
@@ -336,6 +336,28 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	public static String getGrossProfitByWeekQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
+				+ "ORDER BY sale_date;");
+		
+		System.out.println(query.toString());
+		
+		return query.toString();
+	}
+	
 	/**
 	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values, ordered alphabetically
 	 * by name
@@ -434,9 +456,8 @@ public class SqlBuilder {
 		return query.toString();		
 	}
 	
-	//---------------------------------------------------------
-	
-	//---------- INSERT Methods -------------------------------
+	// ==========================================================================
+	// INSERT Methods ===========================================================
 	
 	/**
 	 * Gets a SQL INSERT statement for writing a Sale object to the database
@@ -490,9 +511,8 @@ public class SqlBuilder {
 		return statements;
 	}
 	
-	//---------------------------------------------------------
-	
-	//---------- UPDATE Methods -------------------------------
+	// ==========================================================================
+	// Update Methods ===========================================================
 	
 	public static String[] getInvoiceUpdateStatements(ArrayList<InvoiceRowComparison> comparisonSet) {
 		String[] statements = new String[comparisonSet.size()];
@@ -517,6 +537,6 @@ public class SqlBuilder {
 		
 	}
 	
-	//---------------------------------------------------------
+	// ==========================================================================
 	
 }// End class

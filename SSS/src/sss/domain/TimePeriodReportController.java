@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -189,6 +188,41 @@ public class TimePeriodReportController {
 			}
 		}
 		
+		private void switchToGrossProfitWeekView() {
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextWeekGrossProfitRow = new Object[weekGrossProfitData.getRowCount()][weekGrossProfitData.getColumnCount()];
+			for(int i = 0; i < nextWeekGrossProfitRow.length; i++) {
+				for(int j = 0; j < nextWeekGrossProfitRow[0].length; j++) {
+					nextWeekGrossProfitRow[i][j] = weekGrossProfitData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(weekGrossProfitColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextWeekGrossProfitRow.length; i++) {
+				currentTableView.addRow(nextWeekGrossProfitRow[i]);
+			}
+		}
+		
+		private void switchToSalesMonthDollarView() {
+			// TODO
+		}
+		
+		private void switchToSalesMonthVolumeView() {
+			//TODO
+		}
+		
+		private void switchToGrossProfitMonthView() {
+			// TODO
+		}
+		
 		/**
 		 * Method to switch the table model data based on user input
 		 * @param reportType the report type (dollar, volume, profit)
@@ -216,10 +250,19 @@ public class TimePeriodReportController {
 					switchToSalesWeekVolumeView();
 				}
 				else {
-//					switchToGrossProfitDayView();
+					switchToGrossProfitWeekView();
 				}
 				break;
 			case "month" :
+				if(reportType.equals("dollar")) {
+					switchToSalesMonthDollarView();
+				}
+				else if (reportType.equals("volume")){
+					switchToSalesMonthVolumeView();
+				}
+				else {
+					switchToGrossProfitMonthView();
+				}
 				break;
 			default:
 				break;
@@ -302,17 +345,21 @@ public class TimePeriodReportController {
 				
 				//=====================================================================
 				// Get Day Queries ====================================================
+				
 				String daySalesQuery = SqlBuilder.getSaleDollarByDayQuery(startDateString, endDateString);
 				String dayGrossProfitQuery = SqlBuilder.getGrossProfitByDayQuery(startDateString, endDateString);
 				
 				// Get Week Queries ===================================================
+				
 				String weekSalesQuery = SqlBuilder.getSaleDollarByWeekQuery(startDateString, endDateString);
-				String weekGrossProfitQuery = null;
+				String weekGrossProfitQuery = SqlBuilder.getGrossProfitByWeekQuery(startDateString, endDateString);
 				
 				// Get Month Queries ==================================================
+				
 				String monthSalesQuery = null;
 				String monthGrossProfitQuery = null;
 				
+				// ====================================================================
 				// Populate Day tables ================================================
 				
 				ResultSet daySalesResultSet = DbReader.executeQuery(daySalesQuery);
@@ -335,17 +382,17 @@ public class TimePeriodReportController {
 				}
 				
 				daySalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
-				ResultSet grossProfitResultSet = DbReader.executeQuery(dayGrossProfitQuery);
+				ResultSet dayGrossProfitResultSet = DbReader.executeQuery(dayGrossProfitQuery);
 				
 				// Populate grossProfitSalesData
-				while(grossProfitResultSet.next()) {
+				while(dayGrossProfitResultSet.next()) {
 					dayGrossProfitData.addRow(new Object[] 
-							{grossProfitResultSet.getString(1),
-							grossProfitResultSet.getInt(2), 
-							new BigDecimal(grossProfitResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+							{dayGrossProfitResultSet.getString(1),
+							dayGrossProfitResultSet.getInt(2), 
+							new BigDecimal(dayGrossProfitResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
 				}
 				
-				grossProfitResultSet.close();
+				dayGrossProfitResultSet.close();
 				
 				// ====================================================================
 				// Populate Week Tables ===============================================
@@ -372,6 +419,18 @@ public class TimePeriodReportController {
 				}
 				
 				weekSalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
+				ResultSet weekGrossProfitResultSet = DbReader.executeQuery(weekGrossProfitQuery);
+				
+				// Populate grossProfitSalesData
+				while(weekGrossProfitResultSet.next()) {
+					weekGrossProfitData.addRow(new Object[] 
+							{weekGrossProfitResultSet.getString(1),
+							weekGrossProfitResultSet.getString(2),
+							weekGrossProfitResultSet.getInt(3), 
+							new BigDecimal(weekGrossProfitResultSet.getDouble(4)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+				}
+				
+				weekGrossProfitResultSet.close();
 				
 				// ====================================================================
 				// Populate Month Tables ==============================================
@@ -394,6 +453,8 @@ public class TimePeriodReportController {
 			}
 		}
 		
+		
+		// Chart Methods ==========================================================
 		public void showLineChart(String reportType) {
 			
 			switch(reportType) {
@@ -427,9 +488,8 @@ public class TimePeriodReportController {
 			
 		}
 		
-		//-----------------------------------------------------------------
-		
-		//------ Getter Methods -------------------------------------------
+		// ========================================================================		
+		// Getter Methods =========================================================
 		/**
 		 * Getter method for the current data model
 		 * @return a reference to the current data model
@@ -438,9 +498,8 @@ public class TimePeriodReportController {
 			return currentTableView;
 		}
 		
-		//-----------------------------------------------------------------
-		
-		//------------------ Validator Methods -----------------------------
+		// ========================================================================
+		// Validator Methods ======================================================
 		/**
 		 * Validation method for checking whether an input String is a valid date in the format: 12/02/2014
 		 * @param inputDateString the String to be validated
@@ -483,5 +542,5 @@ public class TimePeriodReportController {
 			}
 		}
 		
-		//-----------------------------------------------------------------
+		// ========================================================================
 	}// End class
