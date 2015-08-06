@@ -32,10 +32,10 @@ import sss.domain.TimePeriodSaleController;
 
 @SuppressWarnings("serial")
 public class TimePeriodSaleFrame extends JFrame {
-	
+
 	private String reportType = "dollar";
 	private String groupBy = "day";
-	
+
 	private TimePeriodSaleController controller = new TimePeriodSaleController();
 
 	public TimePeriodSaleFrame()
@@ -64,8 +64,8 @@ public class TimePeriodSaleFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-//		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//		rightPanel.setBorder(rightPanelTitle);
+		//		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+		//		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
@@ -82,13 +82,13 @@ public class TimePeriodSaleFrame extends JFrame {
 
 
 		JPanel rightDatePanel = new JPanel();
-//		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-//		rightDatePanel.setBorder(rightDatePanelTitle);
+		//		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
+		//		rightDatePanel.setBorder(rightDatePanelTitle);
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
 
 		JPanel leftDatePanel = new JPanel();
-//		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-//		leftDatePanel.setBorder(leftDatePanelTitle);
+		//		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
+		//		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 
 		//--------------------Date Panel Fields--------------------
@@ -117,7 +117,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		JPanel radioPanel = new JPanel();
 		radioPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(radioPanel);
-		
+
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
@@ -132,7 +132,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		dollarRadioButton.setActionCommand("dollar");
 		volumeRadioButton.setActionCommand("volume");
 		profitRadioButton.setActionCommand("profit");
-		
+
 		reportTypeGroup.add(dollarRadioButton);
 		reportTypeGroup.add(volumeRadioButton);
 		reportTypeGroup.add(profitRadioButton);
@@ -158,7 +158,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		dayRadioButton.setActionCommand("day");
 		weekRadioButton.setActionCommand("week");
 		monthRadioButton.setActionCommand("month");
-		
+
 		groupTypeGroup.add(dayRadioButton);
 		groupTypeGroup.add(weekRadioButton);
 		groupTypeGroup.add(monthRadioButton);
@@ -184,7 +184,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		barGraph.setFocusPainted(false);
 		barGraph.setContentAreaFilled(false);
 		shownAsPanel.add(barGraph);
-		
+
 		JButton lineGraph = new JButton(new ImageIcon("reportMenuIcons/LineGraphIcon2.png"));
 		ImageIcon lineGraphButtonHover = new ImageIcon("reportMenuIcons/LineGraphIcon3.png");
 		lineGraph.setBorderPainted(false);
@@ -200,95 +200,127 @@ public class TimePeriodSaleFrame extends JFrame {
 		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
 		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-		
+
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
 
 		JButton backButton = new JButton("Back");
 		resultsButtonPanel.add(backButton);
-		
+
 		//---------------------Event Handlers---------------------
 
-	// Report Type Changers
-			dollarRadioButton.addActionListener(new ActionListener()
-			{
+		// Report Type Changers
+		dollarRadioButton.addActionListener(new ActionListener()
+		{
 
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					reportType = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		volumeRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		profitRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		dayRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		weekRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		monthRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		// Get Results button
+		getResultsButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				boolean isStartNull = viewStartDate.getText() == null;
+				boolean isEndNull = viewEndDate.getText() == null;
+				if((!isStartNull) && (!isEndNull)) {
+					String startDateString = viewStartDate.getText();
+					String endDateString = viewEndDate.getText();
+					boolean isStartValid = controller.isValidDate(startDateString);
+					boolean isEndValid = controller.isValidDate(endDateString);
+					if((!isStartValid) || (!isEndValid)) {
+						viewStartDate.setText("");
+						viewEndDate.setText("");
+					}
+					else {
+						if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
+							controller.getResults(startDateString, endDateString);
+							controller.switchView(reportType, groupBy);
+						}
+						else {
+							viewStartDate.setText("");
+							viewEndDate.setText("");
+						}
+					}
 				}
-					
-			});
-			
-			volumeRadioButton.addActionListener(new ActionListener()
+			}
+
+		});
+
+		// Pressing Enter key on View Start Date textbox
+		viewStartDate.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
 			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					reportType = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
-				}
-					
-			});
-			
-			profitRadioButton.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					reportType = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
-				}
-					
-			});
-			
-			dayRadioButton.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					groupBy = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
-				}
-					
-			});
-
-			weekRadioButton.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					groupBy = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
-				}
-					
-			});
-			
-			monthRadioButton.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
-					groupBy = ae.getActionCommand();
-					controller.switchView(reportType, groupBy);
-				}
-					
-			});
-			
-			// Get Results button
-			getResultsButton.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent ae) 
-				{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					boolean isStartNull = viewStartDate.getText() == null;
 					boolean isEndNull = viewEndDate.getText() == null;
 					if((!isStartNull) && (!isEndNull)) {
@@ -312,74 +344,40 @@ public class TimePeriodSaleFrame extends JFrame {
 						}
 					}
 				}
-					
-			});
+			}
+		});
 
-			// Pressing Enter key on View Start Date textbox
-			viewStartDate.addKeyListener(new KeyAdapter()
+		// Pressing Enter key on View End Date textbox
+		viewEndDate.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
 			{
-					public void keyReleased(KeyEvent e)
-					{
-						if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-							boolean isStartNull = viewStartDate.getText() == null;
-							boolean isEndNull = viewEndDate.getText() == null;
-							if((!isStartNull) && (!isEndNull)) {
-								String startDateString = viewStartDate.getText();
-								String endDateString = viewEndDate.getText();
-								boolean isStartValid = controller.isValidDate(startDateString);
-								boolean isEndValid = controller.isValidDate(endDateString);
-								if((!isStartValid) || (!isEndValid)) {
-									viewStartDate.setText("");
-									viewEndDate.setText("");
-								}
-								else {
-									if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
-										controller.getResults(startDateString, endDateString);
-										controller.switchView(reportType, groupBy);
-									}
-									else {
-										viewStartDate.setText("");
-										viewEndDate.setText("");
-									}
-								}
-							}
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					boolean isStartNull = viewStartDate.getText() == null;
+					boolean isEndNull = viewEndDate.getText() == null;
+					if((!isStartNull) && (!isEndNull)) {
+						String startDateString = viewStartDate.getText();
+						String endDateString = viewEndDate.getText();
+						boolean isStartValid = controller.isValidDate(startDateString);
+						boolean isEndValid = controller.isValidDate(endDateString);
+						if((!isStartValid) || (!isEndValid)) {
+							viewStartDate.setText("");
+							viewEndDate.setText("");
 						}
-					}
-				});
-			
-			// Pressing Enter key on View End Date textbox
-			viewEndDate.addKeyListener(new KeyAdapter()
-			{
-				public void keyReleased(KeyEvent e)
-				{
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						boolean isStartNull = viewStartDate.getText() == null;
-						boolean isEndNull = viewEndDate.getText() == null;
-						if((!isStartNull) && (!isEndNull)) {
-							String startDateString = viewStartDate.getText();
-							String endDateString = viewEndDate.getText();
-							boolean isStartValid = controller.isValidDate(startDateString);
-							boolean isEndValid = controller.isValidDate(endDateString);
-							if((!isStartValid) || (!isEndValid)) {
-								viewStartDate.setText("");
-								viewEndDate.setText("");
+						else {
+							if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
+								controller.getResults(startDateString, endDateString);
+								controller.switchView(reportType, groupBy);
 							}
 							else {
-								if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
-									controller.getResults(startDateString, endDateString);
-									controller.switchView(reportType, groupBy);
-								}
-								else {
-									viewStartDate.setText("");
-									viewEndDate.setText("");
-								}
+								viewStartDate.setText("");
+								viewEndDate.setText("");
 							}
 						}
 					}
 				}
-			});
-
-		
+			}
+		});
 
 		backButton.addActionListener(new ActionListener()
 		{
@@ -390,7 +388,6 @@ public class TimePeriodSaleFrame extends JFrame {
 				dispose();
 			}
 		});
-
 
 		setVisible(true);
 	}

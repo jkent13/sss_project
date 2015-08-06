@@ -258,7 +258,7 @@ public class SqlBuilder {
 		
 		query.append("SELECT CONCAT(hrs.theHour, ':00-', hrs.theHour+1, ':00') as 'Hours', "
 				+ "COUNT(sale_date) AS `Number of Refunds`, "
-				+ "SUM(sale_subtotal) AS 'Refund Totals' "
+				+ "SUM(sale_total) AS 'Refund Totals' "
 				+ "FROM ( SELECT 8 AS theHour "
 				+ "UNION ALL SELECT 9 "
 				+ "UNION ALL SELECT 10 "
@@ -389,6 +389,65 @@ public class SqlBuilder {
 		query.append("'" + endDate + "' ");
 		query.append("AND sale_type = 'Purchase' "
 				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	public static String getRefundByDayQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
+				+ "COUNT(sale_id) AS `Number of Refunds`, "
+				+ "SUM(sale_total) AS 'Refund Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale.sale_type = 'Refund' "
+				+ "AND sale.sale_balance < 0 "
+				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
+				+ "ORDER BY sale_date;");
+
+		return query.toString();
+	}
+	
+	public static String getRefundByWeekQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Refunds`, "
+				+ "SUM(sale_total) AS 'Refund Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale.sale_type = 'Refund' "
+				+ "AND sale.sale_balance < 0 "
+				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	public static String getRefundByMonthQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Refunds`, "
+				+ "SUM(sale_total) AS 'Refund Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale.sale_type = 'Refund' "
+				+ "AND sale.sale_balance < 0 "
 				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
 				+ "ORDER BY sale_date;");
 		
