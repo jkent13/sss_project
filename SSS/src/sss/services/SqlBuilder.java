@@ -353,7 +353,44 @@ public class SqlBuilder {
 				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
 				+ "ORDER BY sale_date;");
 		
-		System.out.println(query.toString());
+		return query.toString();
+	}
+	
+	public static String getSaleDollarByMonthQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	public static String getGrossProfitByMonthQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
+				+ "ORDER BY sale_date;");
 		
 		return query.toString();
 	}

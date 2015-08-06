@@ -43,9 +43,9 @@ public class TimePeriodReportController {
 		private String[] weekVolumeColNames = {"Week No.", "Starting Date", "Number of Transactions"};
 		private String[] weekGrossProfitColNames = {"Week No.", "Starting Date", "Number of Products Sold", "Gross Profit"};
 		
-		private String[] monthSalesColNames = {"Month", "Number of Transactions", "Sale Total"};
-		private String[] monthVolumeColNames = {"Month", "Number of Transactions"};
-		private String[] monthGrossProfitColNames = {"Month", "Number of Products Sold", "Gross Profit"};
+		private String[] monthSalesColNames = {"Month", "Starting Date", "Number of Transactions","Sale Total"};
+		private String[] monthVolumeColNames = {"Month", "Starting Date", "Number of Transactions"};
+		private String[] monthGrossProfitColNames = {"Month", "Starting Date", "Number of Products Sold", "Gross Profit"};
 		
 		
 		/**
@@ -212,15 +212,72 @@ public class TimePeriodReportController {
 		}
 		
 		private void switchToSalesMonthDollarView() {
-			// TODO
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextMonthDollarRow = new Object[monthSalesData.getRowCount()][monthSalesData.getColumnCount()];
+			for(int i = 0; i < nextMonthDollarRow.length; i++) {
+				for(int j = 0; j < nextMonthDollarRow[0].length; j++) {
+					nextMonthDollarRow[i][j] = monthSalesData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(monthSalesColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextMonthDollarRow.length; i++) {
+				currentTableView.addRow(nextMonthDollarRow[i]);
+			}
 		}
 		
 		private void switchToSalesMonthVolumeView() {
-			//TODO
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextMonthVolumeRow = new Object[monthVolumeData.getRowCount()][monthVolumeData.getColumnCount()];
+			for(int i = 0; i < nextMonthVolumeRow.length; i++) {
+				for(int j = 0; j < nextMonthVolumeRow[0].length; j++) {
+					nextMonthVolumeRow[i][j] = monthVolumeData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(monthVolumeColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextMonthVolumeRow.length; i++) {
+				currentTableView.addRow(nextMonthVolumeRow[i]);
+			}
 		}
 		
 		private void switchToGrossProfitMonthView() {
-			// TODO
+			// REMOVE ALL ROWS
+			for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
+				currentTableView.removeRow(i);
+			}
+
+			// EXTRACT ALL DATA FROM NEW DATAMODEL
+			Object[][] nextMonthGrossProfitRow = new Object[monthGrossProfitData.getRowCount()][monthGrossProfitData.getColumnCount()];
+			for(int i = 0; i < nextMonthGrossProfitRow.length; i++) {
+				for(int j = 0; j < nextMonthGrossProfitRow[0].length; j++) {
+					nextMonthGrossProfitRow[i][j] = monthGrossProfitData.getValueAt(i, j);
+				}
+			}
+
+			// SET NEW COLUMNS
+			currentTableView.setColumnIdentifiers(monthGrossProfitColNames);
+
+			// ADD NEW ROWS
+			for(int i = 0; i < nextMonthGrossProfitRow.length; i++) {
+				currentTableView.addRow(nextMonthGrossProfitRow[i]);
+			}
 		}
 		
 		/**
@@ -356,8 +413,8 @@ public class TimePeriodReportController {
 				
 				// Get Month Queries ==================================================
 				
-				String monthSalesQuery = null;
-				String monthGrossProfitQuery = null;
+				String monthSalesQuery = SqlBuilder.getSaleDollarByMonthQuery(startDateString, endDateString);
+				String monthGrossProfitQuery = SqlBuilder.getGrossProfitByMonthQuery(startDateString, endDateString);
 				
 				// ====================================================================
 				// Populate Day tables ================================================
@@ -435,12 +492,41 @@ public class TimePeriodReportController {
 				// ====================================================================
 				// Populate Month Tables ==============================================
 				
+				ResultSet monthSalesResultSet = DbReader.executeQuery(monthSalesQuery);
 				
+				// Populate weekSalesData
+				while(monthSalesResultSet.next()) {
+					monthSalesData.addRow(new Object[] 
+							{monthSalesResultSet.getString(1),
+							monthSalesResultSet.getString(2),
+							monthSalesResultSet.getInt(3), 
+							new BigDecimal(monthSalesResultSet.getDouble(4)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+				}
 				
+				monthSalesResultSet.beforeFirst(); // Go back to before first row of ResultSet
 				
+				// Populate weekVolumeData with same ResultSet
+				while(monthSalesResultSet.next()) {
+					monthVolumeData.addRow(new Object[] 
+							{monthSalesResultSet.getString(1),
+							monthSalesResultSet.getString(2),
+							monthSalesResultSet.getInt(3)});
+				}
 				
+				monthSalesResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
+				ResultSet monthGrossProfitResultSet = DbReader.executeQuery(monthGrossProfitQuery);
 				
+				// Populate grossProfitSalesData
+				while(monthGrossProfitResultSet.next()) {
+					monthGrossProfitData.addRow(new Object[] 
+							{monthGrossProfitResultSet.getString(1),
+							monthGrossProfitResultSet.getString(2),
+							monthGrossProfitResultSet.getInt(3), 
+							new BigDecimal(monthGrossProfitResultSet.getDouble(4)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
+				}
 				
+				monthGrossProfitResultSet.close();
+					
 				// ====================================================================
 				
 				
