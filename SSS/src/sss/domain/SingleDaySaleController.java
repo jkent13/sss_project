@@ -1,6 +1,6 @@
-/* ReportController Class
+/* SingleDaySaleController Class
  * 
- * Serves as the controlling class behind all reporting use cases and UIs
+ * Serves as the controlling class behind all single day sale reports
  * 
  * Original Author: Josh Kent
  */
@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,16 +28,12 @@ public class SingleDaySaleController extends ReportController {
 	private NonEditableTableModel dollarSalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
 	private NonEditableTableModel volumeSalesData = new NonEditableTableModel();	// Contains only hour and sale volume
 	private NonEditableTableModel grossProfitSalesData = new NonEditableTableModel(); // Contains only GP and sale volume
-	private NonEditableTableModel dollarRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund dollar info
-	private NonEditableTableModel volumeRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund volume info
 	
 	// Column names of table models
 	private String[] allSalesColNames = {"Sale ID", "Timestamp", "Total", "Amount Tendered", "Change Given"};
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
 	private String[] volumeSalesColNames = {"Hours", "Number of Transactions"};
 	private String[] grossProfitColNames = {"Hours", "Number of Products Sold", "Gross Profit"};
-	private String[] dollarRefundsColNames = {"Hours", "Number of Refunds", "Refund Total"};
-	private String[] volumeRefundsColNames = {"Hours", "Number of Refunds"};
 	
 	/**
 	 * Constructor - calls initialise to set up controller
@@ -56,8 +51,6 @@ public class SingleDaySaleController extends ReportController {
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
 		volumeSalesData.setColumnIdentifiers(volumeSalesColNames);
 		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
-		dollarRefundsData.setColumnIdentifiers(dollarRefundsColNames);
-		volumeRefundsData.setColumnIdentifiers(volumeRefundsColNames);
 	}
 	
 	private void switchToAllSalesView() {
@@ -154,52 +147,6 @@ public class SingleDaySaleController extends ReportController {
 		}
 	}
 	
-	private void switchViewToRefundDollarView() {
-		// REMOVE ALL ROWS
-		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-			currentTableView.removeRow(i);
-		}
-
-		// EXTRACT ALL DATA FROM NEW DATAMODEL
-		Object[][] nextDollarRefundRow = new Object[dollarRefundsData.getRowCount()][dollarRefundsData.getColumnCount()];
-		for(int i = 0; i < nextDollarRefundRow.length; i++) {
-			for(int j = 0; j < nextDollarRefundRow[0].length; j++) {
-				nextDollarRefundRow[i][j] = dollarRefundsData.getValueAt(i, j);
-			}
-		}
-
-		// SET NEW COLUMNS
-		currentTableView.setColumnIdentifiers(dollarRefundsColNames);
-
-		// ADD NEW ROWS
-		for(int i = 0; i < nextDollarRefundRow.length; i++) {
-			currentTableView.addRow(nextDollarRefundRow[i]);
-		}
-	}
-	
-	private void switchViewToRefundVolumeView() {
-		// REMOVE ALL ROWS
-		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
-			currentTableView.removeRow(i);
-		}
-
-		// EXTRACT ALL DATA FROM NEW DATAMODEL
-		Object[][] nextVolumeRefundRow = new Object[volumeRefundsData.getRowCount()][volumeRefundsData.getColumnCount()];
-		for(int i = 0; i < nextVolumeRefundRow.length; i++) {
-			for(int j = 0; j < nextVolumeRefundRow[0].length; j++) {
-				nextVolumeRefundRow[i][j] = volumeRefundsData.getValueAt(i, j);
-			}
-		}
-
-		// SET NEW COLUMNS
-		currentTableView.setColumnIdentifiers(volumeRefundsColNames);
-
-		// ADD NEW ROWS
-		for(int i = 0; i < nextVolumeRefundRow.length; i++) {
-			currentTableView.addRow(nextVolumeRefundRow[i]);
-		}
-	}
-	
 	/**
 	 * Method to switch the table model data based on user input
 	 * @param reportType the report type (dollar, volume, profit)
@@ -218,14 +165,8 @@ public class SingleDaySaleController extends ReportController {
 			else if(reportType.equals("volume")) {
 				switchToSummarySalesVolumeView();				
 			}
-			else if(reportType.equals("profit")){
-				switchToSummaryGrossProfitView();
-			}
-			else if(reportType.equals("refundDollar")) {
-				switchViewToRefundDollarView();
-			}
 			else {
-				switchViewToRefundVolumeView();
+				switchToSummaryGrossProfitView();
 			}
 			break;
 		default:
@@ -274,23 +215,10 @@ public class SingleDaySaleController extends ReportController {
 				}
 			}
 			
-			if(dollarRefundsData.getRowCount() != 0) {
-				for(int i = dollarRefundsData.getRowCount()-1; i != -1; i--) {
-					dollarRefundsData.removeRow(i);
-				}
-			}
-			
-			if(volumeRefundsData.getRowCount() != 0) {
-				for(int i = volumeRefundsData.getRowCount()-1; i != -1; i--) {
-					volumeRefundsData.removeRow(i);
-				}
-			}
-			
 			// GET QUERIES
 			String allSalesQuery = SqlBuilder.getSaleReportQuery(startDate, endDate);
 			String summarySalesQuery = SqlBuilder.getSaleReportByHourQuery(startDate);
 			String grossProfitSalesQuery = SqlBuilder.getSingleDayGrossProfitQuery(startDate);
-			String refundQuery = SqlBuilder.getSingleDayRefundQuery(startDate);
 			
 			ResultSet summaryResultSet = DbReader.executeQuery(summarySalesQuery);
 			
@@ -338,26 +266,6 @@ public class SingleDaySaleController extends ReportController {
 			}
 			
 			grossProfitResultSet.close();
-			ResultSet refundResultSet = DbReader.executeQuery(refundQuery);
-			
-			// Populate dollarRefundsData
-			while(refundResultSet.next()) {
-				dollarRefundsData.addRow(new Object[] 
-						{refundResultSet.getString(1),
-						refundResultSet.getInt(2), 
-						new BigDecimal(refundResultSet.getDouble(3)).setScale(2, BigDecimal.ROUND_HALF_EVEN) });
-			}
-			
-			refundResultSet.beforeFirst(); // Go back to before first row of ResultSet
-			
-			// Populate volumeSalesData with same ResultSet
-			while(refundResultSet.next()) {
-				volumeRefundsData.addRow(new Object[] 
-						{refundResultSet.getString(1),
-						refundResultSet.getInt(2)});
-			}
-			
-			refundResultSet.close();
 			
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
@@ -391,18 +299,11 @@ public class SingleDaySaleController extends ReportController {
 		case "dollar" :
 			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarSalesData);
 			break;
-
 		case "volume" :
 			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarSalesData);
 			break;
 		case "profit" :
 			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, grossProfitSalesData);
-			break;
-		case "refundDollar" :
-			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
-			break;
-		case "refundVolume" :
-			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
 			break;
 		default :
 			break;
