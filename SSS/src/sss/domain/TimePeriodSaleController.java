@@ -13,7 +13,7 @@ import sss.services.ChartBuilder;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
-public class TimePeriodReportController {
+public class TimePeriodSaleController {
 		
 		private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		// Date format used to validate input
 		private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
@@ -51,7 +51,7 @@ public class TimePeriodReportController {
 		/**
 		 * Constructor - calls initialise to set up controller
 		 */
-		public TimePeriodReportController() {
+		public TimePeriodSaleController() {
 			initialise();
 		}
 		
