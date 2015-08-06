@@ -21,7 +21,7 @@ import sss.services.ChartBuilder;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
-public class ReportController {
+public class SingleDaySaleController {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		// Date format used to validate input
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
@@ -48,7 +48,7 @@ public class ReportController {
 	/**
 	 * Constructor - calls initialise to set up controller
 	 */
-	public ReportController() {
+	public SingleDaySaleController() {
 		initialise();
 	}
 	
