@@ -33,7 +33,7 @@ import sss.domain.TimePeriodRefundController;
 @SuppressWarnings("serial")
 public class TimePeriodRefundFrame extends JFrame {
 
-	private String reportType = "dollar";
+	private String reportType = "refundDollar";
 	private String groupBy = "day";
 
 	private TimePeriodRefundController controller = new TimePeriodRefundController();
@@ -121,8 +121,8 @@ public class TimePeriodRefundFrame extends JFrame {
 		JRadioButton volumeRadioButton = new JRadioButton("Refunds by Volume", false);
 		ButtonGroup reportTypeGroup = new ButtonGroup();
 
-		dollarRadioButton.setActionCommand("dollar");
-		volumeRadioButton.setActionCommand("volume");
+		dollarRadioButton.setActionCommand("refundDollar");
+		volumeRadioButton.setActionCommand("refundVolume");
 
 		reportTypeGroup.add(dollarRadioButton);
 		reportTypeGroup.add(volumeRadioButton);
@@ -347,6 +347,16 @@ public class TimePeriodRefundFrame extends JFrame {
 			}
 		});
 
+		barGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType, groupBy);
+			}
+		});
+		
 		backButton.addActionListener(new ActionListener()
 		{
 

@@ -331,4 +331,77 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+
+	
+	public static DefaultCategoryDataset convertRefundVolumeByDay(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> refunds = new ArrayList<Integer>();
+		ArrayList<String> days = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if(j == 0)
+					days.add((String)dbData.getValueAt(i, j));
+				else if (j == 1)
+					refunds.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < refunds.size(); i++) {
+			chartData.addValue(refunds.get(i), "No. of Refunds", days.get(i));
+		}
+		return chartData;
+	}
+	
+	public static DefaultCategoryDataset convertRefundVolumeByWeek(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> refunds = new ArrayList<Integer>();
+		ArrayList<String> weeks = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if(j == 0)
+					weeks.add((String)dbData.getValueAt(i, j));
+				else if (j == 2)
+					refunds.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < refunds.size(); i++) {
+			chartData.addValue(refunds.get(i), "No. of Refunds", weeks.get(i));
+		}
+		return chartData;
+	}
+	
+	public static DefaultCategoryDataset convertRefundVolumeByMonth(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> refunds = new ArrayList<Integer>();
+		ArrayList<String> months = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if(j == 0)
+					months.add((String)dbData.getValueAt(i, j));
+				else if (j == 2)
+					refunds.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < refunds.size(); i++) {
+			chartData.addValue(refunds.get(i), "No. of Refunds", months.get(i));
+		}
+		return chartData;
+	}
 }

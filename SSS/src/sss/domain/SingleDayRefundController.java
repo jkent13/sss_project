@@ -161,16 +161,6 @@ private String dateOfCurrentReport = "No Date";
 	}
 	
 	public void showBarChart(String reportType) {
-		
-		switch(reportType) {
-		case "refundDollar" :
 			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
-			break;
-		case "refundVolume" :
-			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
-			break;
-		default :
-			break;
-		}
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import sss.services.ChartBuilder;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
@@ -390,23 +391,18 @@ public class TimePeriodRefundController extends ReportController {
 	}
 	
 	
-	// Chart Methods ===========================================================
-	public void showLineChart(String reportType) {
-		throw new UnsupportedOperationException("Error: Refund reports cannot be displayed as line charts!");
-	}
-	
-	public void showBarChart(String reportType) {
+	// Chart Methods ===========================================================	
+	public void showBarChart(String reportType, String groupBy) {
 		
-		switch(reportType) {
-		case "dollar" :
-			break;
-		case "volume" :
-			break;
-		case "profit" :
-			break;
-		case "refundDollar" :
-			break;
-		case "refundVolume" :
+		switch(groupBy) {
+		case "day" :
+				ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, dayDollarData);
+				break;
+		case "week" :
+				ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekDollarData);
+				break;
+		case "month" :
+			ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthDollarData);
 			break;
 		default :
 			break;
