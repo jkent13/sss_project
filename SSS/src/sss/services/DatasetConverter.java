@@ -20,7 +20,7 @@ public class DatasetConverter {
 		
 	}
 	
-	public static DefaultCategoryDataset convertSingleDayDollar(NonEditableTableModel dataModel) {
+	public static DefaultCategoryDataset convertSalesDollarByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> totals = new ArrayList<Double>();
 		ArrayList<String> hours = new ArrayList<String>();
@@ -44,7 +44,7 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
-	public static DefaultCategoryDataset convertSingleDayVolume(NonEditableTableModel dataModel) {
+	public static DefaultCategoryDataset convertSalesVolumeByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> sales = new ArrayList<Integer>();
 		ArrayList<String> hours = new ArrayList<String>();
@@ -68,7 +68,7 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
-	public static DefaultCategoryDataset convertSingleDayGrossProfit(NonEditableTableModel dataModel) {
+	public static DefaultCategoryDataset convertGrossProfitByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> profitTotals = new ArrayList<Double>();
 		ArrayList<String> hours = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
-	public static DefaultCategoryDataset convertSingleDayRefundVolume(NonEditableTableModel dataModel) {
+	public static DefaultCategoryDataset convertRefundVolumeByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> refunds = new ArrayList<Integer>();
 		ArrayList<String> hours = new ArrayList<String>();
@@ -115,5 +115,52 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+
+	public static DefaultCategoryDataset convertSalesDollarByDay(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Double> totals = new ArrayList<Double>();
+		ArrayList<String> days = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if((j % 3) == 0)
+					days.add((String)dbData.getValueAt(i, j));
+				else if (j % 2 == 0)
+					totals.add(Double.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
 	
+		for(int i = 0; i < totals.size(); i++) {
+			chartData.addValue(totals.get(i), "Amount ($)", days.get(i));
+		}
+		return chartData;
+	}
+	
+	public static DefaultCategoryDataset convertSalesVolumeByDay(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> sales = new ArrayList<Integer>();
+		ArrayList<String> days = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if((j % 3) == 0)
+					days.add((String)dbData.getValueAt(i, j));
+				else if (j % 2 == 1)
+					sales.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < sales.size(); i++) {
+			chartData.addValue(sales.get(i), "No. of Sales", days.get(i));
+		}
+		return chartData;
+	}
 }

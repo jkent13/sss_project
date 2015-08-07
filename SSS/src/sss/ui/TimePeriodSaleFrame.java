@@ -378,6 +378,27 @@ public class TimePeriodSaleFrame extends JFrame {
 				}
 			}
 		});
+		
+		
+		lineGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showLineChart(reportType, groupBy);
+			}
+		});
+		
+		barGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType, groupBy);
+			}
+		});
 
 		backButton.addActionListener(new ActionListener()
 		{

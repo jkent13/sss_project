@@ -188,7 +188,7 @@ public class SingleDaySaleController extends ReportController {
 
 			String endDate = sqlDateFormat.format(calendar.getTime()); 	// Convert to MySQL date string
 			String startDate = sqlDateFormat.format(inputDate); 		// Convert to MySQL date string
-			dateOfCurrentReport = startDate;
+			dateOfCurrentReport = dateFormat.format(inputDate);
 			
 			// CLEAR DATA MODELS
 			if(dollarSalesData.getRowCount() != 0) {

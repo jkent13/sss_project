@@ -328,8 +328,8 @@ public class TimePeriodSaleController extends ReportController {
 				String startDateString = sqlDateFormat.format(inputStartDate); 		// Convert to MySQL date string
 				String endDateString = sqlDateFormat.format(inputEndDate); 	// Convert to MySQL date string
 				
-				dateRangeOfCurrentReport[0] = startDate;
-				dateRangeOfCurrentReport[1] = endDate;
+				dateRangeOfCurrentReport[0] = dateFormat.format(inputStartDate);
+				dateRangeOfCurrentReport[1] = dateFormat.format(inputEndDate);
 				
 				// CLEAR DATA MODELS			
 				// Day Tables =========================================================
@@ -535,12 +535,18 @@ public class TimePeriodSaleController extends ReportController {
 		
 		
 		// Chart Methods ==========================================================
-		public void showLineChart(String reportType) {
+		public void showLineChart(String reportType, String groupBy) {
 			
 			switch(reportType) {
 			case "dollar" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChartByDay(reportType, dateRangeOfCurrentReport, daySalesData);
+				}
 				break;
 			case "volume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChartByDay(reportType, dateRangeOfCurrentReport, dayVolumeData);
+				}
 		    break;
 			case "profit" :
 				break;
@@ -549,12 +555,18 @@ public class TimePeriodSaleController extends ReportController {
 			}
 		}
 		
-		public void showBarChart(String reportType) {
+		public void showBarChart(String reportType, String groupBy) {
 			
 			switch(reportType) {
 			case "dollar" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChartByDay(reportType, dateRangeOfCurrentReport, daySalesData);
+				}
 				break;
 			case "volume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChartByDay(reportType, dateRangeOfCurrentReport, dayVolumeData);
+				}
 				break;
 			case "profit" :
 				break;

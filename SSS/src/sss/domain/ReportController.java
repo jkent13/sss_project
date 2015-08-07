@@ -15,10 +15,6 @@ public abstract class ReportController {
 	
 	protected abstract void initialise();
 	
-	protected abstract void showLineChart(String reportType);
-	
-	protected abstract void showBarChart(String reportType);
-	
 	public abstract void switchView(String reportType, String viewType);
 	
 	public NonEditableTableModel getDataModel() {

@@ -115,7 +115,7 @@ private String dateOfCurrentReport = "No Date";
 		try {
 			Date inputDate = dateFormat.parse(inputDateString);
 			String startDate = sqlDateFormat.format(inputDate); 		// Convert to MySQL date string
-			dateOfCurrentReport = startDate;
+			dateOfCurrentReport = dateFormat.format(inputDate);
 			
 			// CLEAR DATA MODELS			
 			if(dollarRefundsData.getRowCount() != 0) {
@@ -173,10 +173,4 @@ private String dateOfCurrentReport = "No Date";
 			break;
 		}
 	}
-
-	@Override
-	protected void showLineChart(String reportType) {
-		throw new UnsupportedOperationException("Error: Refund reports cannot be displayed as line charts!");
-	}	
-
 }
