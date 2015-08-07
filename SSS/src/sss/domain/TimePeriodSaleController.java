@@ -540,15 +540,36 @@ public class TimePeriodSaleController extends ReportController {
 			switch(reportType) {
 			case "dollar" :
 				if(groupBy.equals("day")) {
-					ChartBuilder.showTimePeriodLineChartByDay(reportType, dateRangeOfCurrentReport, daySalesData);
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, daySalesData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekSalesData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthSalesData);
 				}
 				break;
 			case "volume" :
 				if(groupBy.equals("day")) {
-					ChartBuilder.showTimePeriodLineChartByDay(reportType, dateRangeOfCurrentReport, dayVolumeData);
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, dayVolumeData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekVolumeData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthVolumeData);
 				}
 		    break;
 			case "profit" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, dayGrossProfitData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekGrossProfitData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthGrossProfitData);
+				}
 				break;
 			default:
 				break;
@@ -560,19 +581,36 @@ public class TimePeriodSaleController extends ReportController {
 			switch(reportType) {
 			case "dollar" :
 				if(groupBy.equals("day")) {
-					ChartBuilder.showTimePeriodBarChartByDay(reportType, dateRangeOfCurrentReport, daySalesData);
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, daySalesData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekSalesData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthSalesData);
 				}
 				break;
 			case "volume" :
 				if(groupBy.equals("day")) {
-					ChartBuilder.showTimePeriodBarChartByDay(reportType, dateRangeOfCurrentReport, dayVolumeData);
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, dayVolumeData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekVolumeData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthVolumeData);
 				}
 				break;
 			case "profit" :
-				break;
-			case "refundDollar" :
-				break;
-			case "refundVolume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, dayGrossProfitData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekGrossProfitData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthGrossProfitData);
+				}
 				break;
 			default :
 				break;

@@ -29,9 +29,10 @@ public class ChartBuilder {
 		
 	}
 	
-	public static void showTimePeriodBarChartByDay(String reportType, String[] dateRange, NonEditableTableModel dataModel) {
+	public static void showTimePeriodBarChart(String reportType, String groupBy, String[] dateRange, NonEditableTableModel dataModel) {
 		switch(reportType) {
 		case "dollar" :
+			if(groupBy.equals("day")) {
 			DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByDay(dataModel);
 			ChartPanel dollarChartPanel = createSaleDollarByDayChart(dollarData, ChartBuilder.CHART_TYPE_BAR);
 				    
@@ -42,8 +43,34 @@ public class ChartBuilder {
 	    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
 
 	    dollarChartFrame.setVisible(true);
+			}
+			else if(groupBy.equals("week")) {
+				DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByWeek(dataModel);
+				ChartPanel dollarChartPanel = createSaleDollarByWeekChart(dollarData, ChartBuilder.CHART_TYPE_BAR);
+					    
+		    JFrame dollarChartFrame = new JFrame();
+		    dollarChartFrame.setContentPane(dollarChartPanel);
+		    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+		    dollarChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
+
+		    dollarChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByMonth(dataModel);
+				ChartPanel dollarChartPanel = createSaleDollarByMonthChart(dollarData, ChartBuilder.CHART_TYPE_BAR);
+					    
+		    JFrame dollarChartFrame = new JFrame();
+		    dollarChartFrame.setContentPane(dollarChartPanel);
+		    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+		    dollarChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
+
+		    dollarChartFrame.setVisible(true);
+			}
 			break;
 		case "volume" : 
+			if(groupBy.equals("day")) {
 			DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByDay(dataModel);
 			ChartPanel volumeChartPanel = createSaleVolumeByDayChart(volumeData, ChartBuilder.CHART_TYPE_BAR);
 				    
@@ -54,17 +81,79 @@ public class ChartBuilder {
 	    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
 
 	    volumeChartFrame.setVisible(true);
+			}
+			else if (groupBy.equals("week")) {
+				DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByWeek(dataModel);
+				ChartPanel volumeChartPanel = createSaleVolumeByWeekChart(volumeData, ChartBuilder.CHART_TYPE_BAR);
+					    
+		    JFrame volumeChartFrame = new JFrame();
+		    volumeChartFrame.setContentPane(volumeChartPanel);
+		    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateRange[0] + " - " + dateRange[1]);
+		    volumeChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
+
+		    volumeChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByMonth(dataModel);
+				ChartPanel volumeChartPanel = createSaleVolumeByMonthChart(volumeData, ChartBuilder.CHART_TYPE_BAR);
+					    
+		    JFrame volumeChartFrame = new JFrame();
+		    volumeChartFrame.setContentPane(volumeChartPanel);
+		    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateRange[0] + " - " + dateRange[1]);
+		    volumeChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
+
+		    volumeChartFrame.setVisible(true);
+			}
 			break;
 		case "profit" :
+			if(groupBy.equals("day")) {
+			DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByDay(dataModel);
+			ChartPanel grossProfitChartPanel = createGrossProfitByDayChart(profitData, ChartBuilder.CHART_TYPE_BAR);
+
+			JFrame grossProfitChartFrame = new JFrame();
+			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+			grossProfitChartFrame.pack();
+			RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+			grossProfitChartFrame.setVisible(true);
+			}
+			else if(groupBy.equals("week")) {
+				DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByWeek(dataModel);
+				ChartPanel grossProfitChartPanel = createGrossProfitByWeekChart(profitData, ChartBuilder.CHART_TYPE_BAR);
+
+				JFrame grossProfitChartFrame = new JFrame();
+				grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+				grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+				grossProfitChartFrame.pack();
+				RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+				grossProfitChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByMonth(dataModel);
+				ChartPanel grossProfitChartPanel = createGrossProfitByMonthChart(profitData, ChartBuilder.CHART_TYPE_BAR);
+
+				JFrame grossProfitChartFrame = new JFrame();
+				grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+				grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+				grossProfitChartFrame.pack();
+				RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+				grossProfitChartFrame.setVisible(true);
+			}
 			break;
 		default :
 			break;
 		}
 	}
 	
-	public static void showTimePeriodLineChartByDay(String reportType, String[] dateRange, NonEditableTableModel dataModel) {
+	public static void showTimePeriodLineChart(String reportType, String groupBy, String[] dateRange, NonEditableTableModel dataModel) {
 		switch(reportType) {
 		case "dollar" :
+			if(groupBy.equals("day")) {
 			DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByDay(dataModel);
 			ChartPanel dollarChartPanel = createSaleDollarByDayChart(dollarData, ChartBuilder.CHART_TYPE_LINE);
 				    
@@ -75,8 +164,35 @@ public class ChartBuilder {
 	    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
 
 	    dollarChartFrame.setVisible(true);
+			}
+			else if (groupBy.equals("week")) {
+				DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByWeek(dataModel);
+				ChartPanel dollarChartPanel = createSaleDollarByWeekChart(dollarData, ChartBuilder.CHART_TYPE_LINE);
+					    
+		    JFrame dollarChartFrame = new JFrame();
+		    dollarChartFrame.setContentPane(dollarChartPanel);
+		    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+		    dollarChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
+
+		    dollarChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByMonth(dataModel);
+				ChartPanel dollarChartPanel = createSaleDollarByMonthChart(dollarData, ChartBuilder.CHART_TYPE_LINE);
+					    
+		    JFrame dollarChartFrame = new JFrame();
+		    dollarChartFrame.setContentPane(dollarChartPanel);
+		    dollarChartFrame.setTitle("Viewing Sales by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+		    dollarChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(dollarChartFrame);
+
+		    dollarChartFrame.setVisible(true);
+				
+			}
 	    break;
 		case "volume" : 
+			if(groupBy.equals("day")) {
 			DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByDay(dataModel);
 			ChartPanel volumeChartPanel = createSaleVolumeByDayChart(volumeData, ChartBuilder.CHART_TYPE_LINE);
 				    
@@ -87,8 +203,71 @@ public class ChartBuilder {
 	    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
 
 	    volumeChartFrame.setVisible(true);
+			}
+			else if (groupBy.equals("week")) {
+				DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByWeek(dataModel);
+				ChartPanel volumeChartPanel = createSaleVolumeByWeekChart(volumeData, ChartBuilder.CHART_TYPE_LINE);
+					    
+		    JFrame volumeChartFrame = new JFrame();
+		    volumeChartFrame.setContentPane(volumeChartPanel);
+		    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateRange[0] + " - " + dateRange[1]);
+		    volumeChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
+
+		    volumeChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset volumeData = DatasetConverter.convertSalesVolumeByMonth(dataModel);
+				ChartPanel volumeChartPanel = createSaleVolumeByMonthChart(volumeData, ChartBuilder.CHART_TYPE_LINE);
+					    
+		    JFrame volumeChartFrame = new JFrame();
+		    volumeChartFrame.setContentPane(volumeChartPanel);
+		    volumeChartFrame.setTitle("Viewing Sales by Volume for: " + dateRange[0] + " - " + dateRange[1]);
+		    volumeChartFrame.pack();
+		    RefineryUtilities.centerFrameOnScreen(volumeChartFrame);
+
+		    volumeChartFrame.setVisible(true);
+				
+			}
 			break;
-		case "profit" :
+		case "profit" : 
+			if(groupBy.equals("day")) {
+			DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByDay(dataModel);
+			ChartPanel grossProfitChartPanel = createGrossProfitByDayChart(profitData, ChartBuilder.CHART_TYPE_LINE);
+
+			JFrame grossProfitChartFrame = new JFrame();
+			grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+			grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+			grossProfitChartFrame.pack();
+			RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+			grossProfitChartFrame.setVisible(true);
+			}
+			else if (groupBy.equals("week")) {
+				DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByWeek(dataModel);
+				ChartPanel grossProfitChartPanel = createGrossProfitByWeekChart(profitData, ChartBuilder.CHART_TYPE_LINE);
+
+				JFrame grossProfitChartFrame = new JFrame();
+				grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+				grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+				grossProfitChartFrame.pack();
+				RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+				grossProfitChartFrame.setVisible(true);
+			}
+			else {
+				DefaultCategoryDataset profitData = DatasetConverter.convertGrossProfitByMonth(dataModel);
+				ChartPanel grossProfitChartPanel = createGrossProfitByMonthChart(profitData, ChartBuilder.CHART_TYPE_LINE);
+
+				JFrame grossProfitChartFrame = new JFrame();
+				grossProfitChartFrame.setContentPane(grossProfitChartPanel);
+				grossProfitChartFrame.setTitle("Viewing Gross Profit by Dollar for: " + dateRange[0] + " - " + dateRange[1]);
+				grossProfitChartFrame.pack();
+				RefineryUtilities.centerFrameOnScreen(grossProfitChartFrame);
+
+				grossProfitChartFrame.setVisible(true);
+				
+			}
 			break;
 		default :
 			break;
@@ -225,7 +404,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -251,6 +430,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
 			
 			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -278,7 +458,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -303,6 +483,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
 			
 			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -330,7 +511,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -355,6 +536,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
 			
 			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -382,7 +564,7 @@ public class ChartBuilder {
 	    plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(214, 48, 15));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 	    
@@ -415,7 +597,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(214, 48, 15));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -434,7 +616,7 @@ public class ChartBuilder {
 			return null;
 		}
 	}
-
+	
 	private static ChartPanel createSaleDollarByDayChart(DefaultCategoryDataset data, int chartType) {
 		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
 			JFreeChart dollarChart = ChartFactory.createBarChart(
@@ -448,7 +630,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -474,6 +656,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
 			
 			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -501,7 +684,7 @@ public class ChartBuilder {
 			plot.setDomainGridlinesVisible(true);
 			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
-			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(112, 152, 244));
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
 			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
 			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
 			
@@ -526,6 +709,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
 			
 			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -540,4 +724,376 @@ public class ChartBuilder {
 		}
 	}
 	
+	private static ChartPanel createGrossProfitByDayChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart grossProfitChart = ChartFactory.createBarChart(
+					"",
+					"Day","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+		else { 
+			JFreeChart grossProfitChart = ChartFactory.createLineChart(
+					"",
+					"Day","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+						
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+	}
+
+	private static ChartPanel createSaleDollarByWeekChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart dollarChart = ChartFactory.createBarChart(
+					"",
+					"Week","Sale Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+			ChartPanel dollarChartPanel = new ChartPanel(dollarChart);
+			dollarChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+
+			return dollarChartPanel;
+		}
+
+		else { 
+			JFreeChart dollarChart = ChartFactory.createLineChart(
+					"",
+					"Week","Sale Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+			ChartPanel dollarChartPanel = new ChartPanel(dollarChart);
+			dollarChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+
+			return dollarChartPanel;
+		}
+	}
+	
+	private static ChartPanel createSaleVolumeByWeekChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart volumeChart = ChartFactory.createBarChart(
+					"",
+					"Week","No. of Transactions",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel volumeChartPanel = new ChartPanel(volumeChart);
+			volumeChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+			
+			return volumeChartPanel;
+		}
+		else { 
+			JFreeChart volumeChart = ChartFactory.createLineChart(
+					"",
+					"Week","No. of Transactions",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel volumeChartPanel = new ChartPanel(volumeChart);
+			volumeChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+			
+			return volumeChartPanel;
+		}
+	}
+	
+	private static ChartPanel createGrossProfitByWeekChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart grossProfitChart = ChartFactory.createBarChart(
+					"",
+					"Week","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+		else { 
+			JFreeChart grossProfitChart = ChartFactory.createLineChart(
+					"",
+					"Week","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+						
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+	}
+	
+	private static ChartPanel createSaleDollarByMonthChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart dollarChart = ChartFactory.createBarChart(
+					"",
+					"Month","Sale Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+			ChartPanel dollarChartPanel = new ChartPanel(dollarChart);
+			dollarChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+
+			return dollarChartPanel;
+		}
+
+		else { 
+			JFreeChart dollarChart = ChartFactory.createLineChart(
+					"",
+					"Month","Sale Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)dollarChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+			ChartPanel dollarChartPanel = new ChartPanel(dollarChart);
+			dollarChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+
+			return dollarChartPanel;
+		}
+	}
+	
+	private static ChartPanel createSaleVolumeByMonthChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart volumeChart = ChartFactory.createBarChart(
+					"",
+					"Month","No. of Transactions",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel volumeChartPanel = new ChartPanel(volumeChart);
+			volumeChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+			
+			return volumeChartPanel;
+		}
+		else { 
+			JFreeChart volumeChart = ChartFactory.createLineChart(
+					"",
+					"Month","No. of Transactions",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)volumeChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel volumeChartPanel = new ChartPanel(volumeChart);
+			volumeChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+			
+			return volumeChartPanel;
+		}
+	}
+	
+	private static ChartPanel createGrossProfitByMonthChart(DefaultCategoryDataset data, int chartType) {
+		if(chartType == ChartBuilder.CHART_TYPE_BAR) {
+			JFreeChart grossProfitChart = ChartFactory.createBarChart(
+					"",
+					"Month","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
+			((BarRenderer) plot.getRenderer()).setSeriesPaint(0, new Color(93, 212, 121));
+			((BarRenderer) plot.getRenderer()).setSeriesOutlinePaint(0, new Color(0, 0, 0));
+			((BarRenderer) plot.getRenderer()).setDrawBarOutline(true);
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+			
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+		else { 
+			JFreeChart grossProfitChart = ChartFactory.createLineChart(
+					"",
+					"Month","GP Amount ($)",
+					data,
+					PlotOrientation.VERTICAL,
+					false,true,false);
+
+			CategoryPlot plot = (CategoryPlot)grossProfitChart.getPlot();
+			plot.setDomainGridlinesVisible(true);
+			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			
+			CategoryAxis xAxis = (CategoryAxis)plot.getDomainAxis();
+			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+						
+			NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+      yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			
+			ChartPanel grossProfitChartPanel = new ChartPanel(grossProfitChart);
+			grossProfitChartPanel.setPreferredSize(new java.awt.Dimension(1000, 600 ));
+			
+			return grossProfitChartPanel;
+		}
+	}	
 }
