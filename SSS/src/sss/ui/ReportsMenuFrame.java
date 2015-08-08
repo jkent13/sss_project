@@ -32,16 +32,12 @@ public class ReportsMenuFrame extends JFrame {
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(3,1,10,10));
 		add(fullScreenPanel);
 
 		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-		topPanel.setBorder(topPanelTitle);
 		topPanel.setLayout(new GridLayout(3,2,10,10));
 		fullScreenPanel.add(topPanel);
 

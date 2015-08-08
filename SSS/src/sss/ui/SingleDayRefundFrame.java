@@ -50,8 +50,7 @@ public class SingleDayRefundFrame extends JFrame {
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
+		fullScreenPanel.setBorder(new EmptyBorder(10,10,10,10));
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
@@ -64,8 +63,6 @@ public class SingleDayRefundFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
@@ -78,8 +75,6 @@ public class SingleDayRefundFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("Report Type:");
-		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(3,2,10,10));
 		
 		JTextField viewDate = new JTextField();
