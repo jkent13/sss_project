@@ -33,6 +33,7 @@ public class MockupMainMenu {
 		mainMenuFrame.setTitle("Main Menu");
 		mainMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		mainMenuFrame.setLocationRelativeTo(null);
+		mainMenuFrame.setUndecorated(true);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 
