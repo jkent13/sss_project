@@ -52,88 +52,89 @@ public class AddProductFrame extends JFrame {
 		titlePanel.add(addProductTitle);
 		topPanel.add(titlePanel, BorderLayout.NORTH);
 		
-		JPanel panelforinfo = new JPanel(new GridLayout(1, 2, 50, 10));
-		addProductpanel.add(panelforinfo);
+		JPanel middlePanel = new JPanel(new GridLayout(1, 2, 50, 10));
+		addProductpanel.add(middlePanel);
 		
-		JPanel productINFO = new JPanel(new GridLayout(6, 2, 10, 10));
-		TitledBorder productINFOT = new TitledBorder("PRODUCT");
-		productINFO.setBorder(productINFOT);
-		panelforinfo.add(productINFO);
+		JPanel productPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+		TitledBorder productPanelTitle = new TitledBorder("PRODUCT");
+		productPanel.setBorder(productPanelTitle);
+		middlePanel.add(productPanel);
 		
-		JPanel pricingINFO = new JPanel(new GridLayout(2, 1, 10, 10));
-		TitledBorder pricingINFOT = new TitledBorder("Pricing");
-		pricingINFO.setBorder(pricingINFOT);
-		panelforinfo.add(pricingINFO);
+		JPanel pricingPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+		TitledBorder pricingPanelTitle = new TitledBorder("Pricing");
+		pricingPanel.setBorder(pricingPanelTitle);
+		middlePanel.add(pricingPanel);
+		
 		
 //---------------------Create Fields---------------------
 		
-		JLabel barcodeLabel = new JLabel ("Barcode");
+		JLabel barcodeLabel = new JLabel ("Barcode:");
 		JTextField barcodeText = new JTextField ("");
 		
-		JLabel productCLabel = new JLabel ("Product Code");
-		JTextField productCText = new JTextField ("");
+		JLabel productCodeLabel = new JLabel ("Product Code:");
+		JTextField productCodeText = new JTextField ("");
 		
-		JLabel nameLabel = new JLabel ("Name");
+		JLabel nameLabel = new JLabel ("Name:");
 		JTextField nameText = new JTextField ("");
 		
-		JLabel categoryLabel = new JLabel ("Category");
+		JLabel categoryLabel = new JLabel ("Category:");
 		JComboBox categoryComboBox = new JComboBox ();
 		
-		JLabel quantityLabel = new JLabel ("Quantity");
+		JLabel quantityLabel = new JLabel ("Quantity:");
 		JTextField quantityText = new JTextField ("");
 		
-		JLabel supplierLabel = new JLabel ("Supplier");
+		JLabel supplierLabel = new JLabel ("Supplier:");
 		JComboBox supplierComboBox = new JComboBox ();
 		
-		productINFO.add(barcodeLabel);
-		productINFO.add(barcodeText);
-		productINFO.add(productCLabel);
-		productINFO.add(productCText);
-		productINFO.add(nameLabel);
-		productINFO.add(nameText);
-		productINFO.add(categoryLabel);
-		productINFO.add(categoryComboBox);
-		productINFO.add(quantityLabel);
-		productINFO.add(quantityText);
-		productINFO.add(supplierLabel);
-		productINFO.add(supplierComboBox);
+		productPanel.add(barcodeLabel);
+		productPanel.add(barcodeText);
+		productPanel.add(productCodeLabel);
+		productPanel.add(productCodeText);
+		productPanel.add(nameLabel);
+		productPanel.add(nameText);
+		productPanel.add(categoryLabel);
+		productPanel.add(categoryComboBox);
+		productPanel.add(quantityLabel);
+		productPanel.add(quantityText);
+		productPanel.add(supplierLabel);
+		productPanel.add(supplierComboBox);
 		
 		
-		JPanel pricingPanel1 = new JPanel (new GridLayout(4, 2, 7, 7));
-		JPanel pricingPanel2 = new JPanel (new GridLayout(2, 2, 7, 7));
+		JPanel leftPricePanel = new JPanel (new GridLayout(4, 2, 7, 7));
+		JPanel rightPricePanel = new JPanel (new GridLayout(2, 2, 7, 7));
 		
-		JLabel costpriceLabel = new JLabel("Cost Pricing");
-		JTextField costpriceText = new JTextField ("");
+		JLabel costpriceLabel = new JLabel("Cost Price:");
+		JTextField costpriceTextfield = new JTextField ("");
 		
-		JLabel salepriceLabel = new JLabel("Cost Pricing");
-		JTextField salepriceText = new JTextField ("");
+		JLabel salepriceLabel = new JLabel("Selling Price:");
+		JTextField salepriceTextfield = new JTextField ("");
 		
-		JLabel gstLabel = new JLabel("GST (10%) ");
+		JLabel gstLabel = new JLabel("GST (10%)");
 		JLabel gstLabelinfo = new JLabel("$0");
 		
 		JLabel lineLabel = new JLabel("_____________________________________________");
 		JLabel lineLabel1 = new JLabel("_____________________________________________");
-		JLabel profitmargLabel = new JLabel("Cost Pricing");
-		JLabel profitmargLabelinfo = new JLabel("$ ###");
+		JLabel profitmarginLabel = new JLabel("Profit Margin:");
+		JLabel profitmarginAmount = new JLabel("$ ###");
 		
-		JLabel profitmargLabelinf = new JLabel("Cost Pricing");
-		JLabel profitLabelinfo = new JLabel("###% ");
+		JLabel profitPercentageLabel = new JLabel("Profit Percentage (%):");
+		JLabel profitPercentageAmount = new JLabel("###% ");
 		
-		pricingPanel1.add(costpriceLabel);
-		pricingPanel1.add(costpriceText);
-		pricingPanel1.add(salepriceLabel);
-		pricingPanel1.add(salepriceText);
-		pricingPanel1.add(gstLabel);
-		pricingPanel1.add(gstLabelinfo);
-		pricingPanel1.add(lineLabel);
-		pricingPanel1.add(lineLabel1);		
-		pricingPanel2.add(profitmargLabel);
-		pricingPanel2.add(profitmargLabelinfo);
-		pricingPanel2.add(profitmargLabelinf);
-		pricingPanel2.add(profitLabelinfo);
+		leftPricePanel.add(costpriceLabel);
+		leftPricePanel.add(costpriceTextfield);
+		leftPricePanel.add(salepriceLabel);
+		leftPricePanel.add(salepriceTextfield);
+		leftPricePanel.add(gstLabel);
+		leftPricePanel.add(gstLabelinfo);
+		leftPricePanel.add(lineLabel);
+		leftPricePanel.add(lineLabel1);		
+		rightPricePanel.add(profitmarginLabel);
+		rightPricePanel.add(profitmarginAmount);
+		rightPricePanel.add(profitPercentageLabel);
+		rightPricePanel.add(profitPercentageAmount);
 		
-		pricingINFO.add(pricingPanel1);
-		pricingINFO.add(pricingPanel2);
+		pricingPanel.add(leftPricePanel);
+		pricingPanel.add(rightPricePanel);
 		
 //---------------------Create Buttons---------------------
 		

@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 
@@ -123,6 +125,8 @@ public class TopSellersFrame extends JFrame {
 		rightPanel.add(labelPanel);
 
 		JPanel inputUnitsPanel = new JPanel();
+		TitledBorder inputUnitsPanelTitle = new TitledBorder("Shown as:");
+		inputUnitsPanel.setBorder(inputUnitsPanelTitle);
 		inputUnitsPanel.setLayout(new GridLayout(1,1,10,10));
 		rightPanel.add(inputUnitsPanel);
 
@@ -130,21 +134,26 @@ public class TopSellersFrame extends JFrame {
 		JTextField units = new JTextField("");
 		JLabel unitsInputExample = new JLabel("e.g. 10");
 		
-		JButton barGraphButton = new JButton("Bar Graph");
+		JButton barGraph = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
+		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		barGraph.setBorderPainted(false);
+		barGraph.setRolloverIcon(barGraphButtonHover);
+		barGraph.setRolloverEnabled(true);
+		barGraph.setFocusPainted(false);
+		barGraph.setContentAreaFilled(false);
+		inputUnitsPanel.add(barGraph);
+		
 		
 		labelPanel.add(unitsInputLabel);
 		labelPanel.add(units);
 		labelPanel.add(unitsInputExample);
-		inputUnitsPanel.add(barGraphButton);
 
 		//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
 		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
@@ -154,7 +163,7 @@ public class TopSellersFrame extends JFrame {
 		
 		//---------------------Event Handlers---------------------
 
-		barGraphButton.addActionListener(new ActionListener()
+		barGraph.addActionListener(new ActionListener()
 		{
 
 			@Override

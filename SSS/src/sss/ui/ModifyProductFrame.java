@@ -21,6 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 
@@ -55,7 +56,7 @@ public class ModifyProductFrame extends JFrame {
 		JPanel rightPanel = new JPanel();
 		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
 		rightPanel.setBorder(rightPanelTitle);
-		rightPanel.setLayout(new GridLayout(5,1,10,10));
+		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
 		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
@@ -122,20 +123,31 @@ public class ModifyProductFrame extends JFrame {
 // the barcode and product code fields are held in this panel.
 		
 		JPanel codesPanel = new JPanel();
-		codesPanel.setLayout(new GridLayout(2,2,10,10));
+		codesPanel.setLayout(new GridLayout(3,2,10,10));
 		rightPanel.add(codesPanel);
 
+		JLabel searchLabel = new JLabel ("Search Product by Name:");
+		JLabel blankLabel = new JLabel ();
+		JTextField searchTextfield = new JTextField();
+		JButton searchButton = new JButton("Search");
+		
+		
 		JLabel productBarcodeLabel = new JLabel ("Barcode:");
 		JTextField productBarcode = new JTextField();
 		
 		JLabel productCodeLabel = new JLabel ("Product Code:");
 		JTextField productCode = new JTextField();
 
+		codesPanel.add(searchLabel);
+		codesPanel.add(blankLabel);
+		codesPanel.add(searchTextfield);
+		codesPanel.add(searchButton);
+		codesPanel.add(searchTextfield);
+		codesPanel.add(searchButton);
 		codesPanel.add(productBarcodeLabel);
 		codesPanel.add(productBarcode);
-		codesPanel.add(productCodeLabel);
-		codesPanel.add(productCode);
 
+		
 //--------------------Details Panel--------------------
 // the product name and price fields are held in this panel.
 		
@@ -153,25 +165,28 @@ public class ModifyProductFrame extends JFrame {
 		JComboBox categoryComboBox = new JComboBox ();
 		ButtonGroup groupTypeGroup = new ButtonGroup();
 
+		productDetailsPanel.add(productCodeLabel);
+		productDetailsPanel.add(productCode);
 		productDetailsPanel.add(productNameLabel);
 		productDetailsPanel.add(productName);
 		productDetailsPanel.add(productSalePriceLabel);
 		productDetailsPanel.add(productSalePrice);
-		productDetailsPanel.add(categoryLabel);
-		productDetailsPanel.add(categoryComboBox);
+
 		
 //--------------------Supplier/Active Panel--------------------
 // the supplier and active fields are held in this panel.
 		JPanel suppActivePanel = new JPanel();
-		suppActivePanel.setLayout(new GridLayout(2,2,10,10));
+		suppActivePanel.setLayout(new GridLayout(3,2,10,10));
 		rightPanel.add(suppActivePanel);
-
+		
 		JLabel productSupplierLabel = new JLabel ("Supplier:");
 		JTextField productSupplier = new JTextField();
 		
 		JLabel activeCheckBoxLabel = new JLabel ("Active:");
 		JCheckBox activeCheckBox = new JCheckBox ();
 		
+		suppActivePanel.add(categoryLabel);
+		suppActivePanel.add(categoryComboBox);
 		suppActivePanel.add(productSupplierLabel);
 		suppActivePanel.add(productSupplier);
 		suppActivePanel.add(activeCheckBoxLabel);
@@ -180,13 +195,11 @@ public class ModifyProductFrame extends JFrame {
 //---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
 		
-		JButton getResultsButton = new JButton("Get Results");
+		JButton getResultsButton = new JButton("Save Changes");
 		resultsButtonPanel.add(getResultsButton);
 
 		JButton backButton = new JButton("Back");

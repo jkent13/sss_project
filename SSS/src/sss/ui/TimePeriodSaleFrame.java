@@ -49,8 +49,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
+		fullScreenPanel.setBorder(new EmptyBorder(10,10,10,10));
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
@@ -78,6 +77,8 @@ public class TimePeriodSaleFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
+		TitledBorder datePanelTitle = new TitledBorder("Insert dates for time-period:");
+		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
 
 
