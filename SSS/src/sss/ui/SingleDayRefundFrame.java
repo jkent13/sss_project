@@ -27,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.NonEditableTableModel;
-import sss.domain.ReportController;
+import sss.domain.SingleDayRefundController;
 
 
 @SuppressWarnings("serial")
@@ -36,7 +36,7 @@ public class SingleDayRefundFrame extends JFrame {
 	private String reportType = "refundDollar";
 	private String viewType = "summary";
 	
-	private ReportController controller = new ReportController();
+	private SingleDayRefundController controller = new SingleDayRefundController();
 	
 	public SingleDayRefundFrame()
 	{

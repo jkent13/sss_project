@@ -9,6 +9,8 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -20,12 +22,21 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import sss.domain.NonEditableTableModel;
+import sss.domain.TimePeriodRefundController;
 
 
 @SuppressWarnings("serial")
 public class TimePeriodRefundFrame extends JFrame {
+
+	private String reportType = "refundDollar";
+	private String groupBy = "day";
+
+	private TimePeriodRefundController controller = new TimePeriodRefundController();
 
 	public TimePeriodRefundFrame()
 	{
@@ -55,39 +66,25 @@ public class TimePeriodRefundFrame extends JFrame {
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
-		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-		Object[][] data = {
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"}
-		};
-
-		JTable lookUpTable = new JTable(data, colNames);
+		NonEditableTableModel dataModel = controller.getDataModel();
+		JTable lookUpTable = new JTable(dataModel);
+		lookUpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only one row of table able to be selected at a time
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
-		
+
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Insert dates for time-period:");
 		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
-		
+
 		JPanel rightDatePanel = new JPanel();
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
+
 		JPanel leftDatePanel = new JPanel();
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
+
 		//--------------------Date Panel Fields--------------------
 
 		JTextField viewStartDate = new JTextField();
@@ -96,7 +93,7 @@ public class TimePeriodRefundFrame extends JFrame {
 		rightDatePanel.add(viewStartDateLabel);
 		rightDatePanel.add(viewStartDate);
 		rightDatePanel.add(viewStartDateExample);
-		
+
 		JTextField viewEndDate = new JTextField();
 		JLabel viewEndDateLabel = new JLabel("End Date:");
 		JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
@@ -107,32 +104,32 @@ public class TimePeriodRefundFrame extends JFrame {
 		datePanel.add(rightDatePanel);
 		datePanel.add(leftDatePanel);
 		rightPanel.add(datePanel);
-		
+
 		//--------------------Report Panel--------------------
 		// the radio button for report type are held in this panel.
 
 		JPanel radioPanel = new JPanel();
 		radioPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(radioPanel);
-		
+
 		JPanel reportTypePanel = new JPanel();
 		TitledBorder reportTypePanelTitle = new TitledBorder("Report Type:");
 		reportTypePanel.setBorder(reportTypePanelTitle);
-		reportTypePanel.setLayout(new GridLayout(3,1,10,10));
+		reportTypePanel.setLayout(new GridLayout(2,1,10,10));
 		radioPanel.add(reportTypePanel);
 
-		JRadioButton salesByDollar = new JRadioButton("Sales by Dollar", true);
-		JRadioButton salesByVolume = new JRadioButton("Sales by Volume", false);
-		JRadioButton profitByDollar = new JRadioButton("Gross profit by Dollar", false);
+		JRadioButton dollarRadioButton = new JRadioButton("Refunds by Dollar", true);
+		JRadioButton volumeRadioButton = new JRadioButton("Refunds by Volume", false);
 		ButtonGroup reportTypeGroup = new ButtonGroup();
 
-		reportTypeGroup.add(salesByDollar);
-		reportTypeGroup.add(salesByVolume);
-		reportTypeGroup.add(profitByDollar);
+		dollarRadioButton.setActionCommand("refundDollar");
+		volumeRadioButton.setActionCommand("refundVolume");
 
-		reportTypePanel.add(salesByDollar);
-		reportTypePanel.add(salesByVolume);
-		reportTypePanel.add(profitByDollar);
+		reportTypeGroup.add(dollarRadioButton);
+		reportTypeGroup.add(volumeRadioButton);
+
+		reportTypePanel.add(dollarRadioButton);
+		reportTypePanel.add(volumeRadioButton);
 
 		//--------------------Group By Panel--------------------
 		// the group by (day, week, month) radio buttons are held in this panel.
@@ -143,19 +140,23 @@ public class TimePeriodRefundFrame extends JFrame {
 		groupTypePanel.setLayout(new GridLayout(3,1,10,10));
 		radioPanel.add(groupTypePanel);
 
-		JRadioButton dayRadio = new JRadioButton("Day", true);
-		JRadioButton weekRadio = new JRadioButton("Week", false);
-		JRadioButton monthRadio = new JRadioButton("Month", false);
+		JRadioButton dayRadioButton = new JRadioButton("Day", true);
+		JRadioButton weekRadioButton = new JRadioButton("Week", false);
+		JRadioButton monthRadioButton = new JRadioButton("Month", false);
 		ButtonGroup groupTypeGroup = new ButtonGroup();
 
-		groupTypeGroup.add(dayRadio);
-		groupTypeGroup.add(weekRadio);
-		groupTypeGroup.add(monthRadio);
+		dayRadioButton.setActionCommand("day");
+		weekRadioButton.setActionCommand("week");
+		monthRadioButton.setActionCommand("month");
 
-		groupTypePanel.add(dayRadio);
-		groupTypePanel.add(weekRadio);
-		groupTypePanel.add(monthRadio);
-		
+		groupTypeGroup.add(dayRadioButton);
+		groupTypeGroup.add(weekRadioButton);
+		groupTypeGroup.add(monthRadioButton);
+
+		groupTypePanel.add(dayRadioButton);
+		groupTypePanel.add(weekRadioButton);
+		groupTypePanel.add(monthRadioButton);
+
 		//--------------------Shown As Panel--------------------
 		// the type of graph view for the records are held in this panel.
 
@@ -180,27 +181,183 @@ public class TimePeriodRefundFrame extends JFrame {
 		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
 		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-		
+
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
 
 		JButton backButton = new JButton("Back");
 		resultsButtonPanel.add(backButton);
-		
+
 		//---------------------Event Handlers---------------------
 
+		// Report Type Changers
+		dollarRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		volumeRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				reportType = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+		
+		dayRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		weekRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		monthRadioButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				groupBy = ae.getActionCommand();
+				controller.switchView(reportType, groupBy);
+			}
+
+		});
+
+		// Get Results button
 		getResultsButton.addActionListener(new ActionListener()
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
-//				myFrame.dispose();
+				boolean isStartNull = viewStartDate.getText() == null;
+				boolean isEndNull = viewEndDate.getText() == null;
+				if((!isStartNull) && (!isEndNull)) {
+					String startDateString = viewStartDate.getText();
+					String endDateString = viewEndDate.getText();
+					boolean isStartValid = controller.isValidDate(startDateString);
+					boolean isEndValid = controller.isValidDate(endDateString);
+					if((!isStartValid) || (!isEndValid)) {
+						viewStartDate.setText("");
+						viewEndDate.setText("");
+					}
+					else {
+						if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
+							controller.getResults(startDateString, endDateString);
+							controller.switchView(reportType, groupBy);
+						}
+						else {
+							viewStartDate.setText("");
+							viewEndDate.setText("");
+						}
+					}
+				}
+			}
+
+		});
+
+		// Pressing Enter key on View Start Date textbox
+		viewStartDate.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					boolean isStartNull = viewStartDate.getText() == null;
+					boolean isEndNull = viewEndDate.getText() == null;
+					if((!isStartNull) && (!isEndNull)) {
+						String startDateString = viewStartDate.getText();
+						String endDateString = viewEndDate.getText();
+						boolean isStartValid = controller.isValidDate(startDateString);
+						boolean isEndValid = controller.isValidDate(endDateString);
+						if((!isStartValid) || (!isEndValid)) {
+							viewStartDate.setText("");
+							viewEndDate.setText("");
+						}
+						else {
+							if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
+								controller.getResults(startDateString, endDateString);
+								controller.switchView(reportType, groupBy);
+							}
+							else {
+								viewStartDate.setText("");
+								viewEndDate.setText("");
+							}
+						}
+					}
+				}
 			}
 		});
 
-		
+		// Pressing Enter key on View End Date textbox
+		viewEndDate.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					boolean isStartNull = viewStartDate.getText() == null;
+					boolean isEndNull = viewEndDate.getText() == null;
+					if((!isStartNull) && (!isEndNull)) {
+						String startDateString = viewStartDate.getText();
+						String endDateString = viewEndDate.getText();
+						boolean isStartValid = controller.isValidDate(startDateString);
+						boolean isEndValid = controller.isValidDate(endDateString);
+						if((!isStartValid) || (!isEndValid)) {
+							viewStartDate.setText("");
+							viewEndDate.setText("");
+						}
+						else {
+							if(controller.isStartDateBeforeEndDate(startDateString, endDateString)) {
+								controller.getResults(startDateString, endDateString);
+								controller.switchView(reportType, groupBy);
+							}
+							else {
+								viewStartDate.setText("");
+								viewEndDate.setText("");
+							}
+						}
+					}
+				}
+			}
+		});
 
+		barGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType, groupBy);
+			}
+		});
+		
 		backButton.addActionListener(new ActionListener()
 		{
 
@@ -211,8 +368,7 @@ public class TimePeriodRefundFrame extends JFrame {
 			}
 		});
 
-
 		setVisible(true);
-	
+
 	}
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -13,14 +12,9 @@ import sss.services.ChartBuilder;
 import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
-public class TimePeriodReportController {
-		
-		private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		// Date format used to validate input
-		private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
+public class TimePeriodSaleController extends ReportController {
 		
 		private String[] dateRangeOfCurrentReport = {"No Date", "No Date"}; 
-		
-		private NonEditableTableModel currentTableView = new NonEditableTableModel();
 		
 		private NonEditableTableModel daySalesData = new NonEditableTableModel();
 		private NonEditableTableModel dayVolumeData = new NonEditableTableModel();
@@ -51,7 +45,7 @@ public class TimePeriodReportController {
 		/**
 		 * Constructor - calls initialise to set up controller
 		 */
-		public TimePeriodReportController() {
+		public TimePeriodSaleController() {
 			initialise();
 		}
 		
@@ -59,7 +53,7 @@ public class TimePeriodReportController {
 		/**
 		 * Establishes column identifiers for table models
 		 */
-		private void initialise() {
+		protected void initialise() {
 			daySalesData.setColumnIdentifiers(daySalesColNames);
 			dayVolumeData.setColumnIdentifiers(dayVolumeColNames);
 			dayGrossProfitData.setColumnIdentifiers(dayGrossProfitColNames);
@@ -334,8 +328,8 @@ public class TimePeriodReportController {
 				String startDateString = sqlDateFormat.format(inputStartDate); 		// Convert to MySQL date string
 				String endDateString = sqlDateFormat.format(inputEndDate); 	// Convert to MySQL date string
 				
-				dateRangeOfCurrentReport[0] = startDate;
-				dateRangeOfCurrentReport[1] = endDate;
+				dateRangeOfCurrentReport[0] = dateFormat.format(inputStartDate);
+				dateRangeOfCurrentReport[1] = dateFormat.format(inputEndDate);
 				
 				// CLEAR DATA MODELS			
 				// Day Tables =========================================================
@@ -541,92 +535,88 @@ public class TimePeriodReportController {
 		
 		
 		// Chart Methods ==========================================================
-		public void showLineChart(String reportType) {
+		public void showLineChart(String reportType, String groupBy) {
 			
 			switch(reportType) {
 			case "dollar" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, daySalesData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekSalesData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthSalesData);
+				}
 				break;
 			case "volume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, dayVolumeData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekVolumeData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthVolumeData);
+				}
 		    break;
 			case "profit" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, dayGrossProfitData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, weekGrossProfitData);
+				}
+				else {
+					ChartBuilder.showTimePeriodLineChart(reportType, groupBy, dateRangeOfCurrentReport, monthGrossProfitData);
+				}
 				break;
 			default:
 				break;
 			}
 		}
 		
-		public void showBarChart(String reportType) {
+		public void showBarChart(String reportType, String groupBy) {
 			
 			switch(reportType) {
 			case "dollar" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, daySalesData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekSalesData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthSalesData);
+				}
 				break;
 			case "volume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, dayVolumeData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekVolumeData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthVolumeData);
+				}
 				break;
 			case "profit" :
-				break;
-			case "refundDollar" :
-				break;
-			case "refundVolume" :
+				if(groupBy.equals("day")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, dayGrossProfitData);
+				}
+				else if (groupBy.equals("week")) {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, weekGrossProfitData);
+				}
+				else {
+					ChartBuilder.showTimePeriodBarChart(reportType, groupBy, dateRangeOfCurrentReport, monthGrossProfitData);
+				}
 				break;
 			default :
 				break;
 			}
 			
-		}
-		
-		// ========================================================================		
-		// Getter Methods =========================================================
-		/**
-		 * Getter method for the current data model
-		 * @return a reference to the current data model
-		 */
-		public NonEditableTableModel getDataModel() {
-			return currentTableView;
-		}
-		
+		}		
 		// ========================================================================
-		// Validator Methods ======================================================
-		/**
-		 * Validation method for checking whether an input String is a valid date in the format: 12/02/2014
-		 * @param inputDateString the String to be validated
-		 * @return true if inputDateString is a valid date in the correct format, false otherwise
-		 */
-		public boolean isValidDate(String inputDateString) {
-			if(inputDateString.equals("")){
-				return false;
-			}
-			try {
-				Date inputDate = dateFormat.parse(inputDateString);
-				if(!dateFormat.format(inputDate).equals(inputDateString)) { // If the formatted inputDate != inputDateString, then the input date was invalid
-					JOptionPane.showMessageDialog(null, "Error: Invalid date!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-					return false;
-				}
-				else {
-					return true;
-				}
-			} catch (ParseException e) { // If the inputDateString does not parse, it is not in the correct format
-				JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		}
-
-		public boolean isStartDateBeforeEndDate(String startDate, String endDate) {
-			try {
-				Date firstDate = dateFormat.parse(startDate);
-				Date secondDate = dateFormat.parse(endDate);
-
-				if(firstDate.before(secondDate)) { 
-					return true;
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Dates Input", JOptionPane.ERROR_MESSAGE);
-					return false;
-				}
-			} catch (ParseException e) { // If the either date string does not parse, it is not in the correct format
-				JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		}
 		
-		// ========================================================================
 	}// End class

@@ -27,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.NonEditableTableModel;
-import sss.domain.ReportController;
+import sss.domain.SingleDaySaleController;
 
 
 @SuppressWarnings("serial")
@@ -36,7 +36,7 @@ public class SingleDaySaleFrame extends JFrame {
 	private String reportType = "dollar";
 	private String viewType = "summary";
 	
-	private ReportController controller = new ReportController();
+	private SingleDaySaleController controller = new SingleDaySaleController();
 	
 	public SingleDaySaleFrame()
 	{
