@@ -199,7 +199,7 @@ public class ModifyProductFrame extends JFrame {
 		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
 		
-		JButton getResultsButton = new JButton("Get Results");
+		JButton getResultsButton = new JButton("Save Changes");
 		resultsButtonPanel.add(getResultsButton);
 
 		JButton backButton = new JButton("Back");
