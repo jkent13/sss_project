@@ -24,9 +24,27 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import sss.domain.InventoryFilter;
+import sss.domain.ModifyProductController;
+import sss.domain.NonEditableTableModel;
+
 
 public class ModifyProductFrame extends JFrame {
 
+	private ModifyProductController controller = new ModifyProductController();
+	private InventoryFilter inventoryFilter = new InventoryFilter(false, false, false, false);
+	
+	private JTextField barcodeTextField = new JTextField();
+	private JTextField searchTextField = new JTextField();
+	private JTextField productCodeTextField = new JTextField();
+	private JTextField nameTextField = new JTextField();
+	private JTextField salePriceTextField = new JTextField();
+	
+	private JComboBox<String> categoryComboBox = new JComboBox<>(controller.getCategoryNames());
+	private JComboBox<String> supplierComboBox = new JComboBox<>(controller.getSupplierNames());
+	
+	private JCheckBox activeCheckBox = new JCheckBox();
+	
 	public ModifyProductFrame()
 	{
 
@@ -59,63 +77,8 @@ public class ModifyProductFrame extends JFrame {
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
-		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-		Object[][] data = {
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"}
-		};
-
-		JTable lookUpTable = new JTable(data, colNames);
+		NonEditableTableModel dataModel = controller.getDataModel();
+		JTable lookUpTable = new JTable(dataModel);
 		JScrollPane scrlPane = new JScrollPane(lookUpTable);
 		leftPanel.add(scrlPane);
 		
@@ -127,25 +90,22 @@ public class ModifyProductFrame extends JFrame {
 		rightPanel.add(codesPanel);
 
 		JLabel searchLabel = new JLabel ("Search Product by Name:");
+		JLabel productCodeLabel = new JLabel ("Product Code:");
+		JLabel productBarcodeLabel = new JLabel ("Barcode:");
 		JLabel blankLabel = new JLabel ();
-		JTextField searchTextfield = new JTextField();
+
 		JButton searchButton = new JButton("Search");
 		
+		barcodeTextField.setEditable(false);
 		
-		JLabel productBarcodeLabel = new JLabel ("Barcode:");
-		JTextField productBarcode = new JTextField();
-		
-		JLabel productCodeLabel = new JLabel ("Product Code:");
-		JTextField productCode = new JTextField();
-
 		codesPanel.add(searchLabel);
 		codesPanel.add(blankLabel);
-		codesPanel.add(searchTextfield);
+		codesPanel.add(searchTextField);
 		codesPanel.add(searchButton);
-		codesPanel.add(searchTextfield);
+		codesPanel.add(searchTextField);
 		codesPanel.add(searchButton);
 		codesPanel.add(productBarcodeLabel);
-		codesPanel.add(productBarcode);
+		codesPanel.add(barcodeTextField);
 
 		
 //--------------------Details Panel--------------------
@@ -156,21 +116,15 @@ public class ModifyProductFrame extends JFrame {
 		rightPanel.add(productDetailsPanel);
 
 		JLabel productNameLabel = new JLabel ("Name:");
-		JTextField productName = new JTextField();
-		
 		JLabel productSalePriceLabel = new JLabel ("Sale Price:");
-		JTextField productSalePrice = new JTextField();
-		
 		JLabel categoryLabel = new JLabel ("Category:");
-		JComboBox categoryComboBox = new JComboBox ();
-		ButtonGroup groupTypeGroup = new ButtonGroup();
 
 		productDetailsPanel.add(productCodeLabel);
-		productDetailsPanel.add(productCode);
+		productDetailsPanel.add(productCodeTextField);
 		productDetailsPanel.add(productNameLabel);
-		productDetailsPanel.add(productName);
+		productDetailsPanel.add(nameTextField);
 		productDetailsPanel.add(productSalePriceLabel);
-		productDetailsPanel.add(productSalePrice);
+		productDetailsPanel.add(salePriceTextField);
 
 		
 //--------------------Supplier/Active Panel--------------------
@@ -180,15 +134,12 @@ public class ModifyProductFrame extends JFrame {
 		rightPanel.add(suppActivePanel);
 		
 		JLabel productSupplierLabel = new JLabel ("Supplier:");
-		JTextField productSupplier = new JTextField();
-		
 		JLabel activeCheckBoxLabel = new JLabel ("Active:");
-		JCheckBox activeCheckBox = new JCheckBox ();
 		
 		suppActivePanel.add(categoryLabel);
 		suppActivePanel.add(categoryComboBox);
 		suppActivePanel.add(productSupplierLabel);
-		suppActivePanel.add(productSupplier);
+		suppActivePanel.add(supplierComboBox);
 		suppActivePanel.add(activeCheckBoxLabel);
 		suppActivePanel.add(activeCheckBox);
 		
@@ -199,21 +150,28 @@ public class ModifyProductFrame extends JFrame {
 		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
 		
-		JButton getResultsButton = new JButton("Save Changes");
-		resultsButtonPanel.add(getResultsButton);
+		JButton saveButton = new JButton("Save Changes");
+		resultsButtonPanel.add(saveButton);
 
 		JButton backButton = new JButton("Back");
 		resultsButtonPanel.add(backButton);
-		
-//---------------------Event Handlers---------------------
-		
-		getResultsButton.addActionListener(new ActionListener()
+
+		// ---------------------Event Handlers---------------------
+
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+
+		saveButton.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				myFrame.dispose();
 			}
 		});
 
