@@ -280,7 +280,12 @@ public class AddProductFrame extends JFrame {
 			int quantity = Integer.parseInt(quantityTextField.getText());
 			if(quantity < 0) {
 				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
-						+ "be numerical and >= 0", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if(quantity > 999) {
+				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			else {
@@ -289,7 +294,7 @@ public class AddProductFrame extends JFrame {
 		}
 		catch(NumberFormatException nfe) {
 			JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
-					+ "be numerical and >= 0", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+					+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		try {
