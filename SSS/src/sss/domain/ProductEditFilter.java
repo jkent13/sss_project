@@ -100,6 +100,8 @@ public class ProductEditFilter {
 		return hasActiveChanged;
 	}
 	
+	
+	
 	public boolean hasQuantityChanged() {
 		return hasQuantityChanged;
 	}
@@ -164,9 +166,13 @@ public class ProductEditFilter {
 		this.hasActiveChanged = hasActiveChanged;
 	}
 	
+	
+	
 	public void setQuantityChanged(boolean hasQuantityChanged) {
 		this.hasQuantityChanged = hasQuantityChanged;
 	}
+	
+	
 	
 	public void setProductCode(String code) {
 		if(!(originalProduct.getCode().equals(code))) {
@@ -178,9 +184,13 @@ public class ProductEditFilter {
 		modifiedProduct.setCode(code);
 	}
 	
+	
+	
 	public void setId(long id) {
 		modifiedProduct.setId(id);
 	}
+	
+	
 	
 	public void setName(String name) {
 		if(!(originalProduct.getName().equals(name))) {
@@ -192,6 +202,8 @@ public class ProductEditFilter {
 		modifiedProduct.setName(name);
 	}
 	
+	
+	
 	public void setCostPrice(BigDecimal costPrice) {
 		if(!(originalProduct.getCostPrice().equals(costPrice))) {
 			setCostPriceChanged(true);
@@ -201,6 +213,8 @@ public class ProductEditFilter {
 		}
 		modifiedProduct.setCostPrice(costPrice);
 	}
+	
+	
 	
 	public void setPrice(BigDecimal price) {
 		if(!(originalProduct.getPrice().equals(price))) {
@@ -212,6 +226,8 @@ public class ProductEditFilter {
 		modifiedProduct.setPrice(price);
 	}
 	
+	
+	
 	public void setCategory(String category) {
 		if(!originalProduct.getCategory().equals(category)) {
 			setCategoryChanged(true);
@@ -221,6 +237,8 @@ public class ProductEditFilter {
 		}
 		modifiedProduct.setCategory(category);
 	}
+	
+	
 	
 	public void setSupplierId(int supplierId) {
 		if(!(originalProduct.getSupplierId() == supplierId)) {
@@ -232,6 +250,8 @@ public class ProductEditFilter {
 		modifiedProduct.setSupplierId(supplierId);
 	}
 	
+	
+	
 	public void setActive(boolean isActive) {
 		if(!(originalProduct.isActive() && isActive)) {
 			setActiveChanged(true);
@@ -241,6 +261,8 @@ public class ProductEditFilter {
 		}
 		modifiedProduct.setActive(isActive);
 	}
+	
+	
 	
 	public void setQuantityOnHand(int quantity) {
 		if(!(originalProduct.getQuantityOnHand() == quantity)) {
@@ -252,9 +274,19 @@ public class ProductEditFilter {
 		modifiedProduct.setQuantityOnHand(quantity);
 	}
 	
+	
+	
+	// ==========================================================================
+	// Methods
+	// ==========================================================================
+	
+	
+	
 	public boolean validateProduct() {
 		return modifiedProduct.validateProduct();
 	}
+	
+	
 	
 	public boolean haveChangesBeenMadeToProduct() {
 		if(hasCodeChanged || hasNameChanged || hasCostPriceChanged 
