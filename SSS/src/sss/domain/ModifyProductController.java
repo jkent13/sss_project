@@ -22,7 +22,7 @@ public class ModifyProductController {
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox
 	private ProductEditFilter filter = new ProductEditFilter();
 	private NonEditableTableModel productData = new NonEditableTableModel();
-	private InventoryFilter blankFilter = new InventoryFilter(false, false, false, false);
+	private InventoryFilter blankInventoryFilter = new InventoryFilter(false, false, false, false);
 	private String[] productColNames = {"Product ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
 	
 	
