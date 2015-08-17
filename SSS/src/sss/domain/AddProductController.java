@@ -117,7 +117,43 @@ public class AddProductController {
 	
 	
 	public boolean isAllValid(Product product) {
-		return (isProductUnique(product) && isCostPricePositive(product) && isPricePositive(product));
+		return (isProductUnique(product) && isProductCodeValid(product) && 
+				isProductNameValid(product)&& isCostPricePositive(product) 
+				&& isPricePositive(product));
+	}
+	
+	
+	
+	private boolean isProductCodeValid(Product product) {
+		String productCode = product.getCode();
+		if(productCode.length() > 20) {
+			JOptionPane.showMessageDialog(null, "Error: A product code must be less than 20 characters in length", "Product Code Too Long", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if(!(productCode.matches("^[a-zA-Z0-9]+$"))) {
+			JOptionPane.showMessageDialog(null, "Error: A product code can only consist of alphanumeric characters", "Invalid Character(s) in Product Code", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	
+	
+	private boolean isProductNameValid(Product product) {
+		String productName = product.getName();
+		if(productName.length() > 45) {
+			JOptionPane.showMessageDialog(null, "Error: A product name must be less than 45 characters in length", "Product Name Too Long", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if(!(productName.matches("^[a-zA-Z0-9-\\s]+$"))) {
+			JOptionPane.showMessageDialog(null, "Error: A product name can only consist of alphanumeric characters or '-' characters", "Invalid Character(s) in Product Name", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	

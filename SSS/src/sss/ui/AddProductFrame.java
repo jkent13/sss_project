@@ -203,10 +203,11 @@ public class AddProductFrame extends JFrame {
 						BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						BigDecimal profitMarginValue = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal gstAmountValue = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						
-						String profitMargin = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						String profitMargin = price.subtract(gstAmountValue).subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
 						profitMarginAmountLabel.setText("$" + profitMargin);
-						String profitPercentage = profitMarginValue.divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						String profitPercentage = profitMarginValue.subtract(gstAmountValue).divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
 						profitPercentageAmountLabel.setText(profitPercentage + "%");
 					}
 					catch (NumberFormatException nfe) {
@@ -234,12 +235,13 @@ public class AddProductFrame extends JFrame {
 						BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						BigDecimal profitMarginValue = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal gstAmountValue = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 						
 						String gstAmount = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
 						gstAmountLabel.setText("$" + gstAmount);
-						String profitMargin = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						String profitMargin = price.subtract(gstAmountValue).subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
 						profitMarginAmountLabel.setText("$" + profitMargin);
-						String profitPercentage = profitMarginValue.divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						String profitPercentage = profitMarginValue.subtract(gstAmountValue).divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
 						profitPercentageAmountLabel.setText(profitPercentage + "%");
 					}
 					catch (NumberFormatException nfe) {
