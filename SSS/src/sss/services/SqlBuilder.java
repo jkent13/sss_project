@@ -17,6 +17,7 @@ import sss.domain.InvoiceRow;
 import sss.domain.InvoiceRowComparison;
 import sss.domain.LookupFilter;
 import sss.domain.Product;
+import sss.domain.ProductEditFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
 
@@ -671,6 +672,49 @@ public class SqlBuilder {
 		
 	}
 	
+	
+	public static String getProductUpdateStatement(ProductEditFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE product SET ");
+		if(filter.hasNameChanged()) {
+			query.append(" prod_name = ");
+			query.append("'" + filter.getModifiedProduct().getName() + "',");
+		}
+		if(filter.hasCostPriceChanged()) {
+			query.append(" prod_cost_price = ");
+			query.append(filter.getModifiedProduct().getCostPrice() + ",");
+		}
+		if(filter.hasPriceChanged()) {
+			query.append(" prod_price = ");
+			query.append(filter.getModifiedProduct().getPrice() + ",");
+		}
+		if(filter.hasQuantityChanged()) {
+			query.append(" prod_qoh = ");
+			query.append(filter.getModifiedProduct().getQuantityOnHand() + ",");
+		}
+		if(filter.hasCategoryChanged()) {
+			query.append(" prod_category = ");
+			query.append("'" + filter.getModifiedProduct().getCategory() + "',");
+		}
+		if(filter.hasSupplierChanged()) {
+			query.append(" supp_id = ");
+			query.append(filter.getModifiedProduct().getSupplierId() + ",");
+		}
+		if(filter.hasActiveChanged()) {
+			query.append(" prod_active = ");
+			if(filter.getModifiedProduct().isActive()) {
+				query.append("'Y',");
+			}
+			else {
+				query.append("'N',");
+			}
+		}
+		query.delete(query.length()-1, query.length());
+		query.append(" WHERE prod_id = ");
+		query.append(filter.getModifiedProduct().getId() + ";");
+		
+		return query.toString();
+	}
 	// ==========================================================================
 	
 }// End class

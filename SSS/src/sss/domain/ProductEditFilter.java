@@ -1,5 +1,7 @@
 package sss.domain;
 
+import java.math.BigDecimal;
+
 public class ProductEditFilter {
 	
 	// ==========================================================================
@@ -9,12 +11,13 @@ public class ProductEditFilter {
 	
 	
 	private Product originalProduct;
-	private Product modifiedProduct;
+	private Product modifiedProduct = new Product();
 
 	private boolean hasCodeChanged = false;
 	private boolean hasNameChanged = false;
 	private boolean hasCostPriceChanged = false;
 	private boolean hasPriceChanged = false;
+	private boolean hasQuantityChanged = false;
 	private boolean hasCategoryChanged = false;
 	private boolean hasSupplierChanged = false;
 	private boolean hasActiveChanged = false;
@@ -96,6 +99,10 @@ public class ProductEditFilter {
 	public boolean hasActiveChanged() {
 		return hasActiveChanged;
 	}
+	
+	public boolean hasQuantityChanged() {
+		return hasQuantityChanged;
+	}
 
 
 
@@ -156,4 +163,107 @@ public class ProductEditFilter {
 	public void setActiveChanged(boolean hasActiveChanged) {
 		this.hasActiveChanged = hasActiveChanged;
 	}
-}
+	
+	public void setQuantityChanged(boolean hasQuantityChanged) {
+		this.hasQuantityChanged = hasQuantityChanged;
+	}
+	
+	public void setProductCode(String code) {
+		if(!(originalProduct.getCode().equals(code))) {
+			setCodeChanged(true);
+		}
+		else {
+			setCodeChanged(false);
+		}
+		modifiedProduct.setCode(code);
+	}
+	
+	public void setId(long id) {
+		modifiedProduct.setId(id);
+	}
+	
+	public void setName(String name) {
+		if(!(originalProduct.getName().equals(name))) {
+			setNameChanged(true);
+		}
+		else {
+			setNameChanged(false);
+		}
+		modifiedProduct.setName(name);
+	}
+	
+	public void setCostPrice(BigDecimal costPrice) {
+		if(!(originalProduct.getCostPrice().equals(costPrice))) {
+			setCostPriceChanged(true);
+		}
+		else {
+			setCostPriceChanged(false);
+		}
+		modifiedProduct.setCostPrice(costPrice);
+	}
+	
+	public void setPrice(BigDecimal price) {
+		if(!(originalProduct.getPrice().equals(price))) {
+			setPriceChanged(true);
+		}
+		else {
+			setPriceChanged(false);
+		}
+		modifiedProduct.setPrice(price);
+	}
+	
+	public void setCategory(String category) {
+		if(!originalProduct.getCategory().equals(category)) {
+			setCategoryChanged(true);
+		}
+		else {
+			setCategoryChanged(false);
+		}
+		modifiedProduct.setCategory(category);
+	}
+	
+	public void setSupplierId(int supplierId) {
+		if(!(originalProduct.getSupplierId() == supplierId)) {
+			setSupplierChanged(true);
+		}
+		else {
+			setSupplierChanged(false);
+		}
+		modifiedProduct.setSupplierId(supplierId);
+	}
+	
+	public void setActive(boolean isActive) {
+		if(!(originalProduct.isActive() && isActive)) {
+			setActiveChanged(true);
+		}
+		else {
+			setActiveChanged(false);
+		}
+		modifiedProduct.setActive(isActive);
+	}
+	
+	public void setQuantityOnHand(int quantity) {
+		if(!(originalProduct.getQuantityOnHand() == quantity)) {
+			setQuantityChanged(true);
+		}
+		else {
+			setQuantityChanged(false);
+		}
+		modifiedProduct.setQuantityOnHand(quantity);
+	}
+	
+	public boolean validateProduct() {
+		return modifiedProduct.validateProduct();
+	}
+	
+	public boolean haveChangesBeenMadeToProduct() {
+		if(hasCodeChanged || hasNameChanged || hasCostPriceChanged 
+				|| hasPriceChanged || hasCategoryChanged || hasSupplierChanged 
+				|| hasActiveChanged || hasQuantityChanged) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+} 

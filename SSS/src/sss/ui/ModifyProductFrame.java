@@ -346,12 +346,20 @@ public class ModifyProductFrame extends JFrame {
 			}
 		});
 
-		saveButton.addActionListener(new ActionListener()
-		{
+		saveButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
+			public void actionPerformed(ActionEvent arg0) {
+				if (buildProduct()) {
+					if (didUserMakeChanges()) {
+						controller.saveModifiedProduct(filter);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No changes were made!",
+								"No Change", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+
 			}
 		});
 
@@ -387,6 +395,73 @@ public class ModifyProductFrame extends JFrame {
 		}
 		else {
 			activeCheckBox.setSelected(false);
+		}
+	}
+	
+	private boolean didUserMakeChanges() {
+		return filter.haveChangesBeenMadeToProduct();
+	}
+	
+	private boolean buildProduct() {
+		if(barcodeTextField.getText().matches("^\\d{13}$")) {
+			filter.setId(Long.valueOf(barcodeTextField.getText()));
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Error: Product barcode must be a 13 "
+					+ "digit number", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			int quantity = Integer.parseInt(quantityTextField.getText());
+			if(quantity < 0) {
+				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if(quantity > 999) {
+				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else {
+				filter.setQuantityOnHand(quantity);
+			}
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+					+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			filter.setCostPrice(costPrice);
+			filter.setPrice(price);
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid price input", 
+					"Invalid Pricing", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		
+		filter.setProductCode(productCodeTextField.getText());
+		filter.setName(nameTextField.getText());
+		filter.setCategory((String)categoryComboBox.getSelectedItem());
+		filter.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
+		if(activeCheckBox.isSelected()) {
+			filter.setActive(true);
+		}
+		else {
+			filter.setActive(false);
+		}
+		
+		
+		if(filter.validateProduct()) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }

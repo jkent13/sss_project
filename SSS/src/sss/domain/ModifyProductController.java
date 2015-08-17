@@ -17,12 +17,12 @@ public class ModifyProductController {
 	// ==========================================================================
 	
 	
+	private InventoryFilter blankFilter = new InventoryFilter(false, false, false, false);
 	
 	private String[] suppliers;		// Holds the supplier names (read in from DB). Used to fill combobox 
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox
-	private ProductEditFilter filter = new ProductEditFilter();
+
 	private NonEditableTableModel productData = new NonEditableTableModel();
-	private InventoryFilter blankInventoryFilter = new InventoryFilter(false, false, false, false);
 	private String[] productColNames = {"Product ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
 	
 	
@@ -164,9 +164,12 @@ public class ModifyProductController {
 	
 	
 	
-	public void saveModifiedProduct(Product modifiedProduct) {
-		if(isAllValid(modifiedProduct)) {
-				JOptionPane.showMessageDialog(null, "Changes applied to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+	public void saveModifiedProduct(ProductEditFilter productFilter) {
+		if(isAllValid(productFilter.getModifiedProduct())) {
+			String updateProductQuery = SqlBuilder.getProductUpdateStatement(productFilter);
+			DbWriter.executeStatement(updateProductQuery);
+			JOptionPane.showMessageDialog(null, "Changes applied to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+			getResults(blankFilter);
 		}
 	}
 	
@@ -179,7 +182,7 @@ public class ModifyProductController {
 	
 	
 	public boolean isAllValid(Product product) {
-		return (isProductUnique(product) && isProductCodeValid(product) && 
+		return (isProductCodeValid(product) && 
 				isProductNameValid(product)&& isCostPricePositive(product) 
 				&& isPricePositive(product));
 	}
@@ -216,35 +219,6 @@ public class ModifyProductController {
 		else {
 			return true;
 		}
-	}
-	
-	
-	
-	private boolean isProductUnique(Product product) {
-		try {
-			String barcodeMatchQuery = SqlBuilder.getBarcodeMatchQuery(product.getId());
-			String productCodeMatchQuery = SqlBuilder.getProductCodeMatchQuery(product.getCode());
-			
-			ResultSet queryResults = DbReader.executeQuery(barcodeMatchQuery);
-			if(queryResults.next()){
-				JOptionPane.showMessageDialog(null, "Error: There is already a product in the database with that barcode. Barcodes must be unique", "Duplicate Barcode", JOptionPane.ERROR_MESSAGE);
-				queryResults.close();
-				return false;
-			}
-			queryResults.close();
-			queryResults = DbReader.executeQuery(productCodeMatchQuery);
-			if(queryResults.next()){
-				JOptionPane.showMessageDialog(null, "Error: There is already a product in the database with that product code. Product codes must be unique", "Duplicate Barcode", JOptionPane.ERROR_MESSAGE);
-				queryResults.close();
-				return false;
-			}
-			return true;			
-		}
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving "
-					+ "product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return false;
 	}
 	
 	
