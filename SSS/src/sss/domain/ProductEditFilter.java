@@ -253,11 +253,14 @@ public class ProductEditFilter {
 	
 	
 	public void setActive(boolean isActive) {
-		if(!(originalProduct.isActive() && isActive)) {
-			setActiveChanged(true);
+		if((originalProduct.isActive() && isActive)) {
+			setActiveChanged(false);
+		}
+		else if ((!originalProduct.isActive()) && (!isActive)){
+			setActiveChanged(false);
 		}
 		else {
-			setActiveChanged(false);
+			setActiveChanged(true);
 		}
 		modifiedProduct.setActive(isActive);
 	}
@@ -297,5 +300,60 @@ public class ProductEditFilter {
 		else {
 			return false;
 		}
+	}
+	
+	
+	
+	public void resetChangeFlags() {
+		setCodeChanged(false);
+		setNameChanged(false);
+		setCostPriceChanged(false);
+		setPriceChanged(false);
+		setQuantityChanged(false);
+		setCategoryChanged(false);
+		setSupplierChanged(false);
+		setActiveChanged(false);
+	}
+	
+	
+	
+	public String toString() {
+		StringBuffer filterString = new StringBuffer();
+		filterString.append("\nCode Changed: " + hasCodeChanged);
+		filterString.append("\nName Changed: " + hasNameChanged);
+		filterString.append("\nCost Price Changed: " + hasCostPriceChanged);
+		filterString.append("\nPrice Changed: " + hasPriceChanged);
+		filterString.append("\nCategory Changed: " + hasCategoryChanged);
+		filterString.append("\nSupplier Changed: " + hasSupplierChanged);
+		filterString.append("\nActive Changed: " + hasActiveChanged);
+		filterString.append("\nQuantity Changed: " + hasQuantityChanged);
+		
+		filterString.append("\n\nOriginal Code: " + originalProduct.getCode());
+		filterString.append("\nModified Code: " + modifiedProduct.getCode());
+		
+		filterString.append("\n\nOriginal Name: " + originalProduct.getName());
+		filterString.append("\nModified Name: " + modifiedProduct.getName());
+		
+		filterString.append("\n\nOriginal Cost Price: " + originalProduct.getCostPrice());
+		filterString.append("\nModified Cost Price: " + modifiedProduct.getCostPrice());
+		
+		filterString.append("\n\nOriginal Price: " + originalProduct.getPrice());
+		filterString.append("\nModified Price: " + modifiedProduct.getPrice());
+		
+		filterString.append("\n\nOriginal Category: " + originalProduct.getCategory());
+		filterString.append("\nModified Category: " + modifiedProduct.getCategory());
+		
+		filterString.append("\n\nOriginal Supplier: " + originalProduct.getSupplierId());
+		filterString.append("\nModified Supplier: " + modifiedProduct.getSupplierId());
+		
+		filterString.append("\n\nOriginal Active: " + originalProduct.isActive());
+		filterString.append("\nModified Active: " + modifiedProduct.isActive());
+		
+		filterString.append("\n\nOriginal Quantity: " + originalProduct.getQuantityOnHand());
+		filterString.append("\nModified Quantity: " + modifiedProduct.getQuantityOnHand());
+		
+		filterString.append("\n");
+		
+		return filterString.toString();
 	}
 } 

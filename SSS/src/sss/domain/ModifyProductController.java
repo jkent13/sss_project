@@ -5,10 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.SqlBuilder;
+import sss.ui.ProductModifiedPanel;
 
 public class ModifyProductController {
 	
@@ -164,13 +166,20 @@ public class ModifyProductController {
 	
 	
 	
-	public void saveModifiedProduct(ProductEditFilter productFilter) {
+	public boolean saveModifiedProduct(ProductEditFilter productFilter) {
 		if(isAllValid(productFilter.getModifiedProduct())) {
-			String updateProductQuery = SqlBuilder.getProductUpdateStatement(productFilter);
-			DbWriter.executeStatement(updateProductQuery);
-			JOptionPane.showMessageDialog(null, "Changes applied to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
-			getResults(blankFilter);
+			JPanel productChangesPanel = new ProductModifiedPanel(productFilter, suppliers);
+			int response = JOptionPane.showConfirmDialog(null, productChangesPanel, "Save Changes?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			if(response == JOptionPane.OK_OPTION) {
+				String updateProductQuery = SqlBuilder.getProductUpdateStatement(productFilter);
+				DbWriter.executeStatement(updateProductQuery);
+				JOptionPane.showMessageDialog(null, "Changes applied to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+				getResults(blankFilter);
+				return true;
+			}
+			return false;
 		}
+		return false;
 	}
 	
 	

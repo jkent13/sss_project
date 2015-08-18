@@ -352,11 +352,13 @@ public class ModifyProductFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (buildProduct()) {
 					if (didUserMakeChanges()) {
-						controller.saveModifiedProduct(filter);
+						if(controller.saveModifiedProduct(filter)) {
+							updateFilterAfterSave();
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "No changes were made!",
-								"No Change", JOptionPane.INFORMATION_MESSAGE);
+								"No Change", JOptionPane.INFORMATION_MESSAGE); 
 					}
 				}
 
@@ -378,6 +380,42 @@ public class ModifyProductFrame extends JFrame {
 
 		setVisible(true);
 	
+	}
+	
+	private void updateFilterAfterSave() {
+		Product newOriginalProduct = new Product();
+			newOriginalProduct.setId(Long.valueOf(barcodeTextField.getText()));
+		try {
+			int quantity = Integer.parseInt(quantityTextField.getText());
+				newOriginalProduct.setQuantityOnHand(quantity);
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+					+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+		}
+		try {
+			BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			newOriginalProduct.setCostPrice(costPrice);
+			newOriginalProduct.setPrice(price);
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid price input", 
+					"Invalid Pricing", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		newOriginalProduct.setCode(productCodeTextField.getText());
+		newOriginalProduct.setName(nameTextField.getText());
+		newOriginalProduct.setCategory((String)categoryComboBox.getSelectedItem());
+		newOriginalProduct.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
+		if(activeCheckBox.isSelected()) {
+			newOriginalProduct.setActive(true);
+		}
+		else {
+			newOriginalProduct.setActive(false);
+		}
+		filter.setOriginalProduct(newOriginalProduct);
+		filter.resetChangeFlags();
 	}
 	
 	private void fillProductDetails(Product product) {
