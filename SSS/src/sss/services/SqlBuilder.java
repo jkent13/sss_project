@@ -20,6 +20,7 @@ import sss.domain.Product;
 import sss.domain.ProductEditFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
+import sss.domain.TopSellerFilter;
 
 public class SqlBuilder {
 	
@@ -569,6 +570,26 @@ public class SqlBuilder {
 		
 		return query.toString();		
 	}
+	
+	
+	public static String getTopSellerQuery(TopSellerFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT SUM(line.line_units) as 'Units Sold', "
+				+ "prod_name as 'Name', line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + filter.getStartDate() + "' ");
+		query.append("AND ");
+		query.append("'" + filter.getEndDate() + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id "
+				+ "GROUP BY line.prod_id "
+				+ "ORDER BY SUM(line.line_units) DESC "
+				+ "LIMIT ");
+		query.append(filter.getLimit() + ";");
+		return query.toString();
+	}
+	
 	
 	// ==========================================================================
 	// INSERT Methods ===========================================================
