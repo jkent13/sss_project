@@ -15,8 +15,6 @@ public abstract class ReportController {
 	
 	protected abstract void initialise();
 	
-	public abstract void switchView(String reportType, String viewType);
-	
 	public NonEditableTableModel getDataModel() {
 		return currentTableView;
 	}

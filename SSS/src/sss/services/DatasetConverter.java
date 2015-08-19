@@ -404,4 +404,28 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	public static DefaultCategoryDataset convertTopSeller(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> units = new ArrayList<Integer>();
+		ArrayList<String> products = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if(j == 2)
+					products.add((String)dbData.getValueAt(i, j));
+				else if (j == 1)
+					units.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < units.size(); i++) {
+			chartData.addValue(units.get(i), "Units", products.get(i));
+		}
+		return chartData;
+	}
 }

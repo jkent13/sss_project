@@ -94,6 +94,9 @@ public class Product {
 		this.supp_id = supp_id;
 	}
 	
+	public Product(){
+	}
+	
 	/**
 	 * Getter method for the product id
 	 * @return the product id value (barcode)
@@ -172,5 +175,68 @@ public class Product {
 	 */
 	public int getSupplierId() {
 		return this.supp_id;
+	}
+
+	public void setId(long prod_id) {
+		this.prod_id = prod_id;
+	}
+
+	public void setCode(String prod_code) {
+		this.prod_code = prod_code;
+	}
+
+	public void setName(String prod_name) {
+		this.prod_name = prod_name;
+	}
+
+	public void setCostPrice(BigDecimal prod_cost_price) {
+		this.prod_cost_price = prod_cost_price;
+	}
+
+	public void setPrice(BigDecimal prod_price) {
+		this.prod_price = prod_price;
+	}
+
+	public void setQuantityOnHand(int prod_qoh) {
+		this.prod_qoh = prod_qoh;
+	}
+
+	public void setCategory(String prod_category) {
+		this.prod_category = prod_category;
+	}
+
+	public void setActive(boolean prod_active) {
+		this.prod_active = prod_active;
+	}
+
+	public void setSupplierId(int supp_id) {
+		this.supp_id = supp_id;
+	}
+	
+	public boolean validateProduct() {
+		if(prod_code == null) {
+			return false;
+		}
+		else if(prod_name == null) {
+			return false;
+		}
+		else if(prod_cost_price == null) {
+			return false;
+		}
+		else if(prod_price == null) {
+			return false;
+		}
+		else if(prod_id == 0L) {
+			return false;
+		}
+		else if(prod_category == null) {
+			return false;
+		}
+		else if(supp_id == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }

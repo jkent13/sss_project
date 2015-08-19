@@ -16,8 +16,11 @@ import sss.domain.Invoice;
 import sss.domain.InvoiceRow;
 import sss.domain.InvoiceRowComparison;
 import sss.domain.LookupFilter;
+import sss.domain.Product;
+import sss.domain.ProductEditFilter;
 import sss.domain.Sale;
 import sss.domain.Line;
+import sss.domain.TopSellerFilter;
 
 public class SqlBuilder {
 	
@@ -26,6 +29,22 @@ public class SqlBuilder {
 	}
 	
 	// SELECT Methods ===========================================================
+	
+	public static String getBarcodeMatchQuery(long barcode) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT prod_id FROM product WHERE prod_id = ");
+		query.append(barcode + ";");
+		
+		return query.toString();
+	}
+	
+	public static String getProductCodeMatchQuery(String productCode) {
+		 StringBuffer query = new StringBuffer();
+		 query.append("SELECT prod_id FROM product WHERE prod_code = '");
+		 query.append(productCode + "';");
+		 
+		 return query.toString();
+	}
 	
 	/**
 	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
@@ -552,6 +571,26 @@ public class SqlBuilder {
 		return query.toString();		
 	}
 	
+	
+	public static String getTopSellerQuery(TopSellerFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT SUM(line.line_units) as 'Units Sold', "
+				+ "prod_name as 'Name', line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + filter.getStartDate() + "' ");
+		query.append("AND ");
+		query.append("'" + filter.getEndDate() + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id "
+				+ "GROUP BY line.prod_id "
+				+ "ORDER BY SUM(line.line_units) DESC "
+				+ "LIMIT ");
+		query.append(filter.getLimit() + ";");
+		return query.toString();
+	}
+	
+	
 	// ==========================================================================
 	// INSERT Methods ===========================================================
 	
@@ -607,6 +646,27 @@ public class SqlBuilder {
 		return statements;
 	}
 	
+	public static String getProductInsertStatement(Product product) {
+		StringBuffer query = new StringBuffer();
+		query.append("INSERT INTO product VALUES(");
+		query.append(product.getId() +", ");
+		query.append("'" + product.getCode() + "', ");
+		query.append("'" + product.getName() + "', ");
+		query.append(product.getCostPrice().doubleValue() + ", ");
+		query.append(product.getPrice().doubleValue() + ", ");
+		query.append(product.getQuantityOnHand() + ", ");
+		query.append("'" + product.getCategory() + "', ");
+		query.append(product.getSupplierId() + ", ");
+		if(product.isActive()) {
+			query.append("'Y');");
+		}
+		else {
+			query.append("'N');");
+		}
+		
+		return query.toString();
+	}
+	
 	// ==========================================================================
 	// Update Methods ===========================================================
 	
@@ -633,6 +693,49 @@ public class SqlBuilder {
 		
 	}
 	
+	
+	public static String getProductUpdateStatement(ProductEditFilter filter) {
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE product SET ");
+		if(filter.hasNameChanged()) {
+			query.append(" prod_name = ");
+			query.append("'" + filter.getModifiedProduct().getName() + "',");
+		}
+		if(filter.hasCostPriceChanged()) {
+			query.append(" prod_cost_price = ");
+			query.append(filter.getModifiedProduct().getCostPrice() + ",");
+		}
+		if(filter.hasPriceChanged()) {
+			query.append(" prod_price = ");
+			query.append(filter.getModifiedProduct().getPrice() + ",");
+		}
+		if(filter.hasQuantityChanged()) {
+			query.append(" prod_qoh = ");
+			query.append(filter.getModifiedProduct().getQuantityOnHand() + ",");
+		}
+		if(filter.hasCategoryChanged()) {
+			query.append(" prod_category = ");
+			query.append("'" + filter.getModifiedProduct().getCategory() + "',");
+		}
+		if(filter.hasSupplierChanged()) {
+			query.append(" supp_id = ");
+			query.append(filter.getModifiedProduct().getSupplierId() + ",");
+		}
+		if(filter.hasActiveChanged()) {
+			query.append(" prod_active = ");
+			if(filter.getModifiedProduct().isActive()) {
+				query.append("'Y',");
+			}
+			else {
+				query.append("'N',");
+			}
+		}
+		query.delete(query.length()-1, query.length());
+		query.append(" WHERE prod_id = ");
+		query.append(filter.getModifiedProduct().getId() + ";");
+		
+		return query.toString();
+	}
 	// ==========================================================================
 	
 }// End class

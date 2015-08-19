@@ -10,17 +10,42 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.math.BigDecimal;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import sss.domain.AddProductController;
+import sss.domain.Product;
+
 @SuppressWarnings("serial")
 public class AddProductFrame extends JFrame {
+	private AddProductController controller = new AddProductController();
+	private Product newProduct = new Product();
+	
+	private JTextField barcodeTextField = new JTextField ("");
+	private JTextField productCodeTextField = new JTextField ("");
+	private JTextField nameTextField = new JTextField ("");
+	private JTextField quantityTextField = new JTextField ("");
+	
+	private JTextField costPriceTextField = new JTextField ("");
+	private JTextField salePriceTextField = new JTextField ("");
+	
+	private JComboBox<String> categoryComboBox = new JComboBox<>(controller.getCategoryNames());
+	private JComboBox<String> supplierComboBox = new JComboBox<>(controller.getSupplierNames());
+	
+	private JLabel gstAmountLabel = new JLabel("$0");
+	private JLabel profitMarginAmountLabel = new JLabel("$0");
+	private JLabel profitPercentageAmountLabel = new JLabel("0%");
 	
 	public AddProductFrame()
 	{
@@ -69,33 +94,23 @@ public class AddProductFrame extends JFrame {
 //---------------------Create Fields---------------------
 		
 		JLabel barcodeLabel = new JLabel ("Barcode:");
-		JTextField barcodeText = new JTextField ("");
-		
 		JLabel productCodeLabel = new JLabel ("Product Code:");
-		JTextField productCodeText = new JTextField ("");
-		
 		JLabel nameLabel = new JLabel ("Name:");
-		JTextField nameText = new JTextField ("");
-		
 		JLabel categoryLabel = new JLabel ("Category:");
-		JComboBox categoryComboBox = new JComboBox ();
-		
 		JLabel quantityLabel = new JLabel ("Quantity:");
-		JTextField quantityText = new JTextField ("");
-		
 		JLabel supplierLabel = new JLabel ("Supplier:");
-		JComboBox supplierComboBox = new JComboBox ();
+		
 		
 		productPanel.add(barcodeLabel);
-		productPanel.add(barcodeText);
+		productPanel.add(barcodeTextField);
 		productPanel.add(productCodeLabel);
-		productPanel.add(productCodeText);
+		productPanel.add(productCodeTextField);
 		productPanel.add(nameLabel);
-		productPanel.add(nameText);
+		productPanel.add(nameTextField);
 		productPanel.add(categoryLabel);
 		productPanel.add(categoryComboBox);
 		productPanel.add(quantityLabel);
-		productPanel.add(quantityText);
+		productPanel.add(quantityTextField);
 		productPanel.add(supplierLabel);
 		productPanel.add(supplierComboBox);
 		
@@ -104,34 +119,30 @@ public class AddProductFrame extends JFrame {
 		JPanel rightPricePanel = new JPanel (new GridLayout(2, 2, 7, 7));
 		
 		JLabel costpriceLabel = new JLabel("Cost Price:");
-		JTextField costpriceTextfield = new JTextField ("");
 		
 		JLabel salepriceLabel = new JLabel("Selling Price:");
-		JTextField salepriceTextfield = new JTextField ("");
 		
 		JLabel gstLabel = new JLabel("GST (10%)");
-		JLabel gstLabelinfo = new JLabel("$0");
 		
 		JLabel lineLabel = new JLabel("_____________________________________________");
 		JLabel lineLabel1 = new JLabel("_____________________________________________");
 		JLabel profitmarginLabel = new JLabel("Profit Margin:");
-		JLabel profitmarginAmount = new JLabel("$ ###");
 		
 		JLabel profitPercentageLabel = new JLabel("Profit Percentage (%):");
-		JLabel profitPercentageAmount = new JLabel("###% ");
+
 		
 		leftPricePanel.add(costpriceLabel);
-		leftPricePanel.add(costpriceTextfield);
+		leftPricePanel.add(costPriceTextField);
 		leftPricePanel.add(salepriceLabel);
-		leftPricePanel.add(salepriceTextfield);
+		leftPricePanel.add(salePriceTextField);
 		leftPricePanel.add(gstLabel);
-		leftPricePanel.add(gstLabelinfo);
+		leftPricePanel.add(gstAmountLabel);
 		leftPricePanel.add(lineLabel);
 		leftPricePanel.add(lineLabel1);		
 		rightPricePanel.add(profitmarginLabel);
-		rightPricePanel.add(profitmarginAmount);
+		rightPricePanel.add(profitMarginAmountLabel);
 		rightPricePanel.add(profitPercentageLabel);
-		rightPricePanel.add(profitPercentageAmount);
+		rightPricePanel.add(profitPercentageAmountLabel);
 		
 		pricingPanel.add(leftPricePanel);
 		pricingPanel.add(rightPricePanel);
@@ -160,8 +171,9 @@ public class AddProductFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				dispose();
-				
+				if(buildProduct()) {
+					controller.saveNewProduct(newProduct);
+				}
 			}
 		});
 		
@@ -176,7 +188,141 @@ public class AddProductFrame extends JFrame {
 			}
 		});
 		
+		
+		costPriceTextField.addFocusListener(new FocusListener()
+    {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(!(costPriceTextField.getText().equals("") || salePriceTextField.equals(""))) {
+					try {
+						BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal profitMarginValue = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal gstAmountValue = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						
+						String profitMargin = price.subtract(gstAmountValue).subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						profitMarginAmountLabel.setText("$" + profitMargin);
+						String profitPercentage = profitMarginValue.subtract(gstAmountValue).divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						profitPercentageAmountLabel.setText(profitPercentage + "%");
+					}
+					catch (NumberFormatException nfe) {
+						return;
+					}
+					catch (ArithmeticException ae) {
+						return;
+					}
+				}
+			}
+    });
+		
+		
+		salePriceTextField.addFocusListener(new FocusListener()
+    {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(!(costPriceTextField.getText().equals("") || salePriceTextField.equals(""))) {
+					try {
+						BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal profitMarginValue = price.subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						BigDecimal gstAmountValue = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+						
+						String gstAmount = price.divide(new BigDecimal(100), 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(10)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						gstAmountLabel.setText("$" + gstAmount);
+						String profitMargin = price.subtract(gstAmountValue).subtract(costPrice).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						profitMarginAmountLabel.setText("$" + profitMargin);
+						String profitPercentage = profitMarginValue.subtract(gstAmountValue).divide(price, 12, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+						profitPercentageAmountLabel.setText(profitPercentage + "%");
+					}
+					catch (NumberFormatException nfe) {
+						return;
+					}
+					catch (ArithmeticException ae) {
+						return;
+					}
+				}
+				
+			}
+    });
+		
+		
 		setVisible(true);
-		barcodeText.requestFocusInWindow();
+		barcodeTextField.requestFocusInWindow();
+	}
+
+	
+	// ==========================================================================
+	// Methods 
+  // ==========================================================================
+	
+	
+	
+	private boolean buildProduct() {
+		if(barcodeTextField.getText().matches("^\\d{13}$")) {
+			newProduct.setId(Long.valueOf(barcodeTextField.getText()));
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Error: Product barcode must be a 13 "
+					+ "digit number", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			int quantity = Integer.parseInt(quantityTextField.getText());
+			if(quantity < 0) {
+				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if(quantity > 999) {
+				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else {
+				newProduct.setQuantityOnHand(quantity);
+			}
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
+					+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+			newProduct.setCostPrice(costPrice);
+			newProduct.setPrice(price);
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid price input", 
+					"Invalid Pricing", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		
+		newProduct.setCode(productCodeTextField.getText());
+		newProduct.setName(nameTextField.getText());
+		newProduct.setCategory((String)categoryComboBox.getSelectedItem());
+		newProduct.setSupplierId(supplierComboBox.getSelectedIndex() + 1);
+		newProduct.setActive(true);
+		
+		if(newProduct.validateProduct()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+		
 	}
 }
