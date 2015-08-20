@@ -30,6 +30,42 @@ public class SqlBuilder {
 	
 	// SELECT Methods ===========================================================
 	
+	public static String getSlowSellerQuery(String startDate, String endDate, int unitsSold) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT SUM(line.line_units) as 'Units Sold', "
+				+ "prod_name as 'Name', "
+				+ "line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id "
+				+ "GROUP BY line.prod_id "
+				+ "HAVING SUM(line.line_units) <= ");
+		query.append(unitsSold + " ");
+		query.append("ORDER BY SUM(line.line_units) DESC;");
+		return query.toString();
+	}
+	
+	public static String getZeroSaleProducts() {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT 0 as 'Units Sold', "
+				+ "prod_name as 'Name', "
+				+ "product.prod_id as 'ID' "
+				+ "FROM product "
+				+ "WHERE product.prod_id NOT IN "
+				+ "(select line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date "
+				+ "BETWEEN '2014-12-21' AND '2014-12-22' "
+				+ "AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id) "
+				+ "ORDER BY prod_name;");
+		return query.toString();
+	}
+	
 	public static String getBarcodeMatchQuery(long barcode) {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT prod_id FROM product WHERE prod_id = ");
@@ -76,7 +112,9 @@ public class SqlBuilder {
 	 */
 	public static String getAllProducts() {
 		return "SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
-				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id ORDER BY prod_name;";
+				+ " FROM product, supplier "
+				+ "WHERE product.supp_id = supplier.supp_id "
+				+ "ORDER BY prod_name;";
 	}
 	
 	/**
@@ -207,8 +245,9 @@ public class SqlBuilder {
 	public static String getSaleReportQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		
-		query.append("SELECT sale_id, sale_date, sale_total, sale_amt_tendered, sale_balance FROM sale WHERE sale_type"
-				+ " = 'Purchase' AND sale_date BETWEEN ");
+		query.append("SELECT sale_id, sale_date, sale_total, sale_amt_tendered, sale_balance "
+				+ "FROM sale WHERE sale_type = 'Purchase' "
+				+ "AND sale_date BETWEEN ");
 		query.append("'" + startDate + "' ");
 		query.append("AND ");
 		query.append("'" + endDate + "';");
@@ -482,7 +521,8 @@ public class SqlBuilder {
 	public static String getProductsFiltered(InventoryFilter filter) {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
-				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id");
+				+ " FROM product, supplier "
+				+ "WHERE product.supp_id = supplier.supp_id");
 		
 		if(filter.isCategorySelected()) {
 			query.append(" AND ");
@@ -525,7 +565,8 @@ public class SqlBuilder {
 	public static String lookupProduct(LookupFilter filter) {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
-				+ " FROM product, supplier WHERE product.supp_id = supplier.supp_id");
+				+ " FROM product, supplier "
+				+ "WHERE product.supp_id = supplier.supp_id");
 		
 		if(filter.isUseCategory()) {
 			query.append(" AND ");
@@ -559,7 +600,8 @@ public class SqlBuilder {
 		StringBuffer query = new StringBuffer();
 		ArrayList<InvoiceRow> rows = invoice.getRows();
 		
-		query.append("SELECT prod_code, prod_cost_price, prod_price, prod_qoh FROM product WHERE ");
+		query.append("SELECT prod_code, prod_cost_price, prod_price, prod_qoh "
+				+ "FROM product WHERE ");
 		
 		for(InvoiceRow row : rows){
 			query.append("prod_code = '" + row.getProductCode() + "'");
