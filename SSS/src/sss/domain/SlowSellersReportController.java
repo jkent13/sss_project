@@ -45,7 +45,7 @@ public class SlowSellersReportController extends ReportController {
 			// Get Query ============================================================
 			
 			String slowSellerQueryPartOne = SqlBuilder.getSlowSellerQuery(sqlStartDate, sqlEndDate, unitsSold);
-			String slowSellerQueryPartTwo = SqlBuilder.getZeroSaleProducts();
+			String slowSellerQueryPartTwo = SqlBuilder.getZeroSaleProducts(sqlStartDate, sqlEndDate);
 			
 			// ======================================================================
 			// Populate table ================================================

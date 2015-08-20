@@ -49,7 +49,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public static String getZeroSaleProducts() {
+	public static String getZeroSaleProducts(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT 0 as 'Units Sold', "
 				+ "prod_name as 'Name', "
@@ -59,8 +59,11 @@ public class SqlBuilder {
 				+ "(select line.prod_id as 'ID' "
 				+ "FROM line, sale, product "
 				+ "WHERE sale_date "
-				+ "BETWEEN '2014-12-21' AND '2014-12-22' "
-				+ "AND line.sale_id = sale.sale_id "
+				+ "BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
 				+ "AND line.prod_id = product.prod_id) "
 				+ "ORDER BY prod_name;");
 		return query.toString();
