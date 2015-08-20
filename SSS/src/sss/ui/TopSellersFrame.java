@@ -107,7 +107,7 @@ public class TopSellersFrame extends JFrame {
 		JPanel labelPanel = new JPanel();
 		TitledBorder labelPanelTitle = new TitledBorder("Number of Top Products:");
 		labelPanel.setBorder(labelPanelTitle);
-		Font myFont = new Font("SansSerif", Font.BOLD, 24);
+		Font myFont = new Font("SansSerif", Font.BOLD, 12);
 		labelPanel.setLayout(new GridLayout(3,1,10,10));
 		labelPanelTitle.setTitleFont(myFont);
 		rightPanel.add(labelPanel);
@@ -118,7 +118,7 @@ public class TopSellersFrame extends JFrame {
 		inputUnitsPanel.setLayout(new GridLayout(1,1,10,10));
 		rightPanel.add(inputUnitsPanel);
 
-		JLabel unitsInputLabel = new JLabel("Input:");
+		JLabel unitsInputLabel = new JLabel("");
 
 		JLabel unitsInputExample = new JLabel("e.g. 10");
 		

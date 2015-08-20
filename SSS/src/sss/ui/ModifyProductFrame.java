@@ -70,7 +70,7 @@ public class ModifyProductFrame extends JFrame {
 //-------------------Full Screen Panel--------------------
 		
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+		TitledBorder fullScreenTitle = new TitledBorder("");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
@@ -85,7 +85,7 @@ public class ModifyProductFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+		TitledBorder rightPanelTitle = new TitledBorder("");
 		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
