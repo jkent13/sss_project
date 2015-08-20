@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.AddProductController;
@@ -58,37 +59,33 @@ public class AddProductFrame extends JFrame {
 		
 //-------------------Full Screen Panel--------------------
 		
-		JPanel addProductpanel = new JPanel(new GridLayout (3, 1, 1, 1));
+		JPanel addProductpanel = new JPanel(new GridLayout (1, 4, 1, 1));
 		TitledBorder mainPanelT = new TitledBorder("Add Product");
 		addProductpanel.setBorder(mainPanelT);
 		add(addProductpanel);
 		
 //--------------------Section Panels--------------------
 		
-		JPanel topPanel = new JPanel(new BorderLayout ());
-		TitledBorder outPanel = new TitledBorder("Out Panel");
-		topPanel.setBorder(outPanel);
-		addProductpanel.add(topPanel);
+		JPanel blankPanelLeft = new JPanel(new BorderLayout ());
+		addProductpanel.add(blankPanelLeft);
 		
-		JPanel titlePanel = new JPanel(new GridLayout(1,1,1,1));
-		JLabel addProductTitle = new JLabel ("Add Product");
-		Font font = new Font("SansSerif", Font.BOLD, 42);
-		addProductTitle.setFont(font);
-		titlePanel.add(addProductTitle);
-		topPanel.add(titlePanel, BorderLayout.NORTH);
-		
-		JPanel middlePanel = new JPanel(new GridLayout(1, 2, 50, 10));
+		JPanel middlePanel = new JPanel(new GridLayout(1, 1, 50, 10));
 		addProductpanel.add(middlePanel);
+
+		JPanel middlePanelRight = new JPanel(new GridLayout(12, 1, 50, 10));
+		middlePanelRight.setBorder(new EmptyBorder(50,50,50,50));
+		middlePanel.add(middlePanelRight);
 		
-		JPanel productPanel = new JPanel(new GridLayout(6, 2, 10, 10));
-		TitledBorder productPanelTitle = new TitledBorder("PRODUCT");
-		productPanel.setBorder(productPanelTitle);
-		middlePanel.add(productPanel);
+		JPanel middlePanelTextFields = new JPanel(new GridLayout(1, 1, 50, 10));
+		addProductpanel.add(middlePanelTextFields);
+		JPanel middlePanelTextFieldLeft = new JPanel(new GridLayout(12, 1, 50, 10));
+		middlePanelTextFieldLeft.setBorder(new EmptyBorder(50,50,50,50));
+		middlePanelTextFields.add(middlePanelTextFieldLeft);
 		
-		JPanel pricingPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-		TitledBorder pricingPanelTitle = new TitledBorder("Pricing");
-		pricingPanel.setBorder(pricingPanelTitle);
-		middlePanel.add(pricingPanel);
+		JPanel blankPanelRight = new JPanel(new GridLayout(1,1,1,1));
+		addProductpanel.add(blankPanelRight);
+		
+		
 		
 		
 //---------------------Create Fields---------------------
@@ -101,67 +98,52 @@ public class AddProductFrame extends JFrame {
 		JLabel supplierLabel = new JLabel ("Supplier:");
 		
 		
-		productPanel.add(barcodeLabel);
-		productPanel.add(barcodeTextField);
-		productPanel.add(productCodeLabel);
-		productPanel.add(productCodeTextField);
-		productPanel.add(nameLabel);
-		productPanel.add(nameTextField);
-		productPanel.add(categoryLabel);
-		productPanel.add(categoryComboBox);
-		productPanel.add(quantityLabel);
-		productPanel.add(quantityTextField);
-		productPanel.add(supplierLabel);
-		productPanel.add(supplierComboBox);
+		middlePanelRight.add(barcodeLabel);
+		middlePanelTextFieldLeft.add(barcodeTextField);
+		middlePanelRight.add(productCodeLabel);
+		middlePanelTextFieldLeft.add(productCodeTextField);
+		middlePanelRight.add(nameLabel);
+		middlePanelTextFieldLeft.add(nameTextField);
+		middlePanelRight.add(categoryLabel);
+		middlePanelTextFieldLeft.add(categoryComboBox);
+		middlePanelRight.add(quantityLabel);
+		middlePanelTextFieldLeft.add(quantityTextField);
+		middlePanelRight.add(supplierLabel);
+		middlePanelTextFieldLeft.add(supplierComboBox);
 		
 		
-		JPanel leftPricePanel = new JPanel (new GridLayout(4, 2, 7, 7));
-		JPanel rightPricePanel = new JPanel (new GridLayout(2, 2, 7, 7));
 		
 		JLabel costpriceLabel = new JLabel("Cost Price:");
 		
 		JLabel salepriceLabel = new JLabel("Selling Price:");
 		
 		JLabel gstLabel = new JLabel("GST (10%)");
-		
-		JLabel lineLabel = new JLabel("_____________________________________________");
-		JLabel lineLabel1 = new JLabel("_____________________________________________");
+
 		JLabel profitmarginLabel = new JLabel("Profit Margin:");
 		
 		JLabel profitPercentageLabel = new JLabel("Profit Percentage (%):");
 
 		
-		leftPricePanel.add(costpriceLabel);
-		leftPricePanel.add(costPriceTextField);
-		leftPricePanel.add(salepriceLabel);
-		leftPricePanel.add(salePriceTextField);
-		leftPricePanel.add(gstLabel);
-		leftPricePanel.add(gstAmountLabel);
-		leftPricePanel.add(lineLabel);
-		leftPricePanel.add(lineLabel1);		
-		rightPricePanel.add(profitmarginLabel);
-		rightPricePanel.add(profitMarginAmountLabel);
-		rightPricePanel.add(profitPercentageLabel);
-		rightPricePanel.add(profitPercentageAmountLabel);
+		middlePanelRight.add(costpriceLabel);
+		middlePanelTextFieldLeft.add(costPriceTextField);
+		middlePanelRight.add(salepriceLabel);
+		middlePanelTextFieldLeft.add(salePriceTextField);
+		middlePanelRight.add(gstLabel);
+		middlePanelTextFieldLeft.add(gstAmountLabel);		
+		middlePanelRight.add(profitmarginLabel);
+		middlePanelTextFieldLeft.add(profitMarginAmountLabel);
+		middlePanelRight.add(profitPercentageLabel);
+		middlePanelTextFieldLeft.add(profitPercentageAmountLabel);
 		
-		pricingPanel.add(leftPricePanel);
-		pricingPanel.add(rightPricePanel);
 		
 //---------------------Create Buttons---------------------
-		
-		JPanel outbuttonPanel = new JPanel(new GridLayout(2,1,70,100));
-		JPanel a = new JPanel();
-		JPanel inbuttonPanel = new JPanel(new GridLayout(1,2,50,50));
 		
 		JButton saveButton = new JButton("Save");
 		JButton cancelButton = new JButton("Cancel");
 		
-		inbuttonPanel.add(saveButton);
-		inbuttonPanel.add(cancelButton);
+		middlePanelRight.add(saveButton);
+		middlePanelTextFieldLeft.add(cancelButton);
 		
-		outbuttonPanel.add(a);
-		outbuttonPanel.add(inbuttonPanel, BorderLayout.SOUTH);
-		addProductpanel.add(outbuttonPanel);
 				
 //---------------------Event Handlers---------------------		
 
