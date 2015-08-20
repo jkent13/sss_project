@@ -10,21 +10,32 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import sss.domain.SlowSellersReportController;
 
 
 @SuppressWarnings("serial")
 public class SlowSellersFrame extends JFrame {
-
+	private SlowSellersReportController controller = new SlowSellersReportController();
+	
+	private JTextField unitsTextField = new JTextField();
+	private JTextField startDateTextField = new JTextField();
+	private JTextField endDateTextField = new JTextField();
+	
 	public SlowSellersFrame()
 	{
 
@@ -52,33 +63,10 @@ public class SlowSellersFrame extends JFrame {
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
-		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-		Object[][] data = {
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"}
-		};
-
-		JTable lookUpTable = new JTable(data, colNames);
-		JScrollPane scrlPane = new JScrollPane(lookUpTable);
-		leftPanel.add(scrlPane);
+		JTable resultsTable = new JTable(controller.getDataModel());
+		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPane = new JScrollPane(resultsTable);
+		leftPanel.add(scrollPane);
 		
 		//--------------------Date Panels--------------------
 
@@ -95,18 +83,17 @@ public class SlowSellersFrame extends JFrame {
 		
 		//--------------------Date Panel Fields--------------------
 
-		JTextField viewStartDate = new JTextField();
 		JLabel viewStartDateLabel = new JLabel("Start Date:");
 		JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
 		rightDatePanel.add(viewStartDateLabel);
-		rightDatePanel.add(viewStartDate);
+		rightDatePanel.add(startDateTextField);
 		rightDatePanel.add(viewStartDateExample);
 		
-		JTextField viewEndDate = new JTextField();
+
 		JLabel viewEndDateLabel = new JLabel("End Date:");
 		JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
 		leftDatePanel.add(viewEndDateLabel);
-		leftDatePanel.add(viewEndDate);
+		leftDatePanel.add(endDateTextField);
 		leftDatePanel.add(viewEndDateExample);
 
 		datePanel.add(rightDatePanel);
@@ -116,27 +103,22 @@ public class SlowSellersFrame extends JFrame {
 		//--------------------Units Entry Panel--------------------
 		
 		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new GridLayout(2,1,10,10));
+		labelPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(labelPanel);
-
-		JLabel soldUnitsLabel = new JLabel("Product units sold,");
-		JLabel soldUnitsLabel2 = new JLabel("less than or equal to:");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
+		TitledBorder inputBorder = new TitledBorder("Product units sold");
+		JLabel soldUnitsLabel = new JLabel("Less than or Equal to:");
+		Font myFont = new Font("SansSerif", Font.BOLD, 12);
+		labelPanel.setBorder(inputBorder);
 		soldUnitsLabel.setFont(myFont);
-		soldUnitsLabel2.setFont(myFont);
 		labelPanel.add(soldUnitsLabel);
-		labelPanel.add(soldUnitsLabel2);
 
-		JPanel inputUnitsPanel = new JPanel();
-		inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
-		rightPanel.add(inputUnitsPanel);
-
-		JLabel unitsInputLabel = new JLabel("Input:");
-		JTextField units = new JTextField("");
 		JLabel unitsInputExample = new JLabel("e.g. 10");
-		inputUnitsPanel.add(unitsInputLabel);
-		inputUnitsPanel.add(units);
-		inputUnitsPanel.add(unitsInputExample);
+		labelPanel.add(unitsTextField);
+		labelPanel.add(unitsInputExample);
+
+		JPanel blankPanel = new JPanel();
+		blankPanel.setLayout(new GridLayout(3,1,10,10));
+		rightPanel.add(blankPanel);
 
 		//---------------------Create Buttons---------------------
 
@@ -159,10 +141,58 @@ public class SlowSellersFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				myFrame.dispose();
+				validateAllInput();
+				String startDate = startDateTextField.getText();
+				String endDate = endDateTextField.getText();
+				int units = Integer.parseInt(unitsTextField.getText());
+				controller.getResults(startDate, endDate, units);
 			}
 		});
 
+		// Pressing Enter key on View Start Date textbox
+		startDateTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					validateAllInput();
+					String startDate = startDateTextField.getText();
+					String endDate = endDateTextField.getText();
+					int units = Integer.parseInt(unitsTextField.getText());
+					controller.getResults(startDate, endDate, units);
+				}
+			}
+		});
+
+		// Pressing Enter key on View End Date textbox
+		endDateTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					validateAllInput();
+					String startDate = startDateTextField.getText();
+					String endDate = endDateTextField.getText();
+					int units = Integer.parseInt(unitsTextField.getText());
+					controller.getResults(startDate, endDate, units);
+				}
+			}
+		});
+		
+		unitsTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					validateAllInput();
+					String startDate = startDateTextField.getText();
+					String endDate = endDateTextField.getText();
+					int units = Integer.parseInt(unitsTextField.getText());
+					controller.getResults(startDate, endDate, units);
+				}
+			}
+		});
+		
 		backButton.addActionListener(new ActionListener()
 		{
 
@@ -175,6 +205,61 @@ public class SlowSellersFrame extends JFrame {
 
 
 		setVisible(true);
+	}
 	
+	private boolean isDateFieldNull() {
+		boolean isStartNull = startDateTextField.getText().equals("");
+		boolean isEndNull = endDateTextField.getText().equals("");
+		if(isStartNull || isEndNull) {
+			JOptionPane.showMessageDialog(null, "Error: One or both of the date fields are empty!", "Empty Date Field", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private boolean areDatesValid() {
+		String startDateString = startDateTextField.getText();
+		String endDateString = endDateTextField.getText();
+		boolean isStartValid = controller.isValidDate(startDateString);
+		boolean isEndValid = controller.isValidDate(endDateString);
+		boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
+
+		if (isStartValid && isEndValid && isStartBeforeEnd) {
+			return true;
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Error: Invalid date input. Please make "
+					+ "sure the both dates are written in the format DD/MM/YYYY and that the start date is before the end date", 
+					"Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
+	private boolean isUnitValid() {
+		try{
+			int units = Integer.parseInt(unitsTextField.getText());
+			if(units > 0) {
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: Invalid input for the units. Please make sure the value is numerical and > 0", "Invalid Limit", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid input for the units. Please make sure the value is numerical and > 0", "Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
+	private boolean validateAllInput() {
+		if(!isDateFieldNull()) {
+			if(isUnitValid() && areDatesValid()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

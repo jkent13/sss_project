@@ -1471,5 +1471,4 @@ public class ChartBuilder {
 
 			return topSellerChartPanel;
 	}
-
 }
