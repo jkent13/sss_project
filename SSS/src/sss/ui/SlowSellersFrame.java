@@ -116,27 +116,22 @@ public class SlowSellersFrame extends JFrame {
 		//--------------------Units Entry Panel--------------------
 		
 		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new GridLayout(2,1,10,10));
+		labelPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(labelPanel);
-
-		JLabel soldUnitsLabel = new JLabel("Product units sold,");
-		JLabel soldUnitsLabel2 = new JLabel("less than or equal to:");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
+		TitledBorder inputBorder = new TitledBorder("Product units sold");
+		JLabel soldUnitsLabel = new JLabel("Less than or Equal to:");
+		Font myFont = new Font("SansSerif", Font.BOLD, 12);
+		labelPanel.setBorder(inputBorder);
 		soldUnitsLabel.setFont(myFont);
-		soldUnitsLabel2.setFont(myFont);
 		labelPanel.add(soldUnitsLabel);
-		labelPanel.add(soldUnitsLabel2);
-
-		JPanel inputUnitsPanel = new JPanel();
-		inputUnitsPanel.setLayout(new GridLayout(3,1,10,10));
-		rightPanel.add(inputUnitsPanel);
-
-		JLabel unitsInputLabel = new JLabel("Input:");
 		JTextField units = new JTextField("");
 		JLabel unitsInputExample = new JLabel("e.g. 10");
-		inputUnitsPanel.add(unitsInputLabel);
-		inputUnitsPanel.add(units);
-		inputUnitsPanel.add(unitsInputExample);
+		labelPanel.add(units);
+		labelPanel.add(unitsInputExample);
+
+		JPanel blankPanel = new JPanel();
+		blankPanel.setLayout(new GridLayout(3,1,10,10));
+		rightPanel.add(blankPanel);
 
 		//---------------------Create Buttons---------------------
 
