@@ -27,6 +27,8 @@ public class Line {
 	private BigDecimal line_cost_amount;				// Line cost subtotal (units * cost price)
 	private BigDecimal line_discount = BigDecimal.ONE; 	// Discount multiplier to be applied to this line
 	
+	private boolean doNotAdjustFlag = false;
+	
 	/**
 	 * Creates a new Line from a sale id, a product id and a line number
 	 * @param sale_id the id for the Sale object that this Line belongs to
@@ -170,18 +172,20 @@ public class Line {
 		return line_discount.multiply(new BigDecimal(100)).subtract(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 	
+	public boolean getDoNotAdjustFlag()  {
+		return doNotAdjustFlag;
+	}
+	
 	/**
 	 * Setter method for line units (also referred to as quantity)
 	 * @param quantity the new value for units
 	 */
-	public void setQuantity(int quantity) {
-		if (quantity > 0) { 				// Refunds will use negative quantities, currently not supported
+	public void setQuantity(int quantity) {			
 			line_units = quantity; 
 			
 			// Changing line units affects line cost amount and line amount, so their values must be updated
 			line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);		
-		}
 	}
 	
 	/**
@@ -195,6 +199,10 @@ public class Line {
 		else {
 			JOptionPane.showMessageDialog(null, "Error: Invalid value for line number", "Invalid argument", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void setDoNotAdjustFlag(boolean flag) {
+		doNotAdjustFlag = flag;
 	}
 	
 	// Overridden toString() method to display most important information about a Line object. Used mostly for testing

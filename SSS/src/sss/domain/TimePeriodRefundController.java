@@ -205,7 +205,7 @@ public class TimePeriodRefundController extends ReportController {
 
 		switch(groupBy) {
 		case "day" :
-			if(reportType.equals("dollar")) {
+			if(reportType.equals("refundDollar")) {
 				switchToDayDollarView();
 			}
 			else {
@@ -213,7 +213,7 @@ public class TimePeriodRefundController extends ReportController {
 			}
 			break;
 		case "week" :
-			if(reportType.equals("dollar")) {
+			if(reportType.equals("refundDollar")) {
 				switchToWeekDollarView();
 			}
 			else {
@@ -221,7 +221,7 @@ public class TimePeriodRefundController extends ReportController {
 			}
 			break;
 		case "month" :
-			if(reportType.equals("dollar")) {
+			if(reportType.equals("refundDollar")) {
 				switchToMonthDollarView();
 			}
 			else {

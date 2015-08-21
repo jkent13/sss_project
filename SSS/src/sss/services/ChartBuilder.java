@@ -739,7 +739,7 @@ public class ChartBuilder {
 	private static ChartPanel createRefundDollarByHourChart(
 			DefaultCategoryDataset data) {
 		JFreeChart refundDollarChart = ChartFactory
-				.createBarChart("", "Hour", "Refund Amount ($)", data,
+				.createBarChart("", "Hour", "Refund Amount (-$)", data,
 						PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot = (CategoryPlot) refundDollarChart.getPlot();
@@ -1272,7 +1272,7 @@ public class ChartBuilder {
 	private static ChartPanel createRefundDollarByDayChart(
 			DefaultCategoryDataset data) {
 		JFreeChart refundDollarChart = ChartFactory
-				.createBarChart("", "Day", "Refund Amount ($)", data,
+				.createBarChart("", "Day", "Refund Amount (-$)", data,
 						PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot = (CategoryPlot) refundDollarChart.getPlot();
@@ -1331,7 +1331,7 @@ public class ChartBuilder {
 	private static ChartPanel createRefundDollarByWeekChart(
 			DefaultCategoryDataset data) {
 		JFreeChart refundDollarChart = ChartFactory
-				.createBarChart("", "Week", "Refund Amount ($)", data,
+				.createBarChart("", "Week", "Refund Amount (-$)", data,
 						PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot = (CategoryPlot) refundDollarChart.getPlot();
@@ -1390,7 +1390,7 @@ public class ChartBuilder {
 	private static ChartPanel createRefundDollarByMonthChart(
 			DefaultCategoryDataset data) {
 		JFreeChart refundDollarChart = ChartFactory
-				.createBarChart("", "Month", "Refund Amount ($)", data,
+				.createBarChart("", "Month", "Refund Amount (-$)", data,
 						PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot = (CategoryPlot) refundDollarChart.getPlot();

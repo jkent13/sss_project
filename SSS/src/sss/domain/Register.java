@@ -62,7 +62,6 @@ public class Register {
 		searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
 		
 		String lastIdQuery = SqlBuilder.getLastSaleId();
-		String getSuppliers = SqlBuilder.getSupplierNames();
 		String getCategories = SqlBuilder.getCategoryNames();
 		
 		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
@@ -157,6 +156,20 @@ public class Register {
 		}
 	}
 	
+	public boolean saleHasLines() {
+		if(activeSale) {
+			if(currentSale.getNumberOfLines() > 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Getter method for the current sale's SQL insert statements
 	 * @return a String SQL insert statement for the current sale
@@ -227,13 +240,42 @@ public class Register {
 	 */
 	public void changeLineQuantity(int lineIndex, int quantity) {
 		String newQty;
-		if(activeSale) {
-			Line lineItem = currentSale.getLineItems().get(lineIndex);
-			lineItem.setQuantity(quantity);
-			newQty = String.valueOf(lineItem.getLineUnits());
-			dataModel.setValueAt(newQty, lineIndex, 0);
-			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
-			calculateTotal();
+		if(quantity == 0 && activeSale) {
+			voidLineItem(lineIndex);
+		}
+		else {
+			if(activeSale) {
+				if(quantity < 0) {
+					int response = JOptionPane.showConfirmDialog(null, "Add returned product(s) to inventory?", "Adjust stock counts?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); 
+					if(response == JOptionPane.YES_OPTION) {
+						Line lineItem = currentSale.getLineItems().get(lineIndex);
+						lineItem.setQuantity(quantity);
+						lineItem.setDoNotAdjustFlag(false);
+						newQty = String.valueOf(lineItem.getLineUnits());
+						dataModel.setValueAt(newQty, lineIndex, 0);
+						dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+						calculateTotal();
+					}
+					else {
+						Line lineItem = currentSale.getLineItems().get(lineIndex);
+						lineItem.setQuantity(quantity);
+						lineItem.setDoNotAdjustFlag(true);
+						newQty = String.valueOf(lineItem.getLineUnits());
+						dataModel.setValueAt(newQty, lineIndex, 0);
+						dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+						calculateTotal();
+					}
+				}
+				else {
+					Line lineItem = currentSale.getLineItems().get(lineIndex);
+					lineItem.setQuantity(quantity);
+					lineItem.setDoNotAdjustFlag(false);
+					newQty = String.valueOf(lineItem.getLineUnits());
+					dataModel.setValueAt(newQty, lineIndex, 0);
+					dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+					calculateTotal();
+				}
+			}
 		}
 	}
 	
@@ -260,16 +302,18 @@ public class Register {
 	 * @param amt_tendered the amount tendered (must be greater than or equal to the sale total)
 	 */
 	public void makePayment(BigDecimal amt_tendered) {
-		if(activeSale && amt_tendered.compareTo(currentSale.getSaleTotal()) >= 0) {
+		if(activeSale && (currentSale.getNumberOfLines() > 0)) {
 			calculateTotal();
 			currentSale.setAmountTendered(amt_tendered);
 			calculateBalance();
 			currentSale.setTimestamp(mySqlDateFormat.format(new Date())); // Create and set the timestamp
-			
+			currentSale.checkSaleType();
 			
 			// Get the SQL insert statements
 			String saleInsertStatement = getSaleInsertStatement();
 			String[] lineInsertStatements = getLineInsertStatements();
+			String[] stockAdjustmentStatements = SqlBuilder.getStockAdjustmentsUpdateStatements(currentSale);
+			
 			
 			if(!currentSale.isValid()) {
 				JOptionPane.showMessageDialog(null, "Error: Sale Invalid. Remove from database.", "Invalid Sale", JOptionPane.ERROR_MESSAGE);
@@ -278,6 +322,7 @@ public class Register {
 			// Write the sale and lines to database
 			try {
 				writeSale(saleInsertStatement, lineInsertStatements);
+				adjustStockCounts(stockAdjustmentStatements);
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
@@ -357,6 +402,14 @@ public class Register {
 	//-----------------------------------------------------------------
 	
 	//----------- Printing and DB Writing Methods----------------------
+	
+	public void adjustStockCounts(String[] stockAdjustmentStatements) {
+		for(String statement: stockAdjustmentStatements) {
+			if(statement != null) {
+				DbWriter.executeStatement(statement);
+			}
+		}
+	}
 	
 	/**
 	 * Writes a sale and its line items to the database
