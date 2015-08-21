@@ -37,7 +37,9 @@ public class PrintFormatter {
 		// Count the number of items (for display in sale footer)
 		int numberOfItems = 0;
 		for(Line l: sale.getLineItems()) {
-			numberOfItems += l.getLineUnits();
+			if(l.getLineUnits() > 0) {
+				numberOfItems += l.getLineUnits();
+			}
 		}
 		
 		// Create sale header

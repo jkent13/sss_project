@@ -288,10 +288,11 @@ public class Sale {
 	 */
 	public void calculateBalance() {
 		sale_balance = new BigDecimal(0.00).setScale(2); // Reset to default to avoid errors
-		
+
 		// Sale balance is the amount tendered - the sale total
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN); 
 		notifyListeners(SaleListener.SALE_BALANCE, sale_balance);
+
 	}
 	
 	// ----------------------------------------------------------
@@ -309,7 +310,16 @@ public class Sale {
 	
 	@Override
 	public String toString() {
-		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + " Number of Lines: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
+		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + "\nSale Type: " + sale_type + " Number of Lines: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
+	}
+	
+	public void checkSaleType() {
+		if(sale_total.compareTo(BigDecimal.ZERO) < 0) {
+			sale_type = "Refund";
+		}
+		else {
+			sale_type = "Purchase";
+		}
 	}
 	
 }// End class

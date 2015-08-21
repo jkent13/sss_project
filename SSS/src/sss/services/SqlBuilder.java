@@ -295,7 +295,9 @@ public class SqlBuilder {
 		query.append("SELECT CONCAT(hrs.theHour, ':00-', hrs.theHour + 1, ':00') AS 'Hours', "
 				+ "COUNT(sale_date) AS `Number of Sales`, "
 				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
-				+ "FROM (SELECT 8 AS theHour UNION ALL SELECT 9 UNION ALL SELECT 10 "
+				+ "FROM (SELECT 8 AS theHour "
+				+ "UNION ALL SELECT 9 "
+				+ "UNION ALL SELECT 10 "
 				+ "UNION ALL SELECT 11 "
 				+ "UNION ALL SELECT 12 "
 				+ "UNION ALL SELECT 13 "
@@ -307,6 +309,7 @@ public class SqlBuilder {
 				+ "ON EXTRACT(HOUR FROM sale.sale_date) = hrs.theHour "
 				+ "AND DATE(sale.sale_date) = ");
 		query.append("'" + startDate + "' ");
+		query.append("AND sale.sale_type = 'Purchase' ");
 		query.append("LEFT OUTER JOIN line "
 				+ "ON sale.sale_id = line.sale_id "
 				+ "GROUP BY hrs.theHour;");
@@ -335,7 +338,7 @@ public class SqlBuilder {
 				+ "AND DATE(sale.sale_date) = ");
 		query.append("'" + startDate + "' ");
 		query.append("AND sale.sale_type = 'Refund' "
-				+ "AND sale.sale_balance < 0 "
+				+ "AND sale.sale_total < 0 "
 				+ "GROUP BY hrs.theHour;");
 		
 		return query.toString();
@@ -468,7 +471,7 @@ public class SqlBuilder {
 		query.append("AND ");
 		query.append("'" + endDate + "' ");
 		query.append("AND sale.sale_type = 'Refund' "
-				+ "AND sale.sale_balance < 0 "
+				+ "AND sale.sale_total < 0 "
 				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
 				+ "ORDER BY sale_date;");
 
@@ -488,7 +491,7 @@ public class SqlBuilder {
 		query.append("AND ");
 		query.append("'" + endDate + "' ");
 		query.append("AND sale.sale_type = 'Refund' "
-				+ "AND sale.sale_balance < 0 "
+				+ "AND sale.sale_total < 0 "
 				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
 				+ "ORDER BY sale_date;");
 		
@@ -508,7 +511,7 @@ public class SqlBuilder {
 		query.append("AND ");
 		query.append("'" + endDate + "' ");
 		query.append("AND sale.sale_type = 'Refund' "
-				+ "AND sale.sale_balance < 0 "
+				+ "AND sale.sale_total < 0 "
 				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
 				+ "ORDER BY sale_date;");
 		
@@ -775,11 +778,84 @@ public class SqlBuilder {
 				query.append("'N',");
 			}
 		}
-		query.delete(query.length()-1, query.length());
+		query.delete(query.length()-1, query.length()); // Removes extra ','
 		query.append(" WHERE prod_id = ");
 		query.append(filter.getModifiedProduct().getId() + ";");
 		
 		return query.toString();
+	}
+	
+	public static String[] getDecrementStockCountStatements(Sale sale) {
+		String[] statements = new String[sale.getNumberOfLines()];
+		ArrayList<Line> lineItems = sale.getLineItems();
+		StringBuffer currentStatement = new StringBuffer();
+		
+		int i = 0;
+		for(Line line: lineItems) {
+			currentStatement.append("UPDATE product "
+					+ "SET prod_qoh = GREATEST(0, prod_qoh-");
+			currentStatement.append(line.getLineUnits() + ") ");
+			currentStatement.append("WHERE prod_id = ");
+			currentStatement.append(line.getProductId() + ";");
+			
+			statements[i] = currentStatement.toString();
+			i++;
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
+	}
+	
+	public static String[] getIncrementStockCountStatements(Sale sale) {
+		String[] statements = new String[sale.getNumberOfLines()];
+		ArrayList<Line> lineItems = sale.getLineItems();
+		StringBuffer currentStatement = new StringBuffer();
+		
+		int i = 0;
+		for(Line line: lineItems) {
+			currentStatement.append("UPDATE product "
+					+ "SET prod_qoh = prod_qoh + ");
+			currentStatement.append(Math.abs(line.getLineUnits()) + " ");
+			currentStatement.append("WHERE prod_id = ");
+			currentStatement.append(line.getProductId() + ";");
+			
+			statements[i] = currentStatement.toString();
+			i++;
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
+	}
+	
+	public static String[] getStockAdjustmentsUpdateStatements(Sale sale) {
+		String[] statements = new String[sale.getNumberOfLines()];
+		ArrayList<Line> lineItems = sale.getLineItems();
+		StringBuffer currentStatement = new StringBuffer();
+		int i = 0;
+		for(Line line: lineItems) {
+			if(line.getLineUnits() > 0) {
+				currentStatement.append("UPDATE product "
+						+ "SET prod_qoh = GREATEST(0, prod_qoh-");
+				currentStatement.append(line.getLineUnits() + ") ");
+				currentStatement.append("WHERE prod_id = ");
+				currentStatement.append(line.getProductId() + ";");
+				
+				statements[i] = currentStatement.toString();
+			}
+			else {
+				currentStatement.append("UPDATE product "
+						+ "SET prod_qoh = prod_qoh + ");
+				currentStatement.append(Math.abs(line.getLineUnits()) + " ");
+				currentStatement.append("WHERE prod_id = ");
+				currentStatement.append(line.getProductId() + ";");
+				
+				statements[i] = currentStatement.toString();
+			}
+			i++;
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
 	}
 	// ==========================================================================
 	

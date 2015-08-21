@@ -174,14 +174,12 @@ public class Line {
 	 * Setter method for line units (also referred to as quantity)
 	 * @param quantity the new value for units
 	 */
-	public void setQuantity(int quantity) {
-		if (quantity > 0) { 				// Refunds will use negative quantities, currently not supported
+	public void setQuantity(int quantity) {			
 			line_units = quantity; 
 			
 			// Changing line units affects line cost amount and line amount, so their values must be updated
 			line_cost_amount = line_cost_price.multiply(new BigDecimal(line_units)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			line_amount = line_price.multiply(new BigDecimal(line_units)).multiply(line_discount).setScale(2, BigDecimal.ROUND_HALF_EVEN);		
-		}
 	}
 	
 	/**

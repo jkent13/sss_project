@@ -62,7 +62,6 @@ public class Register {
 		searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
 		
 		String lastIdQuery = SqlBuilder.getLastSaleId();
-		String getSuppliers = SqlBuilder.getSupplierNames();
 		String getCategories = SqlBuilder.getCategoryNames();
 		
 		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
@@ -227,13 +226,18 @@ public class Register {
 	 */
 	public void changeLineQuantity(int lineIndex, int quantity) {
 		String newQty;
-		if(activeSale) {
-			Line lineItem = currentSale.getLineItems().get(lineIndex);
-			lineItem.setQuantity(quantity);
-			newQty = String.valueOf(lineItem.getLineUnits());
-			dataModel.setValueAt(newQty, lineIndex, 0);
-			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
-			calculateTotal();
+		if(quantity == 0 && activeSale) {
+			voidLineItem(lineIndex);
+		}
+		else {
+			if(activeSale) {
+				Line lineItem = currentSale.getLineItems().get(lineIndex);
+				lineItem.setQuantity(quantity);
+				newQty = String.valueOf(lineItem.getLineUnits());
+				dataModel.setValueAt(newQty, lineIndex, 0);
+				dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+				calculateTotal();
+			}
 		}
 	}
 	
@@ -265,11 +269,13 @@ public class Register {
 			currentSale.setAmountTendered(amt_tendered);
 			calculateBalance();
 			currentSale.setTimestamp(mySqlDateFormat.format(new Date())); // Create and set the timestamp
-			
+			currentSale.checkSaleType();
+			System.out.println(currentSale);
 			
 			// Get the SQL insert statements
 			String saleInsertStatement = getSaleInsertStatement();
 			String[] lineInsertStatements = getLineInsertStatements();
+			String[] stockAdjustmentStatements = SqlBuilder.getStockAdjustmentsUpdateStatements(currentSale);
 			
 			if(!currentSale.isValid()) {
 				JOptionPane.showMessageDialog(null, "Error: Sale Invalid. Remove from database.", "Invalid Sale", JOptionPane.ERROR_MESSAGE);
@@ -278,6 +284,7 @@ public class Register {
 			// Write the sale and lines to database
 			try {
 				writeSale(saleInsertStatement, lineInsertStatements);
+				adjustStockCounts(stockAdjustmentStatements);
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
@@ -357,6 +364,12 @@ public class Register {
 	//-----------------------------------------------------------------
 	
 	//----------- Printing and DB Writing Methods----------------------
+	
+	public void adjustStockCounts(String[] stockAdjustmentStatements) {
+		for(String statement: stockAdjustmentStatements) {
+			DbWriter.executeStatement(statement);
+		}
+	}
 	
 	/**
 	 * Writes a sale and its line items to the database
