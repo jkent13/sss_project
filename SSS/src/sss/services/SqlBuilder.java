@@ -785,47 +785,6 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public static String[] getDecrementStockCountStatements(Sale sale) {
-		String[] statements = new String[sale.getNumberOfLines()];
-		ArrayList<Line> lineItems = sale.getLineItems();
-		StringBuffer currentStatement = new StringBuffer();
-		
-		int i = 0;
-		for(Line line: lineItems) {
-			currentStatement.append("UPDATE product "
-					+ "SET prod_qoh = GREATEST(0, prod_qoh-");
-			currentStatement.append(line.getLineUnits() + ") ");
-			currentStatement.append("WHERE prod_id = ");
-			currentStatement.append(line.getProductId() + ";");
-			
-			statements[i] = currentStatement.toString();
-			i++;
-			currentStatement.delete(0, currentStatement.length());
-		}
-		
-		return statements;
-	}
-	
-	public static String[] getIncrementStockCountStatements(Sale sale) {
-		String[] statements = new String[sale.getNumberOfLines()];
-		ArrayList<Line> lineItems = sale.getLineItems();
-		StringBuffer currentStatement = new StringBuffer();
-		
-		int i = 0;
-		for(Line line: lineItems) {
-			currentStatement.append("UPDATE product "
-					+ "SET prod_qoh = prod_qoh + ");
-			currentStatement.append(Math.abs(line.getLineUnits()) + " ");
-			currentStatement.append("WHERE prod_id = ");
-			currentStatement.append(line.getProductId() + ";");
-			
-			statements[i] = currentStatement.toString();
-			i++;
-			currentStatement.delete(0, currentStatement.length());
-		}
-		
-		return statements;
-	}
 	
 	public static String[] getStockAdjustmentsUpdateStatements(Sale sale) {
 		String[] statements = new String[sale.getNumberOfLines()];
