@@ -428,7 +428,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					if(exactAmount.compareTo(FIVE_DOLLARS) <= 0) {
 						register.makePayment(FIVE_DOLLARS);
@@ -447,7 +447,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					if(exactAmount.compareTo(TEN_DOLLARS) <= 0) {
 						register.makePayment(TEN_DOLLARS);
@@ -466,7 +466,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					if(exactAmount.compareTo(TWENTY_DOLLARS) <= 0) {
 						register.makePayment(TWENTY_DOLLARS);
@@ -485,7 +485,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					if(exactAmount.compareTo(FIFTY_DOLLARS) <= 0) {
 						register.makePayment(FIFTY_DOLLARS);
@@ -504,7 +504,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					if(exactAmount.compareTo(HUNDRED_DOLLARS) <= 0) {
 						register.makePayment(HUNDRED_DOLLARS);
@@ -523,7 +523,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					register.makePayment(exactAmount);
 				}
@@ -537,7 +537,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { 
 					try{ 
 						BigDecimal exactAmount = register.getCurrentSaleTotal();
 						BigDecimal payment = new BigDecimal(paymentEntryField.getText());
@@ -564,7 +564,7 @@ public class PosFrame extends JFrame implements SaleListener {
 			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+					if(register.saleHasLines()) { 
 						try{ 
 							BigDecimal exactAmount = register.getCurrentSaleTotal();
 							BigDecimal payment = new BigDecimal(paymentEntryField.getText());

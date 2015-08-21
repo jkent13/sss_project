@@ -33,8 +33,10 @@ public class DatasetConverter {
 			for(int j = 0; j < colCount; j++) {
 				if((j % 3) == 0)
 					hours.add((String)dbData.getValueAt(i, j));
-				else if (j % 2 == 0)
-					totals.add(Double.valueOf(dbData.getValueAt(i, j).toString()));
+				else if (j % 2 == 0) {
+					Double absValue = Math.abs(Double.valueOf(dbData.getValueAt(i, j).toString()));
+					totals.add(absValue);
+				}
 			}
 		}
 	
@@ -129,8 +131,10 @@ public class DatasetConverter {
 			for(int j = 0; j < colCount; j++) {
 				if((j % 3) == 0)
 					days.add((String)dbData.getValueAt(i, j));
-				else if (j % 2 == 0)
-					totals.add(Double.valueOf(dbData.getValueAt(i, j).toString()));
+				else if (j % 2 == 0) {
+					Double absValue = Math.abs(Double.valueOf(dbData.getValueAt(i, j).toString()));
+					totals.add(absValue);
+				}
 			}
 		}
 	
@@ -201,8 +205,10 @@ public class DatasetConverter {
 			for(int j = 0; j < colCount; j++) {
 				if(j == 0)
 					weeks.add((String)dbData.getValueAt(i, j));
-				else if (j == 3)
-					totals.add(Double.valueOf(dbData.getValueAt(i, j).toString()));
+				else if (j == 3) {
+					Double absValue = Math.abs(Double.valueOf(dbData.getValueAt(i, j).toString()));
+					totals.add(absValue);
+				}
 			}
 		}
 	
@@ -273,8 +279,10 @@ public class DatasetConverter {
 			for(int j = 0; j < colCount; j++) {
 				if(j == 0)
 					months.add((String)dbData.getValueAt(i, j));
-				else if (j == 3)
-					totals.add(Double.valueOf(dbData.getValueAt(i, j).toString()));
+				else if (j == 3) {
+					Double absValue = Math.abs(Double.valueOf(dbData.getValueAt(i, j).toString()));
+					totals.add(absValue);
+				}
 			}
 		}
 	

@@ -842,7 +842,7 @@ public class SqlBuilder {
 				
 				statements[i] = currentStatement.toString();
 			}
-			else {
+			else if (!line.getDoNotAdjustFlag()){
 				currentStatement.append("UPDATE product "
 						+ "SET prod_qoh = prod_qoh + ");
 				currentStatement.append(Math.abs(line.getLineUnits()) + " ");
