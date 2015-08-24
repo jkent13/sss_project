@@ -38,13 +38,11 @@ public class ReportsMenuFrame extends JFrame {
 		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(3,2,10,10));
+		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel inventoryLabel = new JLabel("Reports");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
-		inventoryLabel.setFont(myFont);
-		topPanel.add(inventoryLabel);
+		JLabel reportsTextLabel = new JLabel(new ImageIcon("images/pageTitles/ReportsLogo.png"));
+		topPanel.add(reportsTextLabel);
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridLayout(1,2,10,10));
