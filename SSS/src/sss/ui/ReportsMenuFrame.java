@@ -9,6 +9,7 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,23 @@ public class ReportsMenuFrame extends JFrame {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 
+		//-------------------Load Image Resources--------------------
+		
+		URL reportsMenuLogoUrl = Main.class.getResource("/ReportsLogo.png");
+		URL singleDaySaleReportIconUrl = Main.class.getResource("/SingleDaySalesReportIcon2.png");
+		URL singleDaySaleReportIconHoverUrl = Main.class.getResource("/SingleDaySalesReportIconHover2.png");
+		URL timePeriodSaleReportIconUrl = Main.class.getResource("/TimePeriodSalesReportIcon2.png");
+		URL timePeriodSaleReportIconHoverUrl = Main.class.getResource("/TimePeriodSalesReportIconHover2.png");
+		URL singleDayRefundReportIconUrl = Main.class.getResource("/SingleDayRefundReportIcon2.png");
+		URL singleRefundReportIconHoverUrl = Main.class.getResource("/SingleDayRefundReportIconHover2.png");
+		URL timePeriodRefundReportIconUrl = Main.class.getResource("/TimePeriodRefundReportIcon2.png");
+		URL timePeriodRefundReportIconHoverUrl = Main.class.getResource("/TimePeriodRefundReportIconHover2.png");
+		URL slowSellerReportIconUrl = Main.class.getResource("/SlowSellersReportIcon.png");
+		URL slowSellerReportIconHoverUrl = Main.class.getResource("/SlowSellersReportIconHover.png");
+		URL topSellersReportIconUrl = Main.class.getResource("/TopSellersReportIcon.png");
+		URL topSellersReportIconHoverUrl = Main.class.getResource("/TopSellersReportIconHover.png");
+		
+		
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
@@ -40,7 +58,7 @@ public class ReportsMenuFrame extends JFrame {
 		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel reportsTextLabel = new JLabel(new ImageIcon("images/pageTitles/ReportsLogo.png"));
+		JLabel reportsTextLabel = new JLabel(new ImageIcon(reportsMenuLogoUrl));
 		topPanel.add(reportsTextLabel);
 
 		JPanel middlePanel = new JPanel();
@@ -61,8 +79,8 @@ public class ReportsMenuFrame extends JFrame {
 
 		//---------------------Create Buttons---------------------
 
-		JButton singleDaySaleButton = new JButton(new ImageIcon("reportMenuIcons/SingleDaySalesReportIcon2.png"));
-		ImageIcon singleDaySaleButtonHover = new ImageIcon("reportMenuIcons/SingleDaySalesReportIconHover2.png");
+		JButton singleDaySaleButton = new JButton(new ImageIcon(singleDaySaleReportIconUrl));
+		ImageIcon singleDaySaleButtonHover = new ImageIcon(singleDaySaleReportIconHoverUrl);
 		singleDaySaleButton.setBorderPainted(false);
 		singleDaySaleButton.setRolloverIcon(singleDaySaleButtonHover);
 		singleDaySaleButton.setRolloverEnabled(true);
@@ -70,8 +88,8 @@ public class ReportsMenuFrame extends JFrame {
 		singleDaySaleButton.setContentAreaFilled(false);
 		middlePanelLeft.add(singleDaySaleButton);
 
-		JButton timePeriodSaleButton = new JButton(new ImageIcon("reportMenuIcons/TimePeriodSalesReportIcon2.png"));
-		ImageIcon timePeriodSaleButtonHover = new ImageIcon("reportMenuIcons/TimePeriodSalesReportIconHover2.png");
+		JButton timePeriodSaleButton = new JButton(new ImageIcon(timePeriodSaleReportIconUrl));
+		ImageIcon timePeriodSaleButtonHover = new ImageIcon(timePeriodSaleReportIconHoverUrl);
 		timePeriodSaleButton.setBorderPainted(false);
 		timePeriodSaleButton.setRolloverIcon(timePeriodSaleButtonHover);
 		timePeriodSaleButton.setRolloverEnabled(true);
@@ -79,8 +97,8 @@ public class ReportsMenuFrame extends JFrame {
 		timePeriodSaleButton.setContentAreaFilled(false);
 		middlePanelLeft.add(timePeriodSaleButton);
 
-		JButton singleDayRefundButton = new JButton(new ImageIcon("reportMenuIcons/SingleDayRefundReportIcon2.png"));
-		ImageIcon singleDayRefundButtonHover = new ImageIcon("reportMenuIcons/SingleDayRefundReportIconHover2.png");
+		JButton singleDayRefundButton = new JButton(new ImageIcon(singleDayRefundReportIconUrl));
+		ImageIcon singleDayRefundButtonHover = new ImageIcon(singleRefundReportIconHoverUrl);
 		singleDayRefundButton.setBorderPainted(false);
 		singleDayRefundButton.setRolloverIcon(singleDayRefundButtonHover);
 		singleDayRefundButton.setRolloverEnabled(true);
@@ -88,8 +106,8 @@ public class ReportsMenuFrame extends JFrame {
 		singleDayRefundButton.setContentAreaFilled(false);
 		middlePanelRight.add(singleDayRefundButton);
 
-		JButton timePeriodRefundButton = new JButton(new ImageIcon("reportMenuIcons/TimePeriodRefundReportIcon2.png"));
-		ImageIcon timePeriodRefundButtonHover = new ImageIcon("reportMenuIcons/TimePeriodRefundReportIconHover2.png");
+		JButton timePeriodRefundButton = new JButton(new ImageIcon(timePeriodRefundReportIconUrl));
+		ImageIcon timePeriodRefundButtonHover = new ImageIcon(timePeriodRefundReportIconHoverUrl);
 		timePeriodRefundButton.setBorderPainted(false);
 		timePeriodRefundButton.setRolloverIcon(timePeriodRefundButtonHover);
 		timePeriodRefundButton.setRolloverEnabled(true);
@@ -97,8 +115,8 @@ public class ReportsMenuFrame extends JFrame {
 		timePeriodRefundButton.setContentAreaFilled(false);
 		middlePanelRight.add(timePeriodRefundButton);
 
-		JButton slowSellersButton = new JButton(new ImageIcon("reportMenuIcons/SlowSellersReportIcon.png"));
-		ImageIcon slowSellersButtonHover = new ImageIcon("reportMenuIcons/SlowSellersReportIconHover.png");
+		JButton slowSellersButton = new JButton(new ImageIcon(slowSellerReportIconUrl));
+		ImageIcon slowSellersButtonHover = new ImageIcon(slowSellerReportIconHoverUrl);
 		slowSellersButton.setBorderPainted(false);
 		slowSellersButton.setRolloverIcon(slowSellersButtonHover);
 		slowSellersButton.setRolloverEnabled(true);
@@ -106,8 +124,8 @@ public class ReportsMenuFrame extends JFrame {
 		slowSellersButton.setContentAreaFilled(false);
 		bottomPanel.add(slowSellersButton);
 
-		JButton topSellersButton = new JButton(new ImageIcon("reportMenuIcons/TopSellersReportIcon.png"));
-		ImageIcon topSellersButtonHover = new ImageIcon("reportMenuIcons/TopSellersReportIconHover.png");
+		JButton topSellersButton = new JButton(new ImageIcon(topSellersReportIconUrl));
+		ImageIcon topSellersButtonHover = new ImageIcon(topSellersReportIconHoverUrl);
 		topSellersButton.setBorderPainted(false);
 		topSellersButton.setRolloverIcon(topSellersButtonHover);
 		topSellersButton.setRolloverEnabled(true);

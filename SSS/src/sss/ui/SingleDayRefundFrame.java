@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -47,6 +48,11 @@ public class SingleDayRefundFrame extends JFrame {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 
+		//----------------------Load Image Resources-----------------------
+		
+		URL barGraphIconUrl = Main.class.getResource("/BarGraphIcon2.png");
+		URL barGraphIconHoverUrl = Main.class.getResource("/BarGraphIcon3.png");
+		
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
@@ -118,8 +124,8 @@ public class SingleDayRefundFrame extends JFrame {
 		showAsPanel.setLayout(new GridLayout(1,1,10,10));
 		rightPanel.add(showAsPanel);
 
-		JButton barGraphButton = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
-		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		JButton barGraphButton = new JButton(new ImageIcon(barGraphIconUrl));
+		ImageIcon barGraphButtonHover = new ImageIcon(barGraphIconHoverUrl);
 		barGraphButton.setBorderPainted(false);
 		barGraphButton.setRolloverIcon(barGraphButtonHover);
 		barGraphButton.setRolloverEnabled(true);

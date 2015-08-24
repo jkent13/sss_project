@@ -11,10 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import sss.services.DbConnector;
 
 public class Main {
@@ -30,7 +32,19 @@ public class Main {
 		mainMenuFrame.setUndecorated(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-
+//-------------------Load Image Resources--------------------
+		
+		URL sssLogoUrl = Main.class.getResource("/SimpleSaleSystemLogo.png");
+		URL posIconUrl = Main.class.getResource("/Point-of-SaleIcon.png");
+		URL posIconHoverUrl = Main.class.getResource("/Point-of-SaleIconHover.png");
+		URL dashboardIconUrl = Main.class.getResource("/DashboardIcon.png");
+		URL dashboardIconHoverUrl = Main.class.getResource("/DashboardIconHover.png");
+		URL inventoryIconUrl = Main.class.getResource("/InventoryIcon.png");
+		URL inventoryIconHoverUrl = Main.class.getResource("/InventoryIconHover.png");
+		URL reportIconUrl = Main.class.getResource("/ReportsIcon.png");
+		URL reportIconHoverUrl = Main.class.getResource("/ReportsIconHover.png");
+		
+		
 //-------------------Full Screen Panel--------------------
 		
 		JPanel fullScreenPanel = new JPanel();
@@ -45,7 +59,7 @@ public class Main {
 		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel mainMenuTextLabel = new JLabel(new ImageIcon("images/pageTitles/SimpleSaleSystemLogo.png"));
+		JLabel mainMenuTextLabel = new JLabel(new ImageIcon(sssLogoUrl));
 //		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
 //		Font myFont = new Font("SansSerif", Font.BOLD, 57);
 //		mainMenuLabel.setFont(myFont);
@@ -60,9 +74,10 @@ public class Main {
 		fullScreenPanel.add(bottomPanel);
 
 //---------------------Create Buttons---------------------
-		
-		JButton salesTransButton = new JButton(new ImageIcon("mainMenuIcons/Point-of-SaleIcon.png"));
-		ImageIcon salesTransButtonHover = new ImageIcon("mainMenuIcons/Point-of-SaleIconHover.png");
+
+
+		JButton salesTransButton = new JButton(new ImageIcon(posIconUrl));
+		ImageIcon salesTransButtonHover = new ImageIcon(posIconHoverUrl);
 		salesTransButton.setBorderPainted(false);
 		salesTransButton.setRolloverIcon(salesTransButtonHover);
 		salesTransButton.setRolloverEnabled(true);
@@ -70,8 +85,8 @@ public class Main {
 		salesTransButton.setContentAreaFilled(false);
 		middlePanel.add(salesTransButton);
 		
-		JButton dashboardButton = new JButton(new ImageIcon("mainMenuIcons/DashboardIcon.png"));
-		ImageIcon dashboardButtonHover = new ImageIcon("mainMenuIcons/DashboardIconHover.png");
+		JButton dashboardButton = new JButton(new ImageIcon(dashboardIconUrl));
+		ImageIcon dashboardButtonHover = new ImageIcon(dashboardIconHoverUrl);
 		dashboardButton.setBorderPainted(false);
 		dashboardButton.setRolloverIcon(dashboardButtonHover);
 		dashboardButton.setRolloverEnabled(true);
@@ -79,8 +94,8 @@ public class Main {
 		dashboardButton.setContentAreaFilled(false);
 		middlePanel.add(dashboardButton);
 
-		JButton inventoryButton = new JButton(new ImageIcon("mainMenuIcons/InventoryIcon.png"));
-		ImageIcon inventoryButtonHover = new ImageIcon("mainMenuIcons/InventoryIconHover.png");
+		JButton inventoryButton = new JButton(new ImageIcon(inventoryIconUrl));
+		ImageIcon inventoryButtonHover = new ImageIcon(inventoryIconHoverUrl);
 		inventoryButton.setBorderPainted(false);
 		inventoryButton.setRolloverIcon(inventoryButtonHover);
 		inventoryButton.setRolloverEnabled(true);
@@ -88,8 +103,8 @@ public class Main {
 		inventoryButton.setContentAreaFilled(false);
 		bottomPanel.add(inventoryButton);
 
-		JButton reportsButton = new JButton(new ImageIcon("mainMenuIcons/ReportsIcon.png"));
-		ImageIcon reportsButtonHover = new ImageIcon("mainMenuIcons/ReportsIconHover.png");
+		JButton reportsButton = new JButton(new ImageIcon(reportIconUrl));
+		ImageIcon reportsButtonHover = new ImageIcon(reportIconHoverUrl);
 		reportsButton.setBorderPainted(false);
 		reportsButton.setRolloverIcon(reportsButtonHover);
 		reportsButton.setRolloverEnabled(true);
