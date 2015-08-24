@@ -51,10 +51,11 @@ public class Main {
 		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel mainMenuLabel = new JLabel("Simple Sale System V0.75");
-		Font myFont = new Font("SansSerif", Font.BOLD, 57);
-		mainMenuLabel.setFont(myFont);
-		topPanel.add(mainMenuLabel);
+		JLabel mainMenuTextLabel = new JLabel(new ImageIcon("images/pageTitles/SimpleSaleSystemLogo.png"));
+//		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
+//		Font myFont = new Font("SansSerif", Font.BOLD, 57);
+//		mainMenuLabel.setFont(myFont);
+		topPanel.add(mainMenuTextLabel);
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridLayout(1,2,10,10));
