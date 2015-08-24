@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings("serial")
 public class AddSupplierFrame extends JFrame {
 
 	public AddSupplierFrame()

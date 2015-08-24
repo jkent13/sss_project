@@ -9,19 +9,13 @@
 
 package sss.domain;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
-import sss.services.DbConnector;
 import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.PrintFormatter;

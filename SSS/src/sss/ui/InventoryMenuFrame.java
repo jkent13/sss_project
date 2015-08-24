@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class InventoryMenuFrame extends JFrame {
 
 	public InventoryMenuFrame()

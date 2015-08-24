@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class RefundReportsMenuFrame extends JFrame {
 
 	public RefundReportsMenuFrame()
@@ -73,7 +74,7 @@ public class RefundReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame singleDayRefundReportUi = new SingleDayRefundFrame();
+				new SingleDayRefundFrame();
 			}
 		});
 		
@@ -83,7 +84,7 @@ public class RefundReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame timePeriodRefundReportUi = new TimePeriodRefundFrame();
+				new TimePeriodRefundFrame();
 			}
 		});
 		

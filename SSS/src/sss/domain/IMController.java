@@ -17,9 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -241,7 +239,7 @@ public class IMController {
 						});
 					}
 					
-					JFrame compFrame = new InvoiceComparisonFrame(invoiceComparisonData, this);
+					new InvoiceComparisonFrame(invoiceComparisonData, this);
 				}
 			}
 

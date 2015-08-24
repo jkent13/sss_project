@@ -16,9 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class ReportsMenuFrame extends JFrame {
 
 	public ReportsMenuFrame()
@@ -126,7 +126,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame singleDaySaleReportUi = new SingleDaySaleFrame();
+				new SingleDaySaleFrame();
 			}
 		});
 		
@@ -137,7 +137,7 @@ public class ReportsMenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				
-				JFrame timePeriodSaleReportUi = new TimePeriodSaleFrame();
+				new TimePeriodSaleFrame();
 			}
 		});
 		
@@ -147,7 +147,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame singleDayRefundReportUi = new SingleDayRefundFrame();
+				new SingleDayRefundFrame();
 			}
 		});
 		
@@ -157,7 +157,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame timePeriodRefundReportUi = new TimePeriodRefundFrame();
+				new TimePeriodRefundFrame();
 			}
 		});
 		
@@ -168,7 +168,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame slowSellersReportUI = new SlowSellersFrame();
+				new SlowSellersFrame();
 			}
 			});
 			
@@ -179,7 +179,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame topSellersReportUI = new TopSellersFrame();
+				new TopSellersFrame();
 			}
 			});
 	

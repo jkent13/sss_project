@@ -1,7 +1,6 @@
 package sss.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -10,13 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import sss.domain.NonEditableTableModel;
 import sss.domain.Product;
 import sss.domain.ProductEditFilter;
 
+@SuppressWarnings("serial")
 public class ProductModifiedPanel extends JPanel {
 	private JTable productDisplayTable;
 	private String[] suppliers;
