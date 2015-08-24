@@ -23,7 +23,7 @@ import javax.swing.border.TitledBorder;
 
 import sss.services.DbConnector;
 
-public class MockupMainMenu {
+public class Main {
 
 	public static void main(String[] args) {
 
