@@ -281,6 +281,7 @@ public class IMController {
 		if(comparisonSet != null) {
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
 			int optionSelected = fileChooser.showDialog(null, "Save");
 			if(optionSelected == JFileChooser.APPROVE_OPTION) {
 				try{
@@ -313,6 +314,7 @@ public class IMController {
 		if(productData != null) {
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
 			int optionSelected = fileChooser.showDialog(null, "Save");
 			if(optionSelected == JFileChooser.APPROVE_OPTION) {
 				try{
@@ -365,6 +367,7 @@ public class IMController {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
 		int rowCounter = 1;
 		try {

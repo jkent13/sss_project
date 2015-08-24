@@ -1,11 +1,10 @@
 /*
- * MockupMainMenu Class
+ * Main Class
  * The intial entry point into the application
  * Original Author: Amethyst Mayer
  */
 
 package sss.ui;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

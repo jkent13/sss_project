@@ -274,7 +274,7 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame addProductUI = new AddProductFrame();
+				new AddProductFrame();
 			}
 		});
 		
@@ -284,7 +284,7 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame modifyProductUI = new ModifyProductFrame();
+				new ModifyProductFrame();
 			}
 		});
 		

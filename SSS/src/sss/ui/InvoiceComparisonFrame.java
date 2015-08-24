@@ -25,10 +25,10 @@ public class InvoiceComparisonFrame extends JFrame {
 	private NonEditableTableModel comparisonDataModel;
 	private IMController controller;
 	
-	public InvoiceComparisonFrame(NonEditableTableModel comparisonDataModel, IMController controller) {
+	public InvoiceComparisonFrame(NonEditableTableModel dataModel, IMController inventoryController) {
 		
-		this.comparisonDataModel = comparisonDataModel;
-		this.controller = controller;
+		this.comparisonDataModel = dataModel;
+		this.controller = inventoryController;
 		
 		setTitle("Comparing Import with Database");
 		setPreferredSize(new Dimension(850, 500));
