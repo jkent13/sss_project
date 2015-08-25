@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,6 +47,11 @@ public class TopSellersFrame extends JFrame {
 		setTitle("Top Sellers Report");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		
+		//----------------------Load Image Resources-----------------------
+		
+		URL barGraphIconUrl = Main.class.getResource("/BarGraphIcon2.png");
+		URL barGraphIconHoverUrl = Main.class.getResource("/BarGraphIcon3.png");
 
 		//-------------------Full Screen Panel--------------------
 
@@ -122,8 +128,8 @@ public class TopSellersFrame extends JFrame {
 
 		JLabel unitsInputExample = new JLabel("e.g. 10");
 		
-		JButton barGraph = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
-		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		JButton barGraph = new JButton(new ImageIcon(barGraphIconUrl));
+		ImageIcon barGraphButtonHover = new ImageIcon(barGraphIconHoverUrl);
 		barGraph.setBorderPainted(false);
 		barGraph.setRolloverIcon(barGraphButtonHover);
 		barGraph.setRolloverEnabled(true);

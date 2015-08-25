@@ -7,7 +7,6 @@
 
 package sss.ui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -21,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -89,6 +89,14 @@ public class PosFrame extends JFrame implements SaleListener {
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
+		
+		//Load Image Resources
+		
+		URL aud5noteUrl = Main.class.getResource("/aud5front.jpg");
+		URL aud10noteUrl = Main.class.getResource("/aud10front.jpg");
+		URL aud20noteUrl = Main.class.getResource("/aud20front.jpg");
+		URL aud50noteUrl = Main.class.getResource("/aud50front.jpg");
+		URL aud100noteUrl = Main.class.getResource("/aud100front.jpg");
 
 
 		//SECTION PANELS
@@ -222,15 +230,15 @@ public class PosFrame extends JFrame implements SaleListener {
 		JPanel firstRightPanel = new JPanel();
 		firstRightPanel.setLayout(new GridLayout(1,1,10,10));
 
-		ImageIcon fiveNote = new ImageIcon("images/aud5front.jpg");
+		ImageIcon fiveNote = new ImageIcon(aud5noteUrl);
 		JButton note5Button = new JButton(fiveNote);
-		ImageIcon tenNote = new ImageIcon("images/aud10front.jpg");;
+		ImageIcon tenNote = new ImageIcon(aud10noteUrl);;
 		JButton note10Button = new JButton(tenNote);
-		ImageIcon twentyNote = new ImageIcon("images/aud20front.jpg");
+		ImageIcon twentyNote = new ImageIcon(aud20noteUrl);
 		JButton note20Button = new JButton(twentyNote);
-		ImageIcon fiftyNote = new ImageIcon("images/aud50front.jpg");
+		ImageIcon fiftyNote = new ImageIcon(aud50noteUrl);
 		JButton note50Button = new JButton(fiftyNote);
-		ImageIcon hundredNote = new ImageIcon("images/aud100front.jpg");
+		ImageIcon hundredNote = new ImageIcon(aud100noteUrl);
 		JButton note100Button = new JButton(hundredNote);
 
 		JPanel exactCashPanel = new JPanel();

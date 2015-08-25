@@ -17,9 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -241,7 +239,7 @@ public class IMController {
 						});
 					}
 					
-					JFrame compFrame = new InvoiceComparisonFrame(invoiceComparisonData, this);
+					new InvoiceComparisonFrame(invoiceComparisonData, this);
 				}
 			}
 
@@ -283,6 +281,7 @@ public class IMController {
 		if(comparisonSet != null) {
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
 			int optionSelected = fileChooser.showDialog(null, "Save");
 			if(optionSelected == JFileChooser.APPROVE_OPTION) {
 				try{
@@ -315,6 +314,7 @@ public class IMController {
 		if(productData != null) {
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
 			int optionSelected = fileChooser.showDialog(null, "Save");
 			if(optionSelected == JFileChooser.APPROVE_OPTION) {
 				try{
@@ -367,6 +367,7 @@ public class IMController {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
 		int rowCounter = 1;
 		try {

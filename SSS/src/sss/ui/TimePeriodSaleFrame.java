@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -45,6 +46,13 @@ public class TimePeriodSaleFrame extends JFrame {
 		setTitle("Time-Period Sale Report");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		
+		//----------------------Load Image Resources-----------------------
+		
+		URL barGraphIconUrl = Main.class.getResource("/BarGraphIcon2.png");
+		URL barGraphIconHoverUrl = Main.class.getResource("/BarGraphIcon3.png");
+		URL lineGraphIconUrl = Main.class.getResource("/LineGraphIcon2.png");
+		URL lineGraphIconHoverUrl = Main.class.getResource("/LineGraphIcon3.png");
 
 		//-------------------Full Screen Panel--------------------
 
@@ -177,8 +185,8 @@ public class TimePeriodSaleFrame extends JFrame {
 		shownAsPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(shownAsPanel);
 
-		JButton barGraph = new JButton(new ImageIcon("reportMenuIcons/BarGraphIcon2.png"));
-		ImageIcon barGraphButtonHover = new ImageIcon("reportMenuIcons/BarGraphIcon3.png");
+		JButton barGraph = new JButton(new ImageIcon(barGraphIconUrl));
+		ImageIcon barGraphButtonHover = new ImageIcon(barGraphIconHoverUrl);
 		barGraph.setBorderPainted(false);
 		barGraph.setRolloverIcon(barGraphButtonHover);
 		barGraph.setRolloverEnabled(true);
@@ -186,8 +194,8 @@ public class TimePeriodSaleFrame extends JFrame {
 		barGraph.setContentAreaFilled(false);
 		shownAsPanel.add(barGraph);
 
-		JButton lineGraph = new JButton(new ImageIcon("reportMenuIcons/LineGraphIcon2.png"));
-		ImageIcon lineGraphButtonHover = new ImageIcon("reportMenuIcons/LineGraphIcon3.png");
+		JButton lineGraph = new JButton(new ImageIcon(lineGraphIconUrl));
+		ImageIcon lineGraphButtonHover = new ImageIcon(lineGraphIconHoverUrl);
 		lineGraph.setBorderPainted(false);
 		lineGraph.setRolloverIcon(lineGraphButtonHover);
 		lineGraph.setRolloverEnabled(true);

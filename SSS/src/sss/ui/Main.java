@@ -1,25 +1,21 @@
 /*
- * MockupMainMenu Class
+ * Main Class
  * The intial entry point into the application
  * Original Author: Amethyst Mayer
  */
 
 package sss.ui;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.net.URL;
 import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 
 import sss.services.DbConnector;
 
@@ -36,7 +32,19 @@ public class Main {
 		mainMenuFrame.setUndecorated(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-
+//-------------------Load Image Resources--------------------
+		
+		URL sssLogoUrl = Main.class.getResource("/SimpleSaleSystemLogo.png");
+		URL posIconUrl = Main.class.getResource("/Point-of-SaleIcon.png");
+		URL posIconHoverUrl = Main.class.getResource("/Point-of-SaleIconHover.png");
+		URL dashboardIconUrl = Main.class.getResource("/DashboardIcon.png");
+		URL dashboardIconHoverUrl = Main.class.getResource("/DashboardIconHover.png");
+		URL inventoryIconUrl = Main.class.getResource("/InventoryIcon.png");
+		URL inventoryIconHoverUrl = Main.class.getResource("/InventoryIconHover.png");
+		URL reportIconUrl = Main.class.getResource("/ReportsIcon.png");
+		URL reportIconHoverUrl = Main.class.getResource("/ReportsIconHover.png");
+		
+		
 //-------------------Full Screen Panel--------------------
 		
 		JPanel fullScreenPanel = new JPanel();
@@ -51,10 +59,11 @@ public class Main {
 		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel mainMenuLabel = new JLabel("Simple Sale System V0.75");
-		Font myFont = new Font("SansSerif", Font.BOLD, 57);
-		mainMenuLabel.setFont(myFont);
-		topPanel.add(mainMenuLabel);
+		JLabel mainMenuTextLabel = new JLabel(new ImageIcon(sssLogoUrl));
+//		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
+//		Font myFont = new Font("SansSerif", Font.BOLD, 57);
+//		mainMenuLabel.setFont(myFont);
+		topPanel.add(mainMenuTextLabel);
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridLayout(1,2,10,10));
@@ -65,9 +74,10 @@ public class Main {
 		fullScreenPanel.add(bottomPanel);
 
 //---------------------Create Buttons---------------------
-		
-		JButton salesTransButton = new JButton(new ImageIcon("mainMenuIcons/Point-of-SaleIcon.png"));
-		ImageIcon salesTransButtonHover = new ImageIcon("mainMenuIcons/Point-of-SaleIconHover.png");
+
+
+		JButton salesTransButton = new JButton(new ImageIcon(posIconUrl));
+		ImageIcon salesTransButtonHover = new ImageIcon(posIconHoverUrl);
 		salesTransButton.setBorderPainted(false);
 		salesTransButton.setRolloverIcon(salesTransButtonHover);
 		salesTransButton.setRolloverEnabled(true);
@@ -75,8 +85,8 @@ public class Main {
 		salesTransButton.setContentAreaFilled(false);
 		middlePanel.add(salesTransButton);
 		
-		JButton dashboardButton = new JButton(new ImageIcon("mainMenuIcons/DashboardIcon.png"));
-		ImageIcon dashboardButtonHover = new ImageIcon("mainMenuIcons/DashboardIconHover.png");
+		JButton dashboardButton = new JButton(new ImageIcon(dashboardIconUrl));
+		ImageIcon dashboardButtonHover = new ImageIcon(dashboardIconHoverUrl);
 		dashboardButton.setBorderPainted(false);
 		dashboardButton.setRolloverIcon(dashboardButtonHover);
 		dashboardButton.setRolloverEnabled(true);
@@ -84,8 +94,8 @@ public class Main {
 		dashboardButton.setContentAreaFilled(false);
 		middlePanel.add(dashboardButton);
 
-		JButton inventoryButton = new JButton(new ImageIcon("mainMenuIcons/InventoryIcon.png"));
-		ImageIcon inventoryButtonHover = new ImageIcon("mainMenuIcons/InventoryIconHover.png");
+		JButton inventoryButton = new JButton(new ImageIcon(inventoryIconUrl));
+		ImageIcon inventoryButtonHover = new ImageIcon(inventoryIconHoverUrl);
 		inventoryButton.setBorderPainted(false);
 		inventoryButton.setRolloverIcon(inventoryButtonHover);
 		inventoryButton.setRolloverEnabled(true);
@@ -93,8 +103,8 @@ public class Main {
 		inventoryButton.setContentAreaFilled(false);
 		bottomPanel.add(inventoryButton);
 
-		JButton reportsButton = new JButton(new ImageIcon("mainMenuIcons/ReportsIcon.png"));
-		ImageIcon reportsButtonHover = new ImageIcon("mainMenuIcons/ReportsIconHover.png");
+		JButton reportsButton = new JButton(new ImageIcon(reportIconUrl));
+		ImageIcon reportsButtonHover = new ImageIcon(reportIconHoverUrl);
 		reportsButton.setBorderPainted(false);
 		reportsButton.setRolloverIcon(reportsButtonHover);
 		reportsButton.setRolloverEnabled(true);
@@ -111,7 +121,7 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame posUI = new PosFrame();
+				new PosFrame();
 			}
 		});
 
@@ -135,7 +145,7 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame inventoryMenuUI = new ViewInventoryFrame();
+				new ViewInventoryFrame();
 			}
 		});
 
@@ -145,7 +155,7 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame reportsMenuUI = new ReportsMenuFrame();
+				new ReportsMenuFrame();
 			}
 		});
 		
@@ -160,7 +170,7 @@ public class Main {
 					try {
 						DbConnector.closeConnection();
 						System.out.println("DB connection closed.");
-						mainMenuFrame.dispose();
+						System.exit(0);
 					} catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 						sqle.printStackTrace();

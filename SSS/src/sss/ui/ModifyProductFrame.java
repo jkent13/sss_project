@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -25,7 +24,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -39,6 +37,7 @@ import sss.domain.Product;
 import sss.domain.ProductEditFilter;
 
 
+@SuppressWarnings("serial")
 public class ModifyProductFrame extends JFrame {
 
 	private ModifyProductController controller = new ModifyProductController();

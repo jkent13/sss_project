@@ -98,7 +98,6 @@ public class SqlBuilderTest {
 	@Test
 	public void testGetSaleReportByHourQuery() {
 		String startDate = "2013-12-25 08:00:00";
-		String endDate = "2013-12-25 08:00:00";
 		
 		assertEquals("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
 				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN "
