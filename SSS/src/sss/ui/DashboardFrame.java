@@ -76,7 +76,7 @@ public class DashboardFrame extends JFrame {
 			bottomMiddlePanel.add(watchListLabel, BorderLayout.NORTH);
 			
 			JPanel barGraphPanel = new JPanel();
-			barGraphPanel.setLayout(new GridLayout(1,2,10,10));
+			barGraphPanel.setLayout(new GridLayout(1,3,10,10));
 			JButton barGraph1 = new JButton("1st Go Here");
 			barGraphPanel.add(barGraph1);
 			JButton barGraph2 = new JButton("2nd Go Here");
