@@ -131,11 +131,7 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Make Sale");
-				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				myFrame.setLocationRelativeTo(null);
-				myFrame.setVisible(true);
+				new DashboardFrame();
 			}
 		});
 
