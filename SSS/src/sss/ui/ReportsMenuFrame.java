@@ -56,8 +56,7 @@ public class ReportsMenuFrame extends JFrame {
 		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-//		topPanel.setLayout(new GridLayout(1,1,10,10));
+		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
 		JLabel reportsTextLabel = new JLabel(new ImageIcon(reportsMenuLogoUrl));
