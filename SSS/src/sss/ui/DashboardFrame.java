@@ -1,3 +1,9 @@
+/*
+ * DashboardFrame Class
+ * Window design to provide lots of useful information at a glance.
+ * Original Author: Amethyst Mayer
+ */
+
 package sss.ui;
 
 import java.awt.BorderLayout;
