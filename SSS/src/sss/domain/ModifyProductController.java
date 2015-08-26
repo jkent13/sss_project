@@ -1,3 +1,9 @@
+/* ModifyProductController Class
+ * 
+ * Controls application logic for Modify Product UC
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.domain;
 
 import java.math.BigDecimal;

@@ -25,18 +25,32 @@ import sss.services.SqlBuilder;
 
 public class Register {
 	
-	private long nextSaleId;				// The next sale id is the next consecutive id to be used in the next Sale
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
+	private long nextSaleId;							// The next sale id is the next consecutive id to be used in the next Sale
 	private boolean activeSale = false;		// Maintains state of Register
 	
-	private Sale currentSale;				// The current Sale object for the current transaction
-	private Product currentProduct;			// The last Product enter as a Line	
+	private Sale currentSale;							// The current Sale object for the current transaction
+	private Product currentProduct;				// The last Product enter as a Line	
 	
 	private NonEditableTableModel dataModel = new NonEditableTableModel();	// The data model for PosFrame's JTable (lookupTable)
-	private NonEditableTableModel searchDataModel = new NonEditableTableModel();
+	private NonEditableTableModel searchDataModel = new NonEditableTableModel(); // The data model for the product lookup function
 	
 	private String[] categories;	// Holds the distinct category names (read in from DB)
 	
 	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Constructor - calls the initialise method to set up the Register
@@ -45,7 +59,13 @@ public class Register {
 		initialise();
 	}
 	
-	//--------------- Core Methods-------------------------------------
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * A start-up method for the Register. Reads in the nextSaleId value and sets the column names for the data model
@@ -94,16 +114,8 @@ public class Register {
 			e.printStackTrace();
 		}
 	}
+
 	
-	/**
-	 * Signals a new sale transaction should be started (if one is not already active). Changes Register state
-	 */
-	public void beginSale() {
-		if (!activeSale) {
-			currentSale = new Sale(nextSaleId);
-			activeSale = true;
-		}
-	}
 	
 	/**
 	 * Method for registering a SaleListener (namely PosFrame) to the currentSale Sale object 
@@ -115,9 +127,14 @@ public class Register {
 		}
 	}
 	
-	//-----------------------------------------------------------------
+
 	
-	//------ Getter Methods -------------------------------------------
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Getter method for the whether a sale is active
 	 * @return true if a sale is active, false otherwise
@@ -190,10 +207,26 @@ public class Register {
 		return categories;
 	}
 	
-	//-----------------------------------------------------------------
 	
-	//--------------- Main POS methods---------------------------------
+	
+	// ==========================================================================
+	// Main POS Methods
+	// ==========================================================================
 
+	
+	
+	/**
+	 * Signals a new sale transaction should be started (if one is not already active). Changes Register state
+	 */
+	public void beginSale() {
+		if (!activeSale) {
+			currentSale = new Sale(nextSaleId);
+			activeSale = true;
+		}
+	}
+	
+	
+	
 	/**
 	 * Enters a new line item to the data model and to the current sale
 	 * @param prod_id the product id (barcode) for the product to be displayed on the new line
@@ -213,6 +246,8 @@ public class Register {
 		}
 	}
 	
+	
+	
 	/**
 	 * Removes the line at the given index from the data model and from the current sale
 	 * @param lineIndex the row index for the line to be removed
@@ -225,6 +260,8 @@ public class Register {
 			calculateTotal();
 		}
 	}
+	
+	
 	
 	/**
 	 * Changes the quantity value (also known as line units) for the line at the given index in both the data model 
@@ -268,10 +305,12 @@ public class Register {
 					dataModel.setValueAt(newQty, lineIndex, 0);
 					dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
 					calculateTotal();
-				}
-			}
-		}
-	}
+				}// End else
+			}// End if
+		}// End else
+	}// End method
+	
+	
 	
 	/**
 	 * Applies a discount to the line at the given index, reflected in both the data model and the current sale
@@ -289,6 +328,8 @@ public class Register {
 			calculateTotal();
 		}
 	}
+	
+	
 	
 	/**
 	 * Makes a payment for the current sale, which sets the amount tendered and timestamp, writes the sale 
@@ -335,6 +376,8 @@ public class Register {
 		}
 	}
 	
+	
+	
 	public void lookUpProducts(LookupFilter filter) {
 		try {
 		
@@ -371,9 +414,13 @@ public class Register {
 		}
 	}
 	
-	//-----------------------------------------------------------------
+
+
+	// ==========================================================================
+	// Calculator Methods
+	// ==========================================================================
 	
-	//---------------- Calculator Methods -----------------------------
+	
 	
 	/**
 	 * Makes a call to the current sale to calculate its balance
@@ -384,6 +431,8 @@ public class Register {
 		}
 	}
 	
+	
+	
 	/**
 	 * Makes a call to the current sale to calculate its totals
 	 */
@@ -393,9 +442,13 @@ public class Register {
 		}
 	}
 	
-	//-----------------------------------------------------------------
 	
-	//----------- Printing and DB Writing Methods----------------------
+	
+	// ==========================================================================
+	// Printing and DB Writing Methods
+	// ==========================================================================
+	
+	
 	
 	public void adjustStockCounts(String[] stockAdjustmentStatements) {
 		for(String statement: stockAdjustmentStatements) {
@@ -404,6 +457,8 @@ public class Register {
 			}
 		}
 	}
+	
+	
 	
 	/**
 	 * Writes a sale and its line items to the database
@@ -418,6 +473,8 @@ public class Register {
 		}
 	}
 	
+	
+	
 	/**
 	 * Formats the current sale into a FormattedSale object which can be printed
 	 * @return a formatted version of the current sale, suitable for a ReceiptPrinter
@@ -426,6 +483,8 @@ public class Register {
 		FormattedSale fs = PrintFormatter.formatSale(currentSale);
 		return fs;
 	}
+	
+	
 	
 	/**
 	 * Prints out a formatted sale, increments the next sale id value, sets saleMade to true and resets Register to no active sale

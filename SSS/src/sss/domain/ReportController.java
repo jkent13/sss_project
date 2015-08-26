@@ -1,3 +1,10 @@
+/* ReportController Class
+ * 
+ * An abstract class designed to implement and reuse common features of all report controller classes. 
+ * All report controller classes must extend this class
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.domain;
 
 import java.text.ParseException;
@@ -8,7 +15,7 @@ import javax.swing.JOptionPane;
 
 public abstract class ReportController {
 	
-	protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		// Date format used to validate input
+	protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");			// Date format used to validate input
 	protected SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
 	
 	protected NonEditableTableModel currentTableView = new NonEditableTableModel();

@@ -1,9 +1,22 @@
+/* InvoiceRowComparison Class
+ * 
+ * Used to represent a comparison between a row of an imported invoice and the product 
+ * in the database
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.domain;
 
 import java.math.BigDecimal;
 
 public class InvoiceRowComparison {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private int rowNumber;
 	
 	private String productCode;
@@ -14,6 +27,14 @@ public class InvoiceRowComparison {
 	private BigDecimal newCostPrice;
 	private BigDecimal newPrice;
 	private int newQuantity;
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public InvoiceRowComparison(InvoiceRow row1, InvoiceRow row2) {
 		if(!row1.getProductCode().equals(row2.getProductCode())) {
@@ -52,37 +73,79 @@ public class InvoiceRowComparison {
 		}
 	}
 
+	
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	public BigDecimal getNewCostPrice() {
 		return newCostPrice;
 	}
 
+	
+	
 	public BigDecimal getNewPrice() {
 		return newPrice;
 	}
 
+	
+	
 	public int getNewQuantity() {
 		return newQuantity;
 	}
 
+	
+	
 	public int getRowNumber() {
 		return rowNumber;
 	}
 
+	
+	
 	public String getProductCode() {
 		return productCode;
 	}
 
+	
+	
 	public String getCostPriceChange() {
 		return costPriceChange;
 	}
 
+	
+	
 	public String getPriceChange() {
 		return priceChange;
 	}
 
+	
+	
 	public String getQuantityChange() {
 		return quantityChange;
 	}
+	
+	
+	
+	public static String getCsvHeader() {
+		return "Row #,Product Code,Cost Price,Price,Quantity\n";
+	}
+	
+	
+	
+	public String getCsvRow() {
+		return rowNumber + "," + productCode + "," + costPriceChange + "," + priceChange + "," + quantityChange + "\n";
+	}
+	
+	
+	
+	// ==========================================================================
+	// Printing Methods
+	// ==========================================================================
+	
+	
 	
 	public void printDetails() {
 		System.out.printf("%-8s", "[" + rowNumber + "]");
@@ -96,6 +159,8 @@ public class InvoiceRowComparison {
 		System.out.printf("%-12s", quantityChange);
 		System.out.print(" |\n");
 	}
+	
+	
 	
 	public static void printHeader() {
 		System.out.printf("%-8s", "Row #");
@@ -111,12 +176,5 @@ public class InvoiceRowComparison {
 		
 		System.out.println("--------------------------------------------------------------------------------");
 	}
-	
-	public static String getCsvHeader() {
-		return "Row #,Product Code,Cost Price,Price,Quantity\n";
-	}
-	
-	public String getCsvRow() {
-		return rowNumber + "," + productCode + "," + costPriceChange + "," + priceChange + "," + quantityChange + "\n";
-	}
+
 }

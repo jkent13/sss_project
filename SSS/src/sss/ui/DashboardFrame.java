@@ -1,7 +1,6 @@
 package sss.ui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -20,6 +19,7 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
 	
+	@SuppressWarnings("unused")
 	public DashboardFrame()
 	{
 
