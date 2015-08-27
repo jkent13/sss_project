@@ -1,3 +1,9 @@
+/* TimePeriodRefundController Class
+ * 
+ * Controls application logic for Generate Time Period Refund Report UC
+ * 
+ * Original Author: Josh Kent 
+ */
 package sss.domain;
 
 import java.math.BigDecimal;
@@ -14,6 +20,12 @@ import sss.services.SqlBuilder;
 
 public class TimePeriodRefundController extends ReportController {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private String[] dateRangeOfCurrentReport = {"No Date", "No Date"}; 
 	
 	private NonEditableTableModel dayDollarData = new NonEditableTableModel();
@@ -36,6 +48,13 @@ public class TimePeriodRefundController extends ReportController {
 	private String[] monthVolumeColNames = {"Month", "Starting Date", "Number of Refunds"};
 	
 	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Constructor - calls initialise to set up controller
 	 */
@@ -43,7 +62,14 @@ public class TimePeriodRefundController extends ReportController {
 		initialise();
 	}
 	
-	//--------------- Core Methods-------------------------------------
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Establishes column identifiers for table models
 	 */
@@ -57,6 +83,8 @@ public class TimePeriodRefundController extends ReportController {
 		monthDollarData.setColumnIdentifiers(monthDollarColNames);
 		monthVolumeData.setColumnIdentifiers(monthVolumeColNames);
 	}
+	
+	
 	
 	private void switchToDayDollarView() {
 		// REMOVE ALL ROWS
@@ -81,6 +109,8 @@ public class TimePeriodRefundController extends ReportController {
 		}
 	}
 	
+	
+	
 	private void switchToDayVolumeView() {
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -103,6 +133,8 @@ public class TimePeriodRefundController extends ReportController {
 			currentTableView.addRow(nextDayVolumeRow[i]);
 		}
 	}
+	
+	
 	
 	private void switchToWeekDollarView() {
 		// REMOVE ALL ROWS
@@ -127,6 +159,8 @@ public class TimePeriodRefundController extends ReportController {
 		}
 	}
 	
+	
+	
 	private void switchToWeekVolumeView() {
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -149,6 +183,8 @@ public class TimePeriodRefundController extends ReportController {
 			currentTableView.addRow(nextWeekVolumeRow[i]);
 		}
 	}
+	
+	
 	
 	private void switchToMonthDollarView() {
 		// REMOVE ALL ROWS
@@ -173,6 +209,8 @@ public class TimePeriodRefundController extends ReportController {
 		}
 	}
 	
+	
+	
 	private void switchToMonthVolumeView() {
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -196,10 +234,12 @@ public class TimePeriodRefundController extends ReportController {
 		}
 	}
 
+	
+	
 	/**
 	 * Method to switch the table model data based on user input
 	 * @param reportType the report type (dollar, volume, profit)
-	 * @param groupBy the view type (all, summary)
+	 * @param groupBy the level of grouping (day, week, month)
 	 */
 	public void switchView(String reportType, String groupBy) {
 
@@ -233,6 +273,8 @@ public class TimePeriodRefundController extends ReportController {
 		}
 	}
 	
+	
+	
 	public void getResults(String startDate, String endDate) {
 		try {
 			Date inputStartDate = dateFormat.parse(startDate);
@@ -258,8 +300,7 @@ public class TimePeriodRefundController extends ReportController {
 					dayVolumeData.removeRow(i);
 				}
 			}
-			
-			// =====================================================================
+
 			// Week Tables =========================================================
 			
 			if(weekDollarData.getRowCount() != 0) {
@@ -274,7 +315,6 @@ public class TimePeriodRefundController extends ReportController {
 				}
 			}
 			
-			// =====================================================================
 			// Month Tables ========================================================
 			
 			if(monthDollarData.getRowCount() != 0) {
@@ -289,7 +329,6 @@ public class TimePeriodRefundController extends ReportController {
 				}
 			}
 			
-			//======================================================================
 			// Get Day Queries =====================================================
 			
 			String dayQuery = SqlBuilder.getRefundByDayQuery(startDateString, endDateString);
@@ -302,7 +341,6 @@ public class TimePeriodRefundController extends ReportController {
 			
 			String monthQuery = SqlBuilder.getRefundByMonthQuery(startDateString, endDateString);
 			
-			// =====================================================================
 			// Populate Day tables =================================================
 			
 			ResultSet dayResultSet = DbReader.executeQuery(dayQuery);
@@ -326,7 +364,6 @@ public class TimePeriodRefundController extends ReportController {
 			
 			dayResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
 			
-			// =====================================================================
 			// Populate Week Tables ================================================
 			
 			ResultSet weekResultSet = DbReader.executeQuery(weekQuery);
@@ -352,7 +389,6 @@ public class TimePeriodRefundController extends ReportController {
 			
 			weekResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
 			
-			// =====================================================================
 			// Populate Month Tables ===============================================
 			
 			ResultSet monthResultSet = DbReader.executeQuery(monthQuery);
@@ -377,9 +413,6 @@ public class TimePeriodRefundController extends ReportController {
 			}
 			
 			monthResultSet.close(); // MUST CLOSE RESULTSET AFTER USE
-				
-			// =====================================================================
-			
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem processing the query", "SQL Error", JOptionPane.ERROR_MESSAGE);
@@ -391,7 +424,13 @@ public class TimePeriodRefundController extends ReportController {
 	}
 	
 	
-	// Chart Methods ===========================================================	
+	
+	// ==========================================================================
+	// Chart Methods
+	// ==========================================================================
+	
+	
+	
 	public void showBarChart(String reportType, String groupBy) {
 		
 		switch(groupBy) {
@@ -408,5 +447,5 @@ public class TimePeriodRefundController extends ReportController {
 			break;
 		}
 	}
-	// ==========================================================================
+
 }// End class

@@ -1,3 +1,9 @@
+/* SingleDayRefundController Class
+ * 
+ * Controls application logic for the Generate Single Day Refund UC
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.domain;
 
 import java.math.BigDecimal;
@@ -14,7 +20,13 @@ import sss.services.SqlBuilder;
 
 public class SingleDayRefundController extends ReportController {
 
-private String dateOfCurrentReport = "No Date";
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
+	private String dateOfCurrentReport = "No Date";
 	
 	private NonEditableTableModel dollarRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund dollar info
 	private NonEditableTableModel volumeRefundsData = new NonEditableTableModel(); // Contains grouped-on-hour refund volume info
@@ -23,6 +35,14 @@ private String dateOfCurrentReport = "No Date";
 	private String[] dollarRefundsColNames = {"Hours", "Number of Refunds", "Refund Total"};
 	private String[] volumeRefundsColNames = {"Hours", "Number of Refunds"};
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Constructor - calls initialise to set up controller
 	 */
@@ -30,7 +50,14 @@ private String dateOfCurrentReport = "No Date";
 		initialise();
 	}
 	
-	//--------------- Core Methods-------------------------------------
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Establishes column identifiers for table models
 	 */
@@ -38,6 +65,8 @@ private String dateOfCurrentReport = "No Date";
 		dollarRefundsData.setColumnIdentifiers(dollarRefundsColNames);
 		volumeRefundsData.setColumnIdentifiers(volumeRefundsColNames);
 	}
+	
+	
 	
 	private void switchViewToRefundDollarView() {
 		// REMOVE ALL ROWS
@@ -62,6 +91,8 @@ private String dateOfCurrentReport = "No Date";
 		}
 	}
 	
+	
+	
 	private void switchViewToRefundVolumeView() {
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -85,6 +116,8 @@ private String dateOfCurrentReport = "No Date";
 		}
 	}
 	
+	
+	
 	/**
 	 * Method to switch the table model data based on user input
 	 * @param reportType the report type (dollar, volume, profit)
@@ -105,6 +138,8 @@ private String dateOfCurrentReport = "No Date";
 			break;
 		}
 	}
+	
+	
 	
 	/**
 	 * Populates data models with sale data from the database
@@ -160,7 +195,16 @@ private String dateOfCurrentReport = "No Date";
 		}
 	}
 	
+	
+	
+	// ==========================================================================
+	// Chart Methods
+	// ==========================================================================
+	
+	
+	
 	public void showBarChart(String reportType) {
 			ChartBuilder.showSingleDayBarChart(reportType, dateOfCurrentReport, dollarRefundsData);
 	}
+	
 }
