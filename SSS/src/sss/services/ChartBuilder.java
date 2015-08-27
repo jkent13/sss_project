@@ -57,6 +57,14 @@ public class ChartBuilder {
 	
 	
 	
+	public static ChartPanel createSingleDaySalePanel(NonEditableTableModel dataModel) {
+		DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByHour(dataModel);
+		ChartPanel dollarChartPanel = createSaleDollarByHourChart(dollarData,	ChartBuilder.CHART_TYPE_LINE);
+		return dollarChartPanel;
+	}
+	
+	
+	
 	public static void showTopSellerBarChart(String[] dateRange, NonEditableTableModel dataModel) {
 		DefaultCategoryDataset topSellerData = DatasetConverter.convertTopSeller(dataModel);
 		ChartPanel topSellerChartPanel = createTopSellerChart(topSellerData);

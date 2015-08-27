@@ -10,20 +10,36 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import org.jfree.chart.ChartPanel;
+
+import sss.services.FetchSaleData;
+
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
+	
+	private ChartPanel cp;
+	private JPanel leftPanel = new JPanel();
+	private JLabel memo = new JLabel("Live Summary of Today's Sales");
 	
 	@SuppressWarnings("unused")
 	public DashboardFrame()
@@ -48,20 +64,21 @@ public class DashboardFrame extends JFrame {
 			
 	//--------------------Section Panels-----------------------
 
-			JPanel leftPanel = new JPanel();
+
 			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
 //			leftPanel.setBorder(leftPanelTitle);
 			leftPanel.setLayout(new BorderLayout());
 //			leftPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(leftPanel);
 
-			JLabel memo = new JLabel("Live Summary of Today's Sales");
+
 			leftPanel.add(memo, BorderLayout.NORTH);
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			memo.setFont(myFont);
-			JButton lineGraph = new JButton("Line Graph Goes Here");
-			leftPanel.add(lineGraph, BorderLayout.CENTER);
-			
+//			JButton lineGraph = new JButton("Line Graph Goes Here");
+
+			cp = new ChartPanel(null);
+			leftPanel.add(cp, BorderLayout.CENTER);
 			JPanel middlePanel = new JPanel();
 			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
 //			middlePanel.setBorder(middlePanelTitle);
@@ -117,11 +134,39 @@ public class DashboardFrame extends JFrame {
 	//--------------------Inside Left Panel-----------------------
 
 			
+			ScheduledExecutorService service = Executors.newScheduledThreadPool(1); 
+			try {
+				service.scheduleWithFixedDelay(new FetchSaleData(cp, this), 0, 1, TimeUnit.MINUTES);
+			}
+			catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader thread", "SQL Error", JOptionPane.ERROR_MESSAGE);
+				dispose();
+			}
+			catch (RuntimeException re) {
+				JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader thread", "SQL Error", JOptionPane.ERROR_MESSAGE);
+				dispose();
+			}
+			System.out.println("Data Fetch Thread Started!");
 			
+			addWindowListener(new WindowAdapter()
+			{
+				public void windowClosing(WindowEvent e)
+				{
+					service.shutdown();
+				}
+			});
 			
-			
-			
-			
-			setVisible(true);
+			SwingUtilities.invokeLater(new Runnable() {
+		  	public void run() {
+		      setVisible(true);
+		   }
+		});
 	}
+	
+	public void updateChart(ChartPanel panel) {
+		cp = panel;
+		leftPanel.add(cp, BorderLayout.CENTER);
+		leftPanel.revalidate();
+	}
+	
 }
