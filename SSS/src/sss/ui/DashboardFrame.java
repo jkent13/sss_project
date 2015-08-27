@@ -32,14 +32,13 @@ import javax.swing.border.TitledBorder;
 
 import org.jfree.chart.ChartPanel;
 
-import sss.services.FetchSaleData;
+import sss.services.FetchSaleDataTask;
 
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
 	
 	private ChartPanel cp;
 	private JPanel leftPanel = new JPanel();
-	private JLabel memo = new JLabel("Live Summary of Today's Sales");
 	
 	@SuppressWarnings("unused")
 	public DashboardFrame()
@@ -71,7 +70,7 @@ public class DashboardFrame extends JFrame {
 //			leftPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(leftPanel);
 
-
+			JLabel memo = new JLabel("Live Summary of Today's Sales");
 			leftPanel.add(memo, BorderLayout.NORTH);
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			memo.setFont(myFont);
@@ -133,10 +132,10 @@ public class DashboardFrame extends JFrame {
 			
 	//--------------------Inside Left Panel-----------------------
 
-			
+
 			ScheduledExecutorService service = Executors.newScheduledThreadPool(1); 
 			try {
-				service.scheduleWithFixedDelay(new FetchSaleData(cp, this), 0, 1, TimeUnit.MINUTES);
+				service.scheduleWithFixedDelay(new FetchSaleDataTask(cp, this), 0, 1, TimeUnit.MINUTES);
 			}
 			catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader thread", "SQL Error", JOptionPane.ERROR_MESSAGE);

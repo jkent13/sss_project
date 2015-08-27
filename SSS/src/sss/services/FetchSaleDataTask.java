@@ -1,3 +1,10 @@
+/* FetchSaleDataTask Class
+ * 
+ * A task designed to run on a seperate thread and poll the database 
+ * every minute for new sale data
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.services;
 
 import java.math.BigDecimal;
@@ -13,7 +20,7 @@ import org.jfree.chart.ChartPanel;
 import sss.domain.NonEditableTableModel;
 import sss.ui.DashboardFrame;
 
-public class FetchSaleData implements Runnable {
+public class FetchSaleDataTask implements Runnable {
 
 	private Connection connection = DbConnector.getConnection();
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
@@ -26,9 +33,9 @@ public class FetchSaleData implements Runnable {
 	private ChartPanel chartPanel;
 	private DashboardFrame window;
 	
-	public FetchSaleData(ChartPanel chartPanel, DashboardFrame parent) throws SQLException {
+	public FetchSaleDataTask(ChartPanel chartPanel, DashboardFrame parentWindow) throws SQLException {
 		this.chartPanel = chartPanel;
-		window = parent;
+		window = parentWindow;
 		query = SqlBuilder.getSaleReportByHourQuery(sqlDateFormat.format(currentDate));
 		statement = connection.createStatement();
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
@@ -56,8 +63,6 @@ public class FetchSaleData implements Runnable {
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
 			window.updateChart(chartPanel);
 			System.out.println(new Date());
-			
-			
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
