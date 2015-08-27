@@ -4,6 +4,7 @@
  * 
  * Original Author: Josh Kent
  */
+
 package sss.domain;
 
 public class TopSellerFilter {

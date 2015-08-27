@@ -5,6 +5,7 @@
  * 
  * Original Author: Josh Kent
  */
+
 package sss.domain;
 
 import java.text.ParseException;

@@ -1,3 +1,11 @@
+/* ChartBuilder Class
+ * 
+ * Class responsible for creating and showing JFrames with charts
+ * Interacts with JFreeChart library
+ * 
+ * Original Author: Josh Kent 
+ */
+
 package sss.services;
 
 import java.awt.Color;
@@ -21,15 +29,34 @@ import sss.domain.NonEditableTableModel;
 
 public class ChartBuilder {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	public static final int CHART_TYPE_BAR = 0;
 	public static final int CHART_TYPE_LINE = 1;
 
 
 
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	private ChartBuilder() {
-
 	}
 
+	
+	
+	// ==========================================================================
+	// Public Static Methods
+	// ==========================================================================
+	
+	
+	
 	public static void showTopSellerBarChart(String[] dateRange, NonEditableTableModel dataModel) {
 		DefaultCategoryDataset topSellerData = DatasetConverter.convertTopSeller(dataModel);
 		ChartPanel topSellerChartPanel = createTopSellerChart(topSellerData);
@@ -43,7 +70,9 @@ public class ChartBuilder {
 
 		topSellerChartFrame.setVisible(true);
 	}
-
+	
+	
+	
 	public static void showTimePeriodBarChart(String reportType, String groupBy,
 			String[] dateRange, NonEditableTableModel dataModel) {
 		switch (reportType) {
@@ -575,8 +604,14 @@ public class ChartBuilder {
 		}
 	}
 
+	
 
-
+	// ==========================================================================
+	// Private Helper Methods
+	// ==========================================================================
+	
+	
+	
 	private static ChartPanel createSaleDollarByHourChart(
 			DefaultCategoryDataset data, int chartType) {
 		if (chartType == ChartBuilder.CHART_TYPE_BAR) {
@@ -606,7 +641,6 @@ public class ChartBuilder {
 
 			return dollarChartPanel;
 		}
-
 		else {
 			JFreeChart dollarChart = ChartFactory
 					.createLineChart("", "Hour", "Sale Amount ($)", data,
@@ -1470,4 +1504,5 @@ public class ChartBuilder {
 
 			return topSellerChartPanel;
 	}
+	
 }

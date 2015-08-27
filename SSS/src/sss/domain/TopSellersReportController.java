@@ -4,6 +4,7 @@
  * 
  * Original Author: Josh Kent 
  */
+
 package sss.domain;
 
 import java.sql.ResultSet;

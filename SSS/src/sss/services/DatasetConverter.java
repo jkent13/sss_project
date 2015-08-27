@@ -16,9 +16,22 @@ import sss.domain.NonEditableTableModel;
 
 public class DatasetConverter {
 	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	private DatasetConverter() {
-		
 	}
+	
+	
+	
+	// ==========================================================================
+	// Sales Conversion Methods
+	// ==========================================================================
+	
+	
 	
 	public static DefaultCategoryDataset convertSalesDollarByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -46,6 +59,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertSalesVolumeByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> sales = new ArrayList<Integer>();
@@ -69,6 +84,8 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	
 	
 	public static DefaultCategoryDataset convertGrossProfitByHour(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -94,30 +111,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
-	public static DefaultCategoryDataset convertRefundVolumeByHour(NonEditableTableModel dataModel) {
-		NonEditableTableModel dbData = dataModel;
-		ArrayList<Integer> refunds = new ArrayList<Integer>();
-		ArrayList<String> hours = new ArrayList<String>();
-		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
-		
-		int rowCount = dbData.getRowCount();
-		int colCount = dbData.getColumnCount();
-		
-		for(int i = 0; i < rowCount; i++) {
-			for(int j = 0; j < colCount; j++) {
-				if((j % 3) == 0)
-					hours.add((String)dbData.getValueAt(i, j));
-				else if (j % 2 == 1)
-					refunds.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
-			}
-		}
-		
-		for(int i = 0; i < refunds.size(); i++) {
-			chartData.addValue(refunds.get(i), "No. of Refunds", hours.get(i));
-		}
-		return chartData;
-	}
-
+	
+	
 	public static DefaultCategoryDataset convertSalesDollarByDay(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> totals = new ArrayList<Double>();
@@ -144,6 +139,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertSalesVolumeByDay(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> sales = new ArrayList<Integer>();
@@ -168,6 +165,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertGrossProfitByDay(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> profitTotals = new ArrayList<Double>();
@@ -191,6 +190,8 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	
 	
 	public static DefaultCategoryDataset convertSalesDollarByWeek(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -218,6 +219,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertSalesVolumeByWeek(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> sales = new ArrayList<Integer>();
@@ -242,6 +245,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertGrossProfitByWeek(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> profitTotals = new ArrayList<Double>();
@@ -265,6 +270,8 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	
 	
 	public static DefaultCategoryDataset convertSalesDollarByMonth(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -292,6 +299,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertSalesVolumeByMonth(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> sales = new ArrayList<Integer>();
@@ -316,6 +325,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertGrossProfitByMonth(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Double> profitTotals = new ArrayList<Double>();
@@ -339,7 +350,40 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	
+	
+	// ==========================================================================
+	// Refunds Conversion Methods
+	// ==========================================================================
+	
+	
+	
+	public static DefaultCategoryDataset convertRefundVolumeByHour(NonEditableTableModel dataModel) {
+		NonEditableTableModel dbData = dataModel;
+		ArrayList<Integer> refunds = new ArrayList<Integer>();
+		ArrayList<String> hours = new ArrayList<String>();
+		DefaultCategoryDataset chartData = new DefaultCategoryDataset();
+		
+		int rowCount = dbData.getRowCount();
+		int colCount = dbData.getColumnCount();
+		
+		for(int i = 0; i < rowCount; i++) {
+			for(int j = 0; j < colCount; j++) {
+				if((j % 3) == 0)
+					hours.add((String)dbData.getValueAt(i, j));
+				else if (j % 2 == 1)
+					refunds.add(Integer.valueOf(dbData.getValueAt(i, j).toString()));
+			}
+		}
+		
+		for(int i = 0; i < refunds.size(); i++) {
+			chartData.addValue(refunds.get(i), "No. of Refunds", hours.get(i));
+		}
+		return chartData;
+	}
 
+	
 	
 	public static DefaultCategoryDataset convertRefundVolumeByDay(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -365,6 +409,8 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
 	public static DefaultCategoryDataset convertRefundVolumeByWeek(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> refunds = new ArrayList<Integer>();
@@ -388,6 +434,8 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
+	
 	
 	public static DefaultCategoryDataset convertRefundVolumeByMonth(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
@@ -413,6 +461,14 @@ public class DatasetConverter {
 		return chartData;
 	}
 	
+	
+	
+	// ==========================================================================
+	// Top Seller Conversion
+	// ==========================================================================
+	
+	
+	
 	public static DefaultCategoryDataset convertTopSeller(NonEditableTableModel dataModel) {
 		NonEditableTableModel dbData = dataModel;
 		ArrayList<Integer> units = new ArrayList<Integer>();
@@ -436,4 +492,5 @@ public class DatasetConverter {
 		}
 		return chartData;
 	}
+	
 }

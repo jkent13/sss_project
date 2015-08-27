@@ -56,25 +56,6 @@ public class SqlBuilderTest {
 	}
 	
 	@Test
-	public void testGetProductsByQuantity() {
-		assertEquals("SELECT * FROM product WHERE prod_qoh < 10 ORDER BY prod_qoh;", SqlBuilder.getProductsByQuantity(10, "<"));
-	}
-	
-	@Test
-	public void testGetProductsByPriceRange() {
-		assertEquals("SELECT * FROM product WHERE prod_price >= 0.00 AND prod_price <= 5.00 ORDER BY prod_price;", SqlBuilder.getProductsByPriceRange(new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), new BigDecimal(5.00).setScale(2, BigDecimal.ROUND_HALF_EVEN)));
-	}
-	@Test
-	public void testGetProductsBySupplierId() {
-		assertEquals("SELECT * FROM product WHERE supp_id = 3;", SqlBuilder.getProductsBySupplierId(3));
-	}
-	
-	@Test
-	public void testGetProductsByCategory() {
-		assertEquals("SELECT * FROM product WHERE prod_category = 'Office';", SqlBuilder.getProductsByCategory("Office"));
-	}
-	
-	@Test
 	public void testGetProductsFiltered() {
 		InventoryFilter filter = new InventoryFilter(true, true, false, false);
 		filter.setQohOperator("=");
@@ -107,21 +88,6 @@ public class SqlBuilderTest {
 	@Test
 	public void testGetProductById() {
 		assertEquals("SELECT * FROM product WHERE prod_id = 1234567891022;", SqlBuilder.getProductById(1234567891022L));
-	}
-
-	@Test
-	public void testGetProductsByCode() {
-		assertEquals("SELECT * FROM product WHERE prod_code = 'TTTT666';", SqlBuilder.getProductsByCode("TTTT666"));
-	}
-
-	@Test
-	public void testGetProductsByNameAndCategory() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%' AND prod_category = 'Pet';", SqlBuilder.getProductsByNameAndCategory("Cat", "Pet"));
-	}
-
-	@Test
-	public void testGetProductsByName() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%';", SqlBuilder.getProductsByName("Cat"));
 	}
 
 	@Test
