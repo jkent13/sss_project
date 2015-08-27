@@ -1,3 +1,10 @@
+/* ProductEditFilter Class
+ * 
+ * An object used to determine whether a user has modified a product (used in Modify Product UC)\
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.math.BigDecimal;
@@ -280,7 +287,7 @@ public class ProductEditFilter {
 	
 	
 	// ==========================================================================
-	// Methods
+	// Validation Methods
 	// ==========================================================================
 	
 	
@@ -288,6 +295,12 @@ public class ProductEditFilter {
 	public boolean validateProduct() {
 		return modifiedProduct.validateProduct();
 	}
+	
+	
+	
+	// ==========================================================================
+	// Other Methods
+	// ==========================================================================
 	
 	
 	
@@ -314,6 +327,12 @@ public class ProductEditFilter {
 		setSupplierChanged(false);
 		setActiveChanged(false);
 	}
+	
+	
+	
+	// ==========================================================================
+	// Printing Methods
+	// ==========================================================================
 	
 	
 	
@@ -356,4 +375,5 @@ public class ProductEditFilter {
 		
 		return filterString.toString();
 	}
+	
 } 

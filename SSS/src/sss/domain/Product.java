@@ -17,20 +17,35 @@ import sss.services.DbReader;
 import sss.services.SqlBuilder;
 
 public class Product {
-	private ResultSet productDetails; 			// Product details pulled from DB
-	private boolean successfulLookup = true; 	// This will become false if a SQL exception is encountered and a product is not successfully constructed
 	
-	private long prod_id; 						// PK (13 digit barcode) eg 9315248963524
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
 	
-	private String prod_code;					// Substitute PK (should also be unique) eg TBEX123
-	private String prod_name; 					// Product's name eg Blue pen
-	private BigDecimal prod_cost_price; 		// Price of product bought from supplier (Wholesale price) eg 3.00
-	private BigDecimal prod_price; 				// Price of product bought by customer (Retail price) eg 6.00
-	private int prod_qoh; 						// Product quantity on hand (must be >= 0) eg 9
-	private String prod_category; 				// Product category eg Office, Pet, Homeware
-	private boolean prod_active; 				// Must be converted to char 'Y' or 'N', inactive products are not return in reports
 	
-	private int supp_id;						// Reference to supplier eg 1, 2, 3, 4, 5
+	
+	private ResultSet productDetails; 						// Product details pulled from DB
+	private boolean successfulLookup = true; 			// This will become false if a SQL exception is encountered and a product is not successfully constructed
+	
+	private long prod_id; 												// PK (13 digit barcode) eg 9315248963524
+	
+	private String prod_code;											// Substitute PK (should also be unique) eg TBEX123
+	private String prod_name; 										// Product's name eg Blue pen
+	private BigDecimal prod_cost_price; 					// Price of product bought from supplier (Wholesale price) eg 3.00
+	private BigDecimal prod_price; 								// Price of product bought by customer (Retail price) eg 6.00
+	private int prod_qoh; 												// Product quantity on hand (must be >= 0) eg 9
+	private String prod_category; 								// Product category eg Office, Pet, Homeware
+	private boolean prod_active; 									// Must be converted to char 'Y' or 'N', inactive products are not return in reports
+	
+	private int supp_id;													// Reference to supplier eg 1, 2, 3, 4, 5
+	
+	
+	
+	// ==========================================================================
+	// Constructors
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Creates a Product from a product id that is looked up in the database
@@ -67,6 +82,8 @@ public class Product {
 		}
 	}
 	
+	
+	
 	/**
 	 * Creates a Product entirely from input arguments (used for test cases)
 	 * @param prod_id product id (barcode value)
@@ -94,8 +111,18 @@ public class Product {
 		this.supp_id = supp_id;
 	}
 	
-	public Product(){
+	
+	
+	public Product() {
 	}
+	
+	
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Getter method for the product id
@@ -105,6 +132,8 @@ public class Product {
 		return this.prod_id;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the product name
 	 * @return the product name
@@ -112,6 +141,8 @@ public class Product {
 	public String getName() {
 		return this.prod_name;
 	}
+	
+	
 	
 	/**
 	 * Getter method for the product code
@@ -121,6 +152,8 @@ public class Product {
 		return this.prod_code;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the product cost price (wholesale price)
 	 * @return the product cost price
@@ -128,6 +161,8 @@ public class Product {
 	public BigDecimal getCostPrice() {
 		return this.prod_cost_price;
 	}
+	
+	
 	
 	/**
 	 * Getter method for the product price (retail price)
@@ -137,6 +172,8 @@ public class Product {
 		return this.prod_price;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the quantity on hand 
 	 * @return the quantity on hand for this product
@@ -144,6 +181,8 @@ public class Product {
 	public int getQuantityOnHand() {
 		return this.prod_qoh;
 	}
+	
+	
 	
 	/**
 	 * Getter method for the product category
@@ -153,6 +192,8 @@ public class Product {
 		return this.prod_category;
 	}
 	
+	
+	
 	/**
 	 * Getter method for whether the product is active
 	 * @return whether the product is active
@@ -160,6 +201,8 @@ public class Product {
 	public boolean isActive() {
 		return this.prod_active;
 	}
+	
+	
 	
 	/**
 	 * Getter method for whether the product was looked up successfully
@@ -169,6 +212,8 @@ public class Product {
 		return this.successfulLookup;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the supplier id
 	 * @return the supplier id for this product
@@ -176,23 +221,39 @@ public class Product {
 	public int getSupplierId() {
 		return this.supp_id;
 	}
+	
+	
 
+	// ==========================================================================
+	// Setter Methods
+	// ==========================================================================
+	
+	
+	
 	public void setId(long prod_id) {
 		this.prod_id = prod_id;
 	}
 
+	
+	
 	public void setCode(String prod_code) {
 		this.prod_code = prod_code;
 	}
 
+	
+	
 	public void setName(String prod_name) {
 		this.prod_name = prod_name;
 	}
+	
+	
 
 	public void setCostPrice(BigDecimal prod_cost_price) {
 		this.prod_cost_price = prod_cost_price;
 	}
 
+	
+	
 	public void setPrice(BigDecimal prod_price) {
 		this.prod_price = prod_price;
 	}
@@ -201,17 +262,31 @@ public class Product {
 		this.prod_qoh = prod_qoh;
 	}
 
+	
+	
 	public void setCategory(String prod_category) {
 		this.prod_category = prod_category;
 	}
 
+	
+	
 	public void setActive(boolean prod_active) {
 		this.prod_active = prod_active;
 	}
 
+	
+	
 	public void setSupplierId(int supp_id) {
 		this.supp_id = supp_id;
 	}
+	
+	
+	
+	// ==========================================================================
+	// Validation Methods
+	// ==========================================================================
+	
+	
 	
 	public boolean validateProduct() {
 		if(prod_code == null) {
@@ -239,4 +314,5 @@ public class Product {
 			return true;
 		}
 	}
+	
 }

@@ -22,6 +22,12 @@ import sss.services.SqlBuilder;
 
 public class SingleDaySaleController extends ReportController {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private String dateOfCurrentReport = "No Date";
 	
 	private NonEditableTableModel allSalesData = new NonEditableTableModel();		// Containing SELECT * sale info
@@ -35,14 +41,29 @@ public class SingleDaySaleController extends ReportController {
 	private String[] volumeSalesColNames = {"Hours", "Number of Transactions"};
 	private String[] grossProfitColNames = {"Hours", "Number of Products Sold", "Gross Profit"};
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Constructor - calls initialise to set up controller
 	 */
 	public SingleDaySaleController() {
 		initialise();
 	}
+
 	
-	//--------------- Core Methods-------------------------------------
+
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Establishes column identifiers for table models
 	 */
@@ -52,6 +73,8 @@ public class SingleDaySaleController extends ReportController {
 		volumeSalesData.setColumnIdentifiers(volumeSalesColNames);
 		grossProfitSalesData.setColumnIdentifiers(grossProfitColNames);
 	}
+	
+	
 	
 	private void switchToAllSalesView() {
 		if(!(currentTableView.getColumnCount() == allSalesData.getColumnCount())) {
@@ -78,6 +101,8 @@ public class SingleDaySaleController extends ReportController {
 		}
 	}
 	
+	
+	
 	private void switchToSummarySalesDollarView(){
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -100,6 +125,8 @@ public class SingleDaySaleController extends ReportController {
 			currentTableView.addRow(nextDollarRow[i]);
 		}
 	}
+	
+	
 	
 	private void switchToSummarySalesVolumeView() {
 		// REMOVE ALL ROWS
@@ -124,6 +151,8 @@ public class SingleDaySaleController extends ReportController {
 		}
 	}
 	
+	
+	
 	private void switchToSummaryGrossProfitView() {
 		// REMOVE ALL ROWS
 		for(int i = currentTableView.getRowCount()-1; i != -1; i--) {
@@ -146,6 +175,8 @@ public class SingleDaySaleController extends ReportController {
 			currentTableView.addRow(nextProfitRow[i]);
 		}
 	}
+	
+	
 	
 	/**
 	 * Method to switch the table model data based on user input
@@ -173,6 +204,8 @@ public class SingleDaySaleController extends ReportController {
 			break;
 		}
 	}
+	
+	
 	
 	/**
 	 * Populates data models with sale data from the database
@@ -275,6 +308,14 @@ public class SingleDaySaleController extends ReportController {
 		}
 	}
 	
+	
+	
+	// ==========================================================================
+	// Chart Methods
+	// ==========================================================================
+	
+	
+	
 	public void showLineChart(String reportType) {
 		
 		switch(reportType) {
@@ -308,8 +349,6 @@ public class SingleDaySaleController extends ReportController {
 		default :
 			break;
 		}
-		
 	}	
-	//-----------------------------------------------------------------
 	
 }// End class

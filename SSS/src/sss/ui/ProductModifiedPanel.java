@@ -1,3 +1,10 @@
+/* ProductModifiedPanel Class
+ * 
+ * A custom JPanel used to pass to a JOptionPane when showing a user the effect 
+ * of their modifications to a product
+ * 
+ * Original Author: Josh Kent
+ */
 package sss.ui;
 
 import java.awt.BorderLayout;
@@ -16,11 +23,26 @@ import sss.domain.ProductEditFilter;
 
 @SuppressWarnings("serial")
 public class ProductModifiedPanel extends JPanel {
+	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private JTable productDisplayTable;
 	private String[] suppliers;
 	private NonEditableTableModel tableModel = new NonEditableTableModel();
 	private ArrayList<String> tableColumns = new ArrayList<>();
 	private JLabel label = new JLabel("The following changes will be applied to this product:");
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public ProductModifiedPanel(ProductEditFilter filter, String[] suppliers) {
 		this.suppliers = suppliers;
@@ -35,6 +57,14 @@ public class ProductModifiedPanel extends JPanel {
 		setPreferredSize(new Dimension(1000, 100));
 		
 	}
+	
+	
+	
+	// ==========================================================================
+	// Helper Methods
+	// ==========================================================================
+	
+	
 	
 	private void initialiseTableModel(ProductEditFilter filter) {
 		if(filter.hasNameChanged()) {
@@ -58,9 +88,10 @@ public class ProductModifiedPanel extends JPanel {
 		if(filter.hasActiveChanged()) {
 			tableColumns.add("Active?");
 		}
-		
 		tableModel.setColumnIdentifiers(tableColumns.toArray());
 	}
+	
+	
 	
 	private void populateTableModel(ProductEditFilter filter) {
 		Product originalProduct = filter.getOriginalProduct();
@@ -114,7 +145,10 @@ public class ProductModifiedPanel extends JPanel {
 		tableModel.addRow(cellValues.toArray());
 	}
 	
+	
+	
 	private String matchSupplierIdToName(int supplierId) {
 		return suppliers[supplierId-1];
 	}
+	
 }

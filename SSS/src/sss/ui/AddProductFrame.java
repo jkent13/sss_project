@@ -27,6 +27,7 @@ import sss.domain.Product;
 
 @SuppressWarnings("serial")
 public class AddProductFrame extends JFrame {
+	
 	private AddProductController controller = new AddProductController();
 	private Product newProduct = new Product();
 	

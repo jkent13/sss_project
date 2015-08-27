@@ -1,6 +1,6 @@
 /*
  * Main Class
- * The intial entry point into the application
+ * The initial entry point into the application
  * Original Author: Amethyst Mayer
  */
 

@@ -8,7 +8,6 @@
 
 package sss.services;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import sss.domain.InventoryFilter;
@@ -24,220 +23,22 @@ import sss.domain.TopSellerFilter;
 
 public class SqlBuilder {
 	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	private SqlBuilder() {
-		
 	}
 	
-	// SELECT Methods ===========================================================
 	
-	public static String getSlowSellerQuery(String startDate, String endDate, int unitsSold) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT SUM(line.line_units) as 'Units Sold', "
-				+ "prod_name as 'Name', "
-				+ "line.prod_id as 'ID' "
-				+ "FROM line, sale, product "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND line.sale_id = sale.sale_id "
-				+ "AND line.prod_id = product.prod_id "
-				+ "GROUP BY line.prod_id "
-				+ "HAVING SUM(line.line_units) <= ");
-		query.append(unitsSold + " ");
-		query.append("ORDER BY SUM(line.line_units) DESC;");
-		return query.toString();
-	}
 	
-	public static String getZeroSaleProducts(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT 0 as 'Units Sold', "
-				+ "prod_name as 'Name', "
-				+ "product.prod_id as 'ID' "
-				+ "FROM product "
-				+ "WHERE product.prod_id NOT IN "
-				+ "(select line.prod_id as 'ID' "
-				+ "FROM line, sale, product "
-				+ "WHERE sale_date "
-				+ "BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND line.sale_id = sale.sale_id "
-				+ "AND line.prod_id = product.prod_id) "
-				+ "ORDER BY prod_name;");
-		return query.toString();
-	}
+	// ==========================================================================
+	// Sale Report SELECT Methods
+	// ==========================================================================
 	
-	public static String getBarcodeMatchQuery(long barcode) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT prod_id FROM product WHERE prod_id = ");
-		query.append(barcode + ";");
-		
-		return query.toString();
-	}
 	
-	public static String getProductCodeMatchQuery(String productCode) {
-		 StringBuffer query = new StringBuffer();
-		 query.append("SELECT prod_id FROM product WHERE prod_code = '");
-		 query.append(productCode + "';");
-		 
-		 return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getLastSaleId() {
-		return "SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;";
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will return all the names of product suppliers from the supplier table
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getSupplierNames() {
-		return "SELECT supp_name FROM supplier ORDER BY supp_id;";
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will return all the distinct category names from the product table
-	 * @return a SQL SELECT statement
-	 */
-	public static String getCategoryNames() {
-		return "SELECT DISTINCT prod_category FROM product ORDER BY prod_category;";
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will retrieve all rows and columns for all products, ordered alphabetically by name
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getAllProducts() {
-		return "SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
-				+ " FROM product, supplier "
-				+ "WHERE product.supp_id = supplier.supp_id "
-				+ "ORDER BY prod_name;";
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will retrieve all products either =, >, or < a quantity on hand value
-	 * @param qoh a value for quantity on hand
-	 * @param operator the operator to be used for this query (either =, > or <)
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByQuantity(int qoh, String operator) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE prod_qoh ");
-		query.append(operator + " ");
-		query.append(qoh + " ");
-		query.append("ORDER BY prod_qoh;");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will retrieve all products with price between minPrice and maxPrice (inclusive)
-	 * @param minPrice the minimum price value
-	 * @param maxPrice the maximum price value
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE prod_price >= ");
-		query.append(minPrice.toString() + " ");
-		query.append("AND prod_price <= ");
-		query.append(maxPrice.toString() + " ");
-		query.append("ORDER BY prod_price;");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will retrieve all products with the given supplier id
-	 * @param supp_id a supplier id number (e.g. 1)
-	 * @return a SQL SELECT statementString
-	 */
-	public static String getProductsBySupplierId(int supp_id) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE supp_id = ");
-		query.append(supp_id + ";");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement that will retrieve all products from the category supplied
-	 * @param category the category value (e.g. Office)
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByCategory(String category) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE prod_category = '");
-		query.append(category + "';");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement to retrieve a specific product from the database based on id (barcode) 
-	 * @param prod_id the product id (barcode) for the product to be looked up
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductById(long prod_id) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE prod_id = ");
-		query.append(prod_id);
-		query.append(";");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement to retrieve a specific product by product code
-	 * @param prod_code the product code for the product to be looked up
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByCode(String prod_code) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE prod_code = '");
-		query.append(prod_code);
-		query.append("';");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement to retrieve all products within a given category and with a similar name to
-	 * the given name
-	 * @param prod_name the name of the product/s to be looked up
-	 * @param prod_category the category of the product/s to be looked up
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByNameAndCategory(String prod_name, String prod_category) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%");
-		query.append(prod_name.toUpperCase());
-		query.append("%' AND prod_category = '");
-		query.append(prod_category);
-		query.append("';");
-		
-		return query.toString();
-	}
-	
-	/**
-	 * Gets a SQL SELECT statement to retrieve all products with a name similar to the given name
-	 * @param prod_name the name of the product/s to be looked up
-	 * @return a SQL SELECT statement String
-	 */
-	public static String getProductsByName(String prod_name) {
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%");
-		query.append(prod_name.toUpperCase());
-		query.append("%';");
-		
-		return query.toString();
-	}
 	
 	/**
 	 * Gets a SQL SELECT statement for selecting all sales between two given dates from the database
@@ -257,6 +58,8 @@ public class SqlBuilder {
 		
 		return query.toString();
 	}
+	
+	
 	
 	/**
 	 * Gets a SQL SELECT statement for selecting sales grouped by hour for a given date from the database
@@ -289,6 +92,8 @@ public class SqlBuilder {
 		return query.toString();
 	}
 
+	
+	
 	public static String getSingleDayGrossProfitQuery(String startDate) {
 		StringBuffer query = new StringBuffer();
 
@@ -317,6 +122,141 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	
+	
+	public static String getSaleDollarByDayQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	
+	
+	public static String getGrossProfitByDayQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
+				+ "ORDER BY sale_date;");
+
+		return query.toString();
+	}
+	
+	
+	
+	public static String getSaleDollarByWeekQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	
+	
+	public static String getGrossProfitByWeekQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	
+	
+	public static String getSaleDollarByMonthQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale_id) AS `Number of Sales`, "
+				+ "SUM(sale_total) AS 'Sale Totals' "
+				+ "FROM sale "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	
+	
+	public static String getGrossProfitByMonthQuery(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
+				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
+				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
+				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
+				+ "FROM sale, line "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND sale_type = 'Purchase' "
+				+ "AND sale.sale_id = line.sale_id "
+				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
+				+ "ORDER BY sale_date;");
+		
+		return query.toString();
+	}
+	
+	
+	
+	// ==========================================================================
+	// Refund Report SELECT Methods
+	// ==========================================================================
+	
+	
+	
 	public static String getSingleDayRefundQuery(String startDate) {
 		StringBuffer query = new StringBuffer();
 		
@@ -344,120 +284,7 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
-	public static String getSaleDollarByDayQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
-				+ "COUNT(sale_id) AS `Number of Sales`, "
-				+ "SUM(sale_total) AS 'Sale Totals' "
-				+ "FROM sale "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
-				+ "ORDER BY sale_date;");
-		
-		return query.toString();
-	}
-	
-	public static String getGrossProfitByDayQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT DATE_FORMAT(sale_date, '%b %d %y') AS 'Day', "
-				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
-				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
-				+ "FROM sale, line "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "AND sale.sale_id = line.sale_id "
-				+ "GROUP BY DAY(sale_date) , MONTH(sale_date) , YEAR(sale_date) "
-				+ "ORDER BY sale_date;");
 
-		return query.toString();
-	}
-	
-	public static String getSaleDollarByWeekQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
-				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
-				+ "COUNT(sale_id) AS `Number of Sales`, "
-				+ "SUM(sale_total) AS 'Sale Totals' "
-				+ "FROM sale "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
-				+ "ORDER BY sale_date;");
-		
-		return query.toString();
-	}
-	
-	public static String getGrossProfitByWeekQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) AS 'Week No.', "
-				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
-				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
-				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
-				+ "FROM sale, line "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "AND sale.sale_id = line.sale_id "
-				+ "GROUP BY CONCAT(WEEK(sale_date), '/', YEAR(sale_date)) "
-				+ "ORDER BY sale_date;");
-		
-		return query.toString();
-	}
-	
-	public static String getSaleDollarByMonthQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
-				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
-				+ "COUNT(sale_id) AS `Number of Sales`, "
-				+ "SUM(sale_total) AS 'Sale Totals' "
-				+ "FROM sale "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
-				+ "ORDER BY sale_date;");
-		
-		return query.toString();
-	}
-	
-	public static String getGrossProfitByMonthQuery(String startDate, String endDate) {
-		StringBuffer query = new StringBuffer();
-		
-		query.append("SELECT DATE_FORMAT(sale_date, '%b/%Y') AS 'Month', "
-				+ "DATE_FORMAT(sale_date, '%a %d/%m/%y') AS 'Starting Date', "
-				+ "COUNT(sale.sale_id) AS `Number of Products Sold`, "
-				+ "SUM(line_amount - (line_cost_price * line_units)) AS 'Gross Profit' "
-				+ "FROM sale, line "
-				+ "WHERE sale_date BETWEEN ");
-		query.append("'" + startDate + "' ");
-		query.append("AND ");
-		query.append("'" + endDate + "' ");
-		query.append("AND sale_type = 'Purchase' "
-				+ "AND sale.sale_id = line.sale_id "
-				+ "GROUP BY DATE_FORMAT(sale_date, '%b/%Y') "
-				+ "ORDER BY sale_date;");
-		
-		return query.toString();
-	}
 	
 	public static String getRefundByDayQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
@@ -477,6 +304,8 @@ public class SqlBuilder {
 
 		return query.toString();
 	}
+	
+	
 	
 	public static String getRefundByWeekQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
@@ -498,6 +327,8 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	
+	
 	public static String getRefundByMonthQuery(String startDate, String endDate) {
 		StringBuffer query = new StringBuffer();
 		
@@ -517,6 +348,30 @@ public class SqlBuilder {
 		
 		return query.toString();
 	}
+	
+	
+	
+	// ==========================================================================
+	// Product Report SELECT Methods
+	// ==========================================================================
+	
+	
+	
+	/**
+	 * Gets a SQL SELECT statement to retrieve a specific product from the database based on id (barcode) 
+	 * @param prod_id the product id (barcode) for the product to be looked up
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getProductById(long prod_id) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT * FROM product WHERE prod_id = ");
+		query.append(prod_id);
+		query.append(";");
+		
+		return query.toString();
+	}
+	
+	
 	
 	/**
 	 * Gets a SQL SELECT statement that will retrieve all products that match the provided filter values, ordered alphabetically
@@ -568,6 +423,8 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	
+	
 	public static String lookupProduct(LookupFilter filter) {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
@@ -602,6 +459,8 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	
+	
 	public static String lookupProductsFromInvoice(Invoice invoice) {
 		StringBuffer query = new StringBuffer();
 		ArrayList<InvoiceRow> rows = invoice.getRows();
@@ -618,6 +477,48 @@ public class SqlBuilder {
 		
 		return query.toString();		
 	}
+	
+	
+	
+	/**
+	 * Gets a SQL SELECT statement that will retrieve all rows and columns for all products, ordered alphabetically by name
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getAllProducts() {
+		return "SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active"
+				+ " FROM product, supplier "
+				+ "WHERE product.supp_id = supplier.supp_id "
+				+ "ORDER BY prod_name;";
+	}
+	
+	
+	
+	public static String getZeroSaleProducts(String startDate, String endDate) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT 0 as 'Units Sold', "
+				+ "prod_name as 'Name', "
+				+ "product.prod_id as 'ID' "
+				+ "FROM product "
+				+ "WHERE product.prod_id NOT IN "
+				+ "(select line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date "
+				+ "BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id) "
+				+ "ORDER BY prod_name;");
+		return query.toString();
+	}
+	
+	
+	
+	// ==========================================================================
+	// Top/Slow Seller Report SELECT Methods
+	// ==========================================================================
+	
 	
 	
 	public static String getTopSellerQuery(TopSellerFilter filter) {
@@ -639,8 +540,89 @@ public class SqlBuilder {
 	}
 	
 	
+	
+	public static String getSlowSellerQuery(String startDate, String endDate, int unitsSold) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT SUM(line.line_units) as 'Units Sold', "
+				+ "prod_name as 'Name', "
+				+ "line.prod_id as 'ID' "
+				+ "FROM line, sale, product "
+				+ "WHERE sale_date BETWEEN ");
+		query.append("'" + startDate + "' ");
+		query.append("AND ");
+		query.append("'" + endDate + "' ");
+		query.append("AND line.sale_id = sale.sale_id "
+				+ "AND line.prod_id = product.prod_id "
+				+ "GROUP BY line.prod_id "
+				+ "HAVING SUM(line.line_units) <= ");
+		query.append(unitsSold + " ");
+		query.append("ORDER BY SUM(line.line_units) DESC;");
+		return query.toString();
+	}
+	
+	
+	
 	// ==========================================================================
-	// INSERT Methods ===========================================================
+	// Other SELECT Methods
+	// ==========================================================================
+
+	
+	
+	public static String getBarcodeMatchQuery(long barcode) {
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT prod_id FROM product WHERE prod_id = ");
+		query.append(barcode + ";");
+		
+		return query.toString();
+	}
+	
+	
+	
+	public static String getProductCodeMatchQuery(String productCode) {
+		 StringBuffer query = new StringBuffer();
+		 query.append("SELECT prod_id FROM product WHERE prod_code = '");
+		 query.append(productCode + "';");
+		 
+		 return query.toString();
+	}
+	
+	
+	
+	/**
+	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getLastSaleId() {
+		return "SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;";
+	}
+	
+	
+	
+	/**
+	 * Gets a SQL SELECT statement that will return all the names of product suppliers from the supplier table
+	 * @return a SQL SELECT statement String
+	 */
+	public static String getSupplierNames() {
+		return "SELECT supp_name FROM supplier ORDER BY supp_id;";
+	}
+	
+	
+	
+	/**
+	 * Gets a SQL SELECT statement that will return all the distinct category names from the product table
+	 * @return a SQL SELECT statement
+	 */
+	public static String getCategoryNames() {
+		return "SELECT DISTINCT prod_category FROM product ORDER BY prod_category;";
+	}
+	
+
+	
+	// ==========================================================================
+	// Sale/Line INSERT Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Gets a SQL INSERT statement for writing a Sale object to the database
@@ -664,6 +646,8 @@ public class SqlBuilder {
 		return currentStatement.toString();
 		
 	}
+	
+	
 	
 	/**
 	 * Gets multiple SQL INSERT statements for writing all a Sale object's Lines to the database
@@ -694,6 +678,14 @@ public class SqlBuilder {
 		return statements;
 	}
 	
+	
+	
+	// ==========================================================================
+	// Product INSERT Method
+	// ==========================================================================
+	
+	
+	
 	public static String getProductInsertStatement(Product product) {
 		StringBuffer query = new StringBuffer();
 		query.append("INSERT INTO product VALUES(");
@@ -715,8 +707,13 @@ public class SqlBuilder {
 		return query.toString();
 	}
 	
+	
+	
 	// ==========================================================================
-	// Update Methods ===========================================================
+	// UPDATE Methods
+	// ==========================================================================
+	
+	
 	
 	public static String[] getInvoiceUpdateStatements(ArrayList<InvoiceRowComparison> comparisonSet) {
 		String[] statements = new String[comparisonSet.size()];
@@ -736,10 +733,9 @@ public class SqlBuilder {
 			statements[i] = currentStatement.toString();
 			currentStatement.delete(0, currentStatement.length());
 		}
-		
 		return statements;
-		
 	}
+	
 	
 	
 	public static String getProductUpdateStatement(ProductEditFilter filter) {
@@ -786,6 +782,7 @@ public class SqlBuilder {
 	}
 	
 	
+	
 	public static String[] getStockAdjustmentsUpdateStatements(Sale sale) {
 		String[] statements = new String[sale.getNumberOfLines()];
 		ArrayList<Line> lineItems = sale.getLineItems();
@@ -813,9 +810,7 @@ public class SqlBuilder {
 			i++;
 			currentStatement.delete(0, currentStatement.length());
 		}
-		
 		return statements;
 	}
-	// ==========================================================================
 	
 }// End class

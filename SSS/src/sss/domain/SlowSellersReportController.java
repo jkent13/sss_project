@@ -1,3 +1,10 @@
+/* SlowSellersReportController Class
+ * 
+ * Controls application logic for Generate Slow Sellers Report UC
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.sql.ResultSet;
@@ -12,18 +19,41 @@ import sss.services.SqlBuilder;
 
 public class SlowSellersReportController extends ReportController {
 
-	private String[] tableColumns = {"Units Sold", "Product Name", "Product ID"};
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
 	
+	
+	
+	private String[] tableColumns = {"Units Sold", "Product Name", "Product ID"};
 	private String[] dateRangeOfCurrentReport = {"No Date", "No Date"};
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public SlowSellersReportController() {
 		initialise();
 	}
 	
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	@Override
 	protected void initialise() {
 		currentTableView.setColumnIdentifiers(tableColumns);
 	}
+	
+	
 	
 	public void getResults(String startDate, String endDate, int unitsSold) {
 		try {
@@ -41,14 +71,14 @@ public class SlowSellersReportController extends ReportController {
 				currentTableView.removeRow(i);
 			}
 			
-			// ======================================================================
+
 			// Get Query ============================================================
 			
 			String slowSellerQueryPartOne = SqlBuilder.getSlowSellerQuery(sqlStartDate, sqlEndDate, unitsSold);
 			String slowSellerQueryPartTwo = SqlBuilder.getZeroSaleProducts(sqlStartDate, sqlEndDate);
 			
-			// ======================================================================
-			// Populate table ================================================
+
+			// Populate table =======================================================
 			
 			ResultSet queryOneResultSet = DbReader.executeQuery(slowSellerQueryPartOne);
 			
