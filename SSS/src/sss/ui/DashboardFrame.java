@@ -22,7 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,8 +44,12 @@ import javax.swing.border.TitledBorder;
 
 import org.jfree.chart.ChartPanel;
 
+import sss.domain.InventoryFilter;
+import sss.domain.NonEditableTableModel;
 import sss.domain.WatchedProduct;
+import sss.services.DbReader;
 import sss.services.FetchSaleDataTask;
+import sss.services.SqlBuilder;
 
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
@@ -58,6 +64,10 @@ public class DashboardFrame extends JFrame {
 	private JButton addProductOneButton = new JButton("Add Product");
 	private JButton addProductTwoButton = new JButton("Add Product");
 	private JButton addProductThreeButton = new JButton("Add Product");
+	
+	private JButton barOneButton = new JButton("Change Product");
+	private JButton barTwoButton = new JButton("Change Product");
+	private JButton barThreeButton = new JButton("Change Product");
 	
 	@SuppressWarnings("unused")
 	public DashboardFrame()
@@ -140,13 +150,13 @@ public class DashboardFrame extends JFrame {
 			JPanel barGraphButtonsPanel = new JPanel();
 			barGraphButtonsPanel.setLayout(new GridLayout(1,3,30,10));
 			barGraphButtonsPanel.setBorder(new EmptyBorder(5,10,5,10));
-			JButton barOneButton = new JButton("Change Product");
+
 			barOneButton.setMargin(new Insets(1,1,1,1));
 			barGraphButtonsPanel.add(barOneButton);
-			JButton barTwoButton = new JButton("Change Product");
+
 			barTwoButton.setMargin(new Insets(1,1,1,1));
 			barGraphButtonsPanel.add(barTwoButton);
-			JButton barThreeButton = new JButton("Change Product");
+
 			barThreeButton.setMargin(new Insets(1,1,1,1));
 			barGraphButtonsPanel.add(barThreeButton);
 			
@@ -191,6 +201,27 @@ public class DashboardFrame extends JFrame {
 				dispose();
 			}
 			System.out.println("Data Fetch Thread Started!");
+			
+			barOneButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					getProductData(1);
+				}
+			});
+			
+			barTwoButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					getProductData(2);
+				}
+			});
+			
+			barThreeButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					getProductData(3);
+				}
+			});
 			
 			addProductOneButton.addActionListener(new ActionListener() {
 				@Override
@@ -281,6 +312,35 @@ public class DashboardFrame extends JFrame {
 		leftPanel.revalidate();
 	}
 	
+	public void getProductData(int button) {
+		try {
+		String[] colNames = {"Code", "Name", "Cost Price", "Sale Price", "QOH"};
+		NonEditableTableModel productData = new NonEditableTableModel();
+		productData.setColumnIdentifiers(colNames);
+		String selectAllProducts = SqlBuilder.getAllProducts();
+		ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
+	
+			if(allProducts.next()) {
+				do {
+					productData.addRow(new Object[] {
+							allProducts.getString("prod_code"),
+							allProducts.getString("prod_name"),
+							new BigDecimal(allProducts.getDouble("prod_cost_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							new BigDecimal(allProducts.getDouble("prod_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							allProducts.getInt("prod_qoh")				
+					});
+				} while(allProducts.next());
+			}
+			allProducts.close(); // Close ResultSet
+			WatchProductFrame watchFrame = new WatchProductFrame(productData, this, button);
+			
+		}
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: Could not read product information from "
+					+ "database", "SQL Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	public void initialise() {
 		try {
 			File dashData = new File("data/dashData.dat");
@@ -322,6 +382,30 @@ public class DashboardFrame extends JFrame {
 			watchedProductTwo = null;
 			watchedProductThree = null;
 		}
+	}
+	
+	public void setWatchedProductOne(WatchedProduct one) {
+		watchedProductOne = one;
+		barGraphPanel.remove(0);
+		barGraphPanel.add(watchedProductOne, 0);
+		barGraphPanel.revalidate();
+		barGraphPanel.repaint();
+	}
+	
+	public void setWatchedProductTwo(WatchedProduct two) {
+		watchedProductTwo = two;
+		barGraphPanel.remove(1);
+		barGraphPanel.add(watchedProductTwo, 1);
+		barGraphPanel.revalidate();
+		barGraphPanel.repaint();
+	}
+	
+	public void setWatchedProductThree(WatchedProduct three) {
+		watchedProductThree = three;
+		barGraphPanel.remove(2);
+		barGraphPanel.add(watchedProductThree, 2);
+		barGraphPanel.revalidate();
+		barGraphPanel.repaint();
 	}
 	
 }

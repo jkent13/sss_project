@@ -124,9 +124,7 @@ public class InvoiceComparisonFrame extends JFrame {
 				
 			}
 		});
-		
-		
-		
+
 		setVisible(true);
 	}
 	
