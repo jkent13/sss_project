@@ -9,6 +9,7 @@
 package sss.services;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
@@ -60,6 +61,7 @@ public class ChartBuilder {
 	public static ChartPanel createSingleDaySalePanel(NonEditableTableModel dataModel) {
 		DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByHour(dataModel);
 		ChartPanel dollarChartPanel = createSaleDollarByHourChart(dollarData,	ChartBuilder.CHART_TYPE_LINE);
+		dollarChartPanel.setPreferredSize(new Dimension(400, 350));
 		return dollarChartPanel;
 	}
 	

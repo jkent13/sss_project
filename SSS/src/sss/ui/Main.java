@@ -60,9 +60,6 @@ public class Main {
 		fullScreenPanel.add(topPanel);
 
 		JLabel mainMenuTextLabel = new JLabel(new ImageIcon(sssLogoUrl));
-//		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
-//		Font myFont = new Font("SansSerif", Font.BOLD, 57);
-//		mainMenuLabel.setFont(myFont);
 		topPanel.add(mainMenuTextLabel);
 
 		JPanel middlePanel = new JPanel();
