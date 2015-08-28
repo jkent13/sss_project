@@ -16,9 +16,32 @@ import sss.domain.Sale;
 
 public class PrintFormatter {
 
-	private static DecimalFormat moneyFormatter = new DecimalFormat("#.##");	// Formats numbers to two decimal places
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
 	
-	private PrintFormatter () {};
+	
+	
+	private static DecimalFormat moneyFormatter = new DecimalFormat("#.##");	// Formats numbers to two decimal places
+
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
+	private PrintFormatter () {
+	}
+	
+	
+	
+	// ==========================================================================
+	// Static Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Static method for transforming a Sale object into a FormattedSale object which can be 
@@ -103,4 +126,5 @@ public class PrintFormatter {
 		FormattedSale fs = new FormattedSale(saleHeader, saleDetails, saleFooter);
 		return fs;
 	}
+	
 }

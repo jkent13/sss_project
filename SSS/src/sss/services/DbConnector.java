@@ -16,7 +16,32 @@ import javax.swing.JOptionPane;
 
 public class DbConnector {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private static Connection connection;			// This is the sole connection to the database
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
+	private DbConnector() {
+	}
+	
+	
+	
+	// ==========================================================================
+	// Static Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Getter method for obtaining a reference to the database connection. Only visible to classes inside the service package.
@@ -31,6 +56,8 @@ public class DbConnector {
 			return connection;
 		}
 	}
+	
+	
 	
 	/**
 	 * Establishes the connection to the MySQL database 
@@ -47,7 +74,6 @@ public class DbConnector {
 			return false;
 			
 		}
-	    
 	    // Connect to existing DB
 	    try {
 			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/sss_project" , "root" , "abc123");
@@ -60,6 +86,8 @@ public class DbConnector {
 		}
 	}
 	
+	
+	
 	/**
 	 * Closes the connection to the database
 	 * @throws SQLException if there is a problem with closing the connection
@@ -69,4 +97,5 @@ public class DbConnector {
 			connection.close();
 		}
 	}
+	
 }// End class

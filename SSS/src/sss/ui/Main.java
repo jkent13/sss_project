@@ -1,6 +1,6 @@
 /*
  * Main Class
- * The intial entry point into the application
+ * The initial entry point into the application
  * Original Author: Amethyst Mayer
  */
 
@@ -60,9 +60,6 @@ public class Main {
 		fullScreenPanel.add(topPanel);
 
 		JLabel mainMenuTextLabel = new JLabel(new ImageIcon(sssLogoUrl));
-//		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
-//		Font myFont = new Font("SansSerif", Font.BOLD, 57);
-//		mainMenuLabel.setFont(myFont);
 		topPanel.add(mainMenuTextLabel);
 
 		JPanel middlePanel = new JPanel();
@@ -131,11 +128,7 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Make Sale");
-				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				myFrame.setLocationRelativeTo(null);
-				myFrame.setVisible(true);
+				new DashboardFrame();
 			}
 		});
 
