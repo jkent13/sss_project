@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import sss.domain.NonEditableTableModel;
 import sss.domain.WatchedProduct;
 
+@SuppressWarnings("serial")
 public class WatchProductFrame extends JFrame {
 	
 	private JTable productDisplayTable;
@@ -72,9 +73,11 @@ public class WatchProductFrame extends JFrame {
 			{
 				if(productDisplayTable.getSelectedRow() != -1) {
 					String code = (String) tableModel.getValueAt(productDisplayTable.getSelectedRow(), 0);
+					String name = (String) tableModel.getValueAt(productDisplayTable.getSelectedRow(), 1);
 					int quantity = (int) tableModel.getValueAt(productDisplayTable.getSelectedRow(), 4);
 					product = new WatchedProduct(code, quantity, buttonNo);
 					product.setCurrentQuantity(quantity);
+					product.setName(name);
 					switch(buttonNo) {
 					case 1:
 						parentWindow.setWatchedProductOne(product);

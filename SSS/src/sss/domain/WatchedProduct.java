@@ -26,6 +26,7 @@ public class WatchedProduct extends JPanel implements Serializable {
 	private final Color colourThree = new Color(22, 170, 219);
 	private final Color colourFour = new Color(230, 21, 90);
 	
+	private String productName;
 	private String productCode;
 	private int watchedNumber;
 	private int originalQuantity;
@@ -85,6 +86,12 @@ public class WatchedProduct extends JPanel implements Serializable {
 	
 	
 	
+	public String getProductName() {
+		return productName;
+	}
+	
+	
+	
 	// ==========================================================================
 	// Setter Methods
 	// ==========================================================================
@@ -97,6 +104,12 @@ public class WatchedProduct extends JPanel implements Serializable {
 			calculateProportionFilled();
 			System.out.println(currentQuantity);
 		}
+	}
+	
+	
+	
+	public void setProductName(String name) {
+		productName = name;
 	}
 	
 	
