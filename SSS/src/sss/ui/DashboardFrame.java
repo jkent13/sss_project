@@ -91,7 +91,7 @@ public class DashboardFrame extends JFrame {
 			fullScreenPanel.add(leftPanel);
 
 			JLabel memo = new JLabel("Live Summary of Today's Sales");
-			leftPanel.add(memo, BorderLayout.NORTH);
+//			leftPanel.add(memo, BorderLayout.NORTH);
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			memo.setFont(myFont);
 

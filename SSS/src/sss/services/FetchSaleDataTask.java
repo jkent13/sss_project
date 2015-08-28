@@ -44,7 +44,6 @@ public class FetchSaleDataTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			
 			for(int i = dollarSalesData.getRowCount()-1; i != -1; i--) {
 				dollarSalesData.removeRow(i);
 			}
@@ -59,7 +58,6 @@ public class FetchSaleDataTask implements Runnable {
 			}
 			results.close();
 			results = null;
-			
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
 			window.updateChart(chartPanel);
 			System.out.println(new Date());
