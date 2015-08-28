@@ -56,6 +56,8 @@ public class DashboardFrame extends JFrame {
 	
 	private ChartPanel cp;
 	private JPanel leftPanel = new JPanel();
+	private JPanel topLeftPanel = new JPanel();
+	
 	private WatchedProduct watchedProductOne;
 	private WatchedProduct watchedProductTwo;
 	private WatchedProduct watchedProductThree;
@@ -93,31 +95,22 @@ public class DashboardFrame extends JFrame {
 			
 	//--------------------Section Panels-----------------------
 
-
-			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-//			leftPanel.setBorder(leftPanelTitle);
-			leftPanel.setLayout(new BorderLayout());
-//			leftPanel.setLayout(new GridLayout(1,1,10,10));
-			fullScreenPanel.add(leftPanel);
-
 			JLabel memo = new JLabel("Live Summary of Today's Sales");
-//			leftPanel.add(memo, BorderLayout.NORTH);
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			memo.setFont(myFont);
-
-			cp = new ChartPanel(null);
-			leftPanel.add(cp, BorderLayout.CENTER);
+			
+			
 			JPanel middlePanel = new JPanel();
 			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
 //			middlePanel.setBorder(middlePanelTitle);
-			middlePanel.setLayout(new GridLayout(2,1,10,10));
+			middlePanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(middlePanel);
 			
 			JPanel topMiddlePanel = new JPanel();
 			topMiddlePanel.setLayout(new GridLayout(1,1,10,10));
-			JLabel dashboardTextLabel = new JLabel(new ImageIcon(dashboardLogoUrl));
-			topMiddlePanel.add(dashboardTextLabel);
-			middlePanel.add(topMiddlePanel);
+			JButton blank = new JButton("button");
+//			topMiddlePanel.add(blank);
+//			middlePanel.add(topMiddlePanel);
 			
 			JPanel bottomMiddlePanel = new JPanel();
 			bottomMiddlePanel.setLayout(new BorderLayout());
@@ -126,7 +119,28 @@ public class DashboardFrame extends JFrame {
 			watchListLabel.setFont(myFont);
 			bottomMiddlePanel.add(watchListLabel, BorderLayout.NORTH);
 			
+			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
+//			leftPanel.setBorder(leftPanelTitle);
+//			leftPanel.setLayout(new BorderLayout());
+			leftPanel.setLayout(new GridLayout(2,1,10,10));
+			fullScreenPanel.add(leftPanel);
+			
 
+			topLeftPanel.setLayout(new GridLayout(1,1,10,10));
+			JLabel dashboardTextLabel = new JLabel(new ImageIcon(dashboardLogoUrl));
+			topLeftPanel.add(dashboardTextLabel);
+			leftPanel.add(topLeftPanel);
+			
+			JPanel bottomLeftPanel = new JPanel();
+			bottomLeftPanel.setLayout(new BorderLayout());
+			
+
+//			leftPanel.add(memo, BorderLayout.NORTH);
+			
+			cp = new ChartPanel(null);
+//			bottomLeftPanel.add(cp, BorderLayout.CENTER);
+//			leftPanel.add(cp);
+			
 			barGraphPanel.setLayout(new GridLayout(1,3,10,10));
 			if(watchedProductOne != null) {
 				barGraphPanel.add(watchedProductOne);
@@ -307,8 +321,9 @@ public class DashboardFrame extends JFrame {
 	}
 	
 	public void updateChart(ChartPanel panel) {
+		leftPanel.remove(cp);
 		cp = panel;
-		leftPanel.add(cp, BorderLayout.CENTER);
+		leftPanel.add(cp);
 		leftPanel.revalidate();
 	}
 	
