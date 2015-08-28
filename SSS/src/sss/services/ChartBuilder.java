@@ -9,6 +9,8 @@
 package sss.services;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 
@@ -59,7 +61,7 @@ public class ChartBuilder {
 	
 	public static ChartPanel createSingleDaySalePanel(NonEditableTableModel dataModel) {
 		DefaultCategoryDataset dollarData = DatasetConverter.convertSalesDollarByHour(dataModel);
-		ChartPanel dollarChartPanel = createSaleDollarByHourChart(dollarData,	ChartBuilder.CHART_TYPE_LINE);
+		ChartPanel dollarChartPanel = createDashChartPanel(dollarData);
 		return dollarChartPanel;
 	}
 	
@@ -620,6 +622,34 @@ public class ChartBuilder {
 	
 	
 	
+	private static ChartPanel createDashChartPanel(DefaultCategoryDataset data) {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");			// Date format used to validate input
+		Date today = new Date();
+		String dateString = "Today's Sales: " + dateFormat.format(today);
+		System.out.println(dateString);
+		JFreeChart dollarChart = ChartFactory
+				.createLineChart(dateString, "Hour", "Sale Amount ($)", data,
+						PlotOrientation.VERTICAL, false, true, false);
+
+		CategoryPlot plot = (CategoryPlot) dollarChart.getPlot();
+		plot.setDomainGridlinesVisible(true);
+		plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
+
+		CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
+		xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+
+		NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+		yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+		ChartPanel dollarChartPanel = new ChartPanel(dollarChart);
+		dollarChartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
+
+		return dollarChartPanel;
+		}
+	
+	
+	
 	private static ChartPanel createSaleDollarByHourChart(
 			DefaultCategoryDataset data, int chartType) {
 		if (chartType == ChartBuilder.CHART_TYPE_BAR) {
@@ -656,7 +686,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -709,7 +739,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -760,7 +790,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) grossProfitChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -873,7 +903,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -926,7 +956,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -977,7 +1007,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) grossProfitChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1031,7 +1061,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1084,7 +1114,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1135,7 +1165,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) grossProfitChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1189,7 +1219,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) dollarChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1242,7 +1272,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) volumeChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
@@ -1293,7 +1323,7 @@ public class ChartBuilder {
 
 			CategoryPlot plot = (CategoryPlot) grossProfitChart.getPlot();
 			plot.setDomainGridlinesVisible(true);
-			plot.getRenderer().setSeriesPaint(0, new Color(93, 212, 121));
+			plot.getRenderer().setSeriesPaint(0, new Color(232, 110, 35));
 
 			CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
 			xAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
