@@ -114,6 +114,15 @@ public class WatchedProduct extends JPanel implements Serializable {
 	
 	
 	
+	
+	public void setWatchedNumber(int value) {
+		if(value > 0 && value < 4) {
+			watchedNumber = value;
+		}
+		else {
+			watchedNumber = 4;
+		}
+	}
 	// ==========================================================================
 	// Other Methods
 	// ==========================================================================

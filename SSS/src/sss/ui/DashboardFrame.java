@@ -355,35 +355,37 @@ public class DashboardFrame extends JFrame {
 					+ "database", "SQL Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public void initialise() {
 		try {
 			File dashData = new File("data/dashData.dat");
 			if(dashData.exists()) {
 				ObjectInputStream input = new ObjectInputStream(new FileInputStream(dashData));
 				int noObjects = input.readInt();
-				WatchedProduct[] watchedProducts = new WatchedProduct[noObjects];
+				WatchedProduct[] watchedProducts = new WatchedProduct[3];
 				for(int i = 0; i < noObjects; i++) {
 					watchedProducts[i] = (WatchedProduct) input.readObject();
 				}
 				input.close();
-				
-				if(watchedProducts[0] != null) {
-					watchedProductOne = watchedProducts[0];
+					if(watchedProducts[0] != null) {
+						watchedProductOne = watchedProducts[0];
+						watchedProductOne.setWatchedNumber(1);
+					}
+					if(watchedProducts[1] != null) {
+						watchedProductTwo = watchedProducts[1];
+						watchedProductTwo.setWatchedNumber(2);
+					}
+					if(watchedProducts[2] != null) {
+						watchedProductThree = watchedProducts[2];
+						watchedProductThree.setWatchedNumber(3);
+					}
 				}
-				if(watchedProducts[1] != null) {
-					watchedProductTwo = watchedProducts[1];
-				}
-				if(watchedProducts[2] != null) {
-					watchedProductThree = watchedProducts[2];
-				}
-			}
 			else {
 				watchedProductOne = null;
 				watchedProductTwo = null;
 				watchedProductThree = null;
 			}
-			
+
 		}
 		catch (IOException ioe) {
 			JOptionPane.showMessageDialog(null, "Error: could not read dashData.dat", "File Read Error", JOptionPane.ERROR_MESSAGE);
