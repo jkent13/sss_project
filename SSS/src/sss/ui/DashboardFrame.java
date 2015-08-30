@@ -82,6 +82,7 @@ public class DashboardFrame extends JFrame {
 			setTitle("Dashboard");
 			setExtendedState(Frame.MAXIMIZED_BOTH);
 			setLocationRelativeTo(null);
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	//-------------------Full Screen Panel--------------------
 	
@@ -267,6 +268,7 @@ public class DashboardFrame extends JFrame {
 				public void windowClosing(WindowEvent e)
 				{
 					service.shutdown();
+					System.out.println("Threads Shutdown");
 					int i = 0;
 					if(watchedProductOne != null) {
 						i++;
@@ -295,8 +297,7 @@ public class DashboardFrame extends JFrame {
 						}
 						catch (IOException ioe) {
 							JOptionPane.showMessageDialog(null, "Error: the watched products could not be saved", 
-									"Could not save watch list", JOptionPane.ERROR_MESSAGE);
-							ioe.printStackTrace();
+									"Could not save watch list state", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}

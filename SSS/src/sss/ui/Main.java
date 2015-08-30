@@ -21,6 +21,8 @@ import sss.services.DbConnector;
 
 public class Main {
 
+	private static JFrame dashboardFrame = null;
+	
 	public static void main(String[] args) {
 
 //-------------------Frame Details--------------------		
@@ -128,7 +130,13 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				new DashboardFrame();
+				if(dashboardFrame == null) {
+					dashboardFrame = new DashboardFrame();
+				}
+				else {
+					dashboardFrame.dispatchEvent(new WindowEvent(dashboardFrame, WindowEvent.WINDOW_CLOSING));
+					dashboardFrame = new DashboardFrame();
+				}
 			}
 		});
 
@@ -174,4 +182,5 @@ public class Main {
 		
 		mainMenuFrame.setVisible(true);
 	}
+	
 }
