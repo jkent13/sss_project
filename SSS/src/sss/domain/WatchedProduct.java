@@ -102,7 +102,11 @@ public class WatchedProduct extends JPanel implements Serializable {
 		if(value <= originalQuantity) {
 			this.currentQuantity = value;	
 			calculateProportionFilled();
-			System.out.println(currentQuantity);
+		}
+		else {
+			originalQuantity = value;
+			currentQuantity = value;
+			calculateProportionFilled();
 		}
 	}
 	

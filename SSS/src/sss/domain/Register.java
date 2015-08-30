@@ -75,8 +75,8 @@ public class Register {
 		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
 		searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
 		
-		String lastIdQuery = SqlBuilder.getLastSaleId();
-		String getCategories = SqlBuilder.getCategoryNames();
+		String lastIdQuery = SqlBuilder.getLastSaleIdQuery();
+		String getCategories = SqlBuilder.getCategoryNamesQuery();
 		
 		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
 

@@ -7,7 +7,6 @@
 package sss.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -44,10 +43,10 @@ import javax.swing.border.TitledBorder;
 
 import org.jfree.chart.ChartPanel;
 
-import sss.domain.InventoryFilter;
 import sss.domain.NonEditableTableModel;
 import sss.domain.WatchedProduct;
 import sss.services.DbReader;
+import sss.services.FetchQuantityChangesTask;
 import sss.services.FetchSaleDataTask;
 import sss.services.SqlBuilder;
 
@@ -70,6 +69,8 @@ public class DashboardFrame extends JFrame {
 	private JButton barOneButton = new JButton("Change Product");
 	private JButton barTwoButton = new JButton("Change Product");
 	private JButton barThreeButton = new JButton("Change Product");
+	
+	ScheduledExecutorService service = Executors.newScheduledThreadPool(2); 
 	
 	@SuppressWarnings("unused")
 	public DashboardFrame()
@@ -202,19 +203,7 @@ public class DashboardFrame extends JFrame {
 	//--------------------Inside Left Panel-----------------------
 
 
-			ScheduledExecutorService service = Executors.newScheduledThreadPool(1); 
-			try {
-				service.scheduleWithFixedDelay(new FetchSaleDataTask(cp, this), 0, 1, TimeUnit.MINUTES);
-			}
-			catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader thread", "SQL Error", JOptionPane.ERROR_MESSAGE);
-				dispose();
-			}
-			catch (RuntimeException re) {
-				JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader thread", "SQL Error", JOptionPane.ERROR_MESSAGE);
-				dispose();
-			}
-			System.out.println("Data Fetch Thread Started!");
+			
 			
 			barOneButton.addActionListener(new ActionListener() {
 				@Override
@@ -327,6 +316,7 @@ public class DashboardFrame extends JFrame {
 		leftPanel.revalidate();
 	}
 	
+	@SuppressWarnings("unused")
 	public void getProductData(int button) {
 		try {
 		String[] colNames = {"Code", "Name", "Cost Price", "Sale Price", "QOH"};
@@ -385,6 +375,7 @@ public class DashboardFrame extends JFrame {
 				watchedProductTwo = null;
 				watchedProductThree = null;
 			}
+			startBackgroundThreads();
 
 		}
 		catch (IOException ioe) {
@@ -425,4 +416,37 @@ public class DashboardFrame extends JFrame {
 		barGraphPanel.repaint();
 	}
 	
+	public WatchedProduct getWatchedProductOne() {
+		return watchedProductOne;
+	}
+	
+	public WatchedProduct getWatchedProductTwo() {
+		return watchedProductTwo;
+	}
+	
+	public WatchedProduct getWatchedProductThree() {
+		return watchedProductThree;
+	}
+	
+	public void refreshWatchedProducts() {
+		barGraphPanel.revalidate();
+		barGraphPanel.repaint();
+	}
+	
+	public void startBackgroundThreads() {
+		
+		try {
+			service.scheduleWithFixedDelay(new FetchSaleDataTask(cp, this), 0, 60, TimeUnit.SECONDS);
+			service.scheduleWithFixedDelay(new FetchQuantityChangesTask(this), 30, 60, TimeUnit.SECONDS);
+		}
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader threads", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			dispose();
+		}
+		catch (RuntimeException re) {
+			JOptionPane.showMessageDialog(null, "Error: There was a problem starting the background database reader threads", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			dispose();
+		}
+		System.out.println("Data Fetch Threads Started!");
+	}
 }

@@ -69,7 +69,7 @@ public class WatchProductFrame extends JFrame {
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent event) 
 			{
 				if(productDisplayTable.getSelectedRow() != -1) {
 					String code = (String) tableModel.getValueAt(productDisplayTable.getSelectedRow(), 0);

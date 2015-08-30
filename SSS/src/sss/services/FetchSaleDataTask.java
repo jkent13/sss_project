@@ -31,11 +31,11 @@ public class FetchSaleDataTask implements Runnable {
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
 	private ResultSet results;
 	private ChartPanel chartPanel;
-	private DashboardFrame window;
+	private DashboardFrame parent;
 	
 	public FetchSaleDataTask(ChartPanel chartPanel, DashboardFrame parentWindow) throws SQLException {
 		this.chartPanel = chartPanel;
-		window = parentWindow;
+		parent = parentWindow;
 		query = SqlBuilder.getSaleReportByHourQuery(sqlDateFormat.format(currentDate));
 		statement = connection.createStatement();
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
@@ -59,7 +59,7 @@ public class FetchSaleDataTask implements Runnable {
 			results.close();
 			results = null;
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
-			window.updateChart(chartPanel);
+			parent.updateChart(chartPanel);
 			System.out.println(new Date());
 		}
 		catch (SQLException e) {
