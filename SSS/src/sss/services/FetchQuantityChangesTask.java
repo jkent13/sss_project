@@ -5,28 +5,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import sss.domain.DashboardController;
 import sss.domain.WatchedProduct;
-import sss.ui.DashboardFrame;
 
 public class FetchQuantityChangesTask implements Runnable {
 
-	private DashboardFrame parent;
+	private DashboardController controller;
 	
 	private Connection connection = DbConnector.getConnection();
 	private Statement statement;
 	private ResultSet results;
 	
 	
-	public FetchQuantityChangesTask(DashboardFrame parent) throws SQLException {
-		this.parent = parent;
+	public FetchQuantityChangesTask(DashboardController dc) throws SQLException {
+		this.controller = dc;
 		statement = connection.createStatement();
 	}
 	
 	@Override
 	public void run() {
-		WatchedProduct one = parent.getWatchedProductOne();
-		WatchedProduct two = parent.getWatchedProductTwo();
-		WatchedProduct three = parent.getWatchedProductThree();
+		WatchedProduct one = controller.getWatchedProductOne();
+		WatchedProduct two = controller.getWatchedProductTwo();
+		WatchedProduct three = controller.getWatchedProductThree();
 		try {
 			if(one != null) {
 				String query = SqlBuilder.getProductQuantityQuery(one.getProductCode());
@@ -53,7 +53,7 @@ public class FetchQuantityChangesTask implements Runnable {
 				}
 			}
 			
-			parent.refreshWatchedProducts();
+			controller.refreshWatchedProducts();
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());

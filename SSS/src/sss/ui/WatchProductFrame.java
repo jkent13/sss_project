@@ -15,20 +15,21 @@ import javax.swing.border.EmptyBorder;
 
 import sss.domain.NonEditableTableModel;
 import sss.domain.WatchedProduct;
+import sss.domain.DashboardController;
 
 @SuppressWarnings("serial")
 public class WatchProductFrame extends JFrame {
 	
 	private JTable productDisplayTable;
 	private NonEditableTableModel tableModel;
-	private DashboardFrame parentWindow;
+	private DashboardController controller;
 	private WatchedProduct product;
 	private int buttonNo;
 	
 	
-	public WatchProductFrame(NonEditableTableModel productData, DashboardFrame parent, int button) {
+	public WatchProductFrame(NonEditableTableModel productData, DashboardController dc, int button) {
 		tableModel = productData;
-		parentWindow = parent;
+		this.controller = dc;
 		buttonNo = button;
 		
 		setTitle("Choose new product to watch");
@@ -80,13 +81,13 @@ public class WatchProductFrame extends JFrame {
 					product.setName(name);
 					switch(buttonNo) {
 					case 1:
-						parentWindow.setWatchedProductOne(product);
+						controller.setWatchedProductOne(product);
 						break;
 					case 2:
-						parentWindow.setWatchedProductTwo(product);
+						controller.setWatchedProductTwo(product);
 						break;
 					case 3: 
-						parentWindow.setWatchedProductThree(product);
+						controller.setWatchedProductThree(product);
 						break;
 					}
 					dispose();

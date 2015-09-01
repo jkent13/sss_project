@@ -17,8 +17,8 @@ import java.util.Date;
 
 import org.jfree.chart.ChartPanel;
 
+import sss.domain.DashboardController;
 import sss.domain.NonEditableTableModel;
-import sss.ui.DashboardFrame;
 
 public class FetchSaleDataTask implements Runnable {
 
@@ -31,11 +31,11 @@ public class FetchSaleDataTask implements Runnable {
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
 	private ResultSet results;
 	private ChartPanel chartPanel;
-	private DashboardFrame parent;
+	private DashboardController controller;
 	
-	public FetchSaleDataTask(ChartPanel chartPanel, DashboardFrame parentWindow) throws SQLException {
+	public FetchSaleDataTask(ChartPanel chartPanel, DashboardController dc) throws SQLException {
 		this.chartPanel = chartPanel;
-		parent = parentWindow;
+		controller = dc;
 		query = SqlBuilder.getSaleReportByHourQuery(sqlDateFormat.format(currentDate));
 		statement = connection.createStatement();
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
@@ -59,7 +59,7 @@ public class FetchSaleDataTask implements Runnable {
 			results.close();
 			results = null;
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
-			parent.updateChart(chartPanel);
+			controller.updateChart(chartPanel);
 			System.out.println(new Date());
 		}
 		catch (SQLException e) {
