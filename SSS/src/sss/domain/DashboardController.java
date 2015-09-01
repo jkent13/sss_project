@@ -114,39 +114,6 @@ public class DashboardController implements EventItemListener {
 				watchedProductTwo = null;
 				watchedProductThree = null;
 			}
-			// Start threads for Watch List and Sale Chart
-			startBackgroundThreads();
-
-			// Set eventFeedPane properties
-			eventFeedPane.setEditable(false);
-			eventFeedPane.setMargin(new Insets(10,10,10,10));
-
-			// Set Attributes for Big Sale Events
-			StyleConstants.setForeground(saleEventAttributes, SaleEventItem.EVENT_COLOR);
-			StyleConstants.setBold(saleEventAttributes, true);
-			StyleConstants.setFontFamily(saleEventAttributes, "SansSerif");
-			StyleConstants.setFontSize(saleEventAttributes, 14);
-
-			// Set Attributes for Refund Events
-			StyleConstants.setForeground(refundEventAttributes, RefundEventItem.EVENT_COLOR);
-			StyleConstants.setBold(refundEventAttributes, true);
-			StyleConstants.setFontFamily(refundEventAttributes, "SansSerif");
-			StyleConstants.setFontSize(refundEventAttributes, 14);
-
-			// Set Attributes for Stock Empty Events
-			StyleConstants.setForeground(stockEmptyEventAttributes, StockEmptyEventItem.EVENT_COLOR);
-			StyleConstants.setBold(stockEmptyEventAttributes, true);
-			StyleConstants.setFontFamily(stockEmptyEventAttributes, "SansSerif");
-			StyleConstants.setFontSize(stockEmptyEventAttributes, 14);
-
-			// Separator (dashes between events) Attributes'
-			StyleConstants.setForeground(separatorAttributes, Color.BLACK);
-			StyleConstants.setFontFamily(separatorAttributes, "SansSerif");
-			StyleConstants.setFontSize(separatorAttributes, 20);
-
-			// Register as an event listener with the Register instance (to be notified when events occur)
-			register = Register.getInstance();
-			register.registerEventListener(this);
 		}
 		catch (IOException ioe) {
 			JOptionPane.showMessageDialog(null, "Error: could not read dashData.dat", "File Read Error", JOptionPane.ERROR_MESSAGE);
@@ -160,6 +127,40 @@ public class DashboardController implements EventItemListener {
 			watchedProductTwo = null;
 			watchedProductThree = null;
 		}
+		
+		// Start threads for Watch List and Sale Chart
+		startBackgroundThreads();
+		
+		// Set eventFeedPane properties
+		eventFeedPane.setEditable(false);
+		eventFeedPane.setMargin(new Insets(10,10,10,10));
+
+		// Set Attributes for Big Sale Events
+		StyleConstants.setForeground(saleEventAttributes, SaleEventItem.EVENT_COLOR);
+		StyleConstants.setBold(saleEventAttributes, true);
+		StyleConstants.setFontFamily(saleEventAttributes, "SansSerif");
+		StyleConstants.setFontSize(saleEventAttributes, 14);
+
+		// Set Attributes for Refund Events
+		StyleConstants.setForeground(refundEventAttributes, RefundEventItem.EVENT_COLOR);
+		StyleConstants.setBold(refundEventAttributes, true);
+		StyleConstants.setFontFamily(refundEventAttributes, "SansSerif");
+		StyleConstants.setFontSize(refundEventAttributes, 14);
+
+		// Set Attributes for Stock Empty Events
+		StyleConstants.setForeground(stockEmptyEventAttributes, StockEmptyEventItem.EVENT_COLOR);
+		StyleConstants.setBold(stockEmptyEventAttributes, true);
+		StyleConstants.setFontFamily(stockEmptyEventAttributes, "SansSerif");
+		StyleConstants.setFontSize(stockEmptyEventAttributes, 14);
+
+		// Separator (dashes between events) Attributes'
+		StyleConstants.setForeground(separatorAttributes, Color.BLACK);
+		StyleConstants.setFontFamily(separatorAttributes, "SansSerif");
+		StyleConstants.setFontSize(separatorAttributes, 20);
+
+		// Register as an event listener with the Register instance (to be notified when events occur)
+		register = Register.getInstance();
+		register.registerEventListener(this);
 	}
 
 
