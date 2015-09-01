@@ -14,8 +14,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import sss.services.SaleListener;
-
 public class Sale {
 	
 	// ==========================================================================

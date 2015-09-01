@@ -1,6 +1,8 @@
 /*
- * MockupMainMenu Class
+ * ViewInventoryFrame Class
+ * 
  * Frame design to support 'View Inventory' function
+ * 
  * Original Author: Jasmina Pasalic
  */
 

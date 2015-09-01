@@ -515,6 +515,27 @@ public class SqlBuilder {
 	
 	
 	
+	public static String[] getProductsEmptyQueries(Sale sale) {
+		StringBuffer currentStatement = new StringBuffer();
+		String[] statements = new String[sale.getNumberOfLines()];
+		ArrayList<Line> lineItems = sale.getLineItems();
+		int i = 0;
+		
+		currentStatement.append("SELECT prod_code, prod_name "
+				+ "FROM product "
+				+ "WHERE ");
+		
+		for(Line l: lineItems) {
+			currentStatement.append("prod_code = '" + l.getProduct().getCode() + "'");
+			currentStatement.append(" AND prod_qoh = 0;");
+			statements[i] = currentStatement.toString();
+			i++;
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
+		
+	}
 	// ==========================================================================
 	// Top/Slow Seller Report SELECT Methods
 	// ==========================================================================
@@ -592,7 +613,7 @@ public class SqlBuilder {
 	 * Gets a SQL SELECT statement that will get the most recent sale id from the sale table
 	 * @return a SQL SELECT statement String
 	 */
-	public static String getLastSaleId() {
+	public static String getLastSaleIdQuery() {
 		return "SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;";
 	}
 	
@@ -602,7 +623,7 @@ public class SqlBuilder {
 	 * Gets a SQL SELECT statement that will return all the names of product suppliers from the supplier table
 	 * @return a SQL SELECT statement String
 	 */
-	public static String getSupplierNames() {
+	public static String getSupplierNamesQuery() {
 		return "SELECT supp_name FROM supplier ORDER BY supp_id;";
 	}
 	
@@ -612,12 +633,22 @@ public class SqlBuilder {
 	 * Gets a SQL SELECT statement that will return all the distinct category names from the product table
 	 * @return a SQL SELECT statement
 	 */
-	public static String getCategoryNames() {
+	public static String getCategoryNamesQuery() {
 		return "SELECT DISTINCT prod_category FROM product ORDER BY prod_category;";
 	}
 	
 
 	
+	public static String getProductQuantityQuery(String productCode) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append("SELECT prod_qoh "
+				+ "FROM product "
+				+ "WHERE prod_code = ");
+		query.append("'" + productCode + "';");
+		
+		return query.toString();
+	}
 	// ==========================================================================
 	// Sale/Line INSERT Methods
 	// ==========================================================================

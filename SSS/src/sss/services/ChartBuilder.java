@@ -627,7 +627,6 @@ public class ChartBuilder {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");			// Date format used to validate input
 		Date today = new Date();
 		String dateString = "Today's Sales: " + dateFormat.format(today);
-		System.out.println(dateString);
 		JFreeChart dollarChart = ChartFactory
 				.createLineChart(dateString, "Hour", "Sale Amount ($)", data,
 						PlotOrientation.VERTICAL, false, true, false);
