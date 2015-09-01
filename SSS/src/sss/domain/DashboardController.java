@@ -1,5 +1,7 @@
 package sss.domain;
 
+import java.awt.Color;
+import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,6 +16,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import org.jfree.chart.ChartPanel;
 
@@ -24,7 +31,7 @@ import sss.services.SqlBuilder;
 import sss.ui.DashboardFrame;
 import sss.ui.WatchProductFrame;
 
-public class DashboardController {
+public class DashboardController implements EventItemListener {
 	
 	private DashboardFrame frame;
 	private ChartPanel cp;
@@ -32,6 +39,13 @@ public class DashboardController {
 	private WatchedProduct watchedProductOne;
 	private WatchedProduct watchedProductTwo;
 	private WatchedProduct watchedProductThree;
+	
+	private JTextPane eventFeedPane = new JTextPane();
+	private SimpleAttributeSet separatorAttributes = new SimpleAttributeSet();
+	private SimpleAttributeSet saleEventAttributes = new SimpleAttributeSet();
+	private SimpleAttributeSet refundEventAttributes = new SimpleAttributeSet();
+	private SimpleAttributeSet stockEmptyEventAttributes = new SimpleAttributeSet();
+	
 	
 	private ScheduledExecutorService service = Executors.newScheduledThreadPool(2); 
 	
@@ -100,6 +114,31 @@ public class DashboardController {
 				watchedProductThree = null;
 			}
 			startBackgroundThreads();
+			eventFeedPane.setEditable(false);
+			eventFeedPane.setMargin(new Insets(10,10,10,10));
+			
+			// Set Attributes for Big Sale Events
+			StyleConstants.setForeground(saleEventAttributes, SaleEventItem.EVENT_COLOR);
+			StyleConstants.setBold(saleEventAttributes, true);
+			StyleConstants.setFontFamily(saleEventAttributes, "SansSerif");
+			StyleConstants.setFontSize(saleEventAttributes, 14);
+			
+			// Set Attributes for Refund Events
+			StyleConstants.setForeground(refundEventAttributes, RefundEventItem.EVENT_COLOR);
+			StyleConstants.setBold(refundEventAttributes, true);
+			StyleConstants.setFontFamily(refundEventAttributes, "SansSerif");
+			StyleConstants.setFontSize(refundEventAttributes, 14);
+			
+			// Set Attributes for Stock Empty Events
+			StyleConstants.setForeground(stockEmptyEventAttributes, StockEmptyEventItem.EVENT_COLOR);
+			StyleConstants.setBold(stockEmptyEventAttributes, true);
+			StyleConstants.setFontFamily(stockEmptyEventAttributes, "SansSerif");
+			StyleConstants.setFontSize(stockEmptyEventAttributes, 14);
+			
+			// Separator Attributes'
+			StyleConstants.setForeground(separatorAttributes, Color.BLACK);
+			StyleConstants.setFontFamily(separatorAttributes, "SansSerif");
+			StyleConstants.setFontSize(separatorAttributes, 20);
 
 		}
 		catch (IOException ioe) {
@@ -176,6 +215,10 @@ public class DashboardController {
 		return watchedProductThree;
 	}
 	
+	public JTextPane getEventFeedPane() {
+		return eventFeedPane;
+	}
+	
 	public void refreshWatchedProducts() {
 		frame.refreshWatchedProducts();
 	}
@@ -199,5 +242,31 @@ public class DashboardController {
 			frame.dispose();
 		}
 		System.out.println("Data Fetch Threads Started!");
+	}
+
+	@Override
+	public void notify(EventItem event) {
+		StyledDocument doc = eventFeedPane.getStyledDocument();
+
+		SimpleAttributeSet style = null;
+		switch(event.getType()) {
+		case 0 : 
+			style = saleEventAttributes;
+			break;
+		case 1 :
+			style = refundEventAttributes;
+			break;
+		case 2 : 
+			style = stockEmptyEventAttributes;
+			break;
+		}
+		
+			try {
+				doc.insertString(doc.getLength(), event.toString(), style);
+				doc.insertString(doc.getLength(), EventItem.EVENT_SEPARATOR, separatorAttributes);
+			}
+			catch (BadLocationException e) {
+				e.printStackTrace();
+			}
 	}
 }

@@ -15,29 +15,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 
 import org.jfree.chart.ChartPanel;
 
 import sss.domain.DashboardController;
+import sss.domain.EventItem;
+import sss.domain.RefundEventItem;
+import sss.domain.SaleEventItem;
+import sss.domain.StockEmptyEventItem;
 import sss.domain.WatchedProduct;
 
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
 	
 	private ChartPanel cp;
-	private JPanel leftPanel = new JPanel();
-	private JPanel topLeftPanel = new JPanel();
+	private JPanel middlePanel = new JPanel();
+	private JPanel dashLogoPanel = new JPanel();
 	
 	private DashboardController controller;
 	
@@ -54,13 +59,15 @@ public class DashboardFrame extends JFrame {
 	private JButton barTwoButton = new JButton("Change Product");
 	private JButton barThreeButton = new JButton("Change Product"); 
 	
-	@SuppressWarnings("unused")
+	private JTextPane eventFeedPane;
+	
 	public DashboardFrame()
 	{
 		controller = new DashboardController(this);
 		watchedProductOne = controller.getWatchedProductOne();
 		watchedProductTwo = controller.getWatchedProductTwo();
 		watchedProductThree = controller.getWatchedProductThree();
+		eventFeedPane = controller.getEventFeedPane();
 		
 	//-------------------Frame Details--------------------
 
@@ -82,51 +89,34 @@ public class DashboardFrame extends JFrame {
 			
 	//--------------------Section Panels-----------------------
 
-			JLabel memo = new JLabel("Live Summary of Today's Sales");
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
-			memo.setFont(myFont);
 			
-			
-			JPanel middlePanel = new JPanel();
-			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
+			JPanel leftParentPanel = new JPanel();
+//			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
 //			middlePanel.setBorder(middlePanelTitle);
-			middlePanel.setLayout(new GridLayout(1,1,10,10));
-			fullScreenPanel.add(middlePanel);
+			leftParentPanel.setLayout(new GridLayout(1,1,10,10));
+			fullScreenPanel.add(leftParentPanel);
 			
-			JPanel topMiddlePanel = new JPanel();
-			topMiddlePanel.setLayout(new GridLayout(1,1,10,10));
-			JButton blank = new JButton("button");
-//			topMiddlePanel.add(blank);
-//			middlePanel.add(topMiddlePanel);
-			
-			JPanel bottomMiddlePanel = new JPanel();
-			bottomMiddlePanel.setLayout(new BorderLayout());
-			middlePanel.add(bottomMiddlePanel);
+			JPanel watchListPanel = new JPanel();
+			watchListPanel.setLayout(new BorderLayout());
+			leftParentPanel.add(watchListPanel);
 			JLabel watchListLabel = new JLabel("Item Watch List:");
 			watchListLabel.setFont(myFont);
-			bottomMiddlePanel.add(watchListLabel, BorderLayout.NORTH);
+			watchListPanel.add(watchListLabel, BorderLayout.NORTH);
 			
-			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
+//			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
 //			leftPanel.setBorder(leftPanelTitle);
 //			leftPanel.setLayout(new BorderLayout());
-			leftPanel.setLayout(new GridLayout(2,1,10,10));
-			fullScreenPanel.add(leftPanel);
+			middlePanel.setLayout(new GridLayout(2,1,10,10));
+			fullScreenPanel.add(middlePanel);
 			
 
-			topLeftPanel.setLayout(new GridLayout(1,1,10,10));
+			dashLogoPanel.setLayout(new GridLayout(1,1,10,10));
 			JLabel dashboardTextLabel = new JLabel(new ImageIcon(dashboardLogoUrl));
-			topLeftPanel.add(dashboardTextLabel);
-			leftPanel.add(topLeftPanel);
-			
-			JPanel bottomLeftPanel = new JPanel();
-			bottomLeftPanel.setLayout(new BorderLayout());
-			
-
-//			leftPanel.add(memo, BorderLayout.NORTH);
+			dashLogoPanel.add(dashboardTextLabel);
+			middlePanel.add(dashLogoPanel);
 			
 			cp = new ChartPanel(null);
-//			bottomLeftPanel.add(cp, BorderLayout.CENTER);
-//			leftPanel.add(cp);
 			
 			barGraphPanel.setLayout(new GridLayout(1,3,10,10));
 			if(watchedProductOne != null) {
@@ -161,29 +151,25 @@ public class DashboardFrame extends JFrame {
 			barThreeButton.setMargin(new Insets(1,1,1,1));
 			barGraphButtonsPanel.add(barThreeButton);
 			
-			bottomMiddlePanel.add(barGraphPanel);
-			bottomMiddlePanel.add(barGraphButtonsPanel, BorderLayout.SOUTH);
+			watchListPanel.add(barGraphPanel);
+			watchListPanel.add(barGraphButtonsPanel, BorderLayout.SOUTH);
 			
 			
 			JPanel rightPanel = new JPanel();
-			TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
+//			TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
 //			rightPanel.setBorder(rightPanelTitle);
 			rightPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(rightPanel);
+			
+			JPanel eventFeedPanel = new JPanel();
+			eventFeedPanel.setLayout(new BorderLayout());
+			rightPanel.add(eventFeedPanel);
+			JLabel eventFeedLabel = new JLabel("Event Feed:");
+			eventFeedLabel.setFont(myFont);
+			eventFeedPanel.add(eventFeedLabel, BorderLayout.NORTH);
 
-			String[] colNames = {"Type","Time","Amount","Name"};
-			Object[][] data = {
-					{"Sale","4256985216","Cat","Pet"},
-					{"Refund","4256985216","Cat","Pet"},
-					{"Discount","4256985216","Cat","Pet"},
-					{"Refund","4256985216","Cat","Pet"},
-					{"Discount","4256985216","Cat","Pet"},
-					{"Dsicount","4256985216","Cat","Pet"},
-			};
-
-			JTable lookUpTable = new JTable(data, colNames);
-			JScrollPane scrlPane = new JScrollPane(lookUpTable);
-			rightPanel.add(scrlPane);
+			JScrollPane scrlPane = new JScrollPane(eventFeedPane);
+			eventFeedPanel.add(scrlPane, BorderLayout.CENTER);
 			
 			
 	//--------------------Inside Left Panel-----------------------
@@ -191,7 +177,13 @@ public class DashboardFrame extends JFrame {
 			barOneButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent event) {
-					getProductData(1);
+//					getProductData(1);
+					SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, "1:30pm", 168000L, new BigDecimal(1500.50).setScale(2));
+					RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, "1:32pm", 168002L, new BigDecimal(-25.00).setScale(2));
+					StockEmptyEventItem stockEvent = new StockEmptyEventItem(EventItem.TYPE_STOCK_EMPTY, "1:35pm", "TEST001", "Lexar 32 GB USB drive");
+					controller.notify(saleEvent);
+					controller.notify(refundEvent);
+					controller.notify(stockEvent);
 				}
 			});
 			
@@ -250,10 +242,10 @@ public class DashboardFrame extends JFrame {
 	}
 	
 	public void updateChart(ChartPanel panel) {
-		leftPanel.remove(cp);
+		middlePanel.remove(cp);
 		cp = panel;
-		leftPanel.add(cp);
-		leftPanel.revalidate();
+		middlePanel.add(cp);
+		middlePanel.revalidate();
 	}
 	
 	public void setWatchedProductOne(WatchedProduct one) {
