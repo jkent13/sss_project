@@ -59,8 +59,8 @@ public class ModifyProductController {
 			productData.setColumnIdentifiers(productColNames);
 			
 			String selectAllProducts = SqlBuilder.getAllProducts();
-			String getSuppliers = SqlBuilder.getSupplierNames();
-			String getCategories = SqlBuilder.getCategoryNames();
+			String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+			String getCategories = SqlBuilder.getCategoryNamesQuery();
 			
 			ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
 			

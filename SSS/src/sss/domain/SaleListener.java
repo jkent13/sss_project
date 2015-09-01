@@ -7,7 +7,7 @@
  * Original Author: Josh Kent
  */
 
-package sss.services;
+package sss.domain;
 
 import java.math.BigDecimal;
 

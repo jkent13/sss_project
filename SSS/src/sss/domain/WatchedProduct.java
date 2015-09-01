@@ -4,6 +4,7 @@
  * 
  * Original Author: Josh Kent
  */
+
 package sss.domain;
 
 import java.awt.Color;
@@ -26,6 +27,7 @@ public class WatchedProduct extends JPanel implements Serializable {
 	private final Color colourThree = new Color(22, 170, 219);
 	private final Color colourFour = new Color(230, 21, 90);
 	
+	private String productName;
 	private String productCode;
 	private int watchedNumber;
 	private int originalQuantity;
@@ -85,6 +87,12 @@ public class WatchedProduct extends JPanel implements Serializable {
 	
 	
 	
+	public String getProductName() {
+		return productName;
+	}
+	
+	
+	
 	// ==========================================================================
 	// Setter Methods
 	// ==========================================================================
@@ -95,7 +103,29 @@ public class WatchedProduct extends JPanel implements Serializable {
 		if(value <= originalQuantity) {
 			this.currentQuantity = value;	
 			calculateProportionFilled();
-			System.out.println(currentQuantity);
+		}
+		else {
+			originalQuantity = value;
+			currentQuantity = value;
+			calculateProportionFilled();
+		}
+	}
+	
+	
+	
+	public void setProductName(String name) {
+		productName = name;
+	}
+	
+	
+	
+	
+	public void setWatchedNumber(int value) {
+		if(value > 0 && value < 4) {
+			watchedNumber = value;
+		}
+		else {
+			watchedNumber = 4;
 		}
 	}
 	
@@ -107,21 +137,20 @@ public class WatchedProduct extends JPanel implements Serializable {
 	
 	
 	
-	public void findCurrentQuantity() {
-		// TODO read from file/db and listen to sales?
-		// poll db?
-		// set currentQuantity and recalculate proportionFilled
-		// repaint
-	}
-	
-	
-	
 	public void calculateProportionFilled() {
 		proportionFilled = currentQuantity * 1.0F / originalQuantity * 1.0F;
 		if(proportionFilled > originalQuantity) {
 			proportionFilled = originalQuantity;
 		}
 	}
+	
+	
+	
+	// ==========================================================================
+	// Painting/Drawing Methods
+	// ==========================================================================
+	
+	
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -176,10 +205,14 @@ public class WatchedProduct extends JPanel implements Serializable {
 
 	}
 	
+	
+	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(140,300);
 	}
+	
+	
 	
 	@Override
 	public Dimension getMinimumSize() {

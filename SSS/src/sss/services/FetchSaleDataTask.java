@@ -1,10 +1,11 @@
 /* FetchSaleDataTask Class
  * 
- * A task designed to run on a seperate thread and poll the database 
- * every minute for new sale data
+ * A task designed to run on a separate thread and poll the database 
+ * every minute for new sale data (used by Dashboard to update sale chart)
  * 
  * Original Author: Josh Kent
  */
+
 package sss.services;
 
 import java.math.BigDecimal;
@@ -17,29 +18,54 @@ import java.util.Date;
 
 import org.jfree.chart.ChartPanel;
 
+import sss.domain.DashboardController;
 import sss.domain.NonEditableTableModel;
-import sss.ui.DashboardFrame;
 
 public class FetchSaleDataTask implements Runnable {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private Connection connection = DbConnector.getConnection();
+	private ResultSet results;
+	private Statement statement;
+	private String query;
+	
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
 	private Date currentDate = new Date();
-	private String query;
-	private Statement statement;
+
 	private NonEditableTableModel dollarSalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
-	private ResultSet results;
+
 	private ChartPanel chartPanel;
-	private DashboardFrame window;
+	private DashboardController controller;
 	
-	public FetchSaleDataTask(ChartPanel chartPanel, DashboardFrame parentWindow) throws SQLException {
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
+	public FetchSaleDataTask(ChartPanel chartPanel, DashboardController dc) throws SQLException {
 		this.chartPanel = chartPanel;
-		window = parentWindow;
+		controller = dc;
 		query = SqlBuilder.getSaleReportByHourQuery(sqlDateFormat.format(currentDate));
 		statement = connection.createStatement();
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
 	}
+	
+	
+	
+	// ==========================================================================
+	// Runnable Interface Method
+	// ==========================================================================
+	
+	
 	
 	@Override
 	public void run() {
@@ -59,7 +85,7 @@ public class FetchSaleDataTask implements Runnable {
 			results.close();
 			results = null;
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
-			window.updateChart(chartPanel);
+			controller.updateChart(chartPanel);
 			System.out.println(new Date());
 		}
 		catch (SQLException e) {

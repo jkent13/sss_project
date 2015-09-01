@@ -56,8 +56,8 @@ public class AddProductController {
 	 */
 	private void initialise() {
 		try {
-		String getSuppliers = SqlBuilder.getSupplierNames();
-			String getCategories = SqlBuilder.getCategoryNames();
+		String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+			String getCategories = SqlBuilder.getCategoryNamesQuery();
 
 			ResultSet supplierNames = DbReader.executeQuery(getSuppliers);
 

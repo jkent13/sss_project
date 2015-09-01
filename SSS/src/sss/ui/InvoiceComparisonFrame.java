@@ -5,6 +5,7 @@
  * 
  * Original Author: Josh Kent
  */
+
 package sss.ui;
 
 import java.awt.BorderLayout;
@@ -124,9 +125,7 @@ public class InvoiceComparisonFrame extends JFrame {
 				
 			}
 		});
-		
-		
-		
+
 		setVisible(true);
 	}
 	

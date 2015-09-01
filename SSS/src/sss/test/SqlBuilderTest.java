@@ -36,17 +36,17 @@ public class SqlBuilderTest {
 
 	@Test
 	public void testGetLastSaleId() {
-		assertEquals("SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;", SqlBuilder.getLastSaleId());
+		assertEquals("SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;", SqlBuilder.getLastSaleIdQuery());
 	}
 	
 	@Test
 	public void testGetSupplierNames() {
-		assertEquals("SELECT supp_name FROM supplier ORDER BY supp_id;", SqlBuilder.getSupplierNames());
+		assertEquals("SELECT supp_name FROM supplier ORDER BY supp_id;", SqlBuilder.getSupplierNamesQuery());
 	}
 	
 	@Test
 	public void testGetCategoryNames() {
-		assertEquals("SELECT DISTINCT prod_category FROM product ORDER BY prod_category;",SqlBuilder.getCategoryNames());
+		assertEquals("SELECT DISTINCT prod_category FROM product ORDER BY prod_category;",SqlBuilder.getCategoryNamesQuery());
 	}
 	
 	@Test

@@ -79,8 +79,8 @@ public class IMController {
 
 		// Get SQL statements
 		String selectAllProducts = SqlBuilder.getAllProducts();
-		String getSuppliers = SqlBuilder.getSupplierNames();
-		String getCategories = SqlBuilder.getCategoryNames();
+		String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+		String getCategories = SqlBuilder.getCategoryNamesQuery();
 		
 		ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
 		
