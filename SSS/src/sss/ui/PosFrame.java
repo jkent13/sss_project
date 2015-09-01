@@ -72,7 +72,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 	private LookupFilter filter = new LookupFilter();
 	
-	Register register = new Register();
+	Register register = Register.getInstance();
 
 	public PosFrame() {
 

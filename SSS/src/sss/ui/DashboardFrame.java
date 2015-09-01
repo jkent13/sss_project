@@ -17,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -178,9 +179,9 @@ public class DashboardFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 //					getProductData(1);
-					SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, "1:30pm", 168000L, new BigDecimal(1500.50).setScale(2));
-					RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, "1:32pm", 168002L, new BigDecimal(-25.00).setScale(2));
-					StockEmptyEventItem stockEvent = new StockEmptyEventItem(EventItem.TYPE_STOCK_EMPTY, "1:35pm", "TEST001", "Lexar 32 GB USB drive");
+					SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, new Date(), 168000L, new BigDecimal(1500.50).setScale(2));
+					RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, new Date(), 168002L, new BigDecimal(-25.00).setScale(2));
+					StockEmptyEventItem stockEvent = new StockEmptyEventItem(EventItem.TYPE_STOCK_EMPTY, new Date(), "TEST001", "Lexar 32 GB USB drive");
 					controller.notify(saleEvent);
 					controller.notify(refundEvent);
 					controller.notify(stockEvent);

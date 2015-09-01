@@ -515,6 +515,27 @@ public class SqlBuilder {
 	
 	
 	
+	public static String[] getProductsEmptyQueries(Sale sale) {
+		StringBuffer currentStatement = new StringBuffer();
+		String[] statements = new String[sale.getNumberOfLines()];
+		ArrayList<Line> lineItems = sale.getLineItems();
+		int i = 0;
+		
+		currentStatement.append("SELECT prod_code, prod_name "
+				+ "FROM product "
+				+ "WHERE ");
+		
+		for(Line l: lineItems) {
+			currentStatement.append("prod_code = '" + l.getProduct().getCode() + "'");
+			currentStatement.append(" AND prod_qoh = 0;");
+			statements[i] = currentStatement.toString();
+			i++;
+			currentStatement.delete(0, currentStatement.length());
+		}
+		
+		return statements;
+		
+	}
 	// ==========================================================================
 	// Top/Slow Seller Report SELECT Methods
 	// ==========================================================================

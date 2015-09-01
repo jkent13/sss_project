@@ -1,6 +1,8 @@
 package sss.domain;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public abstract class EventItem {
 	public static final int TYPE_BIG_SALE = 0;
@@ -12,15 +14,16 @@ public abstract class EventItem {
 	protected int eventType;
 	protected String timeStamp;
 	protected Color color;
+	protected SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 	
-	public EventItem(int eventType, String timeStamp) {
+	public EventItem(int eventType, Date timeStamp) {
 		if(eventType >= 0 && eventType < 4) {
 			this.eventType = eventType;
 		}
 		else {
 			throw new IllegalArgumentException("Error: Invalid event type");
 		}
-		this.timeStamp = timeStamp;
+		this.timeStamp = timeFormat.format(timeStamp);
 	}
 	
 	public void setColor(Color color) {

@@ -46,6 +46,8 @@ public class DashboardController implements EventItemListener {
 	private SimpleAttributeSet refundEventAttributes = new SimpleAttributeSet();
 	private SimpleAttributeSet stockEmptyEventAttributes = new SimpleAttributeSet();
 	
+	private Register register;
+	
 	
 	private ScheduledExecutorService service = Executors.newScheduledThreadPool(2); 
 	
@@ -140,6 +142,8 @@ public class DashboardController implements EventItemListener {
 			StyleConstants.setFontFamily(separatorAttributes, "SansSerif");
 			StyleConstants.setFontSize(separatorAttributes, 20);
 
+			register = Register.getInstance();
+			register.registerEventListener(this);
 		}
 		catch (IOException ioe) {
 			JOptionPane.showMessageDialog(null, "Error: could not read dashData.dat", "File Read Error", JOptionPane.ERROR_MESSAGE);
@@ -192,15 +196,18 @@ public class DashboardController implements EventItemListener {
 	}
 	
 	public void setWatchedProductOne(WatchedProduct one) {
-		frame.setWatchedProductOne(one);
+		watchedProductOne = one;
+		frame.setWatchedProductOne(watchedProductOne);
 	}
 	
 	public void setWatchedProductTwo(WatchedProduct two) {
-		frame.setWatchedProductTwo(two);
+		watchedProductTwo = two;
+		frame.setWatchedProductTwo(watchedProductTwo);
 	}
 	
 	public void setWatchedProductThree(WatchedProduct three) {
-		frame.setWatchedProductThree(three);
+		watchedProductThree = three;
+		frame.setWatchedProductThree(watchedProductThree);
 	}
 	
 	public WatchedProduct getWatchedProductOne() {

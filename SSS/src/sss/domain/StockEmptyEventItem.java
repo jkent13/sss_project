@@ -1,6 +1,8 @@
 package sss.domain;
 
 import java.awt.Color;
+import java.util.Date;
+
 import sss.domain.EventItem;
 
 public class StockEmptyEventItem extends EventItem {
@@ -9,7 +11,7 @@ public class StockEmptyEventItem extends EventItem {
 	private String productCode;
 	private String productName;
 	
-	public StockEmptyEventItem(int eventType, String timeStamp, String productCode, String productName) {
+	public StockEmptyEventItem(int eventType, Date timeStamp, String productCode, String productName) {
 		super(eventType, timeStamp);
 		this.productCode = productCode;
 		this.productName = productName;
