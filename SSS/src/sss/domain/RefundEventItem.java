@@ -1,3 +1,11 @@
+/* RefundEventItem Class
+ * 
+ * Event representing a refund being processed. Event will fire on any sale transaction
+ * that counts as a refund (typically those with a negative sale total).
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.awt.Color;
@@ -5,10 +13,25 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class RefundEventItem extends EventItem {
-	public static final Color EVENT_COLOR = new Color(184, 46, 0);
+	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
+	public static final Color EVENT_COLOR = new Color(184, 46, 0); // Red
 	
 	private BigDecimal total;
 	private long saleId;
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public RefundEventItem(int eventType, Date timeStamp, long saleId, BigDecimal total) {
 		super(eventType, timeStamp);
@@ -16,6 +39,14 @@ public class RefundEventItem extends EventItem {
 		this.total = total;
 		setColor(EVENT_COLOR);
 	}
+	
+	
+	
+	// ==========================================================================
+	// Printing Method
+	// ==========================================================================
+	
+	
 	
 	@Override
 	public String toString() {

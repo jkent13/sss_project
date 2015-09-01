@@ -39,7 +39,7 @@ import javax.swing.table.TableColumnModel;
 import sss.domain.LookupFilter;
 import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
-import sss.services.SaleListener;
+import sss.domain.SaleListener;
 
 @SuppressWarnings("serial")
 public class PosFrame extends JFrame implements SaleListener {

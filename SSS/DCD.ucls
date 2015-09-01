@@ -55,8 +55,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="7" language="java" name="sss.services.SaleListener" project="SSS" 
-    file="/SSS/src/sss/services/SaleListener.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="7" language="java" name="sss.domain.SaleListener" project="SSS" 
+    file="/SSS/src/sss/domain/SaleListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="126" y="932"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -84,19 +84,19 @@
   </class>  
   <association id="10">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="11" name="lineItems">        
+      <attribute id="11" name="listeners">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="12" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="13">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="14" name="product">        
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="14" name="currentProduct">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="15" minimum="0" maximum="1">        
@@ -120,19 +120,19 @@
   </association>  
   <association id="19">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="20" name="listeners">        
+      <attribute id="20" name="lineItems">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="21" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="22">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="23" name="currentProduct">        
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="23" name="product">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="24" minimum="0" maximum="1">        

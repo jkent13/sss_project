@@ -1,6 +1,8 @@
 /*
  * DashboardFrame Class
+ * 
  * Window design to provide lots of useful information at a glance.
+ * 
  * Original Author: Amethyst Mayer
  */
 
@@ -11,13 +13,13 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.math.BigDecimal;
+
 import java.net.URL;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,14 +34,16 @@ import javax.swing.border.EmptyBorder;
 import org.jfree.chart.ChartPanel;
 
 import sss.domain.DashboardController;
-import sss.domain.EventItem;
-import sss.domain.RefundEventItem;
-import sss.domain.SaleEventItem;
-import sss.domain.StockEmptyEventItem;
 import sss.domain.WatchedProduct;
 
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
+	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
 	
 	private ChartPanel cp;
 	private JPanel middlePanel = new JPanel();
@@ -61,6 +65,14 @@ public class DashboardFrame extends JFrame {
 	private JButton barThreeButton = new JButton("Change Product"); 
 	
 	private JTextPane eventFeedPane;
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public DashboardFrame()
 	{
@@ -172,21 +184,20 @@ public class DashboardFrame extends JFrame {
 			JScrollPane scrlPane = new JScrollPane(eventFeedPane);
 			eventFeedPanel.add(scrlPane, BorderLayout.CENTER);
 			
+			// ======================================================================
+			// Event Handlers
+			// ======================================================================
 			
-	//--------------------Inside Left Panel-----------------------
+			
 			
 			barOneButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent event) {
-//					getProductData(1);
-					SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, new Date(), 168000L, new BigDecimal(1500.50).setScale(2));
-					RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, new Date(), 168002L, new BigDecimal(-25.00).setScale(2));
-					StockEmptyEventItem stockEvent = new StockEmptyEventItem(EventItem.TYPE_STOCK_EMPTY, new Date(), "TEST001", "Lexar 32 GB USB drive");
-					controller.notify(saleEvent);
-					controller.notify(refundEvent);
-					controller.notify(stockEvent);
+					getProductData(1);
 				}
 			});
+			
+			
 			
 			barTwoButton.addActionListener(new ActionListener() {
 				@Override
@@ -195,12 +206,16 @@ public class DashboardFrame extends JFrame {
 				}
 			});
 			
+			
+			
 			barThreeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 					getProductData(3);
 				}
 			});
+			
+			
 			
 			addProductOneButton.addActionListener(new ActionListener() {
 				@Override
@@ -209,6 +224,8 @@ public class DashboardFrame extends JFrame {
 				}
 			});
 			
+			
+			
 			addProductTwoButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent event) {
@@ -216,12 +233,21 @@ public class DashboardFrame extends JFrame {
 				}
 			});
 			
+			
+			
 			addProductThreeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 					getProductData(3);
 				}
 			});
+			
+			
+			// ======================================================================
+			// Window Closing
+			// ======================================================================
+			
+			
 			
 			addWindowListener(new WindowAdapter()
 			{
@@ -231,6 +257,9 @@ public class DashboardFrame extends JFrame {
 				}
 			});
 			
+			
+			
+			// Set Visible
 			SwingUtilities.invokeLater(new Runnable() {
 		  	public void run() {
 		      setVisible(true);
@@ -238,16 +267,13 @@ public class DashboardFrame extends JFrame {
 		});
 	}
 	
-	public void getProductData(int button) {
-		controller.getProductData(button);
-	}
 	
-	public void updateChart(ChartPanel panel) {
-		middlePanel.remove(cp);
-		cp = panel;
-		middlePanel.add(cp);
-		middlePanel.revalidate();
-	}
+	
+	// ==========================================================================
+	// Setter Methods
+	// ==========================================================================
+	
+	
 	
 	public void setWatchedProductOne(WatchedProduct one) {
 		watchedProductOne = one;
@@ -257,6 +283,8 @@ public class DashboardFrame extends JFrame {
 		barGraphPanel.repaint();
 	}
 	
+	
+	
 	public void setWatchedProductTwo(WatchedProduct two) {
 		watchedProductTwo = two;
 		barGraphPanel.remove(1);
@@ -264,6 +292,8 @@ public class DashboardFrame extends JFrame {
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
+	
+	
 	
 	public void setWatchedProductThree(WatchedProduct three) {
 		watchedProductThree = three;
@@ -273,8 +303,33 @@ public class DashboardFrame extends JFrame {
 		barGraphPanel.repaint();
 	}
 	
+	
+	
+	// Called by event handlers
+	public void getProductData(int buttonNo) {
+		controller.getProductData(buttonNo);
+	}
+	
+	
+	
+	// ==========================================================================
+	// Update/Refresh Methods
+	// ==========================================================================
+	
+	
+	
+	public void updateChart(ChartPanel panel) {
+		middlePanel.remove(cp);
+		cp = panel;
+		middlePanel.add(cp);
+		middlePanel.revalidate();
+	}
+	
+
+	
 	public void refreshWatchedProducts() {
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
+	
 }

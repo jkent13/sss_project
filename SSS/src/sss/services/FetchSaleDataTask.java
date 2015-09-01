@@ -1,10 +1,11 @@
 /* FetchSaleDataTask Class
  * 
- * A task designed to run on a seperate thread and poll the database 
- * every minute for new sale data
+ * A task designed to run on a separate thread and poll the database 
+ * every minute for new sale data (used by Dashboard to update sale chart)
  * 
  * Original Author: Josh Kent
  */
+
 package sss.services;
 
 import java.math.BigDecimal;
@@ -22,16 +23,33 @@ import sss.domain.NonEditableTableModel;
 
 public class FetchSaleDataTask implements Runnable {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private Connection connection = DbConnector.getConnection();
+	private ResultSet results;
+	private Statement statement;
+	private String query;
+	
 	private SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");	// Date format used to convert input into MySQL DateTime
 	private Date currentDate = new Date();
-	private String query;
-	private Statement statement;
+
 	private NonEditableTableModel dollarSalesData = new NonEditableTableModel();	// Containing grouped-on-hour sale info
 	private String[] dollarSalesColNames = {"Hours", "Number of Transactions", "Sale Total"};
-	private ResultSet results;
+
 	private ChartPanel chartPanel;
 	private DashboardController controller;
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public FetchSaleDataTask(ChartPanel chartPanel, DashboardController dc) throws SQLException {
 		this.chartPanel = chartPanel;
@@ -40,6 +58,14 @@ public class FetchSaleDataTask implements Runnable {
 		statement = connection.createStatement();
 		dollarSalesData.setColumnIdentifiers(dollarSalesColNames);
 	}
+	
+	
+	
+	// ==========================================================================
+	// Runnable Interface Method
+	// ==========================================================================
+	
+	
 	
 	@Override
 	public void run() {

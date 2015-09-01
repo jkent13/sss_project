@@ -4,6 +4,7 @@
  * 
  * Original Author: Josh Kent
  */
+
 package sss.domain;
 
 import java.awt.Color;
@@ -127,18 +128,12 @@ public class WatchedProduct extends JPanel implements Serializable {
 			watchedNumber = 4;
 		}
 	}
+	
+	
+	
 	// ==========================================================================
 	// Other Methods
 	// ==========================================================================
-	
-	
-	
-	public void findCurrentQuantity() {
-		// TODO read from file/db and listen to sales?
-		// poll db?
-		// set currentQuantity and recalculate proportionFilled
-		// repaint
-	}
 	
 	
 	
@@ -148,6 +143,14 @@ public class WatchedProduct extends JPanel implements Serializable {
 			proportionFilled = originalQuantity;
 		}
 	}
+	
+	
+	
+	// ==========================================================================
+	// Painting/Drawing Methods
+	// ==========================================================================
+	
+	
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -202,10 +205,14 @@ public class WatchedProduct extends JPanel implements Serializable {
 
 	}
 	
+	
+	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(140,300);
 	}
+	
+	
 	
 	@Override
 	public Dimension getMinimumSize() {

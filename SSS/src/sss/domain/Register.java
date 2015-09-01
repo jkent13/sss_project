@@ -22,7 +22,6 @@ import sss.services.DbReader;
 import sss.services.DbWriter;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
-import sss.services.SaleListener;
 import sss.services.SqlBuilder;
 
 public class Register {
@@ -45,12 +44,13 @@ public class Register {
 	private String[] categories;	// Holds the distinct category names (read in from DB)
 
 	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
-	private EventItemListener eventListener;
+	
+	private EventItemListener eventItemListener; // DashboardController
 
-	private static Register instance;
+	private static Register instance; // Singleton Instance
 
 	// ==========================================================================
-	// Constructor
+	// Constructor & Singleton Access Method
 	// ==========================================================================
 
 
@@ -62,6 +62,8 @@ public class Register {
 		initialise();
 	}
 
+	
+	
 	public static Register getInstance() {
 		if(instance == null) {
 			instance = new Register();
@@ -70,6 +72,7 @@ public class Register {
 	}
 
 
+	
 	// ==========================================================================
 	// Core Methods
 	// ==========================================================================
@@ -139,31 +142,39 @@ public class Register {
 
 
 	public void registerEventListener(EventItemListener listener) {
-		eventListener = listener;
+		eventItemListener = listener;
 	}
 
-	private void notifyEventListener(Date timeStamp) {
-		// Fire event if applicable
-		if(eventListener != null) {
+	
+	
+	private void notifyEventItemListener(Date timeStamp) {
+		// Create and fire events if applicable
+		if(eventItemListener != null) {
 			BigDecimal saleTotal = currentSale.getSaleTotal();
+			
+			// Check for and create Big Sale Event Item
 			if(saleTotal.compareTo(SaleEventItem.EVENT_FIRE_THRESHOLD) >= 0) {
 				SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, timeStamp, currentSale.getSaleId(), saleTotal);
-				eventListener.notify(saleEvent);
-			}
-			if(saleTotal.compareTo(BigDecimal.ZERO) < 0) {
-				RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, timeStamp, currentSale.getSaleId(), saleTotal);
-				eventListener.notify(refundEvent);
+				eventItemListener.notify(saleEvent);
 			}
 			
-			ArrayList<EventItem> stockEvents = checkIfStockNowEmpty(timeStamp);
+			// Check for and create Refund Event Item
+			if(saleTotal.compareTo(BigDecimal.ZERO) < 0) {
+				RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, timeStamp, currentSale.getSaleId(), saleTotal);
+				eventItemListener.notify(refundEvent);
+			}
+			
+			// Check for and create Stock Empty Event Items
+			ArrayList<EventItem> stockEvents = checkIfStockEmptied(timeStamp);
 			if(!stockEvents.isEmpty()) {
 				for(EventItem event : stockEvents) {
-					eventListener.notify(event);
+					eventItemListener.notify(event);
 				}
 			}
 		}
 	}
 
+	
 
 	// ==========================================================================
 	// Getter Methods
@@ -410,8 +421,8 @@ public class Register {
 			// Print out receipt
 			printReceipt(formatSale());
 			
-			// Notify Event Listener
-			notifyEventListener(timeStamp);
+			// Notify Event Item Listener (DashboardController)
+			notifyEventItemListener(timeStamp);
 			
 			// End sale
 			endSale();
@@ -464,7 +475,7 @@ public class Register {
 		}
 	}
 
-	public ArrayList<EventItem> checkIfStockNowEmpty(Date timeStamp) {
+	public ArrayList<EventItem> checkIfStockEmptied(Date timeStamp) {
 		ArrayList<EventItem> eventList = new ArrayList<EventItem>();
 		String[] statements = SqlBuilder.getProductsEmptyQueries(currentSale);
 		ResultSet results;

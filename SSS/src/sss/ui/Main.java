@@ -22,6 +22,7 @@ import sss.services.DbConnector;
 public class Main {
 
 	private static JFrame dashboardFrame = null;
+	private static JFrame posFrame = null;
 	
 	public static void main(String[] args) {
 
@@ -120,7 +121,13 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				new PosFrame();
+				if(posFrame == null) {
+					posFrame = new PosFrame();
+				}
+				else {
+					posFrame.dispose();
+					posFrame = new PosFrame();
+				}
 			}
 		});
 

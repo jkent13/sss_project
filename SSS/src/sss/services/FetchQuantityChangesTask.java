@@ -1,3 +1,11 @@
+/* FetchQuantityChangesTask Class
+ * 
+ * A runnable background task that will constantly check for quantity changes for 
+ * all products on the Dashboard watch list, so that they can be updated
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.services;
 
 import java.sql.Connection;
@@ -10,6 +18,12 @@ import sss.domain.WatchedProduct;
 
 public class FetchQuantityChangesTask implements Runnable {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private DashboardController controller;
 	
 	private Connection connection = DbConnector.getConnection();
@@ -17,10 +31,25 @@ public class FetchQuantityChangesTask implements Runnable {
 	private ResultSet results;
 	
 	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	public FetchQuantityChangesTask(DashboardController dc) throws SQLException {
 		this.controller = dc;
 		statement = connection.createStatement();
 	}
+	
+	
+	
+	// ==========================================================================
+	// Runnable Interface Method
+	// ==========================================================================
+	
+	
 	
 	@Override
 	public void run() {
@@ -52,7 +81,6 @@ public class FetchQuantityChangesTask implements Runnable {
 					three.setCurrentQuantity(quantity);
 				}
 			}
-			
 			controller.refreshWatchedProducts();
 		}
 		catch (SQLException e) {
