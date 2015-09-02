@@ -79,7 +79,6 @@ public class PosFrame extends JFrame implements SaleListener {
 		setTitle("Make Sale");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
-		setUndecorated(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 

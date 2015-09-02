@@ -33,7 +33,6 @@ public class Main {
 		mainMenuFrame.setTitle("Main Menu");
 		mainMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		mainMenuFrame.setLocationRelativeTo(null);
-		mainMenuFrame.setUndecorated(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 //-------------------Load Image Resources--------------------

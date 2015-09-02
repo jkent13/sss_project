@@ -553,4 +553,5 @@ public class ViewInventoryFrame extends JFrame {
 			filter.setNameSupplied(false);
 		}
 	}
+	
 }// End class
