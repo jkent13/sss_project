@@ -5,7 +5,7 @@
  * Original Author: Josh Kent
  */
 
-package sss.domain;
+package sss.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;

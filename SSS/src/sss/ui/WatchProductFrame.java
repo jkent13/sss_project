@@ -22,7 +22,6 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import sss.domain.NonEditableTableModel;
-import sss.domain.WatchedProduct;
 import sss.domain.DashboardController;
 
 @SuppressWarnings("serial")

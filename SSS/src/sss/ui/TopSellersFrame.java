@@ -245,6 +245,8 @@ public class TopSellersFrame extends JFrame {
 		}
 	}
 	
+	
+	
 	private boolean areDatesValid() {
 		String startDateString = startDateTextField.getText();
 		String endDateString = endDateTextField.getText();
@@ -262,6 +264,8 @@ public class TopSellersFrame extends JFrame {
 			return false;
 		}
 	}
+	
+	
 	
 	private boolean isLimitValid() {
 		try{
@@ -293,4 +297,5 @@ public class TopSellersFrame extends JFrame {
 		}
 		return false;
 	}
+	
 }

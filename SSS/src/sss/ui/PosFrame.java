@@ -79,7 +79,6 @@ public class PosFrame extends JFrame implements SaleListener {
 		setTitle("Make Sale");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
-		setUndecorated(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 
@@ -1049,6 +1048,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == JOptionPane.YES_OPTION) {
+					register.cancelSale();
 					dispose();
 				}
 			}

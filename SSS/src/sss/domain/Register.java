@@ -285,6 +285,15 @@ public class Register {
 	
 	
 	
+	public void cancelSale() {
+		for(int i = dataModel.getRowCount()-1; i != -1; i--) {
+			dataModel.removeRow(i);
+		}
+		activeSale = false;
+	}
+	
+	
+	
 	/**
 	 * Enters a new line item to the data model and to the current sale
 	 * @param prod_id the product id (barcode) for the product to be displayed on the new line
