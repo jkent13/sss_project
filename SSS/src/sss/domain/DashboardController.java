@@ -38,6 +38,7 @@ import sss.services.FetchSaleDataTask;
 import sss.services.SqlBuilder;
 import sss.ui.DashboardFrame;
 import sss.ui.WatchProductFrame;
+import sss.ui.WatchedProduct;
 
 public class DashboardController implements EventItemListener {
 

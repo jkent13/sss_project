@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import sss.domain.DashboardController;
-import sss.domain.WatchedProduct;
+import sss.ui.WatchedProduct;
 
 public class FetchQuantityChangesTask implements Runnable {
 
