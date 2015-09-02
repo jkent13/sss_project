@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 
 import sss.domain.FormattedSale;
+import sss.ui.Main;
 
 public class ReceiptPrinter implements Printable {
 
@@ -83,9 +84,14 @@ public class ReceiptPrinter implements Printable {
 	public void printToFile() {
 		if(isBuilt) {
 			try {
+				// Create 'receipts' directory if it doesn't already exist
+				File receiptDirectory = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "receipts");
+				if(!receiptDirectory.exists()) {
+					receiptDirectory.mkdir();
+				}
 				String[] saleHeaderLine = saleHeader[0].split(": ");
 				// Names the text file after the receipt no e.g. Receipt 165210.txt
-				textFile = new File("Receipt " + saleHeaderLine[1] + ".txt"); 
+				textFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "receipts/Receipt " + saleHeaderLine[1] + ".txt"); 
 				fileWriter = new PrintWriter(textFile);
 
 				// Write receipt header to file

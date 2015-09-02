@@ -37,6 +37,7 @@ import sss.services.FetchQuantityChangesTask;
 import sss.services.FetchSaleDataTask;
 import sss.services.SqlBuilder;
 import sss.ui.DashboardFrame;
+import sss.ui.Main;
 import sss.ui.WatchProductFrame;
 import sss.ui.WatchedProduct;
 
@@ -88,8 +89,14 @@ public class DashboardController implements EventItemListener {
 
 	public void initialise() {
 		try {
+			// Create 'data' directory if it doesn't already exist
+			File dataDirectory = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "data");
+			if(!dataDirectory.exists()) {
+				dataDirectory.mkdir();
+			}
+			
 			// Read in watched products from file
-			File dashData = new File("data/dashData.dat");
+			File dashData = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "data/dashData.dat");
 			if(dashData.exists()) {
 				ObjectInputStream input = new ObjectInputStream(new FileInputStream(dashData));
 				int noObjects = input.readInt();
@@ -186,7 +193,7 @@ public class DashboardController implements EventItemListener {
 		// If there are some products being watched, write to file
 		if(i > 0) {
 			try {
-				File file = new File("data/dashData.dat");
+				File file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "data/dashData.dat");
 				ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file));
 				output.writeInt(i); // Writes the number of objects to follow (used when reading)
 
@@ -204,6 +211,7 @@ public class DashboardController implements EventItemListener {
 			catch (IOException ioe) {
 				JOptionPane.showMessageDialog(null, "Error: the watched products could not be saved", 
 						"Could not save watch list state", JOptionPane.ERROR_MESSAGE);
+				ioe.printStackTrace();
 			}
 		}
 	}
