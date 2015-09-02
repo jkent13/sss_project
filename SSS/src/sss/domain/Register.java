@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 
 import sss.services.DbReader;
 import sss.services.DbWriter;
+import sss.services.EventWatcher;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
 import sss.services.SqlBuilder;
@@ -45,10 +46,12 @@ public class Register {
 
 	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
 	
-	private EventItemListener eventItemListener; // DashboardController
+	private EventItemListener eventItemListener; // EventWatcher
 
 	private static Register instance; // Singleton Instance
 
+	
+	
 	// ==========================================================================
 	// Constructor & Singleton Access Method
 	// ==========================================================================
@@ -120,7 +123,8 @@ public class Register {
 			}
 
 			categoryNames.close(); // Close ResultSet
-
+			registerEventItemListener(EventWatcher.getInstance()); // Register EventWatcher
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: Failed to read a required value from the database", "SQL Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
@@ -141,7 +145,7 @@ public class Register {
 
 
 
-	public void registerEventListener(EventItemListener listener) {
+	public void registerEventItemListener(EventItemListener listener) {
 		eventItemListener = listener;
 	}
 

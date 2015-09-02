@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class SaleEventItem extends EventItem {
 	
 	// ==========================================================================
@@ -21,8 +22,8 @@ public class SaleEventItem extends EventItem {
 	
 	
 	
-	public static final Color EVENT_COLOR = new Color(46, 184, 0); // Green
-	public static BigDecimal EVENT_FIRE_THRESHOLD = new BigDecimal(500.00);
+	public static final transient Color EVENT_COLOR = new Color(46, 184, 0); // Green
+	public static transient BigDecimal EVENT_FIRE_THRESHOLD = new BigDecimal(500.00);
 	
 	private BigDecimal total;
 	private long saleId;

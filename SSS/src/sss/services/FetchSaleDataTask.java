@@ -86,7 +86,6 @@ public class FetchSaleDataTask implements Runnable {
 			results = null;
 			chartPanel = ChartBuilder.createSingleDaySalePanel(dollarSalesData);
 			controller.updateChart(chartPanel);
-			System.out.println(new Date());
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());

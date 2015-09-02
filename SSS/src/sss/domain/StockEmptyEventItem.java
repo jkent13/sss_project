@@ -14,6 +14,7 @@ import java.util.Date;
 
 import sss.domain.EventItem;
 
+@SuppressWarnings("serial")
 public class StockEmptyEventItem extends EventItem {
 	
 	// ==========================================================================
@@ -22,7 +23,7 @@ public class StockEmptyEventItem extends EventItem {
 	
 	
 	
-	public static final Color EVENT_COLOR = new Color(0, 138, 184); // Blue
+	public static final transient Color EVENT_COLOR = new Color(0, 138, 184); // Blue
 	
 	private String productCode;
 	private String productName;
