@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class RefundEventItem extends EventItem {
 	
 	// ==========================================================================
@@ -20,7 +21,7 @@ public class RefundEventItem extends EventItem {
 	
 	
 	
-	public static final Color EVENT_COLOR = new Color(184, 46, 0); // Red
+	public static final transient Color EVENT_COLOR = new Color(184, 46, 0); // Red
 	
 	private BigDecimal total;
 	private long saleId;

@@ -8,10 +8,12 @@
 package sss.domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class EventItem {
+@SuppressWarnings("serial")
+public abstract class EventItem implements Serializable {
 	
 	// ==========================================================================
 	// Variables: Constants
@@ -19,11 +21,11 @@ public abstract class EventItem {
 	
 	
 	
-	public static final int TYPE_BIG_SALE = 0;
-	public static final int TYPE_REFUND = 1;
-	public static final int TYPE_STOCK_EMPTY = 2;
+	public static final transient int TYPE_BIG_SALE = 0;
+	public static final transient int TYPE_REFUND = 1;
+	public static final transient int TYPE_STOCK_EMPTY = 2;
 	
-	public static final String EVENT_SEPARATOR = "--------------------\n";
+	public static final transient String EVENT_SEPARATOR = "--------------------\n";
 	
 	
 	

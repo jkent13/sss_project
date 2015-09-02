@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import sss.services.DbConnector;
+import sss.services.EventWatcher;
 
 public class Main {
 
@@ -177,12 +178,13 @@ public class Main {
 				if (confirm == JOptionPane.YES_OPTION) {
 					try {
 						DbConnector.closeConnection();
-						System.out.println("DB connection closed.");
-						System.exit(0);
-					} catch (SQLException sqle) {
+					} 
+					catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 						sqle.printStackTrace();
 					}
+					EventWatcher.getInstance().saveEvents(); // Save event feed before close
+					System.exit(0); // Close all windows
 				}
 			}
 		});
