@@ -178,8 +178,8 @@ public class Main {
 				if (confirm == JOptionPane.YES_OPTION) {
 					try {
 						DbConnector.closeConnection();
-						System.out.println("DB connection closed.");
-					} catch (SQLException sqle) {
+					} 
+					catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 						sqle.printStackTrace();
 					}
