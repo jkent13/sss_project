@@ -32,6 +32,7 @@ import javax.swing.text.StyledDocument;
 import org.jfree.chart.ChartPanel;
 
 import sss.services.DbReader;
+import sss.services.EventWatcher;
 import sss.services.FetchQuantityChangesTask;
 import sss.services.FetchSaleDataTask;
 import sss.services.SqlBuilder;
@@ -59,7 +60,7 @@ public class DashboardController implements EventItemListener {
 	private SimpleAttributeSet refundEventAttributes = new SimpleAttributeSet();
 	private SimpleAttributeSet stockEmptyEventAttributes = new SimpleAttributeSet();
 
-	private Register register;
+	private EventWatcher eventWatcher;
 
 	private ScheduledExecutorService service = Executors.newScheduledThreadPool(2); 
 
@@ -158,9 +159,9 @@ public class DashboardController implements EventItemListener {
 		StyleConstants.setFontFamily(separatorAttributes, "SansSerif");
 		StyleConstants.setFontSize(separatorAttributes, 20);
 
-		// Register as an event listener with the Register instance (to be notified when events occur)
-		register = Register.getInstance();
-		register.registerEventListener(this);
+		// Register as an event listener with the EventWatcher instance (to be notified when events occur)
+		eventWatcher = EventWatcher.getInstance();
+		eventWatcher.registerEventItemListener(this);
 	}
 
 
