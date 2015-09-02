@@ -302,7 +302,6 @@ public class AddProductFrame extends JFrame {
 		else {
 			return false;
 		}
-		
-		
 	}
+	
 }

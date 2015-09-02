@@ -13,12 +13,10 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Insets;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -34,7 +32,6 @@ import javax.swing.border.EmptyBorder;
 import org.jfree.chart.ChartPanel;
 
 import sss.domain.DashboardController;
-import sss.domain.WatchedProduct;
 
 @SuppressWarnings("serial")
 public class DashboardFrame extends JFrame {
