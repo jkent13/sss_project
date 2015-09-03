@@ -129,20 +129,24 @@ public class DashboardFrame extends JFrame {
 			cp = new ChartPanel(null);
 			
 			barGraphPanel.setLayout(new GridLayout(1,3,10,10));
+
 			if(watchedProductOne != null) {
 				barGraphPanel.add(watchedProductOne);
+				watchedProductOne.setToolTipText(watchedProductOne.getName());
 			}
 			else {
 				barGraphPanel.add(addProductOneButton);
 			}
 			if(watchedProductTwo != null) {
 				barGraphPanel.add(watchedProductTwo);
+				watchedProductTwo.setToolTipText(watchedProductTwo.getName());
 			}
 			else {
 				barGraphPanel.add(addProductTwoButton);
 			}
 			if(watchedProductThree != null) {
 				barGraphPanel.add(watchedProductThree);
+				watchedProductThree.setToolTipText(watchedProductThree.getName());
 			}
 			else {
 				barGraphPanel.add(addProductThreeButton);
@@ -276,6 +280,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductOne = one;
 		barGraphPanel.remove(0);
 		barGraphPanel.add(watchedProductOne, 0);
+		watchedProductOne.setToolTipText(watchedProductOne.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
@@ -286,6 +291,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductTwo = two;
 		barGraphPanel.remove(1);
 		barGraphPanel.add(watchedProductTwo, 1);
+		watchedProductTwo.setToolTipText(watchedProductTwo.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
@@ -296,6 +302,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductThree = three;
 		barGraphPanel.remove(2);
 		barGraphPanel.add(watchedProductThree, 2);
+		watchedProductThree.setToolTipText(watchedProductThree.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
