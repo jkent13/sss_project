@@ -818,6 +818,15 @@ public class PosFrame extends JFrame implements SaleListener {
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
+		
+		// Hotkey F2
+		lookUpTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				lookupFrame.setVisible(true);
+			}
+		});
 
 		// Hotkey F3
 		lookUpTable.addKeyListener(new KeyAdapter()
@@ -880,8 +889,7 @@ public class PosFrame extends JFrame implements SaleListener {
 							barcodeEntryField.requestFocusInWindow();
 						}
 						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
-							System.out.println("An NFE exception occurred");
-							nfe.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else { 
@@ -926,8 +934,7 @@ public class PosFrame extends JFrame implements SaleListener {
 						}
 					}
 					catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
-						System.out.println("An NFE exception occurred");
-						nfe.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
 					}
 					catch (ClassCastException cce) { 
 						JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
@@ -955,8 +962,7 @@ public class PosFrame extends JFrame implements SaleListener {
 							}
 						}
 						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
-							System.out.println("An NFE exception occurred");
-							nfe.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
 						}
 						catch (ClassCastException cce) { 
 							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
@@ -984,8 +990,7 @@ public class PosFrame extends JFrame implements SaleListener {
 							}
 						}
 						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
-							System.out.println("An NFE exception occurred");
-							nfe.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
 						}
 						catch (ClassCastException cce) { 
 							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);

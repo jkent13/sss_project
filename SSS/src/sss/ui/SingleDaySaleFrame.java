@@ -82,8 +82,6 @@ public class SingleDaySaleFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-//		TitledBorder datePanelTitle = new TitledBorder("View Date:");
-//		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(3,2,10,10));
 		
 		JTextField viewDate = new JTextField();
