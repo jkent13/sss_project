@@ -63,8 +63,10 @@ public class DbConnector {
 	 * Establishes the connection to the MySQL database 
 	 * @return true if the connection was successful, false otherwise
 	 */
-	protected static boolean establishConnection() {
-		
+	public static boolean establishConnection() {
+			
+			DbConfiguration dbConfig = DbConfigurator.getConfig();
+			
 	    // Load JDBC Driver
 	    try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -76,12 +78,12 @@ public class DbConnector {
 		}
 	    // Connect to existing DB
 	    try {
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/sss_project" , "root" , "abc123");
+			Connection connection = DriverManager.getConnection(dbConfig.getPath() , dbConfig.getUserName(), dbConfig.getPassword());
 			DbConnector.connection = connection;
 			return true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: Failed to connect to database on localhost", "DB connection failure", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			System.exit(0);
 			return false;
 		}
 	}

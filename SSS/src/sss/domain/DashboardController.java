@@ -211,7 +211,6 @@ public class DashboardController implements EventItemListener {
 			catch (IOException ioe) {
 				JOptionPane.showMessageDialog(null, "Error: the watched products could not be saved", 
 						"Could not save watch list state", JOptionPane.ERROR_MESSAGE);
-				ioe.printStackTrace();
 			}
 		}
 	}

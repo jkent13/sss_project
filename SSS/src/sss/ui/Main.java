@@ -27,6 +27,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 
+		DbConnector.establishConnection();
+		
 //-------------------Frame Details--------------------		
 
 		JFrame mainMenuFrame = new JFrame();
