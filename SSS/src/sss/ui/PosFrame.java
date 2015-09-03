@@ -217,10 +217,10 @@ public class PosFrame extends JFrame implements SaleListener {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(1,2,10,10));
 
-		JButton voidButton = new JButton("f1 Void");
-		JButton lookUpButton = new JButton("f2 Lookup Product");
-		JButton quantityButton = new JButton("f3 Quantity");
-		JButton discountButton = new JButton("f4 Discount");
+		JButton voidButton = new JButton("F1 Void");
+		JButton lookUpButton = new JButton("F2 Lookup Product");
+		JButton quantityButton = new JButton("F3 Quantity");
+		JButton discountButton = new JButton("F4 Discount");
 		
 		JButton enterButton = new JButton("ENTER");
 		Font enterFont = new Font("SansSerif", Font.BOLD, 30);

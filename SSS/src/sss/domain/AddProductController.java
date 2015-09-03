@@ -107,7 +107,6 @@ public class AddProductController {
 			JOptionPane.showMessageDialog(null,
 					"Error: There was a problem retrieving product data", "SQL Error",
 					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	

@@ -127,7 +127,6 @@ public class Register {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: Failed to read a required value from the database", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
@@ -428,7 +427,6 @@ public class Register {
 				adjustStockCounts(stockAdjustmentStatements);
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
 
 			// Print out receipt
@@ -446,7 +444,7 @@ public class Register {
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "ERROR: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -484,7 +482,6 @@ public class Register {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
@@ -505,7 +502,6 @@ public class Register {
 			}
 			catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
 		}
 		return eventList;
