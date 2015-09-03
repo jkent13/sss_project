@@ -6,22 +6,25 @@ import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class DatabaseSetupPanel extends JPanel {
 	private JTextField pathTextField = new JTextField();
 	private JTextField userNameTextField = new JTextField();
-	private JTextField passwordTextField = new JTextField();
+	private JPasswordField passwordTextField = new JPasswordField();
 	
-	private JLabel titleLabel = new JLabel("In order to use this software, a "
-			+ "connection to a MySQL database needs to be configured. Please enter your database"
-			+ " details below: ");
+	private JLabel titleLabelOne = new JLabel("In order to use this software, a "
+			+ "connection to a MySQL database needs to be configured.");
+	private JLabel titleLabelTwo = new JLabel("Please enter your database"
+			+ " details below:");
 	
 	private JLabel pathLabel  = new JLabel("Path:");
 	private JLabel userNameLabel = new JLabel("Username:");
 	private JLabel passwordLabel = new JLabel("Password:");
 	
+	private JPanel titlePanel = new JPanel(new GridLayout(2,1,5,5));
 	private JPanel mainContentPanel = new JPanel(new GridLayout(3,2,5,5));
 	
 	public DatabaseSetupPanel() {
@@ -30,6 +33,9 @@ public class DatabaseSetupPanel extends JPanel {
 		
 		setLayout(new BorderLayout());
 		
+		titlePanel.add(titleLabelOne);
+		titlePanel.add(titleLabelTwo);
+		
 		mainContentPanel.add(pathLabel);
 		mainContentPanel.add(pathTextField);
 		mainContentPanel.add(userNameLabel);
@@ -37,11 +43,11 @@ public class DatabaseSetupPanel extends JPanel {
 		mainContentPanel.add(passwordLabel);
 		mainContentPanel.add(passwordTextField);
 		
-		add(titleLabel, BorderLayout.NORTH);
+		add(titlePanel, BorderLayout.NORTH);
 		add(mainContentPanel, BorderLayout.CENTER);
 		
-		setPreferredSize(new Dimension(850, 500));
-		setMinimumSize(new Dimension(850, 500));
+		setPreferredSize(new Dimension(550, 150));
+		setMinimumSize(new Dimension(550, 150));
 	}
 	
 	public String getPath() {
@@ -53,7 +59,7 @@ public class DatabaseSetupPanel extends JPanel {
 	}
 	
 	public String getPassword() {
-		return passwordTextField.getText();
+		return new String(passwordTextField.getPassword());
 	}
 	
 	public void clearAllTextFields() {

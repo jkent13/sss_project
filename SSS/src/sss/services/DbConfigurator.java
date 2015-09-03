@@ -62,18 +62,14 @@ public class DbConfigurator {
 		int response = JOptionPane.showConfirmDialog(null, panel, "Setup DB Connection", 
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if(response == JOptionPane.YES_OPTION) {
-			boolean isPathNull = panel.getPath() == null;
-			boolean isUserNameNull = panel.getUserName() == null;
+			boolean isPathNull = panel.getPath().equals("");
+			boolean isUserNameNull = panel.getUserName().equals("");
 			
 			if(!(isPathNull && isUserNameNull)) {
 				dbPath = dbPathPrefix + panel.getPath();
 				userName = panel.getUserName();
-				if(panel.getPassword() != null) {
-					password = panel.getPassword();
-				}
-				else {
-					password = "";
-				}
+				password = panel.getPassword();
+				
 				config = new DbConfiguration(dbPath, userName, password);
 				saveConfig(config);
 				
