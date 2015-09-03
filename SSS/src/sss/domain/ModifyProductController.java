@@ -1,3 +1,10 @@
+/* ModifyProductController Class
+ * 
+ * Controls application logic for Modify Product UC
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.domain;
 
 import java.math.BigDecimal;
@@ -52,8 +59,8 @@ public class ModifyProductController {
 			productData.setColumnIdentifiers(productColNames);
 			
 			String selectAllProducts = SqlBuilder.getAllProducts();
-			String getSuppliers = SqlBuilder.getSupplierNames();
-			String getCategories = SqlBuilder.getCategoryNames();
+			String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+			String getCategories = SqlBuilder.getCategoryNamesQuery();
 			
 			ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
 			

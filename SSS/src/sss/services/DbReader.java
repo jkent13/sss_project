@@ -16,12 +16,33 @@ import javax.swing.JOptionPane;
 
 public class DbReader {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private static Connection connection = DbConnector.getConnection();		// Connection to DB
-	private static Statement statement;										// Statement for executing queries
+	private static Statement statement;																		// Statement for executing queries
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
 	
 	
 	private DbReader() {
 	}
+	
+	
+	
+	// ==========================================================================
+	// Static Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Static method for executing any kind of SQL SELECT statement on the database
@@ -53,6 +74,8 @@ public class DbReader {
 		}
 	}
 	
+	
+	
 	/**
 	 * Static method for shutting down the DbReader by safely closing its Statement and the database connection
 	 * @throws SQLException if there is an error in closing the statement or connection
@@ -65,4 +88,5 @@ public class DbReader {
 			DbConnector.closeConnection();
 		}
 	}
+	
 }

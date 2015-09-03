@@ -11,6 +11,12 @@ package sss.domain;
 
 public class FormattedSale {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	// The top of the receipt - Contains information about the store that is not dynamic 
 	private final String[] receiptHeader = {"Simple Sale Services", 				//  Index 0
 											"123 Fake St, Somewhere",				//  Index 1
@@ -34,6 +40,14 @@ public class FormattedSale {
 	private final String[] receiptFooter = {	"Please keep your receipt as proof-of-purchases.", 	// Index 0
 												"No refunds can be given without a receipt."};		// Index 1
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Constructor
 	 * @param saleHeader the array containing the receipt number and timestamp
@@ -46,6 +60,14 @@ public class FormattedSale {
 		this.saleFooter = saleFooter;
 	}
 
+	
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Getter method for the receiptHeader array
 	 * @return the receipt header information
@@ -54,6 +76,8 @@ public class FormattedSale {
 		return receiptHeader;
 	}
 
+	
+	
 	/**
 	 * Getter method for the saleHeader array
 	 * @return the sale header information
@@ -62,6 +86,8 @@ public class FormattedSale {
 		return saleHeader;
 	}
 
+	
+	
 	/**
 	 * Getter method for the saleDetails array
 	 * @return the sale details information (line items)
@@ -70,6 +96,8 @@ public class FormattedSale {
 		return saleDetails;
 	}
 
+	
+	
 	/**
 	 * Getter method for the saleFooter array
 	 * @return the sale footer information (totals)
@@ -78,6 +106,8 @@ public class FormattedSale {
 		return saleFooter;
 	}
 
+	
+	
 	/**
 	 * Getter method for the receiptFooter array
 	 * @return the receipt footer information

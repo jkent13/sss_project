@@ -375,6 +375,6 @@ public class TimePeriodRefundFrame extends JFrame {
 		});
 
 		setVisible(true);
-
 	}
+	
 }

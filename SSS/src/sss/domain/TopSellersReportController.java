@@ -1,3 +1,10 @@
+/* TopSellersReportController Class
+ * 
+ * Controls application logic for Generate Top Seller Report UC
+ * 
+ * Original Author: Josh Kent 
+ */
+
 package sss.domain;
 
 import java.sql.ResultSet;
@@ -13,13 +20,34 @@ import sss.services.SqlBuilder;
 
 public class TopSellersReportController extends ReportController {
 
-	private String[] tableColumns = {"Ranking", "Units Sold", "Product Name", "Product ID"};
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
 	
+	
+	
+	private String[] tableColumns = {"Ranking", "Units Sold", "Product Name", "Product ID"};
 	private String[] dateRangeOfCurrentReport = {"No Date", "No Date"};
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public TopSellersReportController() {
 		initialise();
 	}
+	
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
 	
 	@Override
 	protected void initialise() {
@@ -42,13 +70,11 @@ public class TopSellersReportController extends ReportController {
 				currentTableView.removeRow(i);
 			}
 			
-			// ======================================================================
 			// Get Query ============================================================
 			
 			String topSellerQuery = SqlBuilder.getTopSellerQuery(filter);
 		
-			// ======================================================================
-			// Populate table ================================================
+			// Populate table =======================================================
 			
 			ResultSet topSellerResultSet = DbReader.executeQuery(topSellerQuery);
 			int rank = 1;
@@ -72,6 +98,14 @@ public class TopSellersReportController extends ReportController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	// ==========================================================================
+	// Chart Methods
+	// ==========================================================================
+	
+	
 	
 	public void showBarChart() {
 		ChartBuilder.showTopSellerBarChart(dateRangeOfCurrentReport, currentTableView);

@@ -28,6 +28,12 @@ import sss.ui.InvoiceComparisonFrame;
 
 public class IMController {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private NonEditableTableModel productData = new NonEditableTableModel(); // Data model for ViewInventoryFrame JTable
 	private NonEditableTableModel invoiceComparisonData = new NonEditableTableModel();
 	
@@ -42,6 +48,14 @@ public class IMController {
 	private String[] suppliers;		// Holds the supplier names (read in from DB). Used to fill combobox in ViewInventoryFrame
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox in ViewInventoryFrame
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Constructor calls initialise method to start up
 	 */
@@ -49,7 +63,12 @@ public class IMController {
 		initialise();
 	}
 	
-	//--------------- Core Methods-------------------------------------
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Sets up the controller
 	 */
@@ -60,8 +79,8 @@ public class IMController {
 
 		// Get SQL statements
 		String selectAllProducts = SqlBuilder.getAllProducts();
-		String getSuppliers = SqlBuilder.getSupplierNames();
-		String getCategories = SqlBuilder.getCategoryNames();
+		String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+		String getCategories = SqlBuilder.getCategoryNamesQuery();
 		
 		ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
 		
@@ -134,6 +153,8 @@ public class IMController {
 		}
 	}
 	
+	
+	
 	/**
 	 * Uses the filter parameter to get a customised SQL query and change the product data model 
 	 * to show only products allowed by the filter
@@ -175,6 +196,11 @@ public class IMController {
 	}
 
 
+	
+	/**
+	 * Method that is responsible for interpreting a CSV file and transforming the data into something usable
+	 * by the program
+	 */
 	public void readCsv() {
 
 		try {
@@ -249,6 +275,13 @@ public class IMController {
 
 	}
 	
+	
+	
+	/**
+	 * Method to update multiple products at once (part of importing a CSV invoice)
+	 * @param confirmed A value that signifies whether the update should occur or be cancelled. 
+	 * 1 is used to continue, any other value means cancel
+	 */
 	public void bulkUpdate(int confirmed) {
 		if(confirmed == 1) {
 			
@@ -277,6 +310,11 @@ public class IMController {
 		}
 	}
 	
+	
+	
+	/**
+	 * Method to export the CSV Invoice comparison table to a CSV file
+	 */
 	public void exportComparisonReport() {
 		if(comparisonSet != null) {
 			JFileChooser fileChooser = new JFileChooser();
@@ -310,6 +348,11 @@ public class IMController {
 		}
 	}
 	
+	
+	
+	/**
+	 * Method to export the current table data to a CSV file
+	 */
 	public void exportProductReport() {
 		if(productData != null) {
 			JFileChooser fileChooser = new JFileChooser();
@@ -367,7 +410,15 @@ public class IMController {
 		}
 	}
 	
+	
+	
 	@SuppressWarnings("unused")
+	/**
+	 * Checks the rows of an imported CSV invoice to determine if the format is correct and 
+	 * that expected values for prices and quantity are present
+	 * @param rows
+	 * @return
+	 */
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
 		int rowCounter = 1;
 		try {
@@ -388,21 +439,30 @@ public class IMController {
 			}
 		} 
 		catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Error: An invalid price value was found at row: " + rowCounter + 
-					". Please ensure this value is correct and retry the import.", "Invalid Price", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: An invalid number value was found at row: " + rowCounter + 
+					". Please ensure this value is correct and retry the import.", "Invalid Number", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
 		return true;
 	}
 	
+	
+	
+	/**
+	 * Refreshes the product display table to show all products
+	 */
 	private void refresh() {
 		getResults(blankFilter);
 	}
 	
-	//-----------------------------------------------------------------
+
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
 	
-	//------ Getter Methods -------------------------------------------
+	
+	
 	/**
 	 * Getter method for the product data model
 	 * @return the product data model
@@ -410,6 +470,8 @@ public class IMController {
 	public NonEditableTableModel getDataModel() {
 		return productData;
 	}
+	
+	
 	
 	/**
 	 * Getter method for the array containing all supplier names 
@@ -419,6 +481,8 @@ public class IMController {
 		return suppliers;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the array containing all category names
 	 * @return the category name array
@@ -427,5 +491,4 @@ public class IMController {
 		return categories;
 	}
 
-	//-----------------------------------------------------------------	
 }// End class

@@ -1,3 +1,10 @@
+/* AddProductController Class
+ * 
+ * Provides the controlling logic for the Add Product UC
+ * 
+ * Original Author: Josh Kent 
+ */
+
 package sss.domain;
 
 import java.math.BigDecimal;
@@ -28,7 +35,9 @@ public class AddProductController {
 	// ==========================================================================
 	
 	
-	
+	/**
+	 * No-args constructor simply calls the initialise method to set up the class
+	 */
 	public AddProductController() {
 		initialise();
 	}
@@ -41,10 +50,14 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Method to set up the controller class
+	 * Reads in suppliers and categories from the database
+	 */
 	private void initialise() {
 		try {
-		String getSuppliers = SqlBuilder.getSupplierNames();
-			String getCategories = SqlBuilder.getCategoryNames();
+		String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+			String getCategories = SqlBuilder.getCategoryNamesQuery();
 
 			ResultSet supplierNames = DbReader.executeQuery(getSuppliers);
 
@@ -100,6 +113,10 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Method to write a new product to the database
+	 * @param newProduct The product object to write to the database
+	 */
 	public void saveNewProduct(Product newProduct) {
 		if(isAllValid(newProduct)) {
 				String productInsertStatement = SqlBuilder.getProductInsertStatement(newProduct);
@@ -116,6 +133,13 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Summary method that checks that a Product object's validity by calling all other 
+	 * validation methods
+	 * @param product The Product object to be checked
+	 * @return true if the Product is considered valid (has no incorrect data & is unique), 
+	 * false otherwise
+	 */
 	public boolean isAllValid(Product product) {
 		return (isProductUnique(product) && isProductCodeValid(product) && 
 				isProductNameValid(product)&& isCostPricePositive(product) 
@@ -124,6 +148,12 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Checks if a Product object's product code is valid
+	 * @param product The Product object whose product code will be checked
+	 * @return true if the product code is less than 20 characters in length and only 
+	 * contains alphanumeric characters, false otherwise
+	 */
 	private boolean isProductCodeValid(Product product) {
 		String productCode = product.getCode();
 		if(productCode.length() > 20) {
@@ -141,6 +171,12 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Checks if a Product object has a valid name
+	 * @param product The Product object whose name will be checked
+	 * @return true if the product's name is < 45 characters and only contains alphanumeric characters, spaces 
+	 * and dashes, false otherwise
+	 */
 	private boolean isProductNameValid(Product product) {
 		String productName = product.getName();
 		if(productName.length() > 45) {
@@ -158,6 +194,13 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Checks a Product object's barcode and product code to see if any products using those values
+	 * already exist in the database
+	 * @param product The Product object whose barcode (ID) and product code will be checked
+	 * @return true if there is not already any products using either the barcode or the product code, false 
+	 * if there is
+	 */
 	private boolean isProductUnique(Product product) {
 		try {
 			String barcodeMatchQuery = SqlBuilder.getBarcodeMatchQuery(product.getId());
@@ -187,6 +230,11 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Checks if a product's cost price value (BigDecimal) is positive
+	 * @param product The Product object whose cost price will be checked
+	 * @return  true if the price is positive, false otherwise
+	 */
 	private boolean isCostPricePositive(Product product) {
 		if(product.getCostPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			JOptionPane.showMessageDialog(null, "Error: The cost price value must be > 0", "Invalid Cost Price", JOptionPane.ERROR_MESSAGE);
@@ -199,6 +247,11 @@ public class AddProductController {
 	
 	
 	
+	/**
+	 * Checks if a product's price value (BigDecimal) is positive
+	 * @param product The Product object whose price will be checked
+	 * @return true if the price is positive, false otherwise
+	 */
 	private boolean isPricePositive(Product product) {
 		if(product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			JOptionPane.showMessageDialog(null, "Error: The price value must be > 0", "Invalid Price", JOptionPane.ERROR_MESSAGE);
@@ -214,6 +267,9 @@ public class AddProductController {
 	// ==========================================================================
 	// Getter Methods
 	// ==========================================================================
+	
+	
+	
 	/**
 	 * Getter method for the array containing all supplier names 
 	 * @return the supplier name array

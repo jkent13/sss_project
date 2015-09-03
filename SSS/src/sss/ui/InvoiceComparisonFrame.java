@@ -1,3 +1,11 @@
+/* InvoiceComparisonFrame Class
+ * 
+ * A custom JFrame designed to show the difference between data imported from a CSV 
+ * invoice and data in the database
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.ui;
 
 import java.awt.BorderLayout;
@@ -19,11 +27,25 @@ import sss.domain.NonEditableTableModel;
 @SuppressWarnings("serial")
 public class InvoiceComparisonFrame extends JFrame {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	public static final int CONFIRMED_OPTION = 1;
 	public static final int CANCEL_OPTION = 0;
 	
 	private NonEditableTableModel comparisonDataModel;
 	private IMController controller;
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	public InvoiceComparisonFrame(NonEditableTableModel dataModel, IMController inventoryController) {
 		
@@ -58,6 +80,13 @@ public class InvoiceComparisonFrame extends JFrame {
 		add(buttonPanelSouth, BorderLayout.SOUTH);
 		
 		
+		
+		// ==========================================================================
+		// Define Listeners (in Constructor)
+		// ==========================================================================
+		
+		
+		
 		continueButton.addActionListener(new ActionListener()
 		{
 
@@ -70,6 +99,8 @@ public class InvoiceComparisonFrame extends JFrame {
 			}
 		});
 		
+		
+		
 		saveButton.addActionListener(new ActionListener()
 		{
 
@@ -80,6 +111,8 @@ public class InvoiceComparisonFrame extends JFrame {
 				
 			}
 		});
+		
+		
 		
 		cancelButton.addActionListener(new ActionListener()
 		{
@@ -92,9 +125,8 @@ public class InvoiceComparisonFrame extends JFrame {
 				
 			}
 		});
-		
-		
-		setVisible(true);
 
+		setVisible(true);
 	}
+	
 }

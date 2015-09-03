@@ -28,6 +28,7 @@ public class ReportsMenuFrame extends JFrame {
 		setTitle("Reports Menu");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		//-------------------Load Image Resources--------------------
 		

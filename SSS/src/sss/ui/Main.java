@@ -1,6 +1,6 @@
 /*
  * Main Class
- * The intial entry point into the application
+ * The initial entry point into the application
  * Original Author: Amethyst Mayer
  */
 
@@ -18,9 +18,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import sss.services.DbConnector;
+import sss.services.EventWatcher;
 
 public class Main {
 
+	private static JFrame dashboardFrame = null;
+	private static JFrame posFrame = null;
+	
 	public static void main(String[] args) {
 
 //-------------------Frame Details--------------------		
@@ -29,7 +33,6 @@ public class Main {
 		mainMenuFrame.setTitle("Main Menu");
 		mainMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		mainMenuFrame.setLocationRelativeTo(null);
-		mainMenuFrame.setUndecorated(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 //-------------------Load Image Resources--------------------
@@ -60,9 +63,6 @@ public class Main {
 		fullScreenPanel.add(topPanel);
 
 		JLabel mainMenuTextLabel = new JLabel(new ImageIcon(sssLogoUrl));
-//		JLabel mainMenuTextLabel = new JLabel("Simple Sale System V0.75");
-//		Font myFont = new Font("SansSerif", Font.BOLD, 57);
-//		mainMenuLabel.setFont(myFont);
 		topPanel.add(mainMenuTextLabel);
 
 		JPanel middlePanel = new JPanel();
@@ -121,7 +121,13 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				new PosFrame();
+				if(posFrame == null) {
+					posFrame = new PosFrame();
+				}
+				else {
+					posFrame.dispose();
+					posFrame = new PosFrame();
+				}
 			}
 		});
 
@@ -131,11 +137,13 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame myFrame = new JFrame();
-				myFrame.setTitle("Make Sale");
-				myFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-				myFrame.setLocationRelativeTo(null);
-				myFrame.setVisible(true);
+				if(dashboardFrame == null) {
+					dashboardFrame = new DashboardFrame();
+				}
+				else {
+					dashboardFrame.dispatchEvent(new WindowEvent(dashboardFrame, WindowEvent.WINDOW_CLOSING));
+					dashboardFrame = new DashboardFrame();
+				}
 			}
 		});
 
@@ -169,16 +177,18 @@ public class Main {
 				if (confirm == JOptionPane.YES_OPTION) {
 					try {
 						DbConnector.closeConnection();
-						System.out.println("DB connection closed.");
-						System.exit(0);
-					} catch (SQLException sqle) {
+					} 
+					catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
 						sqle.printStackTrace();
 					}
+					EventWatcher.getInstance().saveEvents(); // Save event feed before close
+					System.exit(0); // Close all windows
 				}
 			}
 		});
 		
 		mainMenuFrame.setVisible(true);
 	}
+	
 }
