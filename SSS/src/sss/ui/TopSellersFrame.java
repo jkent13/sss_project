@@ -10,20 +10,36 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import sss.domain.TopSellerFilter;
+import sss.domain.TopSellersReportController;
 
 
 @SuppressWarnings("serial")
 public class TopSellersFrame extends JFrame {
 
+	private TopSellersReportController controller = new TopSellersReportController();
+	private TopSellerFilter filter = new TopSellerFilter();
+	
+	private JTextField startDateTextField = new JTextField();
+	private JTextField endDateTextField = new JTextField();
+	private JTextField limitTextField = new JTextField();
+	
 	public TopSellersFrame()
 	{
 		//-------------------Frame Details--------------------
@@ -31,6 +47,11 @@ public class TopSellersFrame extends JFrame {
 		setTitle("Top Sellers Report");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		
+		//----------------------Load Image Resources-----------------------
+		
+		URL barGraphIconUrl = Main.class.getResource("/BarGraphIcon2.png");
+		URL barGraphIconHoverUrl = Main.class.getResource("/BarGraphIcon3.png");
 
 		//-------------------Full Screen Panel--------------------
 
@@ -51,33 +72,9 @@ public class TopSellersFrame extends JFrame {
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
-		String[] colNames = {"Product id","Barcode","Name","Category","Sale Price"};
-		Object[][] data = {
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"},
-				{"DGKF353","4256985216","Cat","Pet","$40"}
-		};
-
-		JTable lookUpTable = new JTable(data, colNames);
-		JScrollPane scrlPane = new JScrollPane(lookUpTable);
-		leftPanel.add(scrlPane);
+		JTable resultsTable = new JTable(controller.getDataModel());
+		JScrollPane scrollPane = new JScrollPane(resultsTable);
+		leftPanel.add(scrollPane);
 		
 		//--------------------Date Panels--------------------
 
@@ -94,18 +91,17 @@ public class TopSellersFrame extends JFrame {
 		
 		//--------------------Date Panel Fields--------------------
 
-		JTextField viewStartDate = new JTextField();
+
 		JLabel viewStartDateLabel = new JLabel("Start Date:");
 		JLabel viewStartDateExample = new JLabel("e.g. 01/03/2014");
 		rightDatePanel.add(viewStartDateLabel);
-		rightDatePanel.add(viewStartDate);
+		rightDatePanel.add(startDateTextField);
 		rightDatePanel.add(viewStartDateExample);
 		
-		JTextField viewEndDate = new JTextField();
 		JLabel viewEndDateLabel = new JLabel("End Date:");
 		JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
 		leftDatePanel.add(viewEndDateLabel);
-		leftDatePanel.add(viewEndDate);
+		leftDatePanel.add(endDateTextField);
 		leftDatePanel.add(viewEndDateExample);
 
 		datePanel.add(rightDatePanel);
@@ -117,34 +113,41 @@ public class TopSellersFrame extends JFrame {
 		JPanel labelPanel = new JPanel();
 		TitledBorder labelPanelTitle = new TitledBorder("Number of Top Products:");
 		labelPanel.setBorder(labelPanelTitle);
-		Font myFont = new Font("SansSerif", Font.BOLD, 32);
+		Font myFont = new Font("SansSerif", Font.BOLD, 12);
 		labelPanel.setLayout(new GridLayout(3,1,10,10));
 		labelPanelTitle.setTitleFont(myFont);
 		rightPanel.add(labelPanel);
 
 		JPanel inputUnitsPanel = new JPanel();
+		TitledBorder inputUnitsPanelTitle = new TitledBorder("Shown as:");
+		inputUnitsPanel.setBorder(inputUnitsPanelTitle);
 		inputUnitsPanel.setLayout(new GridLayout(1,1,10,10));
 		rightPanel.add(inputUnitsPanel);
 
-		JLabel unitsInputLabel = new JLabel("Input:");
-		JTextField units = new JTextField("");
+		JLabel unitsInputLabel = new JLabel("");
+
 		JLabel unitsInputExample = new JLabel("e.g. 10");
 		
-		JButton barGraphButton = new JButton("Bar Graph");
+		JButton barGraph = new JButton(new ImageIcon(barGraphIconUrl));
+		ImageIcon barGraphButtonHover = new ImageIcon(barGraphIconHoverUrl);
+		barGraph.setBorderPainted(false);
+		barGraph.setRolloverIcon(barGraphButtonHover);
+		barGraph.setRolloverEnabled(true);
+		barGraph.setFocusPainted(false);
+		barGraph.setContentAreaFilled(false);
+		inputUnitsPanel.add(barGraph);
+		
 		
 		labelPanel.add(unitsInputLabel);
-		labelPanel.add(units);
+		labelPanel.add(limitTextField);
 		labelPanel.add(unitsInputExample);
-		inputUnitsPanel.add(barGraphButton);
 
 		//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
 		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
@@ -154,26 +157,67 @@ public class TopSellersFrame extends JFrame {
 		
 		//---------------------Event Handlers---------------------
 
-		barGraphButton.addActionListener(new ActionListener()
+		barGraph.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				myFrame.dispose();
+				controller.showBarChart();
 			}
 		});
 		
+		// Get Results button
 		getResultsButton.addActionListener(new ActionListener()
 		{
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent ae) 
 			{
-//				myFrame.dispose();
+				if(buildFilter()) {
+					controller.getResults(filter);
+				}
 			}
 		});
 
+		// Pressing Enter key on View Start Date textbox
+		startDateTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(buildFilter()) {
+						controller.getResults(filter);
+					}
+				}
+			}
+		});
+
+		// Pressing Enter key on View End Date textbox
+		endDateTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(buildFilter()) {
+						controller.getResults(filter);
+					}
+				}
+			}
+		});
+		
+		limitTextField.addKeyListener(new KeyAdapter()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(buildFilter()) {
+						controller.getResults(filter);
+					}
+				}
+			}
+		});
+		
 		backButton.addActionListener(new ActionListener()
 		{
 
@@ -188,4 +232,70 @@ public class TopSellersFrame extends JFrame {
 		setVisible(true);
 	
 	}
+	
+	private boolean isDateFieldNull() {
+		boolean isStartNull = startDateTextField.getText().equals("");
+		boolean isEndNull = endDateTextField.getText().equals("");
+		if(isStartNull || isEndNull) {
+			JOptionPane.showMessageDialog(null, "Error: One or both of the date fields are empty!", "Empty Date Field", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	private boolean areDatesValid() {
+		String startDateString = startDateTextField.getText();
+		String endDateString = endDateTextField.getText();
+		boolean isStartValid = controller.isValidDate(startDateString);
+		boolean isEndValid = controller.isValidDate(endDateString);
+		boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
+
+		if (isStartValid && isEndValid && isStartBeforeEnd) {
+			return true;
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Error: Invalid date input. Please make "
+					+ "sure the both dates are written in the format DD/MM/YYYY and that the start date is before the end date", 
+					"Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
+	
+	
+	private boolean isLimitValid() {
+		try{
+			int limit = Integer.parseInt(limitTextField.getText());
+			if(limit > 0) {
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: Invalid input for the limit. Please make sure the value is numerical and > 0", "Invalid Limit", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Invalid input for the limit. Please make sure the value is numerical and > 0", "Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+
+
+
+	private boolean buildFilter() {
+		if (!isDateFieldNull()) {
+			if (areDatesValid() && isLimitValid()) {
+				filter.setStartDate(startDateTextField.getText());
+				filter.setEndDate(endDateTextField.getText());
+				filter.setLimit(Integer.parseInt(limitTextField.getText()));
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

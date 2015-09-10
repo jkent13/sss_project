@@ -36,42 +36,23 @@ public class SqlBuilderTest {
 
 	@Test
 	public void testGetLastSaleId() {
-		assertEquals("SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;", SqlBuilder.getLastSaleId());
+		assertEquals("SELECT MAX(sale_id) as 'Last Sale ID' FROM sale;", SqlBuilder.getLastSaleIdQuery());
 	}
 	
 	@Test
 	public void testGetSupplierNames() {
-		assertEquals("SELECT supp_name FROM supplier ORDER BY supp_id;", SqlBuilder.getSupplierNames());
+		assertEquals("SELECT supp_name FROM supplier ORDER BY supp_id;", SqlBuilder.getSupplierNamesQuery());
 	}
 	
 	@Test
 	public void testGetCategoryNames() {
-		assertEquals("SELECT DISTINCT prod_category FROM product ORDER BY prod_category;",SqlBuilder.getCategoryNames());
+		assertEquals("SELECT DISTINCT prod_category FROM product ORDER BY prod_category;",SqlBuilder.getCategoryNamesQuery());
 	}
 	
 	@Test
 	public void testGetAllProducts() {
 		assertEquals("SELECT prod_id, prod_code, prod_name, prod_cost_price, prod_price, prod_qoh, prod_category, supp_name, prod_active "
 				+ "FROM product, supplier WHERE product.supp_id = supplier.supp_id ORDER BY prod_name;", SqlBuilder.getAllProducts());
-	}
-	
-	@Test
-	public void testGetProductsByQuantity() {
-		assertEquals("SELECT * FROM product WHERE prod_qoh < 10 ORDER BY prod_qoh;", SqlBuilder.getProductsByQuantity(10, "<"));
-	}
-	
-	@Test
-	public void testGetProductsByPriceRange() {
-		assertEquals("SELECT * FROM product WHERE prod_price >= 0.00 AND prod_price <= 5.00 ORDER BY prod_price;", SqlBuilder.getProductsByPriceRange(new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN), new BigDecimal(5.00).setScale(2, BigDecimal.ROUND_HALF_EVEN)));
-	}
-	@Test
-	public void testGetProductsBySupplierId() {
-		assertEquals("SELECT * FROM product WHERE supp_id = 3;", SqlBuilder.getProductsBySupplierId(3));
-	}
-	
-	@Test
-	public void testGetProductsByCategory() {
-		assertEquals("SELECT * FROM product WHERE prod_category = 'Office';", SqlBuilder.getProductsByCategory("Office"));
 	}
 	
 	@Test
@@ -98,31 +79,15 @@ public class SqlBuilderTest {
 	@Test
 	public void testGetSaleReportByHourQuery() {
 		String startDate = "2013-12-25 08:00:00";
-		String endDate = "2013-12-25 08:00:00";
 		
 		assertEquals("SELECT CONCAT(HOUR(sale_date), ':00-', HOUR(sale_date)+1, ':00') AS 'Hour', "
 				+ "COUNT(*) AS `Number of Sales`, SUM(sale_total) AS 'Sale Totals' FROM sale WHERE sale_date BETWEEN "
-				+ "'2013-12-25 08:00:00' AND '2013-12-25 08:00:00' GROUP BY HOUR(sale_date);", SqlBuilder.getSaleReportByHourQuery(startDate, endDate));
+				+ "'2013-12-25 08:00:00' AND '2013-12-25 08:00:00' GROUP BY HOUR(sale_date);", SqlBuilder.getSaleReportByHourQuery(startDate));
 	}
 	
 	@Test
 	public void testGetProductById() {
 		assertEquals("SELECT * FROM product WHERE prod_id = 1234567891022;", SqlBuilder.getProductById(1234567891022L));
-	}
-
-	@Test
-	public void testGetProductsByCode() {
-		assertEquals("SELECT * FROM product WHERE prod_code = 'TTTT666';", SqlBuilder.getProductsByCode("TTTT666"));
-	}
-
-	@Test
-	public void testGetProductsByNameAndCategory() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%' AND prod_category = 'Pet';", SqlBuilder.getProductsByNameAndCategory("Cat", "Pet"));
-	}
-
-	@Test
-	public void testGetProductsByName() {
-		assertEquals("SELECT * FROM product WHERE UPPER(prod_name) LIKE '%CAT%';", SqlBuilder.getProductsByName("Cat"));
 	}
 
 	@Test

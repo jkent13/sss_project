@@ -9,107 +9,129 @@
 
 package sss.domain;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import sss.services.DbConnector;
 import sss.services.DbReader;
 import sss.services.DbWriter;
+import sss.services.EventWatcher;
 import sss.services.PrintFormatter;
 import sss.services.ReceiptPrinter;
-import sss.services.SaleListener;
 import sss.services.SqlBuilder;
 
 public class Register {
-	
-	private long nextSaleId;				// The next sale id is the next consecutive id to be used in the next Sale
+
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+
+
+
+	private long nextSaleId;							// The next sale id is the next consecutive id to be used in the next Sale
 	private boolean activeSale = false;		// Maintains state of Register
-	
-	private Sale currentSale;				// The current Sale object for the current transaction
-	private Product currentProduct;			// The last Product enter as a Line	
+
+	private Sale currentSale;							// The current Sale object for the current transaction
+	private Product currentProduct;				// The last Product enter as a Line	
+
 	private NonEditableTableModel dataModel = new NonEditableTableModel();	// The data model for PosFrame's JTable (lookupTable)
-	private NonEditableTableModel searchDataModel = new NonEditableTableModel();
-	
+	private NonEditableTableModel searchDataModel = new NonEditableTableModel(); // The data model for the product lookup function
+
 	private String[] categories;	// Holds the distinct category names (read in from DB)
-	
+
 	private SimpleDateFormat mySqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // The MySQL DateTime format
 	
+	private EventItemListener eventItemListener; // EventWatcher
+
+	private static Register instance; // Singleton Instance
+
+	
+	
+	// ==========================================================================
+	// Constructor & Singleton Access Method
+	// ==========================================================================
+
+
+
 	/**
 	 * Constructor - calls the initialise method to set up the Register
 	 */
-	public Register() {
+	private Register() {
 		initialise();
 	}
+
 	
-	//--------------- Core Methods-------------------------------------
 	
+	public static Register getInstance() {
+		if(instance == null) {
+			instance = new Register();
+		}
+		return instance;
+	}
+
+
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+
+
+
 	/**
 	 * A start-up method for the Register. Reads in the nextSaleId value and sets the column names for the data model
 	 */
 	private void initialise() {
 		try {
-		dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
-		searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
-		
-		String lastIdQuery = SqlBuilder.getLastSaleId();
-		String getSuppliers = SqlBuilder.getSupplierNames();
-		String getCategories = SqlBuilder.getCategoryNames();
-		
-		ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
+			dataModel.setColumnIdentifiers(new String[]{"Qty","Product ID","Name","Discount","Amount"}); // Sets the column names for the lookup table
+			searchDataModel.setColumnIdentifiers(new String[]{"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"});
+
+			String lastIdQuery = SqlBuilder.getLastSaleIdQuery();
+			String getCategories = SqlBuilder.getCategoryNamesQuery();
+
+			ResultSet lastIdResult = DbReader.executeQuery(lastIdQuery);
 
 			if(lastIdResult.next()) {
 				nextSaleId = lastIdResult.getLong("Last Sale ID") + 1;
 			}
-		lastIdResult.close();
-		
-		ResultSet categoryNames = DbReader.executeQuery(getCategories);
-		
-		int categoryArraySize = 0;
-		if(categoryNames.next()) {
-			// This loop counts how many categories there are, so that the array can be
-			// set to the correct size
-			do {
-				categoryArraySize++;
-			} while(categoryNames.next());
-			categories = new String[categoryArraySize]; // Set array to correct size
-			
-			categoryNames.beforeFirst(); // Reset ResultSet
-			
-			// This loop populates the categories array with category names from the DB
-			int index = 0;
-			while(categoryNames.next()) {
-				categories[index] = categoryNames.getString("prod_category");
-				index++;
+			lastIdResult.close();
+
+			ResultSet categoryNames = DbReader.executeQuery(getCategories);
+
+			int categoryArraySize = 0;
+			if(categoryNames.next()) {
+				// This loop counts how many categories there are, so that the array can be
+				// set to the correct size
+				do {
+					categoryArraySize++;
+				} while(categoryNames.next());
+				categories = new String[categoryArraySize+1]; // Set array to correct size
+
+				categoryNames.beforeFirst(); // Reset ResultSet
+
+				// This loop populates the categories array with category names from the DB
+				categories[0] = "All";
+				int index = 1;
+				while(categoryNames.next()) {
+					categories[index] = categoryNames.getString("prod_category");
+					index++;
+				}
 			}
-		}
-		
-		categoryNames.close(); // Close ResultSet
-		
+
+			categoryNames.close(); // Close ResultSet
+			registerEventItemListener(EventWatcher.getInstance()); // Register EventWatcher
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: Failed to read a required value from the database", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Signals a new sale transaction should be started (if one is not already active). Changes Register state
-	 */
-	public void beginSale() {
-		if (!activeSale) {
-			currentSale = new Sale(nextSaleId);
-			activeSale = true;
-		}
-	}
-	
+
+
+
 	/**
 	 * Method for registering a SaleListener (namely PosFrame) to the currentSale Sale object 
 	 * @param listener a reference to the new SaleListener to be added
@@ -119,10 +141,50 @@ public class Register {
 			currentSale.registerListener(listener); // Passes listener argument through to currentSale registerListener()
 		}
 	}
+
+
+
+	public void registerEventItemListener(EventItemListener listener) {
+		eventItemListener = listener;
+	}
+
 	
-	//-----------------------------------------------------------------
 	
-	//------ Getter Methods -------------------------------------------
+	private void notifyEventItemListener(Date timeStamp) {
+		// Create and fire events if applicable
+		if(eventItemListener != null) {
+			BigDecimal saleTotal = currentSale.getSaleTotal();
+			
+			// Check for and create Big Sale Event Item
+			if(saleTotal.compareTo(SaleEventItem.EVENT_FIRE_THRESHOLD) >= 0) {
+				SaleEventItem saleEvent = new SaleEventItem(EventItem.TYPE_BIG_SALE, timeStamp, currentSale.getSaleId(), saleTotal);
+				eventItemListener.notify(saleEvent);
+			}
+			
+			// Check for and create Refund Event Item
+			if(saleTotal.compareTo(BigDecimal.ZERO) < 0) {
+				RefundEventItem refundEvent = new RefundEventItem(EventItem.TYPE_REFUND, timeStamp, currentSale.getSaleId(), saleTotal);
+				eventItemListener.notify(refundEvent);
+			}
+			
+			// Check for and create Stock Empty Event Items
+			ArrayList<EventItem> stockEvents = checkIfStockEmptied(timeStamp);
+			if(!stockEvents.isEmpty()) {
+				for(EventItem event : stockEvents) {
+					eventItemListener.notify(event);
+				}
+			}
+		}
+	}
+
+	
+
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+
+
+
 	/**
 	 * Getter method for the whether a sale is active
 	 * @return true if a sale is active, false otherwise
@@ -130,7 +192,7 @@ public class Register {
 	public boolean isActiveSale() {
 		return activeSale;
 	}
-	
+
 	/**
 	 * Getter method for the data model (for PosFrame's lookupTable)
 	 * @return a reference to the data model maintained in the Register class
@@ -138,7 +200,7 @@ public class Register {
 	public NonEditableTableModel getDataModel() {
 		return dataModel;
 	}
-	
+
 	public NonEditableTableModel getSearchDataModel() {
 		return searchDataModel;
 	}
@@ -154,25 +216,39 @@ public class Register {
 			return null;
 		}
 	}
-	
+
+	public boolean saleHasLines() {
+		if(activeSale) {
+			if(currentSale.getNumberOfLines() > 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
 	/**
 	 * Getter method for the current sale's SQL insert statements
 	 * @return a String SQL insert statement for the current sale
 	 */
-	public String getSaleInsertStatement() {
+	private String getSaleInsertStatement() {
 		String saleInsertStatement = SqlBuilder.getSaleInsertStatement(currentSale);
 		return saleInsertStatement;
 	}
-	
+
 	/**
 	 * Getter method for the current sale's line item SQL insert statements
 	 * @return a String[] containing SQL insert statements for the current sale's lines
 	 */
-	public String[] getLineInsertStatements() {
+	private String[] getLineInsertStatements() {
 		String[] lineInsertStatements = SqlBuilder.getLineInsertStatements(currentSale);
 		return lineInsertStatements;
 	}
-	
+
 	/**
 	 * Getter method for the array containing all category names
 	 * @return the category name array
@@ -180,11 +256,43 @@ public class Register {
 	public String[] getCategoryNames() {
 		return categories;
 	}
-	
-	//-----------------------------------------------------------------
-	
-	//--------------- Main POS methods---------------------------------
 
+
+
+	// ==========================================================================
+	// Main POS Methods
+	// ==========================================================================
+
+
+
+	/**
+	 * Signals a new sale transaction should be started (if one is not already active). Changes Register state
+	 */
+	public void beginSale() {
+		if (!activeSale) {
+			currentSale = new Sale(nextSaleId);
+			activeSale = true;
+		}
+	}
+
+
+
+	private void endSale() {
+		nextSaleId++;
+		activeSale = false;
+	}
+	
+	
+	
+	public void cancelSale() {
+		for(int i = dataModel.getRowCount()-1; i != -1; i--) {
+			dataModel.removeRow(i);
+		}
+		activeSale = false;
+	}
+	
+	
+	
 	/**
 	 * Enters a new line item to the data model and to the current sale
 	 * @param prod_id the product id (barcode) for the product to be displayed on the new line
@@ -203,7 +311,9 @@ public class Register {
 			JOptionPane.showMessageDialog(null, "Product: " + prod_id + " not found", "Lookup Failed", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-	
+
+
+
 	/**
 	 * Removes the line at the given index from the data model and from the current sale
 	 * @param lineIndex the row index for the line to be removed
@@ -216,7 +326,9 @@ public class Register {
 			calculateTotal();
 		}
 	}
-	
+
+
+
 	/**
 	 * Changes the quantity value (also known as line units) for the line at the given index in both the data model 
 	 * the current sale
@@ -225,16 +337,47 @@ public class Register {
 	 */
 	public void changeLineQuantity(int lineIndex, int quantity) {
 		String newQty;
-		if(activeSale) {
-			Line lineItem = currentSale.getLineItems().get(lineIndex);
-			lineItem.setQuantity(quantity);
-			newQty = String.valueOf(lineItem.getLineUnits());
-			dataModel.setValueAt(newQty, lineIndex, 0);
-			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
-			calculateTotal();
+		if(quantity == 0 && activeSale) {
+			voidLineItem(lineIndex);
 		}
-	}
-	
+		else {
+			if(activeSale) {
+				if(quantity < 0) {
+					int response = JOptionPane.showConfirmDialog(null, "Add returned product(s) to inventory?", "Adjust stock counts?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); 
+					if(response == JOptionPane.YES_OPTION) {
+						Line lineItem = currentSale.getLineItems().get(lineIndex);
+						lineItem.setQuantity(quantity);
+						lineItem.setDoNotAdjustFlag(false);
+						newQty = String.valueOf(lineItem.getLineUnits());
+						dataModel.setValueAt(newQty, lineIndex, 0);
+						dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+						calculateTotal();
+					}
+					else {
+						Line lineItem = currentSale.getLineItems().get(lineIndex);
+						lineItem.setQuantity(quantity);
+						lineItem.setDoNotAdjustFlag(true);
+						newQty = String.valueOf(lineItem.getLineUnits());
+						dataModel.setValueAt(newQty, lineIndex, 0);
+						dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+						calculateTotal();
+					}
+				}
+				else {
+					Line lineItem = currentSale.getLineItems().get(lineIndex);
+					lineItem.setQuantity(quantity);
+					lineItem.setDoNotAdjustFlag(false);
+					newQty = String.valueOf(lineItem.getLineUnits());
+					dataModel.setValueAt(newQty, lineIndex, 0);
+					dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
+					calculateTotal();
+				}// End else
+			}// End if
+		}// End else
+	}// End method
+
+
+
 	/**
 	 * Applies a discount to the line at the given index, reflected in both the data model and the current sale
 	 * @param lineIndex the row index for the line to be changed
@@ -251,53 +394,127 @@ public class Register {
 			calculateTotal();
 		}
 	}
-	
+
+
+
 	/**
 	 * Makes a payment for the current sale, which sets the amount tendered and timestamp, writes the sale 
 	 * and its lines to the database and prints a receipt
 	 * @param amt_tendered the amount tendered (must be greater than or equal to the sale total)
 	 */
 	public void makePayment(BigDecimal amt_tendered) {
-		if(activeSale && amt_tendered.compareTo(currentSale.getSaleTotal()) >= 0) {
+		if(activeSale && (currentSale.getNumberOfLines() > 0)) {
 			calculateTotal();
 			currentSale.setAmountTendered(amt_tendered);
 			calculateBalance();
-			currentSale.setTimestamp(mySqlDateFormat.format(new Date())); // Create and set the timestamp
-			
-			
+			Date timeStamp = new Date();
+			currentSale.setTimestamp(mySqlDateFormat.format(timeStamp)); // Create and set the timestamp
+			currentSale.checkSaleType();
+
 			// Get the SQL insert statements
 			String saleInsertStatement = getSaleInsertStatement();
 			String[] lineInsertStatements = getLineInsertStatements();
-			
+			String[] stockAdjustmentStatements = SqlBuilder.getStockAdjustmentsUpdateStatements(currentSale);
+
+
 			if(!currentSale.isValid()) {
 				JOptionPane.showMessageDialog(null, "Error: Sale Invalid. Remove from database.", "Invalid Sale", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			// Write the sale and lines to database
 			try {
 				writeSale(saleInsertStatement, lineInsertStatements);
+				adjustStockCounts(stockAdjustmentStatements);
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
-			
+
 			// Print out receipt
 			printReceipt(formatSale());
 			
+			// Notify Event Item Listener (DashboardController)
+			notifyEventItemListener(timeStamp);
+			
+			// End sale
+			endSale();
+
 			// Clear lookUpTable
 			for(int i = dataModel.getRowCount()-1; i != -1; i--) {
 				dataModel.removeRow(i);
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "ERROR: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	//-----------------------------------------------------------------
-	
-	//---------------- Calculator Methods -----------------------------
-	
+
+
+
+	public void lookUpProducts(LookupFilter filter) {
+		try {
+
+			String lookupQuery = SqlBuilder.lookupProduct(filter);
+			ResultSet lookupResults = DbReader.executeQuery(lookupQuery);
+
+			// Clear searchDataModel
+			for(int i = searchDataModel.getRowCount()-1; i != -1; i--) {
+				searchDataModel.removeRow(i);
+			}
+
+			if(lookupResults.next()) {
+				// Populate searchDataModel with new values
+				do {
+					searchDataModel.addRow(new Object[] {
+							lookupResults.getLong("prod_id"),
+							lookupResults.getString("prod_code"),
+							lookupResults.getString("prod_name"),
+							new BigDecimal(lookupResults.getDouble("prod_cost_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							new BigDecimal(lookupResults.getDouble("prod_price")).setScale(2, BigDecimal.ROUND_HALF_EVEN),
+							lookupResults.getInt("prod_qoh"),
+							lookupResults.getString("prod_category"),
+							lookupResults.getString("supp_name"),
+							lookupResults.getString("prod_active")					
+					});
+				} while(lookupResults.next());
+			}
+
+			lookupResults.close(); // Close ResultSet
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public ArrayList<EventItem> checkIfStockEmptied(Date timeStamp) {
+		ArrayList<EventItem> eventList = new ArrayList<EventItem>();
+		String[] statements = SqlBuilder.getProductsEmptyQueries(currentSale);
+		ResultSet results;
+		for(String statement: statements) {
+			try {
+				results = DbReader.executeQuery(statement);
+				if(results.next()) {
+					String code = results.getString("prod_code");
+					String name = results.getString("prod_name");
+					StockEmptyEventItem stockEvent = new StockEmptyEventItem(EventItem.TYPE_STOCK_EMPTY, timeStamp, code, name);
+					eventList.add(stockEvent);
+				}
+				results.close();
+			}
+			catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return eventList;
+	}
+
+
+
+	// ==========================================================================
+	// Calculator Methods
+	// ==========================================================================
+
+
+
 	/**
 	 * Makes a call to the current sale to calculate its balance
 	 */
@@ -306,7 +523,9 @@ public class Register {
 			currentSale.calculateBalance();
 		}
 	}
-	
+
+
+
 	/**
 	 * Makes a call to the current sale to calculate its totals
 	 */
@@ -315,11 +534,25 @@ public class Register {
 			currentSale.calculateTotal();
 		}
 	}
-	
-	//-----------------------------------------------------------------
-	
-	//----------- Printing and DB Writing Methods----------------------
-	
+
+
+
+	// ==========================================================================
+	// Printing and DB Writing Methods
+	// ==========================================================================
+
+
+
+	public void adjustStockCounts(String[] stockAdjustmentStatements) {
+		for(String statement: stockAdjustmentStatements) {
+			if(statement != null) {
+				DbWriter.executeStatement(statement);
+			}
+		}
+	}
+
+
+
 	/**
 	 * Writes a sale and its line items to the database
 	 * @param saleInsertStatement the sale SQL insert statement
@@ -332,7 +565,9 @@ public class Register {
 			DbWriter.executeStatement(lis);
 		}
 	}
-	
+
+
+
 	/**
 	 * Formats the current sale into a FormattedSale object which can be printed
 	 * @return a formatted version of the current sale, suitable for a ReceiptPrinter
@@ -341,7 +576,9 @@ public class Register {
 		FormattedSale fs = PrintFormatter.formatSale(currentSale);
 		return fs;
 	}
-	
+
+
+
 	/**
 	 * Prints out a formatted sale, increments the next sale id value, sets saleMade to true and resets Register to no active sale
 	 * @param fs a formatted sale object
@@ -349,8 +586,6 @@ public class Register {
 	public void printReceipt(FormattedSale fs) {
 		ReceiptPrinter printer = new ReceiptPrinter(fs);
 		printer.printReceipt();
-		nextSaleId++;
-		activeSale = false;
 	}
-	
+
 }// End class

@@ -14,26 +14,38 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import sss.services.SaleListener;
-
 public class Sale {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private List<SaleListener> listeners = new ArrayList<SaleListener>();		// Contains reference to all listeners concerned with changes
-																				// to a Sale object (such as a UI frame)
+																																					// to a Sale object (such as a UI frame)
 	
-	private int number_of_lines = 0;											// Initially, Sale has no lines
+	private int number_of_lines = 0;  // Initially, Sale has no lines
 	
-	private long sale_id; 														// PK eg. 160165
+	private long sale_id; 						// PK eg. 160165
 	
-	private String sale_date; 																				// String representing a MySQL DateTime
-	private BigDecimal sale_subtotal = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN); 		// Sale subtotal before GST (10 / 11 of sale total)
-	private BigDecimal sale_gst = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;			// Sale GST (1 / 11 of sale total)
-	private BigDecimal sale_total = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 			// Sale total (sum of line item totals)
+	private String sale_date; 				// String representing a MySQL DateTime
+	private BigDecimal sale_subtotal = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN); 				// Sale subtotal before GST (10 / 11 of sale total)
+	private BigDecimal sale_gst = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);;						// Sale GST (1 / 11 of sale total)
+	private BigDecimal sale_total = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 					// Sale total (sum of line item totals)
 	private BigDecimal sale_amount_tendered = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);	// Amount tendered for sale (must be >= sale total)
-	private BigDecimal sale_balance = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 		// Difference between amount tendered and sale total
-	private String sale_type = "Purchase"; 																	// Sale type: either 'Purchase' or 'Refund'
+	private BigDecimal sale_balance = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_EVEN);; 				// Difference between amount tendered and sale total
+	private String sale_type = "Purchase"; 	// Sale type: either 'Purchase' or 'Refund'
 
 	private ArrayList<Line> lineItems = new ArrayList<>(); 				// Collection of all lines within a Sale
+	
+	
+	
+	// ==========================================================================
+	// Constructors
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Creates a Sale from an id, a timestamp and a sale type
@@ -47,6 +59,8 @@ public class Sale {
 		this.sale_type = sale_type;
 	}
 	
+	
+	
 	/**
 	 * Creates a Sale from an id
 	 * @param sale_id a unique sale id number
@@ -55,7 +69,13 @@ public class Sale {
 		this.sale_id = sale_id;
 	}
 	
-	// ------------ Observer Pattern Methods --------------------
+	
+	
+	// ==========================================================================
+	// Observer Pattern Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Add a new listener to this Sale object
@@ -64,6 +84,8 @@ public class Sale {
 	public void registerListener(SaleListener newListener) {
 		listeners.add(newListener);
 	}
+	
+	
 	
 	/**
 	 * Remove (de-register) a listener from this Sale object
@@ -74,6 +96,8 @@ public class Sale {
 			listeners.remove(listener);
 		}
 	}
+	
+	
 	
 	/**
 	 * Notify all listeners that a certain change has been made to this Sale object and they must update themselves
@@ -87,9 +111,120 @@ public class Sale {
 		}
 	}
 	
-	// ----------------------------------------------------------
 	
-	// ---------------- Setter Methods --------------------------
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
+	/**
+	 * Getter method for the number of lines in this Sale
+	 * @return the number of lines in this Sale
+	 */
+	public int getNumberOfLines() {
+		return number_of_lines;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale id
+	 * @return the sale id
+	 */
+	public long getSaleId() {
+		return sale_id;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale date (also known as timestamp)
+	 * @return the sale date (timestamp)
+	 */
+	public String getSaleDate() {
+		return sale_date;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale's subtotal
+	 * @return the sale subtotal
+	 */
+	public BigDecimal getSaleSubtotal() {
+		return sale_subtotal;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale's GST amount
+	 * @return the sale GST amount
+	 */
+	public BigDecimal getSaleGST() {
+		return sale_gst;
+	}
+	
+	
+	
+	/**
+	 * Getter method for the sale total
+	 * @return the sale total
+	 */
+	public BigDecimal getSaleTotal() {
+		calculateTotal();
+		return sale_total;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale amount tendered
+	 * @return the sale amount tendered
+	 */
+	public BigDecimal getSaleAmountTendered() {
+		return sale_amount_tendered;
+	}
+
+	
+	
+	/**
+	 * Getter method for the sale balance (also known as change due)
+	 * @return the sale balance (change)
+	 */
+	public BigDecimal getSaleBalance() {
+		return sale_balance;
+	}
+	
+	
+
+	/**
+	 * Getter method for the sale type (either 'Purchase' or 'Refund')
+	 * @return the sale type
+	 */
+	public String getSaleType() {
+		return sale_type;
+	}
+	
+	
+	
+	/**
+	 * Getter method for the sale's line items
+	 * @return an ArrayList containing the sale's Lines
+	 */
+	public ArrayList<Line> getLineItems() {
+		return lineItems;
+	}
+	
+	
+	
+	// ==========================================================================
+	// Setter Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Setter method for the amount tendered (must be >= sale total)
@@ -105,6 +240,8 @@ public class Sale {
 		}
 	}
 	
+	
+	
 	/**
 	 * Setter method for the sale's timestamp (also known as sale_date)
 	 * @param timestamp a String representing a MySQL DateTime
@@ -112,95 +249,14 @@ public class Sale {
 	public void setTimestamp(String timestamp) {
 		this.sale_date = timestamp;
 	}
+
+
 	
-	// ----------------------------------------------------------
+	// ==========================================================================
+	// Line Manipulation Methods
+	// ==========================================================================
 	
-	// ----------------- Getter Methods -------------------------
 	
-	/**
-	 * Getter method for the number of lines in this Sale
-	 * @return the number of lines in this Sale
-	 */
-	public int getNumberOfLines() {
-		return number_of_lines;
-	}
-
-	/**
-	 * Getter method for the sale id
-	 * @return the sale id
-	 */
-	public long getSaleId() {
-		return sale_id;
-	}
-
-	/**
-	 * Getter method for the sale date (also known as timestamp)
-	 * @return the sale date (timestamp)
-	 */
-	public String getSaleDate() {
-		return sale_date;
-	}
-
-	/**
-	 * Getter method for the sale's subtotal
-	 * @return the sale subtotal
-	 */
-	public BigDecimal getSaleSubtotal() {
-		return sale_subtotal;
-	}
-
-	/**
-	 * Getter method for the sale's GST amount
-	 * @return the sale GST amount
-	 */
-	public BigDecimal getSaleGST() {
-		return sale_gst;
-	}
-	
-	/**
-	 * Getter method for the sale total
-	 * @return the sale total
-	 */
-	public BigDecimal getSaleTotal() {
-		calculateTotal();
-		return sale_total;
-	}
-
-	/**
-	 * Getter method for the sale amount tendered
-	 * @return the sale amount tendered
-	 */
-	public BigDecimal getSaleAmountTendered() {
-		return sale_amount_tendered;
-	}
-
-	/**
-	 * Getter method for the sale balance (also known as change due)
-	 * @return the sale balance (change)
-	 */
-	public BigDecimal getSaleBalance() {
-		return sale_balance;
-	}
-
-	/**
-	 * Getter method for the sale type (either 'Purchase' or 'Refund')
-	 * @return the sale type
-	 */
-	public String getSaleType() {
-		return sale_type;
-	}
-	
-	/**
-	 * Getter method for the sale's line items
-	 * @return an ArrayList containing the sale's Lines
-	 */
-	public ArrayList<Line> getLineItems() {
-		return lineItems;
-	}
-
-	// ----------------------------------------------------------
-	
-	// ---------- Line Item Manipulation Methods ----------------
 	
 	/**
 	 * Adds a new Line to this sale
@@ -213,6 +269,8 @@ public class Sale {
 		
 	}
 	
+	
+	
 	/**
 	 * Removes a Line from this sale
 	 * @param lineItem the line to be removed
@@ -223,6 +281,8 @@ public class Sale {
 		rebuildLineItems(); // Restructures line items (so each line number is correct)
 		calculateTotal();	// Recalculate total
 	}
+	
+	
 	
 	/**
 	 * Helper method that rebuilds a sale's line items ArrayList when a Line is removed. This prevents
@@ -241,9 +301,13 @@ public class Sale {
 		lineItems = rebuiltLines;
 	}
 	
-	// ----------------------------------------------------------
 	
-	// ------------- Calculator Methods -------------------------
+	
+	// ==========================================================================
+	// Calculator Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Calculates the sale's total based on the total of each of its Lines
@@ -257,6 +321,8 @@ public class Sale {
 		calculateSubtotal();	// Update subtotal
 		notifyListeners(SaleListener.SALE_TOTAL, sale_total); // Send new total value to each SaleListener
 	}
+	
+	
 	
 	/**
 	 * Helper method that calculates a sale's GST
@@ -273,6 +339,8 @@ public class Sale {
 		}
 	}
 	
+	
+	
 	/**
 	 * Helper method that calculates a sale's subtotal
 	 */
@@ -283,20 +351,27 @@ public class Sale {
 		sale_subtotal = sale_total.subtract(sale_gst).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 	
+	
+	
 	/**
 	 * Calculates the sale balance (also known as change due)
 	 */
 	public void calculateBalance() {
 		sale_balance = new BigDecimal(0.00).setScale(2); // Reset to default to avoid errors
-		
+
 		// Sale balance is the amount tendered - the sale total
 		sale_balance = sale_amount_tendered.subtract(sale_total).setScale(2, BigDecimal.ROUND_HALF_EVEN); 
 		notifyListeners(SaleListener.SALE_BALANCE, sale_balance);
+
 	}
 	
-	// ----------------------------------------------------------
 	
-	// ---------------- Testing Methods -------------------------
+	
+	// ==========================================================================
+	// Testing Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * A testing method that checks whether the conditions for a valid sale are met, including that the sale subtotal + sale GST
@@ -307,9 +382,22 @@ public class Sale {
 		return (sale_subtotal.add(sale_gst).equals(sale_total) && (sale_type.equals("Purchase") || sale_type.equals("Refund")) && sale_amount_tendered.compareTo(sale_total) >= 0);
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + " Number of Lines: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
+		return "Sale ID: " + sale_id + " Timestamp: " + sale_date + "\nSale Type: " + sale_type + " Number of Lines: " + number_of_lines + "\nSale Subtotal: " + sale_subtotal + " Sale GST: " + sale_gst + " Sale Total: " + sale_total + "\nAmount Tendered: " + sale_amount_tendered + " Sale Balance (Change Due): " + sale_balance + "\n";
+	}
+	
+	
+	
+	public void checkSaleType() {
+		if(sale_total.compareTo(BigDecimal.ZERO) < 0) {
+			sale_type = "Refund";
+		}
+		else {
+			sale_type = "Purchase";
+		}
 	}
 	
 }// End class

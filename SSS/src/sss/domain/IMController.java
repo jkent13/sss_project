@@ -9,6 +9,8 @@ package sss.domain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,17 +22,39 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import sss.services.DbReader;
+import sss.services.DbWriter;
 import sss.services.SqlBuilder;
+import sss.ui.InvoiceComparisonFrame;
 
 public class IMController {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private NonEditableTableModel productData = new NonEditableTableModel(); // Data model for ViewInventoryFrame JTable
+	private NonEditableTableModel invoiceComparisonData = new NonEditableTableModel();
+	
+	private InventoryFilter blankFilter = new InventoryFilter(false, false, false, false);
+	private ArrayList<InvoiceRowComparison> comparisonSet;
 	
 	// Column names for the product table
-	private String[] productColNames = {"ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
+	private String[] productColNames = {"Product ID", "Code", "Name", "Cost Price", "Sale Price", "QOH", "Category", "Supplier",  "Active?"};
+	
+	private String[] comparisonTableColNames = {"Row #", "Product Code", "Cost Price", "Price", "Quantity"};
 	
 	private String[] suppliers;		// Holds the supplier names (read in from DB). Used to fill combobox in ViewInventoryFrame
 	private String[] categories;	// Holds the distinct category names (read in from DB). Used to fill combobox in ViewInventoryFrame
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Constructor calls initialise method to start up
@@ -39,18 +63,24 @@ public class IMController {
 		initialise();
 	}
 	
-	//--------------- Core Methods-------------------------------------
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Sets up the controller
 	 */
 	private void initialise() {
 		try {
 		productData.setColumnIdentifiers(productColNames);
+		invoiceComparisonData.setColumnIdentifiers(comparisonTableColNames);
 
 		// Get SQL statements
 		String selectAllProducts = SqlBuilder.getAllProducts();
-		String getSuppliers = SqlBuilder.getSupplierNames();
-		String getCategories = SqlBuilder.getCategoryNames();
+		String getSuppliers = SqlBuilder.getSupplierNamesQuery();
+		String getCategories = SqlBuilder.getCategoryNamesQuery();
 		
 		ResultSet allProducts = DbReader.executeQuery(selectAllProducts);
 		
@@ -119,9 +149,10 @@ public class IMController {
 		
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	/**
 	 * Uses the filter parameter to get a customised SQL query and change the product data model 
@@ -159,11 +190,15 @@ public class IMController {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
 
+	
+	/**
+	 * Method that is responsible for interpreting a CSV file and transforming the data into something usable
+	 * by the program
+	 */
 	public void readCsv() {
 
 		try {
@@ -182,10 +217,11 @@ public class IMController {
 
 				while (fileReader.hasNext()) {
 					currentLine = fileReader.nextLine();
-					tokens = currentLine.split(",");	// CHECK TOKENS LENGTH == 4
+					tokens = currentLine.split(",");	
 					rows.add(tokens);
 				}
-
+				fileReader.close();
+				
 				if(validateCsvRows(rows)) {
 					Invoice invoice = new Invoice();
 					BigDecimal costPrice = null;
@@ -215,7 +251,19 @@ public class IMController {
 						invoice.addRow(row[0], costPrice, price, quantity);
 					}
 
-					System.out.print(invoice);
+					comparisonSet = invoice.getComparisonSet();
+
+					for(InvoiceRowComparison irc: comparisonSet) {
+						invoiceComparisonData.addRow(new Object[] {
+								irc.getRowNumber(),
+								irc.getProductCode(),
+								irc.getCostPriceChange(),
+								irc.getPriceChange(),
+								irc.getQuantityChange()
+						});
+					}
+					
+					new InvoiceComparisonFrame(invoiceComparisonData, this);
 				}
 			}
 
@@ -225,6 +273,150 @@ public class IMController {
 
 	}
 	
+	
+	
+	/**
+	 * Method to update multiple products at once (part of importing a CSV invoice)
+	 * @param confirmed A value that signifies whether the update should occur or be cancelled. 
+	 * 1 is used to continue, any other value means cancel
+	 */
+	public void bulkUpdate(int confirmed) {
+		if(confirmed == 1) {
+			
+			if(comparisonSet != null) {
+				String[] updateStatements = SqlBuilder.getInvoiceUpdateStatements(comparisonSet);
+				
+				for(String updateStatement: updateStatements) {
+					DbWriter.executeStatement(updateStatement);
+				}
+				
+				JOptionPane.showMessageDialog(null, "Changes applied successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+				
+				refresh();
+				comparisonSet = null;
+				for(int i = invoiceComparisonData.getRowCount()-1; i != -1; i--) {
+					invoiceComparisonData.removeRow(i);
+				}
+			}
+			
+		}
+		else {
+			comparisonSet = null;
+			for(int i = invoiceComparisonData.getRowCount()-1; i != -1; i--) {
+				invoiceComparisonData.removeRow(i);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Method to export the CSV Invoice comparison table to a CSV file
+	 */
+	public void exportComparisonReport() {
+		if(comparisonSet != null) {
+			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
+			int optionSelected = fileChooser.showDialog(null, "Save");
+			if(optionSelected == JFileChooser.APPROVE_OPTION) {
+				try{
+					File selectedFile = fileChooser.getSelectedFile();
+					String fileName = selectedFile.getName();
+					if(!fileName.toUpperCase().contains(".CSV")) {
+						fileName = fileChooser.getSelectedFile() + ".csv";
+					}
+					else {
+						fileName = fileChooser.getSelectedFile().toString();
+					}
+					
+					FileWriter writer = new FileWriter(fileName);
+					writer.append(InvoiceRowComparison.getCsvHeader());
+					for(int i = 0; i < comparisonSet.size(); i++) {
+						writer.append(comparisonSet.get(i).getCsvRow());
+					}
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (IOException ioe) {
+						JOptionPane.showMessageDialog(null, "Error: the report could not be saved", "Save Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Method to export the current table data to a CSV file
+	 */
+	public void exportProductReport() {
+		if(productData != null) {
+			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV Files", "csv");
+			fileChooser.setFileFilter(fileFilter);
+			int optionSelected = fileChooser.showDialog(null, "Save");
+			if(optionSelected == JFileChooser.APPROVE_OPTION) {
+				try{
+					File selectedFile = fileChooser.getSelectedFile();
+					String fileName = selectedFile.getName();
+					if(!fileName.toUpperCase().contains(".CSV")) {
+						fileName = fileChooser.getSelectedFile() + ".csv";
+					}
+					else {
+						fileName = fileChooser.getSelectedFile().toString();
+					}
+					
+					FileWriter writer = new FileWriter(fileName);
+					
+					//WRITE HEADER
+					for(int i = 0; i < productColNames.length; i++) {
+						if((i+1) != productColNames.length){
+							writer.append(productColNames[i] + ",");
+						}
+						else {
+							writer.append(productColNames[i]);
+						}
+					}
+					writer.append("\n");
+					
+					int rowCount = productData.getRowCount();
+					int colCount = productData.getColumnCount();
+					
+					//WRITE CONTENT
+					for(int i = 0; i < rowCount; i++) {
+						for(int j = 0; j < colCount; j++) {
+							if((j+1) != colCount) {
+								writer.append(productData.getValueAt(i, j) + ",");
+							}
+							else {
+								writer.append(productData.getValueAt(i, j).toString());
+							}
+						}
+						writer.append("\n");
+						
+					}
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (IOException ioe) {
+					JOptionPane.showMessageDialog(null, "Error: the report could not be saved", "Save Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	
+	
+	@SuppressWarnings("unused")
+	/**
+	 * Checks the rows of an imported CSV invoice to determine if the format is correct and 
+	 * that expected values for prices and quantity are present
+	 * @param rows
+	 * @return
+	 */
 	private boolean validateCsvRows(ArrayList<String[]> rows) {
 		int rowCounter = 1;
 		try {
@@ -245,17 +437,30 @@ public class IMController {
 			}
 		} 
 		catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Error: An invalid price value was found at row: " + rowCounter + 
-					". Please ensure this value is correct and retry the import.", "Invalid Price", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: An invalid number value was found at row: " + rowCounter + 
+					". Please ensure this value is correct and retry the import.", "Invalid Number", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
 		return true;
 	}
 	
-	//-----------------------------------------------------------------
 	
-	//------ Getter Methods -------------------------------------------
+	
+	/**
+	 * Refreshes the product display table to show all products
+	 */
+	private void refresh() {
+		getResults(blankFilter);
+	}
+	
+
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Getter method for the product data model
 	 * @return the product data model
@@ -263,6 +468,8 @@ public class IMController {
 	public NonEditableTableModel getDataModel() {
 		return productData;
 	}
+	
+	
 	
 	/**
 	 * Getter method for the array containing all supplier names 
@@ -272,6 +479,8 @@ public class IMController {
 		return suppliers;
 	}
 	
+	
+	
 	/**
 	 * Getter method for the array containing all category names
 	 * @return the category name array
@@ -280,5 +489,4 @@ public class IMController {
 		return categories;
 	}
 
-	//-----------------------------------------------------------------	
 }// End class

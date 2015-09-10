@@ -12,6 +12,12 @@ import java.math.BigDecimal;
 
 public class InventoryFilter {
 
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private boolean nameSupplied = false;			// User entered a product name to search for
 	private boolean qohSelected = false;			// QOH Filter
 	private boolean supplierSelected = false;		// Supplier Filter
@@ -30,12 +36,22 @@ public class InventoryFilter {
 	private BigDecimal minPrice;					// The minimum price for a price range filter (e.g. 2.00)
 	private BigDecimal maxPrice;					// The maximum price for a price range filter (e.g. 100.00)
 	
+	
+	
+	// ==========================================================================
+	// Constructors
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Standard no-args constructor
 	 */
 	public InventoryFilter() {
 		
 	}
+	
+	
 	
 	/**
 	 * Constructs a filter with predefined values for four main filter categories
@@ -51,7 +67,14 @@ public class InventoryFilter {
 		this.priceRangeSelected = priceRangeSelected;
 	}
 	
-	// ---------- Getter Methods ----------------------------
+	
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Getter method for whether the QOH filter is active
 	 * @return true if the QOH filter is active, false otherwise
@@ -60,6 +83,8 @@ public class InventoryFilter {
 		return qohSelected;
 	}
 
+	
+	
 	/**
 	 * Getter method for whether the supplier filter is active
 	 * @return true if the supplier filter is active, false otherwise
@@ -67,6 +92,8 @@ public class InventoryFilter {
 	public boolean isSupplierSelected() {
 		return supplierSelected;
 	}
+	
+	
 	
 	/**
 	 * Getter method for whether the category filter is active
@@ -76,6 +103,8 @@ public class InventoryFilter {
 		return categorySelected;
 	}
 
+	
+	
 	/**
 	 * Getter method for whether the price range filter is active
 	 * @return true if the price range filter is active, false otherwise
@@ -84,14 +113,20 @@ public class InventoryFilter {
 		return priceRangeSelected;
 	}
 	
+	
+	
 	public boolean isNameSupplied() {
 		return nameSupplied;
 	}
 
+	
+	
 	public String getProductName() {
 		return productName;
 	}
 
+	
+	
 	/**
 	 * Getter method for the QOH operator
 	 * @return either '=', '>' or '<'
@@ -100,6 +135,8 @@ public class InventoryFilter {
 		return qohOperator;
 	}
 
+	
+	
 	/**
 	 * Getter method for the QOH value
 	 * @return the QOH value 
@@ -108,6 +145,8 @@ public class InventoryFilter {
 		return qohValue;
 	}
 
+	
+	
 	/**
 	 * Getter method for the supplier id
 	 * @return the supplier id
@@ -116,6 +155,8 @@ public class InventoryFilter {
 		return supplierId;
 	}
 
+	
+	
 	/**
 	 * Getter method for the category
 	 * @return the category
@@ -124,6 +165,8 @@ public class InventoryFilter {
 		return category;
 	}
 
+	
+	
 	/**
 	 * Getter method for the min price value
 	 * @return the min price value
@@ -132,6 +175,8 @@ public class InventoryFilter {
 		return minPrice;
 	}
 
+	
+	
 	/**
 	 * Getter method for the max price value
 	 * @return the max price value
@@ -140,9 +185,14 @@ public class InventoryFilter {
 		return maxPrice;
 	}
 	
-	// ------------------------------------------------------
 	
-	// ---------- Setter Methods ----------------------------
+	
+	// ==========================================================================
+	// Setter Methods
+	// ==========================================================================
+	
+	
+	
 	/**
 	 * Setter method for the supplier filter
 	 * @param supplierSelected true/false whether the filter is active
@@ -151,6 +201,8 @@ public class InventoryFilter {
 		this.supplierSelected = supplierSelected;
 	}
 
+	
+	
 	/**
 	 * Setter method for the category filter
 	 * @param categorySelected true/false whether the filter is active
@@ -158,6 +210,8 @@ public class InventoryFilter {
 	public void setCategorySelected(boolean categorySelected) {
 		this.categorySelected = categorySelected;
 	}
+	
+	
 
 	/**
 	 * Setter method for the price range filter
@@ -167,6 +221,8 @@ public class InventoryFilter {
 		this.priceRangeSelected = priceRangeSelected;
 	}
 	
+	
+	
 	/**
 	 * Setter method for the QOH filter
 	 * @param qohSelected true/false whether the filter is active
@@ -175,13 +231,19 @@ public class InventoryFilter {
 		this.qohSelected = qohSelected;
 	}
 	
+	
+	
 	public void setNameSupplied(boolean nameSupplied) {
 		this.nameSupplied = nameSupplied;
 	}
 
+	
+	
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
+	
+	
 	
 	/**
 	 * Setter method for the QOH operator
@@ -191,6 +253,8 @@ public class InventoryFilter {
 		this.qohOperator = qohOperator;
 	}
 
+	
+	
 	/**
 	 * Setter method for the QOH value
 	 * @param qohValue the QOH value
@@ -199,6 +263,8 @@ public class InventoryFilter {
 		this.qohValue = qohValue;
 	}
 
+	
+	
 	/**
 	 * Setter method for the supplier id
 	 * @param supplierId the supplier id
@@ -207,6 +273,8 @@ public class InventoryFilter {
 		this.supplierId = supplierId;
 	}
 
+	
+	
 	/**
 	 * Setter method for the category
 	 * @param category the category
@@ -215,6 +283,8 @@ public class InventoryFilter {
 		this.category = category;
 	}
 
+	
+	
 	/**
 	 * Setter method for the min price value
 	 * @param minPrice the min price value
@@ -223,6 +293,8 @@ public class InventoryFilter {
 		this.minPrice = minPrice;
 	}
 
+	
+	
 	/**
 	 * Setter method for the max price value
 	 * @param maxPrice the max price value
@@ -231,5 +303,4 @@ public class InventoryFilter {
 		this.maxPrice = maxPrice;
 	}
 	
-	// ------------------------------------------------------
 }// End class
