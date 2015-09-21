@@ -1,3 +1,11 @@
+/* DbConfigurator Class
+ * 
+ * Reads and writes DbConfiguration objects. Enables users to set-up connections to databases 
+ * and store that information without it being hard-coded.
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.services;
 
 import java.io.File;
@@ -13,6 +21,13 @@ import sss.ui.DatabaseSetupPanel;
 import sss.ui.Main;
 
 public class DbConfigurator {
+	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private static final String dbPathPrefix = "jdbc:mysql:";
 	private static String dbPath;
 	private static String userName;
@@ -20,8 +35,24 @@ public class DbConfigurator {
 	
 	private static DbConfiguration config; 
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	private DbConfigurator() {
 	}
+	
+	
+	
+	// ==========================================================================
+	// Core Methods
+	// ==========================================================================
+	
+	
 	
 	public static void loadConfig() {
 		File configFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "config/db.dat");
@@ -45,6 +76,8 @@ public class DbConfigurator {
 		}
 	}
 	
+	
+	
 	public static DbConfiguration getConfig() {
 		if(config != null) {
 			return config;
@@ -53,9 +86,9 @@ public class DbConfigurator {
 			loadConfig();
 			return config;
 		}
-		
-		
 	}
+	
+	
 	
 	public static void createConfig() {
 		DatabaseSetupPanel panel = new DatabaseSetupPanel();
@@ -79,12 +112,13 @@ public class DbConfigurator {
 						+ "left blank!", "Blank Field", JOptionPane.ERROR_MESSAGE);
 				createConfig();
 			}
-			
 		}
 		else {
 			System.exit(0);
 		}
 	}
+	
+	
 	
 	public static void saveConfig(DbConfiguration config) {
 		File configDirectory = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "config");
@@ -104,4 +138,5 @@ public class DbConfigurator {
 			System.exit(0);
 		}		
 	}
+	
 }

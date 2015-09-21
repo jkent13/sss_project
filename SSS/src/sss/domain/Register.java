@@ -10,6 +10,7 @@
 package sss.domain;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -127,7 +128,6 @@ public class Register {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: Failed to read a required value from the database", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
@@ -387,12 +387,17 @@ public class Register {
 	public void applyLineDiscount(int lineIndex, double discountPercentage) {
 		String newDiscount;
 		if(activeSale) {
+			if(isValidDiscount(discountPercentage)) {
 			Line lineItem = currentSale.getLineItems().get(lineIndex);
 			lineItem.setDiscount(discountPercentage);
 			newDiscount = lineItem.getDiscount().setScale(2).toString();
 			dataModel.setValueAt(newDiscount, lineIndex, 3);
 			dataModel.setValueAt(lineItem.getLineAmount(), lineIndex, 4);
 			calculateTotal();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: Discount percentage must be between 0.00 and 100.00", "Invalid Discount", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -428,7 +433,6 @@ public class Register {
 				adjustStockCounts(stockAdjustmentStatements);
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write sale to DB failed!", "Write sale failed", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
 
 			// Print out receipt
@@ -446,7 +450,7 @@ public class Register {
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "ERROR: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Amount tendered not enough!", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -484,7 +488,6 @@ public class Register {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
@@ -505,7 +508,6 @@ public class Register {
 			}
 			catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
 		}
 		return eventList;
@@ -590,6 +592,18 @@ public class Register {
 	public void printReceipt(FormattedSale fs) {
 		ReceiptPrinter printer = new ReceiptPrinter(fs);
 		printer.printReceipt();
+	}
+	
+	// ==========================================================================
+	// Validation Methods
+	// ==========================================================================
+	
+	public boolean isValidDiscount(double discountPercentage) {
+		BigDecimal discount = new BigDecimal(discountPercentage).setScale(0, RoundingMode.HALF_UP);
+		boolean greaterThanZero = discount.compareTo(BigDecimal.ZERO) > 0;
+		boolean lessThanOneHundredAndOne = discount.compareTo(new BigDecimal(101)) < 0;
+		
+		return greaterThanZero && lessThanOneHundredAndOne;
 	}
 
 }// End class

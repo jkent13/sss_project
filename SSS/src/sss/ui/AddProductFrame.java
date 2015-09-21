@@ -92,7 +92,7 @@ public class AddProductFrame extends JFrame {
 		JLabel productCodeLabel = new JLabel ("Product Code:");
 		JLabel nameLabel = new JLabel ("Name:");
 		JLabel categoryLabel = new JLabel ("Category:");
-		JLabel quantityLabel = new JLabel ("Quantity:");
+		JLabel quantityLabel = new JLabel ("Quantity On Hand:");
 		JLabel supplierLabel = new JLabel ("Supplier:");
 		
 		

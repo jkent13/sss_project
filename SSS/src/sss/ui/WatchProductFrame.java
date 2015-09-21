@@ -61,7 +61,7 @@ public class WatchProductFrame extends JFrame {
 		setMaximumSize(new Dimension(850, 500));
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel buttonPanelSouth = new JPanel(new GridLayout(1, 3, 5, 5));
 		JPanel tablePanel = new JPanel(new BorderLayout());

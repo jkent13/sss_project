@@ -333,11 +333,7 @@ public class ModifyProductFrame extends JFrame {
 							filter.setOriginalProduct(selectedProduct);
 						}
 						catch (ClassCastException cce) {
-							cce.printStackTrace();
-							JOptionPane
-									.showMessageDialog(
-											null,
-											"Error: An invalid value was found in the product you selected",
+							JOptionPane.showMessageDialog(null, "Error: An invalid value was found in the product you selected",
 											"Product Row Invalid", JOptionPane.ERROR_MESSAGE);
 						} // End catch
 					}

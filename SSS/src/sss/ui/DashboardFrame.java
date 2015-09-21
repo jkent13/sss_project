@@ -102,8 +102,6 @@ public class DashboardFrame extends JFrame {
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			
 			JPanel leftParentPanel = new JPanel();
-//			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
-//			middlePanel.setBorder(middlePanelTitle);
 			leftParentPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(leftParentPanel);
 			
@@ -114,9 +112,6 @@ public class DashboardFrame extends JFrame {
 			watchListLabel.setFont(myFont);
 			watchListPanel.add(watchListLabel, BorderLayout.NORTH);
 			
-//			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-//			leftPanel.setBorder(leftPanelTitle);
-//			leftPanel.setLayout(new BorderLayout());
 			middlePanel.setLayout(new GridLayout(2,1,10,10));
 			fullScreenPanel.add(middlePanel);
 			
@@ -170,8 +165,6 @@ public class DashboardFrame extends JFrame {
 			
 			
 			JPanel rightPanel = new JPanel();
-//			TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//			rightPanel.setBorder(rightPanelTitle);
 			rightPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(rightPanel);
 			
@@ -184,6 +177,8 @@ public class DashboardFrame extends JFrame {
 
 			JScrollPane scrlPane = new JScrollPane(eventFeedPane);
 			eventFeedPanel.add(scrlPane, BorderLayout.CENTER);
+			
+			
 			
 			// ======================================================================
 			// Event Handlers
@@ -242,6 +237,7 @@ public class DashboardFrame extends JFrame {
 					getProductData(3);
 				}
 			});
+			
 			
 			
 			// ======================================================================

@@ -59,7 +59,6 @@ public class DbWriter {
 			statement.execute(sql);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The SQL statements could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	

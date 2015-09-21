@@ -149,7 +149,6 @@ public class IMController {
 		
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	
@@ -191,7 +190,6 @@ public class IMController {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
@@ -342,7 +340,7 @@ public class IMController {
 					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
 					
 				} catch (IOException ioe) {
-					ioe.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Error: the report could not be saved", "Save Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -404,7 +402,7 @@ public class IMController {
 					JOptionPane.showMessageDialog(null, "Report exported successfully!", "Complete", JOptionPane.INFORMATION_MESSAGE);
 					
 				} catch (IOException ioe) {
-					ioe.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error: the report could not be saved", "Save Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
