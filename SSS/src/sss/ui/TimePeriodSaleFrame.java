@@ -71,8 +71,6 @@ public class TimePeriodSaleFrame extends JFrame {
 		fullScreenPanel.add(leftPanel);
 
 		JPanel rightPanel = new JPanel();
-		//		TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-		//		rightPanel.setBorder(rightPanelTitle);
 		rightPanel.setLayout(new GridLayout(4,1,10,10));
 		fullScreenPanel.add(rightPanel);
 
@@ -91,13 +89,9 @@ public class TimePeriodSaleFrame extends JFrame {
 
 
 		JPanel rightDatePanel = new JPanel();
-		//		TitledBorder rightDatePanelTitle = new TitledBorder("Select Date:");
-		//		rightDatePanel.setBorder(rightDatePanelTitle);
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
 
 		JPanel leftDatePanel = new JPanel();
-		//		TitledBorder leftDatePanelTitle = new TitledBorder("Select Date:");
-		//		leftDatePanel.setBorder(leftDatePanelTitle);
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
 
 		//--------------------Date Panel Fields--------------------

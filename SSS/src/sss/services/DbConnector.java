@@ -75,7 +75,7 @@ public class DbConnector {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Error: JDBC Driver not found", "Missing DB driver", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			System.exit(0);
 			return false;
 
 		}

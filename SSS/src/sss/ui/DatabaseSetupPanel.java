@@ -1,3 +1,11 @@
+/* DatabaseSetupPanel Class
+ * 
+ * Panel that is passed as an argument to a JOptionPane when performing first time 
+ * database set-up
+ * 
+ * Original Author: Josh Kent
+ */
+
 package sss.ui;
 
 import java.awt.BorderLayout;
@@ -11,6 +19,13 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class DatabaseSetupPanel extends JPanel {
+	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private JTextField pathTextField = new JTextField();
 	private JTextField userNameTextField = new JTextField();
 	private JPasswordField passwordTextField = new JPasswordField();
@@ -27,7 +42,16 @@ public class DatabaseSetupPanel extends JPanel {
 	private JPanel titlePanel = new JPanel(new GridLayout(2,1,5,5));
 	private JPanel mainContentPanel = new JPanel(new GridLayout(3,2,5,5));
 	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
+	
 	public DatabaseSetupPanel() {
+		
 		pathLabel.setToolTipText("E.g. //localhost/sss");
 		userNameLabel.setToolTipText("E.g. root");
 		
@@ -50,21 +74,42 @@ public class DatabaseSetupPanel extends JPanel {
 		setMinimumSize(new Dimension(550, 150));
 	}
 	
+	
+	
+	// ==========================================================================
+	// Getter Methods
+	// ==========================================================================
+	
+	
+	
 	public String getPath() {
 		return pathTextField.getText();
 	}
+	
+	
 	
 	public String getUserName() {
 		return userNameTextField.getText();
 	}
 	
+	
+	
 	public String getPassword() {
 		return new String(passwordTextField.getPassword());
 	}
+	
+	
+	
+	// ==========================================================================
+	// Other Methods
+	// ==========================================================================
+	
+	
 	
 	public void clearAllTextFields() {
 		pathTextField.setText("");
 		userNameTextField.setText("");
 		passwordTextField.setText("");
 	}
+	
 }
