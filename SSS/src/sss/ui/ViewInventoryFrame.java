@@ -103,14 +103,12 @@ public class ViewInventoryFrame extends JFrame {
 		JPanel bb = new JPanel(new GridLayout(2,1,10,10));
 
 		searchField = new JTextField(); 
-		//JButton searchButton = new JButton("Search");
 		JLabel spaceForPanel = new JLabel("Enter Text To Search");//Creating space/so panel looks better
 
 		bb.add(spaceForPanel);//Adding the space
 		bb.add(searchField);
 		searchPanel.add(aa);
 		searchPanel.add(bb);
-		//searchPanel.add(searchButton);
 
 		p2.add(searchPanel);//Adding search panel 1st
 
@@ -237,7 +235,7 @@ public class ViewInventoryFrame extends JFrame {
 
 		/** End of Supplier panel **/
 
-		//Adding fist and second panel for the check boxes to the main panel2
+		//Adding first and second panel for the check boxes to the main panel2
 		p2.add(checkPANEL2);
 		p2.add(checkPANEL1);
 

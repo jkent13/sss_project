@@ -130,7 +130,6 @@ public class ModifyProductController {
 			JOptionPane.showMessageDialog(null,
 					"Error: There was a problem retrieving product data", "SQL Error",
 					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	
@@ -167,7 +166,6 @@ public class ModifyProductController {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem retrieving product data", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	

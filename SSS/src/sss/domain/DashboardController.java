@@ -9,6 +9,7 @@ package sss.domain;
 
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -211,7 +212,6 @@ public class DashboardController implements EventItemListener {
 			catch (IOException ioe) {
 				JOptionPane.showMessageDialog(null, "Error: the watched products could not be saved", 
 						"Could not save watch list state", JOptionPane.ERROR_MESSAGE);
-				ioe.printStackTrace();
 			}
 		}
 	}
@@ -379,7 +379,8 @@ public class DashboardController implements EventItemListener {
 			doc.insertString(doc.getLength(), EventItem.EVENT_SEPARATOR, separatorAttributes);
 		}
 		catch (BadLocationException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: an event could not be displayed.", "Event Feed Error", JOptionPane.ERROR_MESSAGE);
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 	}
 	

@@ -103,10 +103,8 @@ public class SlowSellersReportController extends ReportController {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: There was a problem processing the query", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 

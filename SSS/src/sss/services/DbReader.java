@@ -69,7 +69,6 @@ public class DbReader {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The query could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 			return null;
 		}
 	}

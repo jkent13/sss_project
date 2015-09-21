@@ -152,7 +152,6 @@ public class ReceiptPrinter implements Printable {
 
 			} catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Error: Write to text file failed!", "File Not Found", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			}
 		}
 	}

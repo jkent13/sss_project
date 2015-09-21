@@ -102,8 +102,6 @@ public class DashboardFrame extends JFrame {
 			Font myFont = new Font("SansSerif",Font.BOLD, 28);
 			
 			JPanel leftParentPanel = new JPanel();
-//			TitledBorder middlePanelTitle = new TitledBorder("Middle Panel:");
-//			middlePanel.setBorder(middlePanelTitle);
 			leftParentPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(leftParentPanel);
 			
@@ -114,9 +112,6 @@ public class DashboardFrame extends JFrame {
 			watchListLabel.setFont(myFont);
 			watchListPanel.add(watchListLabel, BorderLayout.NORTH);
 			
-//			TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-//			leftPanel.setBorder(leftPanelTitle);
-//			leftPanel.setLayout(new BorderLayout());
 			middlePanel.setLayout(new GridLayout(2,1,10,10));
 			fullScreenPanel.add(middlePanel);
 			
@@ -129,20 +124,24 @@ public class DashboardFrame extends JFrame {
 			cp = new ChartPanel(null);
 			
 			barGraphPanel.setLayout(new GridLayout(1,3,10,10));
+
 			if(watchedProductOne != null) {
 				barGraphPanel.add(watchedProductOne);
+				watchedProductOne.setToolTipText(watchedProductOne.getName());
 			}
 			else {
 				barGraphPanel.add(addProductOneButton);
 			}
 			if(watchedProductTwo != null) {
 				barGraphPanel.add(watchedProductTwo);
+				watchedProductTwo.setToolTipText(watchedProductTwo.getName());
 			}
 			else {
 				barGraphPanel.add(addProductTwoButton);
 			}
 			if(watchedProductThree != null) {
 				barGraphPanel.add(watchedProductThree);
+				watchedProductThree.setToolTipText(watchedProductThree.getName());
 			}
 			else {
 				barGraphPanel.add(addProductThreeButton);
@@ -166,8 +165,6 @@ public class DashboardFrame extends JFrame {
 			
 			
 			JPanel rightPanel = new JPanel();
-//			TitledBorder rightPanelTitle = new TitledBorder("Right Panel:");
-//			rightPanel.setBorder(rightPanelTitle);
 			rightPanel.setLayout(new GridLayout(1,1,10,10));
 			fullScreenPanel.add(rightPanel);
 			
@@ -180,6 +177,8 @@ public class DashboardFrame extends JFrame {
 
 			JScrollPane scrlPane = new JScrollPane(eventFeedPane);
 			eventFeedPanel.add(scrlPane, BorderLayout.CENTER);
+			
+			
 			
 			// ======================================================================
 			// Event Handlers
@@ -240,6 +239,7 @@ public class DashboardFrame extends JFrame {
 			});
 			
 			
+			
 			// ======================================================================
 			// Window Closing
 			// ======================================================================
@@ -276,6 +276,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductOne = one;
 		barGraphPanel.remove(0);
 		barGraphPanel.add(watchedProductOne, 0);
+		watchedProductOne.setToolTipText(watchedProductOne.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
@@ -286,6 +287,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductTwo = two;
 		barGraphPanel.remove(1);
 		barGraphPanel.add(watchedProductTwo, 1);
+		watchedProductTwo.setToolTipText(watchedProductTwo.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}
@@ -296,6 +298,7 @@ public class DashboardFrame extends JFrame {
 		watchedProductThree = three;
 		barGraphPanel.remove(2);
 		barGraphPanel.add(watchedProductThree, 2);
+		watchedProductThree.setToolTipText(watchedProductThree.getName());
 		barGraphPanel.revalidate();
 		barGraphPanel.repaint();
 	}

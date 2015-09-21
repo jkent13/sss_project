@@ -27,6 +27,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 
+		DbConnector.establishConnection();
+		
 //-------------------Frame Details--------------------		
 
 		JFrame mainMenuFrame = new JFrame();
@@ -180,7 +182,6 @@ public class Main {
 					} 
 					catch (SQLException sqle) {
 						JOptionPane.showMessageDialog(null, "Error: The connection to the database could not be closed properly", "DB Connection Error", JOptionPane.ERROR_MESSAGE);
-						sqle.printStackTrace();
 					}
 					EventWatcher.getInstance().saveEvents(); // Save event feed before close
 					System.exit(0); // Close all windows
