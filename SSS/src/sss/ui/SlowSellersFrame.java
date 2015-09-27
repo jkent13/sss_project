@@ -187,11 +187,12 @@ public class SlowSellersFrame extends JFrame {
 			public void keyReleased(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					validateAllInput();
-					String startDate = startDateTextField.getText();
-					String endDate = endDateTextField.getText();
-					int units = Integer.parseInt(unitsTextField.getText());
-					controller.getResults(startDate, endDate, units);
+					if(validateAllInput()) {
+						String startDate = startDateTextField.getText();
+						String endDate = endDateTextField.getText();
+						int units = Integer.parseInt(unitsTextField.getText());
+						controller.getResults(startDate, endDate, units);
+					}
 				}
 			}
 		});
@@ -227,15 +228,18 @@ public class SlowSellersFrame extends JFrame {
 		String endDateString = endDateTextField.getText();
 		boolean isStartValid = controller.isValidDate(startDateString);
 		boolean isEndValid = controller.isValidDate(endDateString);
-		boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
-
-		if (isStartValid && isEndValid && isStartBeforeEnd) {
-			return true;
+		if(isStartValid && isEndValid) {
+			boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
+			if (isStartBeforeEnd) {
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Date Range", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Error: Invalid date input. Please make "
-					+ "sure the both dates are written in the format DD/MM/YYYY and that the start date is before the end date", 
-					"Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
