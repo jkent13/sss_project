@@ -31,11 +31,11 @@ import sss.domain.SlowSellersReportController;
 @SuppressWarnings("serial")
 public class SlowSellersFrame extends JFrame {
 	private SlowSellersReportController controller = new SlowSellersReportController();
-	
+
 	private JTextField unitsTextField = new JTextField();
 	private JTextField startDateTextField = new JTextField();
 	private JTextField endDateTextField = new JTextField();
-	
+
 	public SlowSellersFrame()
 	{
 
@@ -67,20 +67,20 @@ public class SlowSellersFrame extends JFrame {
 		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(resultsTable);
 		leftPanel.add(scrollPane);
-		
+
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
 		TitledBorder datePanelTitle = new TitledBorder("Select Dates:");
 		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(1,2,10,10));
-		
+
 		JPanel rightDatePanel = new JPanel();
 		rightDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
+
 		JPanel leftDatePanel = new JPanel();
 		leftDatePanel.setLayout(new GridLayout(3,1,10,10));
-		
+
 		//--------------------Date Panel Fields--------------------
 
 		JLabel viewStartDateLabel = new JLabel("Start Date:");
@@ -88,7 +88,7 @@ public class SlowSellersFrame extends JFrame {
 		rightDatePanel.add(viewStartDateLabel);
 		rightDatePanel.add(startDateTextField);
 		rightDatePanel.add(viewStartDateExample);
-		
+
 
 		JLabel viewEndDateLabel = new JLabel("End Date:");
 		JLabel viewEndDateExample = new JLabel("e.g. 24/03/2014");
@@ -101,7 +101,7 @@ public class SlowSellersFrame extends JFrame {
 		rightPanel.add(datePanel);
 
 		//--------------------Units Entry Panel--------------------
-		
+
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(3,1,10,10));
 		rightPanel.add(labelPanel);
@@ -126,13 +126,13 @@ public class SlowSellersFrame extends JFrame {
 		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
 		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-		
+
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
 
 		JButton backButton = new JButton("Back");
 		resultsButtonPanel.add(backButton);
-		
+
 		//---------------------Event Handlers---------------------
 
 		getResultsButton.addActionListener(new ActionListener()
@@ -141,11 +141,12 @@ public class SlowSellersFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				validateAllInput();
-				String startDate = startDateTextField.getText();
-				String endDate = endDateTextField.getText();
-				int units = Integer.parseInt(unitsTextField.getText());
-				controller.getResults(startDate, endDate, units);
+				if(validateAllInput()) {
+					String startDate = startDateTextField.getText();
+					String endDate = endDateTextField.getText();
+					int units = Integer.parseInt(unitsTextField.getText());
+					controller.getResults(startDate, endDate, units);
+				}
 			}
 		});
 
@@ -155,11 +156,12 @@ public class SlowSellersFrame extends JFrame {
 			public void keyReleased(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					validateAllInput();
-					String startDate = startDateTextField.getText();
-					String endDate = endDateTextField.getText();
-					int units = Integer.parseInt(unitsTextField.getText());
-					controller.getResults(startDate, endDate, units);
+					if(validateAllInput()) {
+						String startDate = startDateTextField.getText();
+						String endDate = endDateTextField.getText();
+						int units = Integer.parseInt(unitsTextField.getText());
+						controller.getResults(startDate, endDate, units);
+					}
 				}
 			}
 		});
@@ -170,15 +172,16 @@ public class SlowSellersFrame extends JFrame {
 			public void keyReleased(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					validateAllInput();
-					String startDate = startDateTextField.getText();
-					String endDate = endDateTextField.getText();
-					int units = Integer.parseInt(unitsTextField.getText());
-					controller.getResults(startDate, endDate, units);
+					if(validateAllInput()) {
+						String startDate = startDateTextField.getText();
+						String endDate = endDateTextField.getText();
+						int units = Integer.parseInt(unitsTextField.getText());
+						controller.getResults(startDate, endDate, units);
+					}
 				}
 			}
 		});
-		
+
 		unitsTextField.addKeyListener(new KeyAdapter()
 		{
 			public void keyReleased(KeyEvent e)
@@ -192,7 +195,7 @@ public class SlowSellersFrame extends JFrame {
 				}
 			}
 		});
-		
+
 		backButton.addActionListener(new ActionListener()
 		{
 
@@ -206,7 +209,7 @@ public class SlowSellersFrame extends JFrame {
 
 		setVisible(true);
 	}
-	
+
 	private boolean isDateFieldNull() {
 		boolean isStartNull = startDateTextField.getText().equals("");
 		boolean isEndNull = endDateTextField.getText().equals("");
@@ -218,7 +221,7 @@ public class SlowSellersFrame extends JFrame {
 			return false;
 		}
 	}
-	
+
 	private boolean areDatesValid() {
 		String startDateString = startDateTextField.getText();
 		String endDateString = endDateTextField.getText();
@@ -236,7 +239,7 @@ public class SlowSellersFrame extends JFrame {
 			return false;
 		}
 	}
-	
+
 	private boolean isUnitValid() {
 		try{
 			int units = Integer.parseInt(unitsTextField.getText());
@@ -253,7 +256,7 @@ public class SlowSellersFrame extends JFrame {
 			return false;
 		}
 	}
-	
+
 	private boolean validateAllInput() {
 		if(!isDateFieldNull()) {
 			if(isUnitValid() && areDatesValid()) {
