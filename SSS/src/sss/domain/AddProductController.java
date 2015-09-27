@@ -253,7 +253,7 @@ public class AddProductController {
 	 */
 	private boolean isPricePositive(Product product) {
 		if(product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-			JOptionPane.showMessageDialog(null, "Error: The price value must be > 0", "Invalid Price", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: The selling price must be > 0", "Invalid Selling Price", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		else {

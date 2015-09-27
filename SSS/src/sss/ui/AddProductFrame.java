@@ -265,7 +265,7 @@ public class AddProductFrame extends JFrame {
 			}
 			else if(quantity > 999) {
 				JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
-						+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+						+ "be a numerical whole number between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			else {
@@ -274,18 +274,25 @@ public class AddProductFrame extends JFrame {
 		}
 		catch(NumberFormatException nfe) {
 			JOptionPane.showMessageDialog(null, "Error: Product quantity on hand must "
-					+ "be numerical and between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
+					+ "be a numerical whole number between 0 and 999", "Invalid Quantity on Hand", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		try {
 			BigDecimal costPrice = new BigDecimal(costPriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-			BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			newProduct.setCostPrice(costPrice);
+		}
+		catch(NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null, "Error: Cost price must be numerical and greater than zero. Decimal places are allowed.", 
+					"Invalid Cost Price", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			BigDecimal price = new BigDecimal(salePriceTextField.getText()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 			newProduct.setPrice(price);
 		}
 		catch(NumberFormatException nfe) {
-			JOptionPane.showMessageDialog(null, "Error: Invalid price input", 
-					"Invalid Pricing", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Selling price must be numerical and greater than zero. Decimal places are allowed.", 
+					"Invalid Selling Price", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
