@@ -140,7 +140,7 @@ public class AddProductController {
 	 * false otherwise
 	 */
 	public boolean isAllValid(Product product) {
-		return (isProductUnique(product) && isProductCodeValid(product) && 
+		return isProductCodeValid(product) && (isProductUnique(product) && 
 				isProductNameValid(product)&& isCostPricePositive(product) 
 				&& isPricePositive(product));
 	}
