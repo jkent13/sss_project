@@ -324,7 +324,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		// Pressing Enter key on View Start Date textbox
 		viewStartDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					boolean isStartNull = viewStartDate.getText() == null;
@@ -358,7 +358,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		// Pressing Enter key on View End Date textbox
 		viewEndDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					boolean isStartNull = viewStartDate.getText() == null;

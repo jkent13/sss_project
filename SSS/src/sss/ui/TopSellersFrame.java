@@ -183,7 +183,7 @@ public class TopSellersFrame extends JFrame {
 		// Pressing Enter key on View Start Date textbox
 		startDateTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {
@@ -196,7 +196,7 @@ public class TopSellersFrame extends JFrame {
 		// Pressing Enter key on View End Date textbox
 		endDateTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {
@@ -208,7 +208,7 @@ public class TopSellersFrame extends JFrame {
 		
 		limitTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {

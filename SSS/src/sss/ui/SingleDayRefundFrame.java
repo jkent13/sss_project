@@ -201,7 +201,7 @@ public class SingleDayRefundFrame extends JFrame {
 		// Pressing Enter key on View Date textbox
 		viewDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(viewDate.getText() != null) {
