@@ -600,10 +600,10 @@ public class Register {
 	
 	public boolean isValidDiscount(double discountPercentage) {
 		BigDecimal discount = new BigDecimal(discountPercentage).setScale(0, RoundingMode.HALF_UP);
-		boolean greaterThanZero = discount.compareTo(BigDecimal.ZERO) > 0;
+		boolean zeroOrGreater = discount.compareTo(BigDecimal.ZERO) >= 0;
 		boolean lessThanOneHundredAndOne = discount.compareTo(new BigDecimal(101)) < 0;
 		
-		return greaterThanZero && lessThanOneHundredAndOne;
+		return zeroOrGreater && lessThanOneHundredAndOne;
 	}
 
 }// End class
