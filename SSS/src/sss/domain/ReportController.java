@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
-
 public abstract class ReportController {
 	
 	protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");			// Date format used to validate input
@@ -34,14 +32,12 @@ public abstract class ReportController {
 		try {
 			Date inputDate = dateFormat.parse(inputDateString);
 			if(!dateFormat.format(inputDate).equals(inputDateString)) { // If the formatted inputDate != inputDateString, then the input date was invalid
-				JOptionPane.showMessageDialog(null, "Error: Invalid date!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			else {
 				return true;
 			}
 		} catch (ParseException e) { // If the inputDateString does not parse, it is not in the correct format
-			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -55,11 +51,9 @@ public abstract class ReportController {
 				return true;
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Dates Input", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-		} catch (ParseException e) { // If the either date string does not parse, it is not in the correct format
-			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+		} catch (ParseException e) { // If either date string does not parse, it is not in the correct format
 			return false;
 		}
 	}
