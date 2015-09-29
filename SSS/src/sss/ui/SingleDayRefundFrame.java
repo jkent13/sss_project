@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -186,6 +187,7 @@ public class SingleDayRefundFrame extends JFrame {
 					String inputDateString = viewDate.getText();
 					
 					if(!controller.isValidDate(inputDateString)) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 						viewDate.setText("");
 					}
 					else {
@@ -199,13 +201,14 @@ public class SingleDayRefundFrame extends JFrame {
 		// Pressing Enter key on View Date textbox
 		viewDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(viewDate.getText() != null) {
 						String inputDateString = viewDate.getText();
 						
 						if(!controller.isValidDate(inputDateString)) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 							viewDate.setText("");
 						}
 						else {

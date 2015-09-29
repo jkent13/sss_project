@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -300,6 +301,7 @@ public class TimePeriodSaleFrame extends JFrame {
 					boolean isStartValid = controller.isValidDate(startDateString);
 					boolean isEndValid = controller.isValidDate(endDateString);
 					if((!isStartValid) || (!isEndValid)) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 						viewStartDate.setText("");
 						viewEndDate.setText("");
 					}
@@ -309,6 +311,7 @@ public class TimePeriodSaleFrame extends JFrame {
 							controller.switchView(reportType, groupBy);
 						}
 						else {
+							JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Date Range", JOptionPane.ERROR_MESSAGE);
 							viewStartDate.setText("");
 							viewEndDate.setText("");
 						}
@@ -321,7 +324,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		// Pressing Enter key on View Start Date textbox
 		viewStartDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					boolean isStartNull = viewStartDate.getText() == null;
@@ -332,6 +335,7 @@ public class TimePeriodSaleFrame extends JFrame {
 						boolean isStartValid = controller.isValidDate(startDateString);
 						boolean isEndValid = controller.isValidDate(endDateString);
 						if((!isStartValid) || (!isEndValid)) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 							viewStartDate.setText("");
 							viewEndDate.setText("");
 						}
@@ -341,6 +345,7 @@ public class TimePeriodSaleFrame extends JFrame {
 								controller.switchView(reportType, groupBy);
 							}
 							else {
+								JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Date Range", JOptionPane.ERROR_MESSAGE);
 								viewStartDate.setText("");
 								viewEndDate.setText("");
 							}
@@ -353,7 +358,7 @@ public class TimePeriodSaleFrame extends JFrame {
 		// Pressing Enter key on View End Date textbox
 		viewEndDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					boolean isStartNull = viewStartDate.getText() == null;
@@ -364,6 +369,7 @@ public class TimePeriodSaleFrame extends JFrame {
 						boolean isStartValid = controller.isValidDate(startDateString);
 						boolean isEndValid = controller.isValidDate(endDateString);
 						if((!isStartValid) || (!isEndValid)) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 							viewStartDate.setText("");
 							viewEndDate.setText("");
 						}
@@ -373,6 +379,7 @@ public class TimePeriodSaleFrame extends JFrame {
 								controller.switchView(reportType, groupBy);
 							}
 							else {
+								JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Date Range", JOptionPane.ERROR_MESSAGE);
 								viewStartDate.setText("");
 								viewEndDate.setText("");
 							}

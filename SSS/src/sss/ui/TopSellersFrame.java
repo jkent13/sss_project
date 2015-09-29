@@ -183,7 +183,7 @@ public class TopSellersFrame extends JFrame {
 		// Pressing Enter key on View Start Date textbox
 		startDateTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {
@@ -196,7 +196,7 @@ public class TopSellersFrame extends JFrame {
 		// Pressing Enter key on View End Date textbox
 		endDateTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {
@@ -208,7 +208,7 @@ public class TopSellersFrame extends JFrame {
 		
 		limitTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(buildFilter()) {
@@ -252,15 +252,19 @@ public class TopSellersFrame extends JFrame {
 		String endDateString = endDateTextField.getText();
 		boolean isStartValid = controller.isValidDate(startDateString);
 		boolean isEndValid = controller.isValidDate(endDateString);
-		boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
-
-		if (isStartValid && isEndValid && isStartBeforeEnd) {
-			return true;
+		
+		if(isStartValid && isEndValid) {
+			boolean isStartBeforeEnd = controller.isStartDateBeforeEndDate(startDateString, endDateString);
+			if (isStartBeforeEnd) {
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error: The start date must be before the end date!", "Invalid Date Range", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Error: Invalid date input. Please make "
-					+ "sure the both dates are written in the format DD/MM/YYYY and that the start date is before the end date", 
-					"Invalid Limit", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
