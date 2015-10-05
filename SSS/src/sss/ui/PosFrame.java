@@ -276,7 +276,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		// Lookup Product frame
 		
 		JFrame lookupFrame = new JFrame();
-		lookupFrame.setTitle("Lookup Item");
+		lookupFrame.setTitle("Lookup Product");
 		lookupFrame.setSize(900,500);
 
 		lookupFrame.setLocationRelativeTo(null);
