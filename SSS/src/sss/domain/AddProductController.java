@@ -119,8 +119,9 @@ public class AddProductController {
 	public void saveNewProduct(Product newProduct) {
 		if(isAllValid(newProduct)) {
 				String productInsertStatement = SqlBuilder.getProductInsertStatement(newProduct);
-				DbWriter.executeStatement(productInsertStatement);
-				JOptionPane.showMessageDialog(null, "Product added to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+				if(DbWriter.executeStatement(productInsertStatement)) {
+					JOptionPane.showMessageDialog(null, "Product added to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+				}
 		}
 	}
 	
