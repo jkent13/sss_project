@@ -824,7 +824,9 @@ public class PosFrame extends JFrame implements SaleListener {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				lookupFrame.setVisible(true);
+				if (e.getKeyCode() == KeyEvent.VK_F2) {
+					lookupFrame.setVisible(true);
+				}
 			}
 		});
 
