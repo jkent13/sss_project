@@ -44,23 +44,23 @@ import sss.domain.SaleListener;
 @SuppressWarnings("serial")
 public class PosFrame extends JFrame implements SaleListener {
 
-	static final BigDecimal FIVE_DOLLARS = new BigDecimal(5);
-	static final BigDecimal TEN_DOLLARS = new BigDecimal(10);
-	static final BigDecimal TWENTY_DOLLARS = new BigDecimal(20);
-	static final BigDecimal FIFTY_DOLLARS = new BigDecimal(50);
-	static final BigDecimal HUNDRED_DOLLARS = new BigDecimal(100);
+	private static final BigDecimal FIVE_DOLLARS = new BigDecimal(5);
+	private static final BigDecimal TEN_DOLLARS = new BigDecimal(10);
+	private static final BigDecimal TWENTY_DOLLARS = new BigDecimal(20);
+	private static final BigDecimal FIFTY_DOLLARS = new BigDecimal(50);
+	private static final BigDecimal HUNDRED_DOLLARS = new BigDecimal(100);
 	
-	static final String ONE = "1";
-	static final String TWO = "2";
-	static final String THREE = "3";
-	static final String FOUR = "4";
-	static final String FIVE = "5";
-	static final String SIX = "6";
-	static final String SEVEN = "7";
-	static final String EIGHT = "8";
-	static final String NINE = "9";
-	static final String ZERO = "0";
-	static final String DECIMAL_POINT = ".";
+	private static final String ONE = "1";
+	private static final String TWO = "2";
+	private static final String THREE = "3";
+	private static final String FOUR = "4";
+	private static final String FIVE = "5";
+	private static final String SIX = "6";
+	private static final String SEVEN = "7";
+	private static final String EIGHT = "8";
+	private static final String NINE = "9";
+	private static final String ZERO = "0";
+	private static final String DECIMAL_POINT = ".";
 	
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
@@ -72,7 +72,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 	private LookupFilter filter = new LookupFilter();
 	
-	Register register = Register.getInstance();
+	private Register register = Register.getInstance();
 
 	public PosFrame() {
 
@@ -276,7 +276,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		// Lookup Product frame
 		
 		JFrame lookupFrame = new JFrame();
-		lookupFrame.setTitle("Lookup Item");
+		lookupFrame.setTitle("Lookup Product");
 		lookupFrame.setSize(900,500);
 
 		lookupFrame.setLocationRelativeTo(null);
@@ -824,7 +824,9 @@ public class PosFrame extends JFrame implements SaleListener {
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				lookupFrame.setVisible(true);
+				if (e.getKeyCode() == KeyEvent.VK_F2) {
+					lookupFrame.setVisible(true);
+				}
 			}
 		});
 

@@ -302,7 +302,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		searchField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -314,7 +314,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		minTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -325,7 +325,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		maxTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -336,7 +336,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		qohTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
