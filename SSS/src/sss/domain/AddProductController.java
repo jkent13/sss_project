@@ -119,8 +119,9 @@ public class AddProductController {
 	public void saveNewProduct(Product newProduct) {
 		if(isAllValid(newProduct)) {
 				String productInsertStatement = SqlBuilder.getProductInsertStatement(newProduct);
-				DbWriter.executeStatement(productInsertStatement);
-				JOptionPane.showMessageDialog(null, "Product added to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+				if(DbWriter.executeStatement(productInsertStatement)) {
+					JOptionPane.showMessageDialog(null, "Product added to database", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
+				}
 		}
 	}
 	
@@ -141,8 +142,8 @@ public class AddProductController {
 	 */
 	public boolean isAllValid(Product product) {
 		return isProductCodeValid(product) && (isProductUnique(product) && 
-				isProductNameValid(product)&& isCostPricePositive(product) 
-				&& isPricePositive(product));
+				isProductNameValid(product)&& isCostPriceValid(product) 
+				&& isPriceValid(product));
 	}
 	
 	
@@ -230,13 +231,17 @@ public class AddProductController {
 	
 	
 	/**
-	 * Checks if a product's cost price value (BigDecimal) is positive
+	 * Checks if a product's cost price value (BigDecimal) is valid
 	 * @param product The Product object whose cost price will be checked
 	 * @return  true if the price is positive, false otherwise
 	 */
-	private boolean isCostPricePositive(Product product) {
+	private boolean isCostPriceValid(Product product) {
 		if(product.getCostPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			JOptionPane.showMessageDialog(null, "Error: The cost price value must be > 0", "Invalid Cost Price", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if(product.getCostPrice().compareTo(new BigDecimal(100000)) >= 0) {
+			JOptionPane.showMessageDialog(null, "Error: The cost price value must be < 100000", "Invalid Cost Price", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		else {
@@ -247,13 +252,17 @@ public class AddProductController {
 	
 	
 	/**
-	 * Checks if a product's price value (BigDecimal) is positive
+	 * Checks if a product's price value (BigDecimal) is valid
 	 * @param product The Product object whose price will be checked
 	 * @return true if the price is positive, false otherwise
 	 */
-	private boolean isPricePositive(Product product) {
+	private boolean isPriceValid(Product product) {
 		if(product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			JOptionPane.showMessageDialog(null, "Error: The selling price must be > 0", "Invalid Selling Price", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if(product.getPrice().compareTo(new BigDecimal(100000)) >= 0) {
+			JOptionPane.showMessageDialog(null, "Error: The selling price value must be < 100000", "Invalid Selling Price", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		else {
