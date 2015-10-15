@@ -5,19 +5,20 @@
  */
 
 package sss.ui;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 
+@SuppressWarnings("serial")
 public class ReportsMenuFrame extends JFrame {
 
 	public ReportsMenuFrame()
@@ -27,68 +28,152 @@ public class ReportsMenuFrame extends JFrame {
 		setTitle("Reports Menu");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		//-------------------Load Image Resources--------------------
+		
+		URL reportsMenuLogoUrl = Main.class.getResource("/ReportsLogo.png");
+		URL singleDaySaleReportIconUrl = Main.class.getResource("/SingleDaySalesReportIcon2.png");
+		URL singleDaySaleReportIconHoverUrl = Main.class.getResource("/SingleDaySalesReportIconHover2.png");
+		URL timePeriodSaleReportIconUrl = Main.class.getResource("/TimePeriodSalesReportIcon2.png");
+		URL timePeriodSaleReportIconHoverUrl = Main.class.getResource("/TimePeriodSalesReportIconHover2.png");
+		URL singleDayRefundReportIconUrl = Main.class.getResource("/SingleDayRefundReportIcon2.png");
+		URL singleRefundReportIconHoverUrl = Main.class.getResource("/SingleDayRefundReportIconHover2.png");
+		URL timePeriodRefundReportIconUrl = Main.class.getResource("/TimePeriodRefundReportIcon2.png");
+		URL timePeriodRefundReportIconHoverUrl = Main.class.getResource("/TimePeriodRefundReportIconHover2.png");
+		URL slowSellerReportIconUrl = Main.class.getResource("/SlowSellersReportIcon.png");
+		URL slowSellerReportIconHoverUrl = Main.class.getResource("/SlowSellersReportIconHover.png");
+		URL topSellersReportIconUrl = Main.class.getResource("/TopSellersReportIcon.png");
+		URL topSellersReportIconHoverUrl = Main.class.getResource("/TopSellersReportIconHover.png");
+		
+		
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
-		fullScreenPanel.setLayout(new GridLayout(2,1,10,10));
+		fullScreenPanel.setLayout(new GridLayout(3,1,10,10));
 		add(fullScreenPanel);
 
 		//--------------------Section Panels--------------------
 
 		JPanel topPanel = new JPanel();
-		TitledBorder topPanelTitle = new TitledBorder("Top Panel:");
-		topPanel.setBorder(topPanelTitle);
-		topPanel.setLayout(new GridLayout(3,2,10,10));
+		topPanel.setLayout(new GridLayout(1,1,10,10));
 		fullScreenPanel.add(topPanel);
 
-		JLabel inventoryLabel = new JLabel("Reports");
-		Font myFont = new Font("SansSerif", Font.BOLD, 42);
-		inventoryLabel.setFont(myFont);
-		topPanel.add(inventoryLabel);
+		JLabel reportsTextLabel = new JLabel(new ImageIcon(reportsMenuLogoUrl));
+		topPanel.add(reportsTextLabel);
 
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new GridLayout(1,2,10,10));
+		fullScreenPanel.add(middlePanel);
+		
+		JPanel middlePanelLeft = new JPanel();
+		middlePanelLeft.setLayout(new GridLayout(1,1,10,10));
+		middlePanel.add(middlePanelLeft);
+		
+		JPanel middlePanelRight = new JPanel();
+		middlePanelRight.setLayout(new GridLayout(1,1,10,10));
+		middlePanel.add(middlePanelRight);
+		
 		JPanel bottomPanel = new JPanel();
-		TitledBorder bottomPanelTitle = new TitledBorder("Bottom Panel:");
-		bottomPanel.setBorder(bottomPanelTitle);
-		bottomPanel.setLayout(new GridLayout(2,2,10,10));
+		bottomPanel.setLayout(new GridLayout(1,2,10,10));
 		fullScreenPanel.add(bottomPanel);
 
 		//---------------------Create Buttons---------------------
 
-		JButton salesReportMenuButton = new JButton("Sales Report");
-		bottomPanel.add(salesReportMenuButton);
+		JButton singleDaySaleButton = new JButton(new ImageIcon(singleDaySaleReportIconUrl));
+		ImageIcon singleDaySaleButtonHover = new ImageIcon(singleDaySaleReportIconHoverUrl);
+		singleDaySaleButton.setBorderPainted(false);
+		singleDaySaleButton.setRolloverIcon(singleDaySaleButtonHover);
+		singleDaySaleButton.setRolloverEnabled(true);
+		singleDaySaleButton.setFocusPainted(false);
+		singleDaySaleButton.setContentAreaFilled(false);
+		middlePanelLeft.add(singleDaySaleButton);
 
-		JButton refundReportMenuButton = new JButton("Refund Report");
-		bottomPanel.add(refundReportMenuButton);
+		JButton timePeriodSaleButton = new JButton(new ImageIcon(timePeriodSaleReportIconUrl));
+		ImageIcon timePeriodSaleButtonHover = new ImageIcon(timePeriodSaleReportIconHoverUrl);
+		timePeriodSaleButton.setBorderPainted(false);
+		timePeriodSaleButton.setRolloverIcon(timePeriodSaleButtonHover);
+		timePeriodSaleButton.setRolloverEnabled(true);
+		timePeriodSaleButton.setFocusPainted(false);
+		timePeriodSaleButton.setContentAreaFilled(false);
+		middlePanelLeft.add(timePeriodSaleButton);
 
-		JButton slowSellersButton = new JButton("Slow Sellers Report");
+		JButton singleDayRefundButton = new JButton(new ImageIcon(singleDayRefundReportIconUrl));
+		ImageIcon singleDayRefundButtonHover = new ImageIcon(singleRefundReportIconHoverUrl);
+		singleDayRefundButton.setBorderPainted(false);
+		singleDayRefundButton.setRolloverIcon(singleDayRefundButtonHover);
+		singleDayRefundButton.setRolloverEnabled(true);
+		singleDayRefundButton.setFocusPainted(false);
+		singleDayRefundButton.setContentAreaFilled(false);
+		middlePanelRight.add(singleDayRefundButton);
+
+		JButton timePeriodRefundButton = new JButton(new ImageIcon(timePeriodRefundReportIconUrl));
+		ImageIcon timePeriodRefundButtonHover = new ImageIcon(timePeriodRefundReportIconHoverUrl);
+		timePeriodRefundButton.setBorderPainted(false);
+		timePeriodRefundButton.setRolloverIcon(timePeriodRefundButtonHover);
+		timePeriodRefundButton.setRolloverEnabled(true);
+		timePeriodRefundButton.setFocusPainted(false);
+		timePeriodRefundButton.setContentAreaFilled(false);
+		middlePanelRight.add(timePeriodRefundButton);
+
+		JButton slowSellersButton = new JButton(new ImageIcon(slowSellerReportIconUrl));
+		ImageIcon slowSellersButtonHover = new ImageIcon(slowSellerReportIconHoverUrl);
+		slowSellersButton.setBorderPainted(false);
+		slowSellersButton.setRolloverIcon(slowSellersButtonHover);
+		slowSellersButton.setRolloverEnabled(true);
+		slowSellersButton.setFocusPainted(false);
+		slowSellersButton.setContentAreaFilled(false);
 		bottomPanel.add(slowSellersButton);
 
-		JButton topSellersButton = new JButton("Top Seller Report");
+		JButton topSellersButton = new JButton(new ImageIcon(topSellersReportIconUrl));
+		ImageIcon topSellersButtonHover = new ImageIcon(topSellersReportIconHoverUrl);
+		topSellersButton.setBorderPainted(false);
+		topSellersButton.setRolloverIcon(topSellersButtonHover);
+		topSellersButton.setRolloverEnabled(true);
+		topSellersButton.setFocusPainted(false);
+		topSellersButton.setContentAreaFilled(false);
 		bottomPanel.add(topSellersButton);
 
 		//---------------------Event Handlers---------------------
 
-		salesReportMenuButton.addActionListener(new ActionListener()
+		singleDaySaleButton.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame salesReportsMenuUI = new SalesReportsMenuFrame();
+				new SingleDaySaleFrame();
 			}
 		});
-
-
-		refundReportMenuButton.addActionListener(new ActionListener()
+		
+		timePeriodSaleButton.addActionListener(new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame refundReportsMenuUI = new RefundReportsMenuFrame();
+				
+				new TimePeriodSaleFrame();
+			}
+		});
+		
+		singleDayRefundButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new SingleDayRefundFrame();
+			}
+		});
+		
+		timePeriodRefundButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new TimePeriodRefundFrame();
 			}
 		});
 		
@@ -99,7 +184,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame slowSellersReportUI = new SlowSellersFrame();
+				new SlowSellersFrame();
 			}
 			});
 			
@@ -110,7 +195,7 @@ public class ReportsMenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				JFrame topSellersReportUI = new TopSellersFrame();
+				new TopSellersFrame();
 			}
 			});
 	

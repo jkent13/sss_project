@@ -15,17 +15,39 @@ import javax.swing.JOptionPane;
 
 public class DbWriter {
 	
+	// ==========================================================================
+	// Variables
+	// ==========================================================================
+	
+	
+	
 	private static Connection connection = DbConnector.getConnection();		// Connection to DB
-	private static Statement statement;										// Statement for executing INSERT/UPDATEs
+	private static Statement statement;																		// Statement for executing INSERT/UPDATEs
+	
+	
+	
+	// ==========================================================================
+	// Constructor
+	// ==========================================================================
+	
+	
 	
 	private DbWriter() {
 	}
+	
+	
+	
+	// ==========================================================================
+	// Static Methods
+	// ==========================================================================
+	
+	
 	
 	/**
 	 * Static method for executing any kind of SQL INSERT or UPDATE statements
 	 * @param sql the SQL string to execute
 	 */
-	public static void executeStatement(String sql) {
+	public static boolean executeStatement(String sql) {
 		try {
 			if(connection == null) {
 				connection = DbConnector.getConnection();
@@ -35,9 +57,11 @@ public class DbWriter {
 				statement = connection.createStatement();
 			}
 			statement.execute(sql);
+			return true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error: The SQL statements could not be executed", "SQL Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			return false;
 		}
 	}
+	
 }

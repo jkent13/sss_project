@@ -11,8 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,10 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import sss.domain.NonEditableTableModel;
-import sss.domain.ReportController;
+import sss.domain.SingleDaySaleController;
 
 
 @SuppressWarnings("serial")
@@ -35,7 +38,7 @@ public class SingleDaySaleFrame extends JFrame {
 	private String reportType = "dollar";
 	private String viewType = "summary";
 	
-	private ReportController controller = new ReportController();
+	private SingleDaySaleController controller = new SingleDaySaleController();
 	
 	public SingleDaySaleFrame()
 	{
@@ -44,12 +47,18 @@ public class SingleDaySaleFrame extends JFrame {
 		setTitle("Single Day Sale Report");
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
+		
+		//----------------------Load Image Resources-----------------------
+		
+		URL barGraphIconUrl = Main.class.getResource("/BarGraphIcon2.png");
+		URL barGraphIconHoverUrl = Main.class.getResource("/BarGraphIcon3.png");
+		URL lineGraphIconUrl = Main.class.getResource("/LineGraphIcon2.png");
+		URL lineGraphIconHoverUrl = Main.class.getResource("/LineGraphIcon3.png");
 
 		//-------------------Full Screen Panel--------------------
 
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
-		fullScreenPanel.setBorder(fullScreenTitle);
+		fullScreenPanel.setBorder(new EmptyBorder(10,10,10,10));
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
 
@@ -74,8 +83,6 @@ public class SingleDaySaleFrame extends JFrame {
 		//--------------------Date Panels--------------------
 
 		JPanel datePanel = new JPanel();
-		TitledBorder datePanelTitle = new TitledBorder("View Date:");
-		datePanel.setBorder(datePanelTitle);
 		datePanel.setLayout(new GridLayout(3,2,10,10));
 		
 		JTextField viewDate = new JTextField();
@@ -145,19 +152,30 @@ public class SingleDaySaleFrame extends JFrame {
 		shownAsPanel.setLayout(new GridLayout(1,2,10,10));
 		rightPanel.add(shownAsPanel);
 
-		JButton barGraph = new JButton("Bar Graph");
+		JButton barGraph = new JButton(new ImageIcon(barGraphIconUrl));
+		ImageIcon barGraphButtonHover = new ImageIcon(barGraphIconHoverUrl);
+		barGraph.setBorderPainted(false);
+		barGraph.setRolloverIcon(barGraphButtonHover);
+		barGraph.setRolloverEnabled(true);
+		barGraph.setFocusPainted(false);
+		barGraph.setContentAreaFilled(false);
 		shownAsPanel.add(barGraph);
-		JButton lineGraph = new JButton("Line Graph");
+		
+		JButton lineGraph = new JButton(new ImageIcon(lineGraphIconUrl));
+		ImageIcon lineGraphButtonHover = new ImageIcon(lineGraphIconHoverUrl);
+		lineGraph.setBorderPainted(false);
+		lineGraph.setRolloverIcon(lineGraphButtonHover);
+		lineGraph.setRolloverEnabled(true);
+		lineGraph.setFocusPainted(false);
+		lineGraph.setContentAreaFilled(false);
 		shownAsPanel.add(lineGraph);
 
 		//---------------------Create Buttons---------------------
 
 		JPanel resultsButtonPanel = new JPanel();
-		resultsButtonPanel.setLayout(new GridLayout(3,1,10,10));
+		resultsButtonPanel.setBorder(new EmptyBorder(50,50,50,50));
+		resultsButtonPanel.setLayout(new GridLayout(1,2,50,50));
 		rightPanel.add(resultsButtonPanel);
-
-		JLabel blank = new JLabel();
-		resultsButtonPanel.add(blank);
 		
 		JButton getResultsButton = new JButton("Get Results");
 		resultsButtonPanel.add(getResultsButton);
@@ -242,10 +260,12 @@ public class SingleDaySaleFrame extends JFrame {
 					String inputDateString = viewDate.getText();
 					
 					if(!controller.isValidDate(inputDateString)) {
+						JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 						viewDate.setText("");
 					}
 					else {
 						controller.getResults(inputDateString);
+						controller.switchView(reportType, viewType);
 					}
 				}
 			}
@@ -255,17 +275,19 @@ public class SingleDaySaleFrame extends JFrame {
 		// Pressing Enter key on View Date textbox
 		viewDate.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(viewDate.getText() != null) {
 						String inputDateString = viewDate.getText();
 						
 						if(!controller.isValidDate(inputDateString)) {
+							JOptionPane.showMessageDialog(null, "Error: Invalid date format! Please enter a date in the format dd/mm/yyyy", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 							viewDate.setText("");
 						}
 						else {
 							controller.getResults(inputDateString);
+							controller.switchView(reportType, viewType);
 						}
 					}
 				}
@@ -284,7 +306,28 @@ public class SingleDaySaleFrame extends JFrame {
 		});
 
 
+		lineGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showLineChart(reportType);
+			}
+		});
+		
+		barGraph.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				controller.showBarChart(reportType);
+			}
+		});
+		
 		setVisible(true);
 		viewDate.requestFocusInWindow();
-	}
+		
+	}// End constructor
 }// End class

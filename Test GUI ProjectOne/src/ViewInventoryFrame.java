@@ -40,7 +40,7 @@ public class ViewInventoryFrame extends JFrame {
 		TitledBorder p1title = new TitledBorder("Grid Panel");
 		p1.setBorder(p1title);//Setting border 
 		
-		JPanel p2 = new JPanel(new GridLayout(4, 1, 2, 2));//Creating the panel for the bar/buttons 
+		JPanel p2 = new JPanel(new GridLayout(5, 1, 2, 2));//Creating the panel for the bar/buttons 
 		TitledBorder p2title = new TitledBorder("VIEW PRODUCT INVENTORY");
 		p2.setBorder(p2title);
 		
@@ -84,7 +84,22 @@ public class ViewInventoryFrame extends JFrame {
 		
 		
 		
+		JPanel buttonpanel = new JPanel(new GridLayout(1, 3, 20, 20));
+		JButton addProdButton1 = new JButton("Add Product");
+		JButton addProdButton2 = new JButton("Modify Product");
+		JButton addProdButton3 = new JButton("Import CSV");
 		
+		JPanel aa = new JPanel();
+		JPanel bb = new JPanel();
+		JPanel cc = new JPanel();
+		
+		bb.add(addProdButton1);
+		bb.add(addProdButton2);
+		bb.add(addProdButton3);
+		buttonpanel.add(aa);
+		buttonpanel.add(bb);
+		buttonpanel.add(cc);
+		p2.add(buttonpanel);
 		p2.add(searchPanel);//Adding search panel 1st
 		
 		/** Creating all the buttons/labels etc for searching options**/

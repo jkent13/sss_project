@@ -10,13 +10,19 @@ package sss.ui;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -30,35 +36,43 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
 
+import sss.domain.LookupFilter;
 import sss.domain.NonEditableTableModel;
 import sss.domain.Register;
-import sss.services.SaleListener;
+import sss.domain.SaleListener;
 
 @SuppressWarnings("serial")
 public class PosFrame extends JFrame implements SaleListener {
 
-	static final BigDecimal FIVE_DOLLARS = new BigDecimal(5);
-	static final BigDecimal TEN_DOLLARS = new BigDecimal(10);
-	static final BigDecimal TWENTY_DOLLARS = new BigDecimal(20);
-	static final BigDecimal FIFTY_DOLLARS = new BigDecimal(50);
-	static final BigDecimal HUNDRED_DOLLARS = new BigDecimal(100);
+	private static final BigDecimal FIVE_DOLLARS = new BigDecimal(5);
+	private static final BigDecimal TEN_DOLLARS = new BigDecimal(10);
+	private static final BigDecimal TWENTY_DOLLARS = new BigDecimal(20);
+	private static final BigDecimal FIFTY_DOLLARS = new BigDecimal(50);
+	private static final BigDecimal HUNDRED_DOLLARS = new BigDecimal(100);
 	
-	static final String ONE = "1";
-	static final String TWO = "2";
-	static final String THREE = "3";
-	static final String FOUR = "4";
-	static final String FIVE = "5";
-	static final String SIX = "6";
-	static final String SEVEN = "7";
-	static final String EIGHT = "8";
-	static final String NINE = "9";
-	static final String ZERO = "0";
-	static final String DECIMAL_POINT = ".";
+	private static final String ONE = "1";
+	private static final String TWO = "2";
+	private static final String THREE = "3";
+	private static final String FOUR = "4";
+	private static final String FIVE = "5";
+	private static final String SIX = "6";
+	private static final String SEVEN = "7";
+	private static final String EIGHT = "8";
+	private static final String NINE = "9";
+	private static final String ZERO = "0";
+	private static final String DECIMAL_POINT = ".";
 	
 	private JLabel saleTotalLabel = new JLabel("TOTAL: $0.00");
 	private JLabel saleBalanceLabel = new JLabel("Change: $0.00");
+	
+	private JTextField barcodeSearchField;
+	private JTextField pCodeEntryField;
+	private JTextField searchField;
+	private JComboBox<String> searchComboBox;
 
-	Register register = new Register();
+	private LookupFilter filter = new LookupFilter();
+	
+	private Register register = Register.getInstance();
 
 	public PosFrame() {
 
@@ -70,25 +84,28 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		//Full Screen Panel
 		JPanel fullScreenPanel = new JPanel();
-		TitledBorder fullScreenTitle = new TitledBorder("Full Screen:");
+		TitledBorder fullScreenTitle = new TitledBorder("Point-of-Sale");
 		fullScreenPanel.setBorder(fullScreenTitle);
 		fullScreenPanel.setLayout(new GridLayout(1,2,10,10));
 		add(fullScreenPanel);
+		
+		//Load Image Resources
+		
+		URL aud5noteUrl = Main.class.getResource("/aud5front.jpg");
+		URL aud10noteUrl = Main.class.getResource("/aud10front.jpg");
+		URL aud20noteUrl = Main.class.getResource("/aud20front.jpg");
+		URL aud50noteUrl = Main.class.getResource("/aud50front.jpg");
+		URL aud100noteUrl = Main.class.getResource("/aud100front.jpg");
 
 
 		//SECTION PANELS
 
 		JPanel leftPanel = new JPanel();
-		TitledBorder leftPanelTitle = new TitledBorder("Left Panel:");
-		leftPanel.setBorder(leftPanelTitle);
 		leftPanel.setLayout(new GridLayout(2,1,10,10));
 		fullScreenPanel.add(leftPanel);
 
 		JPanel itemsPanel = new JPanel();
-		TitledBorder itemsPanelTitle = new TitledBorder("Product Inventory:");
-		itemsPanel.setBorder(itemsPanelTitle);
 		itemsPanel.setLayout(new GridLayout(1,1,10,10));
-		//				leftPanel.add(itemsPanel);
 
 		NonEditableTableModel dataModel = register.getDataModel();
 		JTable lookUpTable = new JTable(dataModel);
@@ -148,19 +165,34 @@ public class PosFrame extends JFrame implements SaleListener {
 
 		JPanel botMiddlePanel = new JPanel();
 		botMiddlePanel.setLayout(new GridLayout(2,3,10,10));
+		
+		Font myFont1 = new Font("SansSerif", Font.BOLD, 35);
+		
 
 		JButton Button1 = new JButton("1");
+		Button1.setFont(myFont1);
 		JButton Button2 = new JButton("2");
+		Button2.setFont(myFont1);
 		JButton Button3 = new JButton("3");
+		Button3.setFont(myFont1);
 		JButton Button4 = new JButton("4");
+		Button4.setFont(myFont1);
 		JButton Button5 = new JButton("5");
+		Button5.setFont(myFont1);
 		JButton Button6 = new JButton("6");
+		Button6.setFont(myFont1);
 		JButton Button7 = new JButton("7");
+		Button7.setFont(myFont1);
 		JButton Button8 = new JButton("8");
+		Button8.setFont(myFont1);
 		JButton Button9 = new JButton("9");
+		Button9.setFont(myFont1);
 		JButton Buttondec = new JButton(".");
+		Buttondec.setFont(myFont1);
 		JButton Button0 = new JButton("0");
+		Button0.setFont(myFont1);
 		JButton Buttondel = new JButton("del");
+		Buttondel.setFont(myFont1);
 
 		midMiddlePanel.add(Button1);
 		midMiddlePanel.add(Button2);
@@ -185,57 +217,57 @@ public class PosFrame extends JFrame implements SaleListener {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(1,2,10,10));
 
-		JButton voidButton = new JButton("f1 Void");
-		JButton lookUpButton = new JButton("f2 Lookup Item");
-		JButton quantityButton = new JButton("f3 Quantity");
-		JButton overridePriceButton = new JButton("f4 Override Price");
-		JButton discountButton = new JButton("f5 Discount");
-		JButton optionsButton = new JButton("f6 Options");
+		JButton voidButton = new JButton("F1 Void");
+		JButton lookUpButton = new JButton("F2 Lookup Product");
+		JButton quantityButton = new JButton("F3 Quantity");
+		JButton discountButton = new JButton("F4 Discount");
+		
 		JButton enterButton = new JButton("ENTER");
+		Font enterFont = new Font("SansSerif", Font.BOLD, 30);
+		enterButton.setFont(enterFont);
 
 		JPanel firstRightPanel = new JPanel();
-		firstRightPanel.setLayout(new GridLayout(2,1,10,10));
+		firstRightPanel.setLayout(new GridLayout(1,1,10,10));
 
-		JButton note5Button = new JButton("$5");
-		JButton note10Button = new JButton("$10");
-		JButton note20Button = new JButton("$20");
-		JButton note50Button = new JButton("$50");
-		JButton note100Button = new JButton("$100");
+		ImageIcon fiveNote = new ImageIcon(aud5noteUrl);
+		JButton note5Button = new JButton(fiveNote);
+		ImageIcon tenNote = new ImageIcon(aud10noteUrl);;
+		JButton note10Button = new JButton(tenNote);
+		ImageIcon twentyNote = new ImageIcon(aud20noteUrl);
+		JButton note20Button = new JButton(twentyNote);
+		ImageIcon fiftyNote = new ImageIcon(aud50noteUrl);
+		JButton note50Button = new JButton(fiftyNote);
+		ImageIcon hundredNote = new ImageIcon(aud100noteUrl);
+		JButton note100Button = new JButton(hundredNote);
 
 		JPanel exactCashPanel = new JPanel();
 		JButton exactCashButton = new JButton("Exact Cash");
-		exactCashPanel.setLayout(new GridLayout(3,1,10,10));
+		exactCashButton.setFont(enterFont);
+		exactCashPanel.setLayout(new GridLayout(2,1,10,10));
 
-		JPanel blankPanel = new JPanel();
-
-		exactCashPanel.add(blankPanel);
-		exactCashPanel.add(exactCashButton);
-
-
-		JPanel notesPanel = new JPanel();
-		notesPanel.setLayout(new GridLayout(5,1,10,10));
+		JPanel notesPanel = new JPanel();		
+		notesPanel.setLayout(new GridLayout(7,1,10,10));
 
 		notesPanel.add(note100Button);
 		notesPanel.add(note50Button);
 		notesPanel.add(note20Button);
 		notesPanel.add(note10Button);
 		notesPanel.add(note5Button);
+		notesPanel.add(exactCashButton);
+		notesPanel.add(enterButton);
 
 
 		JPanel secondRightPanel = new JPanel();
 
-		secondRightPanel.setLayout(new GridLayout(7,1,10,10));
+		secondRightPanel.setLayout(new GridLayout(4,1,10,10));
 
 		secondRightPanel.add(voidButton);
 		secondRightPanel.add(lookUpButton);
 		secondRightPanel.add(quantityButton);
-		secondRightPanel.add(overridePriceButton);
 		secondRightPanel.add(discountButton);
-		secondRightPanel.add(optionsButton);
-		secondRightPanel.add(enterButton);
 
 		firstRightPanel.add(notesPanel);
-		firstRightPanel.add(exactCashPanel);
+//		firstRightPanel.add(exactCashPanel);
 
 		rightPanel.add(firstRightPanel);
 		rightPanel.add(secondRightPanel);
@@ -244,7 +276,7 @@ public class PosFrame extends JFrame implements SaleListener {
 		// Lookup Product frame
 		
 		JFrame lookupFrame = new JFrame();
-		lookupFrame.setTitle("Lookup Item");
+		lookupFrame.setTitle("Lookup Product");
 		lookupFrame.setSize(900,500);
 
 		lookupFrame.setLocationRelativeTo(null);
@@ -265,43 +297,47 @@ public class PosFrame extends JFrame implements SaleListener {
 		topPanel.add(topLeftPanel);
 
 		JLabel barcodeSearchLabel = new JLabel("Barcode:");
-		JTextField barcodeSearchField = new JTextField(13);
+		barcodeSearchField = new JTextField(13);
 		topLeftPanel.add(barcodeSearchLabel);
 		topLeftPanel.add(barcodeSearchField);
 
 		JLabel pCodeLabel = new JLabel("Product Code:");
-		JTextField pCodeEntryField = new JTextField(13);
+		pCodeEntryField = new JTextField(13);
 		topLeftPanel.add(pCodeLabel);
 		topLeftPanel.add(pCodeEntryField);
 
 		JPanel topCentrePanel = new JPanel();
-		TitledBorder topMiddlePanelTitle = new TitledBorder("Search by:");
-		topCentrePanel.setBorder(topMiddlePanelTitle);
-		topCentrePanel.setLayout(new GridLayout(3,1,10,10));
+		topCentrePanel.setLayout(new GridLayout(4,1,10,10));
 		topPanel.add(topCentrePanel);
 
-		JTextField searchField = new JTextField();
+		JLabel searchByName = new JLabel("Search By Name:");
+		topCentrePanel.add(searchByName);
+		
+		searchField = new JTextField();
 		topCentrePanel.add(searchField);
 
 		JLabel comboboxLabel = new JLabel("Category:");
 		topCentrePanel.add(comboboxLabel);
 
-		JComboBox<String> searchComboBox = new JComboBox<String>(register.getCategoryNames());
+		searchComboBox = new JComboBox<String>(register.getCategoryNames());
 		searchComboBox.setSelectedIndex(0);
 		topCentrePanel.add(searchComboBox);
 		searchComboBox.setEnabled(true);
 
 		JPanel topRightPanel = new JPanel();
 
-		topRightPanel.setLayout(new GridLayout(3,1,10,10));
+		topRightPanel.setLayout(new GridLayout(4,1,10,10));
 		topPanel.add(topRightPanel);
 
-		JButton searchButton = new JButton("Search!");
+		JPanel blankSearch = new JPanel();
+		topRightPanel.add(blankSearch);
+		
+		JButton searchButton = new JButton("Search");
 		topRightPanel.add(searchButton);
 
-		JLabel spaceLabel = new JLabel();
-		topRightPanel.add(spaceLabel);
-
+		JPanel blankSelect = new JPanel();
+		topRightPanel.add(blankSelect);
+		
 		JButton selectButton = new JButton("Select");
 		topRightPanel.add(selectButton);
 
@@ -367,16 +403,6 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		overridePriceButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);
-				barcodeEntryField.requestFocusInWindow();
-			}
-		});
 
 		discountButton.addActionListener(new ActionListener()
 		{
@@ -409,9 +435,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(FIVE_DOLLARS) < 0) {
+					if(exactAmount.compareTo(FIVE_DOLLARS) <= 0) {
 						register.makePayment(FIVE_DOLLARS);
 					}
 					else {
@@ -428,9 +454,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(TEN_DOLLARS) < 0) {
+					if(exactAmount.compareTo(TEN_DOLLARS) <= 0) {
 						register.makePayment(TEN_DOLLARS);
 					}
 					else {
@@ -447,9 +473,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(TWENTY_DOLLARS) < 0) {
+					if(exactAmount.compareTo(TWENTY_DOLLARS) <= 0) {
 						register.makePayment(TWENTY_DOLLARS);
 					}
 					else {
@@ -466,9 +492,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(FIFTY_DOLLARS) < 0) {
+					if(exactAmount.compareTo(FIFTY_DOLLARS) <= 0) {
 						register.makePayment(FIFTY_DOLLARS);
 					}
 					else {
@@ -485,9 +511,9 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
-					if(exactAmount.compareTo(HUNDRED_DOLLARS) < 0) {
+					if(exactAmount.compareTo(HUNDRED_DOLLARS) <= 0) {
 						register.makePayment(HUNDRED_DOLLARS);
 					}
 					else {
@@ -504,11 +530,67 @@ public class PosFrame extends JFrame implements SaleListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(register.isActiveSale() && register.getCurrentSaleTotal() != new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN)) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
+				if(register.saleHasLines()) { // Change for circumstances where an refund + purchase could total 0.00 - must work from no. of lines or alternative
 					BigDecimal exactAmount = register.getCurrentSaleTotal();
 					register.makePayment(exactAmount);
 				}
 				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		enterButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(register.saleHasLines()) { 
+					try{ 
+						BigDecimal exactAmount = register.getCurrentSaleTotal();
+						BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+						if(exactAmount.compareTo(payment) <= 0) {
+							register.makePayment(payment);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					catch (NumberFormatException nfe){
+						JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+						paymentEntryField.setText("");
+					}
+					
+				}
+				paymentEntryField.setText("");
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
+		
+		paymentEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(register.saleHasLines()) { 
+						try{ 
+							BigDecimal exactAmount = register.getCurrentSaleTotal();
+							BigDecimal payment = new BigDecimal(paymentEntryField.getText());
+							if(exactAmount.compareTo(payment) <= 0) {
+								register.makePayment(payment);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Error: Amount tendered is not enough!", "Payment Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						catch (NumberFormatException nfe){
+							JOptionPane.showMessageDialog(null, "Error: An invalid payment amount was entered", "Invalid Amount Tendered", JOptionPane.ERROR_MESSAGE);
+							paymentEntryField.setText("");
+						}
+						
+					}
+					paymentEntryField.setText("");
+					barcodeEntryField.requestFocusInWindow();
+				}
 			}
 		});
 
@@ -699,22 +781,12 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		// Override Price Hotkey F4
+		// Discount Hotkey F4
 		barcodeEntryField.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F4)
-					JOptionPane.showInputDialog(null,"Enter Overriding Price:","Override",JOptionPane.PLAIN_MESSAGE);	
-			}
-		});
-
-		// Discount Hotkey F5
-		barcodeEntryField.addKeyListener(new KeyAdapter()
-		{
-			public void keyPressed(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						try{
 							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
@@ -746,6 +818,17 @@ public class PosFrame extends JFrame implements SaleListener {
 				barcodeEntryField.requestFocusInWindow();
 			}
 		});
+		
+		// Hotkey F2
+		lookUpTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F2) {
+					lookupFrame.setVisible(true);
+				}
+			}
+		});
 
 		// Hotkey F3
 		lookUpTable.addKeyListener(new KeyAdapter()
@@ -770,12 +853,12 @@ public class PosFrame extends JFrame implements SaleListener {
 			}
 		});
 
-		// Hotkey F5
+		// Hotkey F4
 		lookUpTable.addKeyListener(new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F5) {
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
 					if(lookUpTable.getSelectedRow() != -1) {
 						try{
 							String input = JOptionPane.showInputDialog(null,"Enter Discount (%):","Discount",JOptionPane.PLAIN_MESSAGE);
@@ -808,8 +891,7 @@ public class PosFrame extends JFrame implements SaleListener {
 							barcodeEntryField.requestFocusInWindow();
 						}
 						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
-							System.out.println("An NFE exception occurred");
-							nfe.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else { 
@@ -820,9 +902,148 @@ public class PosFrame extends JFrame implements SaleListener {
 						barcodeEntryField.requestFocusInWindow();
 					}
 				}
+			}
+		});
+		
+		// lookupFrame button handlers
+		
+		searchButton.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				buildLookupFilter();
+				register.lookUpProducts(filter);
+			}
+		});
+		
+		selectButton.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(resultsTable.getSelectedRow() != -1) {
+					try {
+						Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+						if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+							register.beginSale();
+							registerFrameAsListener();
+							register.enterItem(code);
+							lookupFrame.setVisible(false);
+							barcodeEntryField.requestFocusInWindow();
+						}
+					}
+					catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+						JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
+					catch (ClassCastException cce) { 
+						JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();
+			}
+		});
 
+		resultsTable.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(resultsTable.getSelectedRow() != -1) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(), 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
+
+		resultsTable.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent event) {
+				Point p = event.getPoint();
+				int row = resultsTable.rowAtPoint(p);
+				if(row != -1) {
+					if (event.getClickCount() == 2) {
+						try {
+							Long code = (Long)resultsTable.getModel().getValueAt(row, 0);
+							if(code.toString().matches("^\\d{13}$")) { // Matches only 13 digit numbers for barcode entry, will not attempt to lookup other inputs
+								register.beginSale();
+								registerFrameAsListener();
+								register.enterItem(code);
+								lookupFrame.setVisible(false);
+								barcodeEntryField.requestFocusInWindow();
+							}
+						}
+						catch (NumberFormatException nfe) { // This should never happen, due to the regex validation
+							JOptionPane.showMessageDialog(null, "Error: Invalid barcode", "Invalid Value", JOptionPane.ERROR_MESSAGE);
+						}
+						catch (ClassCastException cce) { 
+							JOptionPane.showMessageDialog(null, "Error: The selected product's barcode is invalid", "Invalid Barcode", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+				barcodeEntryField.requestFocusInWindow();	
+			}
+		});
+		
+		barcodeSearchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		pCodeEntryField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchField.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
+			}
+		});
+		
+		searchComboBox.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buildLookupFilter();
+					register.lookUpProducts(filter);
+				}	
 			}
 		});
 
@@ -834,6 +1055,7 @@ public class PosFrame extends JFrame implements SaleListener {
 
 				int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to close this window?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == JOptionPane.YES_OPTION) {
+					register.cancelSale();
 					dispose();
 				}
 			}
@@ -845,6 +1067,42 @@ public class PosFrame extends JFrame implements SaleListener {
 	}
 
 	// -- PosFrame Methods -------------------------------------
+	
+	private void buildLookupFilter() {
+		if(barcodeSearchField.getText().equals(null)) {
+			filter.setUseBarcode(false);
+		}
+		else {
+			filter.setUseBarcode(true);
+			filter.setBarcodeValue(barcodeSearchField.getText());
+		}
+		
+		if(pCodeEntryField.getText().equals(null)) {
+			filter.setUseProductCode(false);
+		}
+		else {
+			filter.setUseProductCode(true);
+			filter.setProductCodeValue(pCodeEntryField.getText());
+		}
+		
+		if(searchField.getText().equals(null)) {
+			filter.setUseProductName(false);
+		}
+		else {
+			filter.setUseProductName(true);
+			filter.setProductNameValue(searchField.getText());
+		}
+		
+		if(((String)searchComboBox.getSelectedItem()).equals("All")) {
+			filter.setUseCategory(false);
+		}
+		else {
+			filter.setUseCategory(true);
+			filter.setCategoryValue((String)searchComboBox.getSelectedItem());
+		}
+	}
+	
+	
 	/**
 	 * Method for registering this frame as a SaleListener
 	 */

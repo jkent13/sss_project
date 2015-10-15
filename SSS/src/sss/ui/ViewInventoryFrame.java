@@ -1,6 +1,8 @@
 /*
- * MockupMainMenu Class
+ * ViewInventoryFrame Class
+ * 
  * Frame design to support 'View Inventory' function
+ * 
  * Original Author: Jasmina Pasalic
  */
 
@@ -35,7 +37,7 @@ import sss.domain.NonEditableTableModel;
 public class ViewInventoryFrame extends JFrame {
 
 	private IMController controller = new IMController();
-	private InventoryFilter filter = new InventoryFilter();		// Contains all the user input and selections (except for search box)
+	private InventoryFilter filter = new InventoryFilter();		// Contains all the user input and selections and search box input
 	
 	private JCheckBox supplierCheckBox;
 	private JCheckBox categoryCheckBox;
@@ -62,7 +64,7 @@ public class ViewInventoryFrame extends JFrame {
 		setLocationRelativeTo(null);
 
 		JPanel MAINPANEL = new JPanel (new GridLayout(1,2,2,2));//Creating the main panel 
-		TitledBorder MAINPANELtitle = new TitledBorder("MAIN");
+		TitledBorder MAINPANELtitle = new TitledBorder("");
 		MAINPANEL.setBorder(MAINPANELtitle);
 		add(MAINPANEL);
 
@@ -71,7 +73,7 @@ public class ViewInventoryFrame extends JFrame {
 		p1.setBorder(p1title);//Setting border 
 
 		JPanel p2 = new JPanel(new GridLayout(4, 1, 2, 2));//Creating the panel for the bar/buttons 
-		TitledBorder p2title = new TitledBorder("VIEW PRODUCT INVENTORY");
+		TitledBorder p2title = new TitledBorder("View Product Inventory");
 		p2.setBorder(p2title);
 
 
@@ -82,17 +84,31 @@ public class ViewInventoryFrame extends JFrame {
 
 		/** Creating a panel for the search functions**/
 
-		JPanel searchPanel = new JPanel(new GridLayout(3,2,2,9));//Search panel inside p2
-		TitledBorder searchPanelTitledBorder = new TitledBorder("SEARCH");
+		JPanel searchPanel = new JPanel(new GridLayout(2,1,10,10));//Search panel inside p2
+		TitledBorder searchPanelTitledBorder = new TitledBorder("Search");
 		searchPanel.setBorder(searchPanelTitledBorder);
+		
+		JPanel aa = new JPanel(new GridLayout(1,3,10,10));
+		
+		JButton addProductButton = new JButton("Add Product");
+		aa.add(addProductButton);
+
+		JButton modifyProductButton = new JButton("Modify Product");
+		aa.add(modifyProductButton);
+
+		JButton importCSVButton = new JButton("Import CSV");
+		aa.add(importCSVButton);
+		
+		
+		JPanel bb = new JPanel(new GridLayout(2,1,10,10));
 
 		searchField = new JTextField(); 
-		JButton searchButton = new JButton("Search");
-		JLabel spaceForPanel = new JLabel("ENTER TEXT TO SEARCH");//Creating space/so panel looks better
+		JLabel spaceForPanel = new JLabel("Enter Text To Search");//Creating space/so panel looks better
 
-		searchPanel.add(spaceForPanel);//Adding the space
-		searchPanel.add(searchField);
-		searchPanel.add(searchButton);
+		bb.add(spaceForPanel);//Adding the space
+		bb.add(searchField);
+		searchPanel.add(aa);
+		searchPanel.add(bb);
 
 		p2.add(searchPanel);//Adding search panel 1st
 
@@ -219,7 +235,7 @@ public class ViewInventoryFrame extends JFrame {
 
 		/** End of Supplier panel **/
 
-		//Adding fist and second panel for the check boxes to the main panel2
+		//Adding first and second panel for the check boxes to the main panel2
 		p2.add(checkPANEL2);
 		p2.add(checkPANEL1);
 
@@ -252,9 +268,41 @@ public class ViewInventoryFrame extends JFrame {
 
 		// EVENT HANDLERS -----------------------------------------------
 		
+		addProductButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new AddProductFrame();
+			}
+		});
+		
+		modifyProductButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new ModifyProductFrame();
+			}
+		});
+		
+		importCSVButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				controller.readCsv();
+				
+			}
+		});
+		
+		
 		searchField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -266,7 +314,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		minTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -277,7 +325,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		maxTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -288,7 +336,7 @@ public class ViewInventoryFrame extends JFrame {
 		
 		qohTextField.addKeyListener(new KeyAdapter()
 		{
-			public void keyReleased(KeyEvent e)
+			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					buildFilter();
@@ -326,8 +374,7 @@ public class ViewInventoryFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) 
 			{
-
-				searchField.requestFocusInWindow();
+				controller.exportProductReport();
 			}
 		});
 		
@@ -504,4 +551,5 @@ public class ViewInventoryFrame extends JFrame {
 			filter.setNameSupplied(false);
 		}
 	}
+	
 }// End class
